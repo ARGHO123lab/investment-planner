@@ -186,4 +186,4 @@ def admin():
     return render_template('admin.html', total_reports=total_reports, high_risk=high_risk, medium_risk=medium_risk, low_risk=low_risk, avg_income="{:,.2f}".format(avg_income), avg_savings="{:,.2f}".format(avg_savings), reports=cleaned_reports)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=False)
