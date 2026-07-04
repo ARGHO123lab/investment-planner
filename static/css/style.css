@@ -1,0 +1,98 @@
+body {
+    margin: 0;
+    font-family: "Arial";
+    background: linear-gradient(135deg, #fff7f0, #ffffff);
+}
+
+/* FULL SCREEN CENTER */
+.center {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CARD STYLE */
+.card {
+    width: 420px;
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+    text-align: center;
+}
+
+/* HEADINGS */
+h1, h2, h3 {
+    color: #ff6b00;
+    margin-bottom: 15px;
+}
+
+/* INPUT BOX */
+input {
+    width: 92%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    background: #ff6b00;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #e65c00;
+}
+
+/* PROFILE CARD */
+.form-box {
+    width: 450px;
+    margin: auto;
+    margin-top: 80px;
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+    text-align: center;
+}
+
+/* REPORT PAGE */
+.report {
+    width: 600px;
+    margin: 60px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+}
+
+/* BOXES INSIDE REPORT */
+.box {
+    background: #fff3e6;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+/* RISK SECTION */
+.risk-box {
+    text-align: left;
+    margin-top: 15px;
+    padding: 12px;
+    background: #fff3e6;
+    border-radius: 10px;
+}

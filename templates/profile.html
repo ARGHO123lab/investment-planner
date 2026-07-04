@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Financial Profile</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+
+            background:linear-gradient(135deg,#fff8f2,#f8fbff);
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:30px;
+
+        }
+
+        .card{
+
+            width:550px;
+            background:#fff;
+            padding:35px;
+            border-radius:20px;
+            box-shadow:0 12px 35px rgba(0,0,0,.10);
+
+        }
+
+        .title{
+
+            text-align:center;
+            color:#ff6b00;
+            font-size:30px;
+            font-weight:700;
+            margin-bottom:10px;
+
+        }
+
+        .subtitle{
+
+            text-align:center;
+            color:#666;
+            margin-bottom:30px;
+
+        }
+
+        .info{
+
+            background:#f7f7f7;
+            border-left:5px solid #ff6b00;
+            padding:15px;
+            border-radius:10px;
+            margin-bottom:25px;
+
+        }
+
+        .info p{
+
+            margin:6px 0;
+
+        }
+
+        .label{
+
+            font-weight:600;
+
+        }
+
+        .form-group{
+
+            margin-bottom:20px;
+
+        }
+
+        .form-group label{
+
+            display:block;
+            margin-bottom:8px;
+            font-weight:600;
+
+        }
+
+        input{
+
+            width:100%;
+            padding:14px;
+            border:1px solid #ddd;
+            border-radius:10px;
+            font-size:15px;
+
+        }
+
+        input:focus{
+
+            outline:none;
+            border-color:#ff6b00;
+
+        }
+
+        .risk-title{
+
+            margin-bottom:12px;
+            font-weight:600;
+
+        }
+
+        .risk-options{
+
+            display:flex;
+            gap:15px;
+
+        }
+
+        .risk-options label{
+
+            flex:1;
+
+        }
+
+        .risk-options input{
+
+            display:none;
+
+        }
+
+        .risk-options span{
+
+            display:block;
+            text-align:center;
+            padding:14px;
+            border:1px solid #ddd;
+            border-radius:12px;
+            cursor:pointer;
+            transition:.3s;
+
+        }
+
+        .risk-options input:checked + span{
+
+            background:#ff6b00;
+            color:white;
+            border-color:#ff6b00;
+
+        }
+
+        button{
+
+            width:100%;
+            margin-top:30px;
+            padding:15px;
+            background:#ff6b00;
+            color:white;
+            border:none;
+            border-radius:10px;
+            font-size:16px;
+            cursor:pointer;
+            transition:.3s;
+
+        }
+
+        button:hover{
+
+            background:#e65c00;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="title">
+
+        💰 Financial Profile
+
+    </div>
+
+    <div class="subtitle">
+
+        Complete your financial details to generate your personalized investment plan.
+
+    </div>
+
+    <div class="info">
+
+        <p><span class="label">👤 Name:</span> {{ name }}</p>
+
+        <p><span class="label">📱 Mobile:</span> {{ mobile }}</p>
+
+        <p><span class="label">🌍 Country:</span> {{ country }}</p>
+
+    </div>
+
+    <form method="POST">
+
+        <div class="form-group">
+
+            <label>Monthly Income</label>
+
+            <input
+                type="number"
+                name="income"
+                placeholder="Enter Monthly Income"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Monthly Expense</label>
+
+            <input
+                type="number"
+                name="expense"
+                placeholder="Enter Monthly Expense"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <div class="risk-title">
+
+                Select Your Risk Appetite
+
+            </div>
+
+            <div class="risk-options">
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="risk"
+                        value="low"
+                        required>
+
+                    <span>🟢 Low</span>
+
+                </label>
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="risk"
+                        value="medium">
+
+                    <span>🟠 Medium</span>
+
+                </label>
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="risk"
+                        value="high">
+
+                    <span>🔴 High</span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+        <button type="submit">
+
+            📊 Generate Investment Plan
+
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

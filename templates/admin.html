@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Investment Planner</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #ff6b00;
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        /* Metrics Summary Row */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-left: 5px solid #ff6b00;
+        }
+
+        .metric-card.risk-high { border-left-color: #dc3545; }
+        .metric-card.risk-med { border-left-color: #ffc107; }
+        .metric-card.risk-low { border-left-color: #28a745; }
+
+        .metric-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            color: #777;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .metric-value {
+            font-size: 22px;
+            font-weight: bold;
+            color: #222;
+        }
+
+        /* Data Table Card */
+        .table-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #ff6b00;
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            color: #444;
+        }
+
+        tr:hover {
+            background-color: #fdf9f5;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .badge-high { background-color: #fde8e8; color: #dc3545; }
+        .badge-medium { background-color: #fef3c7; color: #b45309; }
+        .badge-low { background-color: #def7ec; color: #03543f; }
+
+        .placeholder-text {
+            color: #aaa;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>💼 System Administration Panel</h1>
+
+    <!-- Metrics Summary Dashboard Row -->
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-title">Total Planners Generated</div>
+            <div class="metric-value">{{ total_reports }}</div>
+        </div>
+        <div class="metric-card risk-high">
+            <div class="metric-title">High Risk Profiles</div>
+            <div class="metric-value">{{ high_risk }}</div>
+        </div>
+        <div class="metric-card risk-med">
+            <div class="metric-title">Medium Risk Profiles</div>
+            <div class="metric-value">{{ medium_risk }}</div>
+        </div>
+        <div class="metric-card risk-low">
+            <div class="metric-title">Low Risk Profiles</div>
+            <div class="metric-value">{{ low_risk }}</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-title">Avg. Monthly Income</div>
+            <div class="metric-value">₹ {{ avg_income }}</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-title">Avg. Monthly Savings</div>
+            <div class="metric-value">₹ {{ avg_savings }}</div>
+        </div>
+    </div>
+
+    <!-- Main Reports Data Table -->
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Country</th>
+                    <th>Income</th>
+                    <th>Expense</th>
+                    <th>Savings</th>
+                    <th>Risk</th>
+                    <th>Financial Goal Target</th>
+                    <th>Target Horizon</th>
+                    <th>Submission Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <td><strong>#{{ report.id }}</strong></td>
+                    <td>{{ report.name }}</td>
+                    <td>{{ report.mobile }}</td>
+                    <td>{{ report.country }}</td>
+                    <td>₹ {{ "{:,.2f}".format(report.income) }}</td>
+                    <td>₹ {{ "{:,.2f}".format(report.expense) }}</td>
+                    <td style="font-weight: 500; color: #03543f;">
+                        ₹ {{ "{:,.2f}".format(report.savings) }}
+                    </td>
+                    <td>
+                        <span class="badge badge-{{ report.risk.lower() }}">
+                            {{ report.risk }}
+                        </span>
+                    </td>
+                    <!-- New Target Amount Tracking Cell -->
+                    <td>
+                        {% if report.target_amount > 0 %}
+                            ₹ {{ "{:,.2f}".format(report.target_amount) }}
+                        {% else %}
+                            <span class="placeholder-text">Not Estimated</span>
+                        {% endif %}
+                    </td>
+                    <!-- New Target Time Horizon Cell -->
+                    <td>
+                        {% if report.target_years > 0 %}
+                            {{ report.target_years }} Years
+                        {% else %}
+                            <span class="placeholder-text">--</span>
+                        {% endif %}
+                    </td>
+                    <td style="color: #666; font-size: 13px;">{{ report.created_at }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="11" style="text-align: center; padding: 30px; color: #888;">
+                        No user investment planners have been generated yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
