@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SIP Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f7fb;
+            padding: 40px;
+        }
+
+        .card {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #ff6b00;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+        }
+
+        button, .btn-link {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+        button {
+            background: #ff6b00;
+            color: white;
+        }
+
+        button:hover {
+            background: #e65c00;
+        }
+
+        .btn-link {
+            background: #ffffff;
+            border: 2px solid #ff6b00;
+            color: #ff6b00;
+            margin-top: 12px;
+        }
+
+        .btn-link:hover {
+            background: #fff3e6;
+        }
+
+        .result {
+            margin-top: 20px;
+            border-top: 2px dashed #eee;
+            padding-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>📊 SIP Calculator</h1>
+
+    <form method="POST">
+
+        <label>Monthly Investment</label>
+        <input type="number" name="monthly_investment" required>
+
+        <label>Expected Annual Return (%)</label>
+        <input type="number" name="annual_return" required>
+
+        <label>Time Period (Years)</label>
+        <input type="number" name="years" required>
+
+        <button type="submit">Calculate</button>
+
+    </form>
+
+    <a href="/dashboard" class="btn-link">📊 Go to Investment Planner</a>
+
+    {% if result %}
+        <div class="result">
+            Future Value: ₹ {{ result }}
+        </div>
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Financial Future Planner</title>
+
+<style>
+
+body{
+    font-family: Arial;
+    background:#f5f7fb;
+    padding:40px;
+}
+
+.card{
+    max-width:600px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+h1{
+    color:#ff6b00;
+    text-align:center;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    box-sizing: border-box; /* Ensures padding doesn't push element outside layout */
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* BUTTON DESIGN */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background: #ff6b00;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+.btn-submit:hover {
+    background: #e65c00;
+}
+
+.btn-link {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    background: #ffffff;
+    border: 2px solid #ff6b00;
+    color: #ff6b00;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 12px;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+.btn-link:hover {
+    background: #fff3e6;
+}
+
+.result{
+    margin-top:25px;
+    border-top: 2px dashed #eee;
+    padding-top: 20px;
+}
+
+.box{
+    background:#f1f1f1;
+    padding:10px;
+    margin:8px 0;
+    border-radius:8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>🚀 Financial Future Planner</h1>
+
+<form method="POST">
+
+<input name="age" type="number" placeholder="Current Age" required>
+<input name="target" type="number" placeholder="Target Amount" required>
+<input name="years" type="number" placeholder="Time (Years)" required>
+
+<button type="submit" class="btn-submit">Estimate Monthly Investment</button>
+
+</form>
+
+<a href="/dashboard" class="btn-link">📊 Go to Investment Planner</a>
+
+{% if result %}
+
+<div class="result">
+
+<h3>Total Monthly Investment: ₹ {{ result.monthly_total }}</h3>
+
+<div class="box">
+SIP ({{ result.breakdown.sip.return }}) → ₹ {{ result.breakdown.sip.amount }}
+</div>
+
+<div class="box">
+{{ result.breakdown.large.label }} ({{ result.breakdown.large.return }}) → ₹ {{ result.breakdown.large.amount }}
+</div>
+
+<div class="box">
+{{ result.breakdown.mid.label }} ({{ result.breakdown.mid.return }}) → ₹ {{ result.breakdown.mid.amount }}
+</div>
+
+<div class="box">
+{{ result.breakdown.small.label }} ({{ result.breakdown.small.return }}) → ₹ {{ result.breakdown.small.amount }}
+</div>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</body>
+
+</html>

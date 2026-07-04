@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Investment Planner</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff7f0, #ffffff);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-card {
+            width: 480px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+            text-align: center;
+        }
+
+        .title {
+            font-size: 34px;
+            font-weight: 700;
+            color: #ff6b00;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 14px;
+            background: #ff6b00;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #e65c00;
+        }
+
+        .features {
+            margin-top: 25px;
+            text-align: left;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .features li {
+            margin-bottom: 8px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="hero">
+
+    <div class="hero-card">
+
+        <div class="title">💰 Investment Planner</div>
+
+        <div class="subtitle">
+            Smart way to plan your income, savings & investments
+        </div>
+
+        <a href="/login" class="btn">Get Started</a>
+
+        <ul class="features">
+            
+<li>✔ Plan your Financial Future</li>
+            <li>✔ Risk-based investment plan</li>
+            <li>✔ SIP & Stock allocation</li>
+            <li>✔ SIP Calculator</li>
+        </ul>
+
+    </div>
+
+</div>
+
+</body>
+</html>

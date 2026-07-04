@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Dashboard</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<h1>
+
+Welcome {{name}}
+
+</h1>
+
+<h3>
+
+Mobile : {{mobile}}
+
+</h3>
+
+<div class="cards">
+
+<div class="card">
+
+Income
+
+</div>
+
+<div class="card">
+
+Expense
+
+</div>
+
+<div class="card">
+
+Investment Report
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
