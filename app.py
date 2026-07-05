@@ -7,7 +7,10 @@ from config import COUNTRIES
 
 app = Flask(__name__)
 # Make sure this matches your production environment
-app.secret_key = "super_secret_key" 
+app.secret_key = os.environ.get(
+    "SECRET_KEY",
+    "smartplanfinance-dev-secret"
+)
 
 # --- SECURITY GUARD (ADMIN AUTHENTICATION) ---
 def check_auth(username, password):
@@ -185,5 +188,13 @@ def admin():
     conn.close()
     return render_template('admin.html', total_reports=total_reports, high_risk=high_risk, medium_risk=medium_risk, low_risk=low_risk, avg_income="{:,.2f}".format(avg_income), avg_savings="{:,.2f}".format(avg_savings), reports=cleaned_reports)
 
+
+@app.route("/health")
+def health():
+    return {
+        "status": "healthy",
+        "application": "SmartPlan Finance",
+        "version": "2.1"
+    }, 200
 if __name__ == '__main__':
     app.run(debug=False)
