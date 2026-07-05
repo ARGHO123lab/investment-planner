@@ -224,20 +224,12 @@ def dashboard():
     report_id = session.get('report_id')
     report = conn.execute("SELECT * FROM reports WHERE id = ?", (report_id,)).fetchone() if report_id else conn.execute("SELECT * FROM reports WHERE user_id = ? ORDER BY id DESC LIMIT 1", (user_id,)).fetchone()
     conn.close()
-    
     if not report: return redirect(url_for('profile'))
-    
     savings = report['savings']
     risk = report['risk'].lower()
     rules = RISK_RULES.get(risk, RISK_RULES['medium'])
     currency = extract_currency_symbol(user['country'])
-    
-    # Calculate Dynamic Score
-    savings_rate = (report['savings'] / report['income']) * 100 if report['income'] > 0 else 0
-    score = int(40 + (savings_rate * 0.7)) 
-    score = min(score, 99)
-    
-    # Merge everything into ONE dictionary
+    # Find the report_data definition and update it:
     report_data = {
         "country": user['country'], 
         "currency": currency, 
@@ -251,15 +243,27 @@ def dashboard():
         "small_cap": savings * rules['small_cap'], 
         "emergency_fund": savings * rules['emergency'], 
         "advice": ADVISOR_INSIGHTS.get(risk, []),
+        
+        # ADD THESE DEFAULT VALUES TO PREVENT BLANK SCREENS:
         "sip_calc_monthly": report['sip_calc_monthly'] or 0,
         "sip_calc_years": report['sip_calc_years'] or 0,
         "sip_calc_fv": report['sip_calc_fv'] or 0,
         "future_target_amount": report['future_target_amount'] or 0,
         "future_target_years": report['future_target_years'] or 0,
-        "future_req_monthly": report['future_req_monthly'] or 0,
-        "score": score # Score is now inside the same dictionary
+        "future_req_monthly": report['future_req_monthly'] or 0
     }
+    savings_ratio = (report['savings'] / report['income']) * 100
     
+    # Base score of 50, add points for savings, cap at 100
+    score = 50 + int(savings_ratio * 0.5) 
+    if score > 100: score = 100
+    if score < 20: score = 20 # Minimum floor
+    
+    # Add score to report_data
+    report_data = {
+        # ... (other fields) ...
+        "score": score
+    }
     return render_template('report.html', user=user, data=report_data)
 
 @app.route('/sip-calculator', methods=['GET', 'POST'])

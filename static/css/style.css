@@ -1,98 +1,388 @@
-body {
-    margin: 0;
-    font-family: "Arial";
-    background: linear-gradient(135deg, #fff7f0, #ffffff);
+/* ===========================================
+   SMARTPLAN FINANCE
+   Premium Gold Theme v3.0
+=========================================== */
+
+:root{
+
+    --primary:#FFC107;
+    --primary-dark:#E0A800;
+    --primary-light:#FFF8E1;
+
+    --heading:#B8860B;
+
+    --background:#FFFDF5;
+
+    --card:#FFFFFF;
+
+    --text:#333333;
+
+    --subtext:#666666;
+
+    --border:#F4D03F;
+
+    --shadow:0 15px 40px rgba(0,0,0,.08);
+
+    --radius:18px;
+
+    --transition:.30s ease;
+
 }
 
-/* FULL SCREEN CENTER */
-.center {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
 }
 
-/* CARD STYLE */
-.card {
-    width: 420px;
-    background: white;
-    padding: 30px;
-    border-radius: 18px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
-    text-align: center;
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:var(--background);
+
+    color:var(--text);
+
+    line-height:1.6;
+
 }
 
-/* HEADINGS */
-h1, h2, h3 {
-    color: #ff6b00;
-    margin-bottom: 15px;
+/* ===========================
+   Center Layout
+=========================== */
+
+.center{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px;
+
 }
 
-/* INPUT BOX */
-input {
-    width: 92%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    outline: none;
-    font-size: 14px;
+/* ===========================
+   Cards
+=========================== */
+
+.card,
+.hero-card,
+.form-box,
+.report{
+
+    background:var(--card);
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow);
+
+    transition:var(--transition);
+
 }
 
-/* BUTTON */
-button {
-    width: 100%;
-    background: #ff6b00;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: 0.3s;
+.card:hover,
+.hero-card:hover,
+.form-box:hover,
+.report:hover{
+
+    transform:translateY(-3px);
+
 }
 
-button:hover {
-    background: #e65c00;
+/* ===========================
+   Headings
+=========================== */
+
+h1,
+h2,
+h3{
+
+    color:var(--heading);
+
+    margin-bottom:15px;
+
+    font-weight:700;
+
 }
 
-/* PROFILE CARD */
-.form-box {
-    width: 450px;
-    margin: auto;
-    margin-top: 80px;
-    background: white;
-    padding: 30px;
-    border-radius: 18px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
-    text-align: center;
+.title{
+
+    color:var(--heading);
+
+    font-size:34px;
+
+    font-weight:700;
+
 }
 
-/* REPORT PAGE */
-.report {
-    width: 600px;
-    margin: 60px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 18px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+.subtitle{
+
+    color:var(--subtext);
+
+    margin-bottom:25px;
+
 }
 
-/* BOXES INSIDE REPORT */
-.box {
-    background: #fff3e6;
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 10px;
-    font-size: 15px;
+/* ===========================
+   Inputs
+=========================== */
+
+input,
+select{
+
+    width:100%;
+
+    padding:13px 15px;
+
+    border:1px solid #dddddd;
+
+    border-radius:12px;
+
+    font-size:15px;
+
+    background:white;
+
+    transition:var(--transition);
+
 }
 
-/* RISK SECTION */
-.risk-box {
-    text-align: left;
-    margin-top: 15px;
-    padding: 12px;
-    background: #fff3e6;
-    border-radius: 10px;
+input:focus,
+select:focus{
+
+    outline:none;
+
+    border-color:var(--primary);
+
+    box-shadow:0 0 0 4px rgba(255,193,7,.18);
+
+}
+
+/* ===========================
+   Buttons
+=========================== */
+
+button,
+.btn{
+
+    width:100%;
+
+    display:inline-block;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:var(--primary);
+
+    color:#222;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    text-decoration:none;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+button:hover,
+.btn:hover{
+
+    background:var(--primary-dark);
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 20px rgba(255,193,7,.30);
+
+}
+
+/* ===========================
+   Report Boxes
+=========================== */
+
+.box{
+
+    background:var(--primary-light);
+
+    border-left:5px solid var(--primary);
+
+    padding:15px;
+
+    border-radius:12px;
+
+    margin:12px 0;
+
+    font-size:15px;
+
+    transition:var(--transition);
+
+}
+
+.box:hover{
+
+    transform:translateX(5px);
+
+}
+
+/* ===========================
+   Risk Section
+=========================== */
+
+.risk-box,
+.risk-group{
+
+    background:var(--primary-light);
+
+    border-radius:14px;
+
+    padding:18px;
+
+}
+
+.risk-title{
+
+    color:var(--heading);
+
+    font-weight:600;
+
+    margin-bottom:10px;
+
+}
+
+/* ===========================
+   Tables
+=========================== */
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+th{
+
+    background:var(--primary);
+
+    color:#222;
+
+    padding:15px;
+
+}
+
+td{
+
+    padding:14px;
+
+    border-bottom:1px solid #eeeeee;
+
+}
+
+tr:hover{
+
+    background:#FFF9E6;
+
+}
+
+/* ===========================
+   Badges
+=========================== */
+
+.high{
+
+    color:#d32f2f;
+
+    font-weight:700;
+
+}
+
+.medium{
+
+    color:#f57c00;
+
+    font-weight:700;
+
+}
+
+.low{
+
+    color:#2e7d32;
+
+    font-weight:700;
+
+}
+
+/* ===========================
+   Divider
+=========================== */
+
+hr{
+
+    border:none;
+
+    border-top:1px solid #eeeeee;
+
+    margin:20px 0;
+
+}
+
+/* ===========================
+   Scrollbar
+=========================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--primary);
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#f5f5f5;
+
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:768px){
+
+    .card,
+    .hero-card,
+    .form-box,
+    .report{
+
+        width:95% !important;
+
+        margin:20px auto;
+
+    }
+
+    .title{
+
+        font-size:28px;
+
+    }
+
 }

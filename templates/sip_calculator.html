@@ -6,81 +6,59 @@
     <title>SIP Calculator</title>
 
     <style>
-        body {
-            font-family: Arial;
-            background: #f5f7fb;
-            padding: 40px;
-        }
+        
+    body {
+        padding: 40px;
+        background: #FFFDF5; /* Same background as Report */
+        font-family: 'Poppins', sans-serif;
+    }
 
-        .card {
-            max-width: 500px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
+    .container {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(0,0,0,.08);
+    }
 
-        h1 {
-            color: #ff6b00;
-            text-align: center;
-        }
+    h1 { color: #B8860B; margin-bottom: 25px; } /* Same Gold/Yellow header */
 
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            box-sizing: border-box; /* Ensures padding doesn't affect width */
-        }
+    label { font-weight: 500; color: #555; display: block; margin-top: 15px; }
 
-        button, .btn-link {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            box-sizing: border-box;
-            transition: 0.3s;
-        }
+    input {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box;
+    }
 
-        button {
-            background: #ff6b00;
-            color: white;
-        }
+    button {
+        width: 100%;
+        padding: 14px;
+        background: #FFC107; /* Your specific Yellow accent */
+        color: #000;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 25px;
+    }
 
-        button:hover {
-            background: #e65c00;
-        }
+    button:hover { background: #E0A800; }
 
-        .btn-link {
-            background: #ffffff;
-            border: 2px solid #ff6b00;
-            color: #ff6b00;
-            margin-top: 12px;
-        }
-
-        .btn-link:hover {
-            background: #fff3e6;
-        }
-
-        .result {
-            margin-top: 20px;
-            border-top: 2px dashed #eee;
-            padding-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-            color: green;
-        }
-    </style>
+    .result-box {
+        margin-top: 30px;
+        padding: 20px;
+        background: #FFF8E1; /* Same Box color as Report */
+        border-left: 5px solid #FFC107;
+        border-radius: 12px;
+        text-align: center;
+    }
+</style>
+    
 </head>
 
 <body>

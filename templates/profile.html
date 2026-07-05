@@ -5,177 +5,181 @@
 
     <meta charset="UTF-8">
 
-    <title>Financial Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Financial Profile | SmartPlan Finance</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <style>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PFM7XZ5E3P"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PFM7XZ5E3P');
+    </script>
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:'Poppins',sans-serif;
-        }
+    <style>
 
         body{
 
-            background:linear-gradient(135deg,#fff8f2,#f8fbff);
-            min-height:100vh;
             display:flex;
             justify-content:center;
             align-items:center;
-            padding:30px;
+            min-height:100vh;
+            padding:40px;
 
         }
 
         .card{
 
-            width:550px;
-            background:#fff;
-            padding:35px;
-            border-radius:20px;
-            box-shadow:0 12px 35px rgba(0,0,0,.10);
+            width:700px;
+            padding:40px;
 
         }
 
-        .title{
+        .step{
 
-            text-align:center;
-            color:#ff6b00;
-            font-size:30px;
-            font-weight:700;
+            color:#B8860B;
+            font-weight:600;
+            margin-bottom:10px;
+
+        }
+
+        h2{
+
             margin-bottom:10px;
 
         }
 
         .subtitle{
 
-            text-align:center;
             color:#666;
             margin-bottom:30px;
 
         }
 
-        .info{
+        .grid{
 
-            background:#f7f7f7;
-            border-left:5px solid #ff6b00;
-            padding:15px;
-            border-radius:10px;
-            margin-bottom:25px;
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:20px;
 
         }
 
-        .info p{
+        .field{
 
-            margin:6px 0;
-
-        }
-
-        .label{
-
-            font-weight:600;
+            display:flex;
+            flex-direction:column;
 
         }
 
-        .form-group{
+        label{
 
-            margin-bottom:20px;
-
-        }
-
-        .form-group label{
-
-            display:block;
             margin-bottom:8px;
             font-weight:600;
 
         }
 
-        input{
-
-            width:100%;
-            padding:14px;
-            border:1px solid #ddd;
-            border-radius:10px;
-            font-size:15px;
-
-        }
-
-        input:focus{
-
-            outline:none;
-            border-color:#ff6b00;
-
-        }
-
         .risk-title{
 
-            margin-bottom:12px;
-            font-weight:600;
+            margin-top:30px;
+            margin-bottom:15px;
+            font-weight:700;
+            color:#B8860B;
 
         }
 
         .risk-options{
 
-            display:flex;
-            gap:15px;
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:18px;
 
         }
 
-        .risk-options label{
+        .risk-card{
 
-            flex:1;
+            border:2px solid #EEE;
+            border-radius:15px;
+            padding:20px;
+            cursor:pointer;
+            transition:.30s;
+            text-align:center;
+            background:white;
 
         }
 
-        .risk-options input{
+        .risk-card:hover{
+
+            border-color:#FFC107;
+            transform:translateY(-5px);
+
+        }
+
+        .risk-card input{
 
             display:none;
 
         }
 
-        .risk-options span{
+        .risk-card input:checked + div{
 
-            display:block;
-            text-align:center;
-            padding:14px;
-            border:1px solid #ddd;
-            border-radius:12px;
-            cursor:pointer;
-            transition:.3s;
+            color:#B8860B;
 
         }
 
-        .risk-options input:checked + span{
+        .risk-card:has(input:checked){
 
-            background:#ff6b00;
-            color:white;
-            border-color:#ff6b00;
+            border-color:#FFC107;
+            background:#FFF8E1;
+
+        }
+
+        .risk-name{
+
+            font-weight:700;
+            font-size:18px;
+            margin-bottom:10px;
+
+        }
+
+        .risk-desc{
+
+            font-size:13px;
+            color:#666;
+            line-height:20px;
 
         }
 
         button{
 
-            width:100%;
-            margin-top:30px;
-            padding:15px;
-            background:#ff6b00;
-            color:white;
-            border:none;
-            border-radius:10px;
-            font-size:16px;
-            cursor:pointer;
-            transition:.3s;
+            margin-top:35px;
 
         }
 
-        button:hover{
+        @media(max-width:768px){
 
-            background:#e65c00;
+            .grid{
+
+                grid-template-columns:1fr;
+
+            }
+
+            .risk-options{
+
+                grid-template-columns:1fr;
+
+            }
+
+            .card{
+
+                width:95%;
+
+            }
 
         }
 
@@ -187,109 +191,137 @@
 
 <div class="card">
 
-    <div class="title">
+<div class="step">
 
-        💰 Financial Profile
+Step 2 of 3
 
-    </div>
+</div>
 
-    <div class="subtitle">
+<h2>
 
-        Complete your financial details to generate your personalized investment plan.
+Financial Profile
 
-    </div>
+</h2>
 
-    <div class="info">
+<p class="subtitle">
 
-        <p><span class="label">👤 Name:</span> {{ name }}</p>
+Tell us about your finances so we can build a personalised investment strategy.
 
-        <p><span class="label">📱 Mobile:</span> {{ mobile }}</p>
+</p>
 
-        <p><span class="label">🌍 Country:</span> {{ country }}</p>
+<form method="POST">
 
-    </div>
+<div class="grid">
 
-    <form method="POST">
+<div class="field">
 
-        <div class="form-group">
+<label>Monthly Income</label>
 
-            <label>Monthly Income</label>
+<input
+type="number"
+name="income"
+placeholder="50000"
+required>
 
-            <input
-                type="number"
-                name="income"
-                placeholder="Enter Monthly Income"
-                required>
+</div>
 
-        </div>
+<div class="field">
 
-        <div class="form-group">
+<label>Monthly Expenses</label>
 
-            <label>Monthly Expense</label>
+<input
+type="number"
+name="expense"
+placeholder="25000"
+required>
 
-            <input
-                type="number"
-                name="expense"
-                placeholder="Enter Monthly Expense"
-                required>
+</div>
 
-        </div>
+</div>
 
-        <div class="form-group">
+<div class="risk-title">
 
-            <div class="risk-title">
+Choose Your Investment Style
 
-                Select Your Risk Appetite
+</div>
 
-            </div>
+<div class="risk-options">
 
-            <div class="risk-options">
+<label class="risk-card">
 
-                <label>
+<input type="radio" name="risk" value="low" required>
 
-                    <input
-                        type="radio"
-                        name="risk"
-                        value="low"
-                        required>
+<div>
 
-                    <span>🟢 Low</span>
+<div class="risk-name">
 
-                </label>
+🛡 Conservative
 
-                <label>
+</div>
 
-                    <input
-                        type="radio"
-                        name="risk"
-                        value="medium">
+<div class="risk-desc">
 
-                    <span>🟠 Medium</span>
+Lower risk with stable long-term growth.
 
-                </label>
+</div>
 
-                <label>
+</div>
 
-                    <input
-                        type="radio"
-                        name="risk"
-                        value="high">
+</label>
 
-                    <span>🔴 High</span>
+<label class="risk-card">
 
-                </label>
+<input type="radio" name="risk" value="medium">
 
-            </div>
+<div>
 
-        </div>
+<div class="risk-name">
 
-        <button type="submit">
+⚖ Balanced
 
-            📊 Generate Investment Plan
+</div>
 
-        </button>
+<div class="risk-desc">
 
-    </form>
+Balanced mix of growth and stability.
+
+</div>
+
+</div>
+
+</label>
+
+<label class="risk-card">
+
+<input type="radio" name="risk" value="high">
+
+<div>
+
+<div class="risk-name">
+
+🚀 Aggressive
+
+</div>
+
+<div class="risk-desc">
+
+Maximum growth potential with higher risk.
+
+</div>
+
+</div>
+
+</label>
+
+</div>
+
+<button type="submit">
+
+Generate My Investment Plan →
+
+</button>
+
+</form>
 
 </div>
 
