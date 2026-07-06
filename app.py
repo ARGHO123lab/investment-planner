@@ -142,7 +142,14 @@ init_db()
 @app.route('/')
 def index():
     return render_template('index.html')
-
+@app.route('/delete/<int:article_id>', methods=['POST'])
+@requires_auth
+def delete_article(article_id):
+    conn = get_db_connection()
+    conn.execute("DELETE FROM articles WHERE id = ?", (article_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('articles'))
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
