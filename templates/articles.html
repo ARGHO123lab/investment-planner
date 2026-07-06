@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Finance Articles | SmartPlan Finance</title>
+    <style>
+        body { padding: 40px; background: #FFFDF5; font-family: 'Poppins', sans-serif; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 40px; border-radius: 20px; }
+        .article-card { border-bottom: 1px solid #eee; padding: 20px 0; }
+        h1 { color: #B8860B; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Financial Insights & Articles</h1>
+        {% for article in articles %}
+            <div class="article-card">
+                <h2><a href="{{ url_for('view_article', slug=article.slug) }}">{{ article.title }}</a></h2>
+                <small>{{ article.created_at }}</small>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

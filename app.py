@@ -31,6 +31,7 @@ def requires_auth(f):
 # ---------------------------------------------
 
 DB_PATH = "database/finance.db"
+print("Database Path:", os.path.abspath(DB_PATH))
 
 RISK_RULES = {
     'low': {'sip': 0.3, 'large_cap': 0.4, 'mid_cap': 0.2, 'small_cap': 0.0, 'emergency': 0.1},
@@ -70,7 +71,17 @@ def extract_currency_symbol(country_name):
 def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
-
+    
+    # Inside init_db():
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS articles (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        slug TEXT UNIQUE NOT NULL,
+        content TEXT NOT NULL,
+        created_at TEXT DEFAULT CURRENT_TIMESTAMP
+    )
+""")
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -214,15 +225,36 @@ def profile():
     user = conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
     conn.close()
     return render_template('profile.html', name=user['name'], mobile=user['mobile'], country=user['country'])
-
+@app.route('/publish', methods=['GET', 'POST'])
+@requires_auth
+def publish():
+    if request.method == 'POST':
+        title = request.form.get('title')
+        content = request.form.get('content')
+        
+        conn = get_db_connection()
+        conn.execute("INSERT INTO articles (title, content) VALUES (?, ?)", (title, content))
+        conn.commit()
+        conn.close()
+        return "Article published successfully! <a href='/articles'>View Articles</a>"
+        
+    return render_template('publish.html')
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' not in session: return redirect(url_for('login'))
     user_id = session['user_id']
     conn = get_db_connection()
     user = conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
-    report_id = session.get('report_id')
-    report = conn.execute("SELECT * FROM reports WHERE id = ?", (report_id,)).fetchone() if report_id else conn.execute("SELECT * FROM reports WHERE user_id = ? ORDER BY id DESC LIMIT 1", (user_id,)).fetchone()
+    report = conn.execute(
+    """
+    SELECT *
+    FROM reports
+    WHERE user_id = ?
+    ORDER BY created_at DESC
+    LIMIT 1
+    """,
+    (user_id,)
+).fetchone()
     conn.close()
     
     if not report: return redirect(url_for('profile'))
@@ -267,6 +299,7 @@ def sip_calculator():
     result = None
     if request.method == 'POST':
         P, i, n = float(request.form.get('monthly_investment')), float(request.form.get('annual_return'))/100/12, int(request.form.get('years'))*12
+    
         fv = P * (((1 + i)**n - 1) / i) * (1 + i)
         result = "{:,.2f}".format(fv)
         if 'report_id' in session:
@@ -311,6 +344,26 @@ def admin():
     conn.close()
     return render_template('admin.html', total_reports=total_reports, high_risk=high_risk, medium_risk=medium_risk, low_risk=low_risk, avg_income="{:,.2f}".format(avg_income), avg_savings="{:,.2f}".format(avg_savings), reports=cleaned_reports)
 
+@app.route('/articles')
+def articles():
+    conn = get_db_connection()
+    articles = conn.execute("SELECT * FROM articles ORDER BY created_at DESC").fetchall()
+    conn.close()
+    return render_template('articles.html', articles=articles)
+
+@app.route('/blog/<slug>')
+def view_article(slug):
+    conn = get_db_connection()
+    # Query for the specific article
+    article = conn.execute("SELECT * FROM articles WHERE slug = ?", (slug,)).fetchone()
+    conn.close()
+    
+    # If no article is found, return a 404
+    if article is None:
+        return "Article not found", 404
+        
+    # If found, render the template
+    return render_template('view_article.html', article=article)
 
 @app.route("/health")
 def health():
@@ -320,4 +373,6 @@ def health():
         "version": "2.1"
     }, 200
 if __name__ == '__main__':
-    app.run(debug=False)
+    # This runs only when you execute 'python app.py' locally
+    # It will NOT override the production server settings
+    app.run()

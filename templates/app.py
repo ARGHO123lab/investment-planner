@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, redirect, session, url_for, R
 from functools import wraps
 from config import COUNTRIES
 
+print("--- APP IS STARTING ---")
 app = Flask(__name__)
 # Make sure this matches your production environment
 app.secret_key = os.environ.get(
@@ -57,7 +58,8 @@ ADVISOR_INSIGHTS = {
 }
 
 def get_db_connection():
-    conn = sqlite3.connect(DB_PATH)
+    # Adding timeout=30 (seconds) prevents the "locked" error
+    conn = sqlite3.connect(DB_PATH, timeout=30)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -70,7 +72,11 @@ def extract_currency_symbol(country_name):
 def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
-
+    
+    # Enable WAL mode for better concurrency
+    cursor.execute("PRAGMA journal_mode=WAL;")
+    
+    # 1. Users table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -82,6 +88,7 @@ def init_db():
         )
     """)
 
+    # 2. Reports table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS reports (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -91,109 +98,117 @@ def init_db():
             savings REAL NOT NULL,
             risk TEXT NOT NULL,
             created_at TEXT NOT NULL,
+            sip_calc_monthly REAL DEFAULT 0,
+            sip_calc_years INTEGER DEFAULT 0,
+            sip_calc_fv REAL DEFAULT 0,
+            future_target_amount REAL DEFAULT 0,
+            future_target_years INTEGER DEFAULT 0,
+            future_req_monthly REAL DEFAULT 0,
             FOREIGN KEY(user_id) REFERENCES users(id)
         )
     """)
 
-    # Add missing columns to USERS table
-    user_columns = [
-        ("target_amount", "REAL DEFAULT 0"),
-        ("target_years", "INTEGER DEFAULT 0")
-    ]
-
-    for col_name, col_type in user_columns:
-        try:
-            cursor.execute(f"ALTER TABLE users ADD COLUMN {col_name} {col_type}")
-        except sqlite3.OperationalError:
-            pass
-
-    # Add missing columns to REPORTS table
-    report_columns = [
-        ("sip_calc_monthly", "REAL DEFAULT 0"),
-        ("sip_calc_years", "INTEGER DEFAULT 0"),
-        ("sip_calc_fv", "REAL DEFAULT 0"),
-        ("future_target_amount", "REAL DEFAULT 0"),
-        ("future_target_years", "INTEGER DEFAULT 0"),
-        ("future_req_monthly", "REAL DEFAULT 0")
-    ]
-
-    for col_name, col_type in report_columns:
-        try:
-            cursor.execute(f"ALTER TABLE reports ADD COLUMN {col_name} {col_type}")
-        except sqlite3.OperationalError:
-            pass
+    # 3. Articles table with 'slug' for your custom URLs
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS articles (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            slug TEXT UNIQUE NOT NULL,
+            content TEXT NOT NULL,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
 
     conn.commit()
     conn.close()
 
+# Always call this to ensure tables exist
 init_db()
 
+# DEBUG: Print routes right after DB init
+print("--- REGISTERED ROUTES START ---")
+for rule in app.url_map.iter_rules():
+    print(f"Endpoint: {rule.endpoint} | Rule: {rule.rule}")
+print("--- REGISTERED ROUTES END ---")
+
+@app.route('/')
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
     if request.method == 'POST':
-
         name = request.form.get('name')
         mobile = request.form.get('mobile')
         country = request.form.get('country')
 
+        # Use a context manager to handle the connection automatically
         conn = get_db_connection()
-        cursor = conn.cursor()
+        try:
+            cursor = conn.cursor()
+            cursor.execute("SELECT id FROM users WHERE mobile=?", (mobile,))
+            existing_user = cursor.fetchone()
 
-        cursor.execute(
-            "SELECT id FROM users WHERE mobile=?",
-            (mobile,)
-        )
-
-        existing_user = cursor.fetchone()
-
-        if existing_user:
-
-            user_id = existing_user["id"]
-
-            # Update latest details
-            cursor.execute("""
-                UPDATE users
-                SET name=?, country=?
-                WHERE id=?
-            """, (
-                name,
-                country,
-                user_id
-            ))
-
+            if existing_user:
+                user_id = existing_user["id"]
+                cursor.execute("UPDATE users SET name=?, country=? WHERE id=?", (name, country, user_id))
+            else:
+                cursor.execute("INSERT INTO users(name, mobile, country) VALUES(?,?,?)", (name, mobile, country))
+                user_id = cursor.lastrowid
+            
             conn.commit()
+            session["user_id"] = user_id
+            session.pop("report_id", None)
+            return redirect(url_for("profile"))
+        
+        except Exception as e:
+            print(f"Error during login: {e}")
+            return "Internal Server Error", 500
+        
+        finally:
+            conn.close() # CRITICAL: This ensures the file is unlocked
 
-        else:
+    return render_template("login.html", countries=COUNTRIES.keys())
+@app.route('/admin/blog')
+@requires_auth
+def admin_blog():
+    conn = get_db_connection()
+    articles = conn.execute("SELECT * FROM articles").fetchall()
+    conn.close()
+    return render_template('admin_blog.html', articles=articles)
 
-            cursor.execute("""
-                INSERT INTO users(name,mobile,country)
-                VALUES(?,?,?)
-            """, (
-                name,
-                mobile,
-                country
-            ))
-
-            conn.commit()
-            user_id = cursor.lastrowid
-
-        conn.close()
-
-        session["user_id"] = user_id
-        session.pop("report_id", None)
-
-        return redirect(url_for("profile"))
-
-    return render_template(
-        "login.html",
-        countries=COUNTRIES.keys()
-    )
-
+@app.route('/edit/<int:article_id>', methods=['GET', 'POST'])
+@requires_auth
+def edit_article(article_id):
+    conn = get_db_connection()
+    if request.method == 'POST':
+        conn.execute("UPDATE articles SET title=?, slug=?, content=? WHERE id=?", 
+                     (request.form['title'], request.form['slug'], request.form['content'], article_id))
+        conn.commit()
+        return redirect('/admin/blog')
+    article = conn.execute("SELECT * FROM articles WHERE id=?", (article_id,)).fetchone()
+    conn.close()
+    return render_template('edit_article.html', article=article)
+@app.route('/blog/<slug>')
+def view_article(slug):
+    conn = get_db_connection()
+    # Query the database for the article matching this specific slug
+    article = conn.execute("SELECT * FROM articles WHERE slug = ?", (slug,)).fetchone()
+    conn.close()
+    
+    if article is None:
+        return "Article not found", 404
+        
+    return render_template('view_article.html', article=article)
+@app.route('/delete/<int:article_id>', methods=['POST'])
+@requires_auth
+def delete_article(article_id):
+    conn = get_db_connection()
+    conn.execute("DELETE FROM articles WHERE id=?", (article_id,))
+    conn.commit()
+    conn.close()
+    return redirect('/admin/blog')
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'user_id' not in session: return redirect(url_for('login'))
@@ -230,6 +245,9 @@ def dashboard():
     rules = RISK_RULES.get(risk, RISK_RULES['medium'])
     currency = extract_currency_symbol(user['country'])
     # Find the report_data definition and update it:
+    # ... inside dashboard() ...
+    
+    # Keep the first definition
     report_data = {
         "country": user['country'], 
         "currency": currency, 
@@ -243,8 +261,6 @@ def dashboard():
         "small_cap": savings * rules['small_cap'], 
         "emergency_fund": savings * rules['emergency'], 
         "advice": ADVISOR_INSIGHTS.get(risk, []),
-        
-        # ADD THESE DEFAULT VALUES TO PREVENT BLANK SCREENS:
         "sip_calc_monthly": report['sip_calc_monthly'] or 0,
         "sip_calc_years": report['sip_calc_years'] or 0,
         "sip_calc_fv": report['sip_calc_fv'] or 0,
@@ -252,18 +268,15 @@ def dashboard():
         "future_target_years": report['future_target_years'] or 0,
         "future_req_monthly": report['future_req_monthly'] or 0
     }
-    savings_ratio = (report['savings'] / report['income']) * 100
     
-    # Base score of 50, add points for savings, cap at 100
+    # CALCULATE SCORE
+    savings_ratio = (report['savings'] / report['income']) * 100
     score = 50 + int(savings_ratio * 0.5) 
     if score > 100: score = 100
-    if score < 20: score = 20 # Minimum floor
     
-    # Add score to report_data
-    report_data = {
-        # ... (other fields) ...
-        "score": score
-    }
+    # MERGE, DO NOT OVERWRITE
+    report_data["score"] = score
+    
     return render_template('report.html', user=user, data=report_data)
 
 @app.route('/sip-calculator', methods=['GET', 'POST'])
@@ -323,5 +336,12 @@ def health():
         "application": "SmartPlan Finance",
         "version": "2.1"
     }, 200
+# TEMPORARY DEBUGGING: Print all routes
+print("--- REGISTERED ROUTES ---")
+for rule in app.url_map.iter_rules():
+    print(f"{rule.endpoint}: {rule.rule}")
+print("-------------------------")
+
 if __name__ == '__main__':
+    # Force debug mode on, and ensure the app registers all routes
     app.run(debug=False)

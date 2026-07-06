@@ -1,0 +1,15 @@
+<h2>Manage Articles</h2>
+<a href="/publish">+ Create New Article</a>
+<table>
+    {% for art in articles %}
+    <tr>
+        <td>{{ art.title }}</td>
+        <td>
+            <a href="/edit/{{ art.id }}">Edit</a>
+            <form action="/delete/{{ art.id }}" method="POST" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
