@@ -395,7 +395,16 @@ def view_article(slug):
         
     # If found, render the template
     return render_template('view_article.html', article=article)
+@app.route("/disclaimer")
+def disclaimer():
+    return render_template("disclaimer.html")
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy.html")
 
+@app.route("/terms")
+def terms():
+    return render_template("terms.html")
 @app.route("/health")
 def health():
     return {
