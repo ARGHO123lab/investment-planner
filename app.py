@@ -395,7 +395,14 @@ def view_article(slug):
         
     # If found, render the template
     return render_template('view_article.html', article=article)
-
+@app.route("/admin/delete-all-articles", methods=["POST"])
+@requires_auth
+def delete_all_articles():
+    conn = get_db_connection()
+    conn.execute("DELETE FROM articles")
+    conn.commit()
+    conn.close()
+    return "✅ All articles deleted successfully."
 @app.route("/health")
 def health():
     return {
