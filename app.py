@@ -1,3 +1,4 @@
+import re
 import os
 import sqlite3
 from datetime import datetime
@@ -235,17 +236,40 @@ def profile():
 @app.route('/publish', methods=['GET', 'POST'])
 @requires_auth
 def publish():
+
     if request.method == 'POST':
+
         title = request.form.get('title')
         content = request.form.get('content')
-        
+
+        # Generate SEO-friendly slug
+        slug = re.sub(
+            r'[^a-z0-9]+',
+            '-',
+            title.lower()
+        ).strip('-')
+
         conn = get_db_connection()
-        conn.execute("INSERT INTO articles (title, content) VALUES (?, ?)", (title, content))
+
+        conn.execute(
+            """
+            INSERT INTO articles
+            (title, slug, content)
+            VALUES (?, ?, ?)
+            """,
+            (
+                title,
+                slug,
+                content
+            )
+        )
+
         conn.commit()
         conn.close()
-        return "Article published successfully! <a href='/articles'>View Articles</a>"
-        
-    return render_template('publish.html')
+
+        return redirect(url_for("articles"))
+
+    return render_template("publish.html")
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' not in session: return redirect(url_for('login'))
