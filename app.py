@@ -82,7 +82,7 @@ def init_db():
         content TEXT NOT NULL,
         created_at TEXT DEFAULT CURRENT_TIMESTAMP
     )
-""")
+    """)
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -143,6 +143,7 @@ init_db()
 @app.route('/')
 def index():
     return render_template('index.html')
+
 @app.route('/delete/<int:article_id>', methods=['POST'])
 @requires_auth
 def delete_article(article_id):
@@ -151,11 +152,10 @@ def delete_article(article_id):
     conn.commit()
     conn.close()
     return redirect(url_for('articles'))
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
     if request.method == 'POST':
-
         name = request.form.get('name')
         mobile = request.form.get('mobile')
         country = request.form.get('country')
@@ -171,7 +171,6 @@ def login():
         existing_user = cursor.fetchone()
 
         if existing_user:
-
             user_id = existing_user["id"]
 
             # Update latest details
@@ -184,11 +183,8 @@ def login():
                 country,
                 user_id
             ))
-
             conn.commit()
-
         else:
-
             cursor.execute("""
                 INSERT INTO users(name,mobile,country)
                 VALUES(?,?,?)
@@ -197,7 +193,6 @@ def login():
                 mobile,
                 country
             ))
-
             conn.commit()
             user_id = cursor.lastrowid
 
@@ -218,9 +213,9 @@ def profile():
     if 'user_id' not in session: return redirect(url_for('login'))
     user_id = session['user_id']
     if request.method == 'POST':
-        income = float(request.form.get('income'))
-        expense = float(request.form.get('expense'))
-        risk = request.form.get('risk').lower()
+        income = float(request.form.get('income') or 0)
+        expense = float(request.form.get('expense') or 0)
+        risk = (request.form.get('risk') or 'medium').lower()
         savings = income - expense
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -233,12 +228,11 @@ def profile():
     user = conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
     conn.close()
     return render_template('profile.html', name=user['name'], mobile=user['mobile'], country=user['country'])
+
 @app.route('/publish', methods=['GET', 'POST'])
 @requires_auth
 def publish():
-
     if request.method == 'POST':
-
         title = request.form.get('title')
         content = request.form.get('content')
 
@@ -250,7 +244,6 @@ def publish():
         ).strip('-')
 
         conn = get_db_connection()
-
         conn.execute(
             """
             INSERT INTO articles
@@ -263,13 +256,13 @@ def publish():
                 content
             )
         )
-
         conn.commit()
         conn.close()
 
         return redirect(url_for("articles"))
 
     return render_template("publish.html")
+
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' not in session: return redirect(url_for('login'))
@@ -277,15 +270,15 @@ def dashboard():
     conn = get_db_connection()
     user = conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
     report = conn.execute(
-    """
-    SELECT *
-    FROM reports
-    WHERE user_id = ?
-    ORDER BY created_at DESC
-    LIMIT 1
-    """,
-    (user_id,)
-).fetchone()
+        """
+        SELECT *
+        FROM reports
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        LIMIT 1
+        """,
+        (user_id,)
+    ).fetchone()
     conn.close()
     
     if not report: return redirect(url_for('profile'))
@@ -329,13 +322,22 @@ def dashboard():
 def sip_calculator():
     result = None
     if request.method == 'POST':
-        P, i, n = float(request.form.get('monthly_investment')), float(request.form.get('annual_return'))/100/12, int(request.form.get('years'))*12
+        P = float(request.form.get('monthly_investment') or 0)
+        annual_return = float(request.form.get('annual_return') or 0)
+        years = int(request.form.get('years') or 0)
+        
+        i = annual_return / 100 / 12
+        n = years * 12
     
-        fv = P * (((1 + i)**n - 1) / i) * (1 + i)
+        if i == 0:
+            fv = P * n
+        else:
+            fv = P * (((1 + i)**n - 1) / i) * (1 + i)
+            
         result = "{:,.2f}".format(fv)
         if 'report_id' in session:
             conn = get_db_connection()
-            conn.execute('UPDATE reports SET sip_calc_monthly = ?, sip_calc_years = ?, sip_calc_fv = ? WHERE id = ?', (P, request.form.get('years'), fv, session['report_id']))
+            conn.execute('UPDATE reports SET sip_calc_monthly = ?, sip_calc_years = ?, sip_calc_fv = ? WHERE id = ?', (P, years, fv, session['report_id']))
             conn.commit()
             conn.close()
     return render_template('sip_calculator.html', result=result)
@@ -344,9 +346,18 @@ def sip_calculator():
 def financial_future():
     result = None
     if request.method == 'POST':
-        age, target, years = int(request.form.get('age')), float(request.form.get('target')), int(request.form.get('years'))
-        months, m_rate = years * 12, 0.12 / 12
-        req_monthly = target / (((1 + m_rate)**months - 1) / m_rate) / (1 + m_rate)
+        age = int(request.form.get('age') or 0)
+        target = float(request.form.get('target') or 0)
+        years = int(request.form.get('years') or 0)
+        
+        months = years * 12
+        m_rate = 0.12 / 12
+        
+        if months == 0 or target == 0:
+            req_monthly = 0.0
+        else:
+            req_monthly = target / (((1 + m_rate)**months - 1) / m_rate) / (1 + m_rate)
+            
         if 'user_id' in session:
             conn = get_db_connection()
             conn.execute("UPDATE users SET target_amount = ?, target_years = ? WHERE id = ?", (target, years, session['user_id']))
@@ -354,7 +365,16 @@ def financial_future():
                 conn.execute('UPDATE reports SET future_target_amount = ?, future_target_years = ?, future_req_monthly = ? WHERE id = ?', (target, years, req_monthly, session['report_id']))
             conn.commit()
             conn.close()
-        result = {"monthly_total": "{:,.2f}".format(req_monthly), "breakdown": {"sip": {"amount": "{:,.2f}".format(req_monthly * 0.4), "return": "12%"}, "large": {"label": "Large Cap", "amount": "{:,.2f}".format(req_monthly * 0.3), "return": "10%"}, "mid": {"label": "Mid Cap", "amount": "{:,.2f}".format(req_monthly * 0.2), "return": "15%"}, "small": {"label": "Small Cap", "amount": "{:,.2f}".format(req_monthly * 0.1), "return": "18%"}}}
+            
+        result = {
+            "monthly_total": "{:,.2f}".format(req_monthly), 
+            "breakdown": {
+                "sip": {"amount": "{:,.2f}".format(req_monthly * 0.4), "return": "12%"}, 
+                "large": {"label": "Large Cap", "amount": "{:,.2f}".format(req_monthly * 0.3), "return": "10%"}, 
+                "mid": {"label": "Mid Cap", "amount": "{:,.2f}".format(req_monthly * 0.2), "return": "15%"}, 
+                "small": {"label": "Small Cap", "amount": "{:,.2f}".format(req_monthly * 0.1), "return": "18%"}
+            }
+        }
     return render_template('financial_future.html', result=result)
 
 @app.route('/admin')
@@ -395,9 +415,11 @@ def view_article(slug):
         
     # If found, render the template
     return render_template('view_article.html', article=article)
+
 @app.route("/disclaimer")
 def disclaimer():
     return render_template("disclaimer.html")
+
 @app.route("/privacy")
 def privacy():
     return render_template("privacy.html")
@@ -405,6 +427,7 @@ def privacy():
 @app.route("/terms")
 def terms():
     return render_template("terms.html")
+
 @app.route("/health")
 def health():
     return {
@@ -412,6 +435,7 @@ def health():
         "application": "SmartPlan Finance",
         "version": "2.1"
     }, 200
+
 if __name__ == '__main__':
     # This runs only when you execute 'python app.py' locally
     # It will NOT override the production server settings
