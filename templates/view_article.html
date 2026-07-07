@@ -11,7 +11,7 @@
         <p><small>Published on: {{ article.created_at }}</small></p>
         <hr>
         <div class="article-content">
-            {{ article.content }}
+            {{ article.content | safe }}
         </div>
         <br>
         <a href="{{ url_for('articles') }}">Back to Blog</a>

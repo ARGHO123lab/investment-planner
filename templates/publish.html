@@ -1,10 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publish Article | SmartPlan Finance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+
+    <style>
+        body { padding: 40px; background: #FFFDF5; font-family: 'Poppins', sans-serif; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,.08); }
+        h1 { color: #B8860B; margin-bottom: 25px; }
+        input[type="text"] { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        .editor-wrapper { margin-bottom: 25px; }
+        #editor { height: 400px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; font-size: 16px; }
+        .ql-toolbar { border-top-left-radius: 8px; border-top-right-radius: 8px; background: #fafafa; }
+        button { background: #FFC107; color: #000; border: none; padding: 14px 30px; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 16px; font-family: 'Poppins', sans-serif; transition: 0.2s; }
+        button:hover { background: #E0A800; }
+    </style>
+</head>
 <body>
-    <form action="/publish" method="POST">
-        <input type="text" name="title" placeholder="Article Title" required><br>
-        <textarea name="content" placeholder="Write your article here..." required></textarea><br>
-        <button type="submit">Publish Article</button>
-    </form>
+    <div class="container">
+        <h1>✍️ Publish New Article</h1>
+        
+        <form action="/publish" method="POST" onsubmit="prepareFormSubmission()">
+            <input type="text" name="title" placeholder="Article Title" required>
+            
+            <input type="hidden" name="content" id="hidden-content">
+
+            <div class="editor-wrapper">
+                <div id="editor">
+                    <p>Start writing your financial article here...</p>
+                </div>
+            </div>
+            
+            <button type="submit">Publish Article</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+    <script>
+        // Initialize the editor with custom toolbar elements for charts, tables, images, and links
+        const quill = new Quill('#editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],        
+                    ['link', 'image', 'video'],                       // Handles file linking and images
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'color': [] }, { 'background': [] }],          
+                    ['clean']                                         
+                ]
+            }
+        });
+
+        // Intercept form submittal to extract data out of Quill layer and save it inside your database
+        function prepareFormSubmission() {
+            const richTextHtml = quill.root.innerHTML;
+            document.getElementById('hidden-content').value = richTextHtml;
+        }
+    </script>
 </body>
 </html>
