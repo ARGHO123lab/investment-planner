@@ -6,4 +6,4 @@ database/*.db
 *.sqlite3
 .vscode/
 .idea/
-.DS_Store
+.DS_Storedatabase/finance.db
