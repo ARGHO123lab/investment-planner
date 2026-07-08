@@ -386,7 +386,55 @@ def health():
         "application": "SmartPlan Finance",
         "version": "2.1"
     }, 200
+@app.route("/sitemap.xml")
+def sitemap():
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
+    cursor.execute("""
+        SELECT slug, created_at
+        FROM articles
+        ORDER BY created_at DESC
+    """)
+
+    articles = cursor.fetchall()
+    conn.close()
+
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>']
+    xml.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
+
+    # Home page
+    xml.append("""
+    <url>
+        <loc>https://smartplanfinance.com/</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    """)
+
+    # Blog listing
+    xml.append("""
+    <url>
+        <loc>https://smartplanfinance.com/articles</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    """)
+
+    # Individual articles
+    for article in articles:
+        xml.append(f"""
+        <url>
+            <loc>https://smartplanfinance.com/blog/{article['slug']}</loc>
+            <lastmod>{article['created_at']}</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>0.8</priority>
+        </url>
+        """)
+
+    xml.append("</urlset>")
+
+    return Response("\n".join(xml), mimetype="application/xml")
 if __name__ == '__main__':
     # This runs only when you execute 'python app.py' locally
     # It will NOT override the production server settings
