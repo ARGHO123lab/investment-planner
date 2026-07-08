@@ -176,6 +176,72 @@ grid-template-columns:1fr;
 <body>
 
 <div class="report">
+{% if report_type == "emi" %}
+
+<div class="header">
+
+    <h1>📊 EMI Calculation Report</h1>
+
+    <p class="subtitle">
+        Your estimated loan repayment details
+    </p>
+
+</div>
+
+<div class="summary">
+
+    <div class="card-box">
+        <h3>Loan Amount</h3>
+        <h2>₹ {{ "{:,.2f}".format(loan_amount) }}</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Monthly EMI</h3>
+        <h2>₹ {{ "{:,.2f}".format(emi) }}</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Interest Rate</h3>
+        <h2>{{ rate }}%</h2>
+    </div>
+
+</div>
+
+<div class="allocate">
+
+    <div class="box">
+        💰 Total Interest
+        <br><br>
+        <strong>₹ {{ "{:,.2f}".format(total_interest) }}</strong>
+    </div>
+
+    <div class="box">
+        💳 Total Payment
+        <br><br>
+        <strong>₹ {{ "{:,.2f}".format(total_payment) }}</strong>
+    </div>
+
+    <div class="box">
+        📅 Loan Tenure
+        <br><br>
+        <strong>{{ tenure }} Years</strong>
+    </div>
+
+</div>
+
+<div class="nav-links">
+
+    <a href="/emi_calculator" class="btn btn-secondary">
+        🔄 Calculate Again
+    </a>
+
+    <a href="/dashboard" class="btn btn-secondary">
+        🏠 Back to Dashboard
+    </a>
+
+</div>
+
+{% else %}
 
 <div class="header">
 
@@ -363,6 +429,11 @@ Recommended Investment Allocation
         🎯 PTax Regime Comparator
     </a>
 
+    <a href="/emi_calculator" class="btn btn-secondary">
+        🎯 EMI Calculator
+    </a>
+
+
     <button
         type="button"
         class="btn btn-primary"
@@ -371,7 +442,7 @@ Recommended Investment Allocation
     </button>
 
 </div>
-
+{% endif %}
 </div>
 
 </body>

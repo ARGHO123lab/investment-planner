@@ -364,6 +364,39 @@ def tax_calculator():
         }
         
     return render_template('tax_calculator.html', result=result)
+@app.route("/emi_calculator", methods=["GET", "POST"])
+def emi_calculator():
+
+    if request.method == "POST":
+
+        loan_amount = float(request.form["loan_amount"])
+        annual_rate = float(request.form["interest_rate"])
+        tenure_years = int(request.form["tenure"])
+
+        monthly_rate = annual_rate / (12 * 100)
+        months = tenure_years * 12
+
+        emi = (
+            loan_amount
+            * monthly_rate
+            * ((1 + monthly_rate) ** months)
+        ) / (((1 + monthly_rate) ** months) - 1)
+
+        total_payment = emi * months
+        total_interest = total_payment - loan_amount
+
+        return render_template(
+            "report.html",
+            report_type="emi",
+            loan_amount=loan_amount,
+            emi=round(emi, 2),
+            total_interest=round(total_interest, 2),
+            total_payment=round(total_payment, 2),
+            tenure=tenure_years,
+            rate=annual_rate
+        )
+
+    return render_template("emi_calculator.html")
 @app.route('/admin')
 @requires_auth # <--- This locks the admin panel!
 def admin():

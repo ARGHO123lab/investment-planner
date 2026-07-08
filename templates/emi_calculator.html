@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>EMI Calculator | SmartPlan Finance</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        body{
+            background:#FFFDF5;
+            font-family:'Poppins',sans-serif;
+            padding:40px;
+        }
+
+        .container{
+            max-width:750px;
+            margin:auto;
+            background:white;
+            padding:40px;
+            border-radius:20px;
+            box-shadow:0 5px 20px rgba(0,0,0,.08);
+        }
+
+        h1{
+            color:#B8860B;
+            text-align:center;
+            margin-bottom:10px;
+        }
+
+        .subtitle{
+            text-align:center;
+            color:#666;
+            margin-bottom:35px;
+        }
+
+        .form-group{
+            margin-bottom:20px;
+        }
+
+        label{
+            display:block;
+            font-weight:600;
+            margin-bottom:8px;
+        }
+
+        input{
+            width:100%;
+            padding:14px;
+            border:1px solid #ddd;
+            border-radius:10px;
+            font-size:16px;
+            box-sizing:border-box;
+        }
+
+        input:focus{
+            outline:none;
+            border:1px solid #B8860B;
+        }
+
+        button{
+
+            width:100%;
+
+            padding:15px;
+
+            border:none;
+
+            background:#B8860B;
+
+            color:white;
+
+            font-size:18px;
+
+            border-radius:12px;
+
+            cursor:pointer;
+
+            transition:.3s;
+        }
+
+        button:hover{
+
+            background:#9a7306;
+
+        }
+
+        .note{
+
+            margin-top:30px;
+
+            font-size:14px;
+
+            color:#666;
+
+            text-align:center;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>EMI Calculator</h1>
+
+    <p class="subtitle">
+
+        Calculate your Home Loan, Car Loan or Personal Loan EMI instantly.
+
+    </p>
+
+    <form method="POST">
+
+        <div class="form-group">
+
+            <label>Loan Amount (₹)</label>
+
+            <input
+                type="number"
+                name="loan_amount"
+                placeholder="Example: 4000000"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Annual Interest Rate (%)</label>
+
+            <input
+                type="number"
+                step="0.01"
+                name="interest_rate"
+                placeholder="Example: 8.5"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Loan Tenure (Years)</label>
+
+            <input
+                type="number"
+                name="tenure"
+                placeholder="Example: 20"
+                required>
+
+        </div>
+
+        <button type="submit">
+
+            Calculate EMI
+
+        </button>
+
+    </form>
+
+    <div class="note">
+
+        SmartPlan Finance provides estimates for educational purposes.
+        Actual loan EMIs may vary depending on lender policies and applicable charges.
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
