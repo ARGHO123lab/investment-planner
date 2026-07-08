@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tax Regime Comparator</title>
+    <style>
+        body { padding: 40px; background: #FFFDF5; font-family: 'Poppins', sans-serif; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,.08); }
+        h1 { color: #B8860B; margin-bottom: 25px; text-align: center; }
+        label { font-weight: 500; color: #555; display: block; margin-top: 15px; }
+        input { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 14px; background: #FFC107; color: #000; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; margin-top: 25px; }
+        button:hover { background: #E0A800; }
+        .result-box { margin-top: 30px; padding: 20px; background: #FFF8E1; border-left: 5px solid #FFC107; border-radius: 12px; text-align: center; }
+        .btn-link { display: block; text-align: center; margin-top: 20px; color: #666; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>⚖️ Tax Regime Comparator</h1>
+
+    <form method="POST">
+        <label>Enter Annual Income</label>
+        <input type="number" name="income" required>
+
+        <button type="submit">Compare Regimes</button>
+    </form>
+
+    <a href="/dashboard" class="btn-link">← Back to Dashboard</a>
+
+    {% if result %}
+        <div class="result-box">
+            <h3>Comparison Result</h3>
+            <p>{{ result }}</p>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
