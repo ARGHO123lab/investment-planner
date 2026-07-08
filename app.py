@@ -1,6 +1,7 @@
 import re
 import os
-import sqlite3
+import psycopg2
+from psycopg2.extras import RealDictCursor
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, session, url_for, Response
 from functools import wraps
@@ -31,6 +32,7 @@ def requires_auth(f):
     return decorated
 # ---------------------------------------------
 
+# PostgreSQL does not use a local file path, but kept for codebase consistency
 DB_PATH = "database/finance.db"
 print("Database Path:", os.path.abspath(DB_PATH))
 
@@ -59,8 +61,10 @@ ADVISOR_INSIGHTS = {
 }
 
 def get_db_connection():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
+    conn = psycopg2.connect(
+        os.environ["DATABASE_URL"],
+        cursor_factory=RealDictCursor
+    )
     return conn
 
 def extract_currency_symbol(country_name):
@@ -69,74 +73,9 @@ def extract_currency_symbol(country_name):
         return country_data.get('currency_symbol', country_data.get('symbol', '₹'))
     return country_data
 
+# NOTE: init_db logic is not needed as PostgreSQL schema is pre-managed in production
 def init_db():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    
-    # Inside init_db():
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS articles (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
-        slug TEXT UNIQUE NOT NULL,
-        content TEXT NOT NULL,
-        created_at TEXT DEFAULT CURRENT_TIMESTAMP
-    )
-    """)
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            mobile TEXT NOT NULL,
-            country TEXT NOT NULL,
-            target_amount REAL DEFAULT 0,
-            target_years INTEGER DEFAULT 0
-        )
-    """)
-
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS reports (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            income REAL NOT NULL,
-            expense REAL NOT NULL,
-            savings REAL NOT NULL,
-            risk TEXT NOT NULL,
-            created_at TEXT NOT NULL,
-            FOREIGN KEY(user_id) REFERENCES users(id)
-        )
-    """)
-
-    # Add missing columns to USERS table
-    user_columns = [
-        ("target_amount", "REAL DEFAULT 0"),
-        ("target_years", "INTEGER DEFAULT 0")
-    ]
-
-    for col_name, col_type in user_columns:
-        try:
-            cursor.execute(f"ALTER TABLE users ADD COLUMN {col_name} {col_type}")
-        except sqlite3.OperationalError:
-            pass
-
-    # Add missing columns to REPORTS table
-    report_columns = [
-        ("sip_calc_monthly", "REAL DEFAULT 0"),
-        ("sip_calc_years", "INTEGER DEFAULT 0"),
-        ("sip_calc_fv", "REAL DEFAULT 0"),
-        ("future_target_amount", "REAL DEFAULT 0"),
-        ("future_target_years", "INTEGER DEFAULT 0"),
-        ("future_req_monthly", "REAL DEFAULT 0")
-    ]
-
-    for col_name, col_type in report_columns:
-        try:
-            cursor.execute(f"ALTER TABLE reports ADD COLUMN {col_name} {col_type}")
-        except sqlite3.OperationalError:
-            pass
-
-    conn.commit()
-    conn.close()
+    pass 
 
 init_db()
 
@@ -148,7 +87,8 @@ def index():
 @requires_auth
 def delete_article(article_id):
     conn = get_db_connection()
-    conn.execute("DELETE FROM articles WHERE id = ?", (article_id,))
+    cur = conn.cursor()
+    cur.execute("DELETE FROM articles WHERE id = %s", (article_id,))
     conn.commit()
     conn.close()
     return redirect(url_for('articles'))
@@ -161,23 +101,20 @@ def login():
         country = request.form.get('country')
 
         conn = get_db_connection()
-        cursor = conn.cursor()
+        cur = conn.cursor()
 
-        cursor.execute(
-            "SELECT id FROM users WHERE mobile=?",
-            (mobile,)
-        )
+        cur.execute("SELECT id FROM users WHERE mobile=%s", (mobile,))
 
-        existing_user = cursor.fetchone()
+        existing_user = cur.fetchone()
 
         if existing_user:
             user_id = existing_user["id"]
 
             # Update latest details
-            cursor.execute("""
+            cur.execute("""
                 UPDATE users
-                SET name=?, country=?
-                WHERE id=?
+                SET name=%s, country=%s
+                WHERE id=%s
             """, (
                 name,
                 country,
@@ -185,16 +122,16 @@ def login():
             ))
             conn.commit()
         else:
-            cursor.execute("""
+            cur.execute("""
                 INSERT INTO users(name,mobile,country)
-                VALUES(?,?,?)
+                VALUES(%s,%s,%s) RETURNING id
             """, (
                 name,
                 mobile,
                 country
             ))
             conn.commit()
-            user_id = cursor.lastrowid
+            user_id = cur.fetchone()['id']
 
         conn.close()
 
@@ -218,14 +155,16 @@ def profile():
         risk = (request.form.get('risk') or 'medium').lower()
         savings = income - expense
         conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO reports (user_id, income, expense, savings, risk, created_at) VALUES (?, ?, ?, ?, ?, ?)", (user_id, income, expense, savings, risk, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+        cur = conn.cursor()
+        cur.execute("INSERT INTO reports (user_id, income, expense, savings, risk, created_at) VALUES (%s, %s, %s, %s, %s, %s) RETURNING id", (user_id, income, expense, savings, risk, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
         conn.commit()
-        session['report_id'] = cursor.lastrowid
+        session['report_id'] = cur.fetchone()['id']
         conn.close()
         return redirect(url_for('dashboard'))
     conn = get_db_connection()
-    user = conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+    user = cur.fetchone()
     conn.close()
     return render_template('profile.html', name=user['name'], mobile=user['mobile'], country=user['country'])
 
@@ -244,11 +183,12 @@ def publish():
         ).strip('-')
 
         conn = get_db_connection()
-        conn.execute(
+        cur = conn.cursor()
+        cur.execute(
             """
             INSERT INTO articles
             (title, slug, content)
-            VALUES (?, ?, ?)
+            VALUES (%s, %s, %s)
             """,
             (
                 title,
@@ -268,17 +208,20 @@ def dashboard():
     if 'user_id' not in session: return redirect(url_for('login'))
     user_id = session['user_id']
     conn = get_db_connection()
-    user = conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
-    report = conn.execute(
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+    user = cur.fetchone()
+    cur.execute(
         """
         SELECT *
         FROM reports
-        WHERE user_id = ?
+        WHERE user_id = %s
         ORDER BY created_at DESC
         LIMIT 1
         """,
         (user_id,)
-    ).fetchone()
+    )
+    report = cur.fetchone()
     conn.close()
     
     if not report: return redirect(url_for('profile'))
@@ -337,7 +280,8 @@ def sip_calculator():
         result = "{:,.2f}".format(fv)
         if 'report_id' in session:
             conn = get_db_connection()
-            conn.execute('UPDATE reports SET sip_calc_monthly = ?, sip_calc_years = ?, sip_calc_fv = ? WHERE id = ?', (P, years, fv, session['report_id']))
+            cur = conn.cursor()
+            cur.execute('UPDATE reports SET sip_calc_monthly = %s, sip_calc_years = %s, sip_calc_fv = %s WHERE id = %s', (P, years, fv, session['report_id']))
             conn.commit()
             conn.close()
     return render_template('sip_calculator.html', result=result)
@@ -360,9 +304,10 @@ def financial_future():
             
         if 'user_id' in session:
             conn = get_db_connection()
-            conn.execute("UPDATE users SET target_amount = ?, target_years = ? WHERE id = ?", (target, years, session['user_id']))
+            cur = conn.cursor()
+            cur.execute("UPDATE users SET target_amount = %s, target_years = %s WHERE id = %s", (target, years, session['user_id']))
             if 'report_id' in session:
-                conn.execute('UPDATE reports SET future_target_amount = ?, future_target_years = ?, future_req_monthly = ? WHERE id = ?', (target, years, req_monthly, session['report_id']))
+                cur.execute('UPDATE reports SET future_target_amount = %s, future_target_years = %s, future_req_monthly = %s WHERE id = %s', (target, years, req_monthly, session['report_id']))
             conn.commit()
             conn.close()
             
@@ -381,8 +326,10 @@ def financial_future():
 @requires_auth # <--- This locks the admin panel!
 def admin():
     conn = get_db_connection()
+    cur = conn.cursor()
     query = "SELECT r.id, u.name, u.mobile, u.country, r.income, r.expense, r.savings, r.risk, r.created_at, u.target_amount, u.target_years FROM reports r INNER JOIN users u ON r.user_id = u.id ORDER BY r.id DESC"
-    rows = conn.execute(query).fetchall()
+    cur.execute(query)
+    rows = cur.fetchall()
     cleaned_reports = []
     for row in rows:
         r_dict = dict(row)
@@ -398,15 +345,19 @@ def admin():
 @app.route('/articles')
 def articles():
     conn = get_db_connection()
-    articles = conn.execute("SELECT * FROM articles ORDER BY created_at DESC").fetchall()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM articles ORDER BY created_at DESC")
+    articles = cur.fetchall()
     conn.close()
     return render_template('articles.html', articles=articles)
 
 @app.route('/blog/<slug>')
 def view_article(slug):
     conn = get_db_connection()
+    cur = conn.cursor()
     # Query for the specific article
-    article = conn.execute("SELECT * FROM articles WHERE slug = ?", (slug,)).fetchone()
+    cur.execute("SELECT * FROM articles WHERE slug = %s", (slug,))
+    article = cur.fetchone()
     conn.close()
     
     # If no article is found, return a 404
