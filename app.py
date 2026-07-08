@@ -426,7 +426,7 @@ def sitemap():
         xml.append(f"""
         <url>
             <loc>https://smartplanfinance.com/blog/{article['slug']}</loc>
-            <lastmod>{article['created_at']}</lastmod>
+            <lastmod>{str(article['created_at']).split(' ')[0]}</lastmod>
             <changefreq>monthly</changefreq>
             <priority>0.8</priority>
         </url>
