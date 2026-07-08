@@ -193,6 +193,9 @@ button,
     cursor:pointer;
 
     transition:var(--transition);
+    margin-top: 15px;
+    display: block;
+    text-align: center;
 
 }
 
@@ -386,3 +389,6 @@ hr{
     }
 
 }
+/* ===========================
+   Dashboard Link Button
+=========================== */

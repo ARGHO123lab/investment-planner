@@ -6,6 +6,8 @@ from datetime import datetime
 from flask import Flask, render_template, request, redirect, session, url_for, Response
 from functools import wraps
 from config import COUNTRIES
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 # Make sure this matches your production environment
@@ -63,7 +65,7 @@ ADVISOR_INSIGHTS = {
 def get_db_connection():
     conn = psycopg2.connect(
         os.environ["DATABASE_URL"],
-        cursor_factory=RealDictCursor
+        cursor_factory=RealDictCursor,  # Added the comma here             # Changed 'require' to 'prefer'
     )
     return conn
 
@@ -321,7 +323,47 @@ def financial_future():
             }
         }
     return render_template('financial_future.html', result=result)
-
+@app.route('/tax_calculator', methods=['GET', 'POST'])
+def tax_calculator():
+    result = None
+    if request.method == 'POST':
+        # 1. Get input
+        income = float(request.form.get('income') or 0)
+        investments = float(request.form.get('investments') or 0)
+        
+        # 2. Logic for New Regime
+        std_new = 75000
+        taxable_new = max(0, income - std_new)
+        tax_new = 0
+        # 2026-27 Slabs: (4L @ 0%, 4L @ 5%, 4L @ 10%, 4L @ 15%, 4L @ 20%, 4L @ 25%, above @ 30%)
+        slabs = [(400000, 0), (400000, 0.05), (400000, 0.10), (400000, 0.15), (400000, 0.20), (400000, 0.25)]
+        remaining = taxable_new
+        for limit, rate in slabs:
+            chunk = min(max(0, remaining), limit)
+            tax_new += chunk * rate
+            remaining -= limit
+        if remaining > 0: tax_new += remaining * 0.30
+        tax_new = tax_new * 1.04 # Add 4% Cess
+        
+        # 3. Logic for Old Regime
+        std_old = 50000
+        taxable_old = max(0, income - std_old - investments)
+        tax_old = 0
+        if taxable_old <= 250000: tax_old = 0
+        elif taxable_old <= 500000: tax_old = (taxable_old - 250000) * 0.05
+        elif taxable_old <= 1000000: tax_old = 12500 + (taxable_old - 500000) * 0.20
+        else: tax_old = 112500 + (taxable_old - 1000000) * 0.30
+        tax_old = tax_old * 1.04 # Add 4% Cess
+        
+        # 4. Prepare Result
+        result = {
+            "new_regime": "{:,.2f}".format(tax_new),
+            "old_regime": "{:,.2f}".format(tax_old),
+            "savings": "{:,.2f}".format(abs(tax_new - tax_old)),
+            "better_option": "New Regime" if tax_new < tax_old else "Old Regime"
+        }
+        
+    return render_template('tax_calculator.html', result=result)
 @app.route('/admin')
 @requires_auth # <--- This locks the admin panel!
 def admin():
@@ -435,6 +477,8 @@ def sitemap():
     xml.append("</urlset>")
 
     return Response("\n".join(xml), mimetype="application/xml")
+
+
 if __name__ == '__main__':
     # This runs only when you execute 'python app.py' locally
     # It will NOT override the production server settings
