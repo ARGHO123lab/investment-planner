@@ -1,237 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Investment Report | SmartPlan Finance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            padding: 40px;
+            background: #FFFDF5;
+            font-family: 'Poppins', sans-serif;
+        }
+        .report {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,.08);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        .header h1 {
+            color: #B8860B;
+        }
+        .subtitle {
+            color: #666;
+        }
+        .score {
+            margin: 30px auto;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFD54F, #FFC107);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0,0,0,.15);
+        }
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 35px 0;
+        }
+        .card-box {
+            background: #FFF8E1;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: .3s;
+        }
+        .card-box:hover {
+            transform: translateY(-5px);
+        }
+        .card-box h3 {
+            font-size: 15px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .card-box h2 {
+            color: #B8860B;
+        }
+        .section-title {
+            margin: 35px 0 20px;
+            color: #B8860B;
+        }
+        .allocate {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .box {
+            background: #FFF8E1;
+            padding: 18px;
+            border-left: 5px solid #FFC107;
+            border-radius: 12px;
+        }
+        .note {
+            margin-top: 35px;
+            padding: 20px;
+            background: #FFF8E1;
+            border-left: 5px solid #FFC107;
+            border-radius: 12px;
+            line-height: 28px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 35px;
+            flex-wrap: wrap;
+            justify-content:center;
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Your Investment Report | SmartPlan Finance</title>
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-body{
-padding:40px;
-background:#FFFDF5;
-font-family:'Poppins',sans-serif;
-}
-
-.report{
-max-width:900px;
-margin:auto;
-background:white;
-padding:40px;
-border-radius:20px;
-box-shadow:0 15px 40px rgba(0,0,0,.08);
-}
-
-.header{
-text-align:center;
-margin-bottom:35px;
-}
-
-.header h1{
-color:#B8860B;
-}
-
-.subtitle{
-color:#666;
-}
-
-.score{
-margin:30px auto;
-width:180px;
-height:180px;
-border-radius:50%;
-background:linear-gradient(135deg,#FFD54F,#FFC107);
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-box-shadow:0 10px 25px rgba(0,0,0,.15);
-}
-
-.score h1{
-font-size:48px;
-margin:0;
-}
-
-.summary{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:20px;
-margin:35px 0;
-}
-
-.card-box{
-background:#FFF8E1;
-padding:20px;
-border-radius:15px;
-text-align:center;
-transition:.3s;
-}
-
-.card-box:hover{
-transform:translateY(-5px);
-}
-
-.card-box h3{
-font-size:15px;
-margin-bottom:10px;
-color:#555;
-}
-
-.card-box h2{
-color:#B8860B;
-}
-
-.section-title{
-margin:35px 0 20px;
-color:#B8860B;
-}
-
-.allocate{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:20px;
-}
-
-.box{
-background:#FFF8E1;
-padding:18px;
-border-left:5px solid #FFC107;
-border-radius:12px;
-}
-
-.note{
-margin-top:35px;
-padding:20px;
-background:#FFF8E1;
-border-left:5px solid #FFC107;
-border-radius:12px;
-line-height:28px;
-}
-
-
-
-@media(max-width:768px){
-
-.summary{
-grid-template-columns:1fr;
-}
-
-.allocate{
-grid-template-columns:1fr;
-}
-
-}
-.nav-links{
-    display:flex;
-    gap:15px;
-    margin-top:35px;
-    flex-wrap:wrap;
-}
-
-.btn{
-    flex:1;
-    padding:14px;
-    text-align:center;
-    border-radius:12px;
-    text-decoration:none;
-    font-weight:600;
-    transition:.3s;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.btn-primary{
-    background:#FFC107;
-    color:#000;
-    border:none;
-    cursor:pointer;
-}
-
-.btn-primary:hover{
-    background:#E0A800;
-}
-
-.btn-secondary{
-    border:2px solid #FFC107;
-    color:#B8860B;
-    background:white;
-}
-
-.btn-secondary:hover{
-    background:#FFF8E1;
-}
-</style>
-
+        }
+        .btn {
+            flex: 0 0 220px;
+            padding: 14px;
+            text-align: center;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: .3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width:220px;
+        }
+        .btn-primary {
+            background: #FFC107;
+            color: #000;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background: #E0A800;
+        }
+        .btn-secondary {
+            border: 2px solid #FFC107;
+            color: #B8860B;
+            background: white;
+        }
+        .btn-secondary:hover {
+            background: #FFF8E1;
+        }
+        @media(max-width: 768px) {
+            .summary, .allocate {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-
 <body>
-
-<div class="report">
-{% if report_type == "emi" %}
+    <div class="report">
+        {% if report_type == "emi" %}
+            <div class="header">
+                <h1>📊 EMI Calculation Report</h1>
+                <p class="subtitle">Your estimated loan repayment details</p>
+            </div>
+            <div class="summary">
+                <div class="card-box">
+                    <h3>Loan Amount</h3>
+                    <h2>₹ {{ "{:,.2f}".format(loan_amount) }}</h2>
+                </div>
+                <div class="card-box">
+                    <h3>Monthly EMI</h3>
+                    <h2>₹ {{ "{:,.2f}".format(emi) }}</h2>
+                </div>
+                <div class="card-box">
+                    <h3>Interest Rate</h3>
+                    <h2>{{ rate }}%</h2>
+                </div>
+            </div>
+            <div class="allocate">
+                <div class="box">
+                    💰 Total Interest<br><br><strong>₹ {{ "{:,.2f}".format(total_interest) }}</strong>
+                </div>
+                <div class="box">
+                    💳 Total Payment<br><br><strong>₹ {{ "{:,.2f}".format(total_payment) }}</strong>
+                </div>
+                <div class="box">
+                    📅 Loan Tenure<br><br><strong>{{ tenure }} Years</strong>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="/emi_calculator" class="btn btn-secondary">🔄 Calculate Again</a>
+                <a href="/dashboard" class="btn btn-secondary">🏠 Back to Dashboard</a>
+            </div>
+            {% elif report_type == "retirement" %}
 
 <div class="header">
-
-    <h1>📊 EMI Calculation Report</h1>
-
-    <p class="subtitle">
-        Your estimated loan repayment details
-    </p>
-
+    <h1>🏖 Retirement Planning Report</h1>
+    <p class="subtitle">Your retirement planning summary</p>
 </div>
 
 <div class="summary">
-
     <div class="card-box">
-        <h3>Loan Amount</h3>
-        <h2>₹ {{ "{:,.2f}".format(loan_amount) }}</h2>
+        <h3>Current Age</h3>
+        <h2>{{ current_age }}</h2>
     </div>
 
     <div class="card-box">
-        <h3>Monthly EMI</h3>
-        <h2>₹ {{ "{:,.2f}".format(emi) }}</h2>
+        <h3>Retirement Age</h3>
+        <h2>{{ retirement_age }}</h2>
     </div>
 
     <div class="card-box">
-        <h3>Interest Rate</h3>
-        <h2>{{ rate }}%</h2>
+        <h3>Inflation</h3>
+        <h2>{{ inflation }}%</h2>
     </div>
-
 </div>
 
 <div class="allocate">
 
     <div class="box">
-        💰 Total Interest
-        <br><br>
-        <strong>₹ {{ "{:,.2f}".format(total_interest) }}</strong>
+        💰 Retirement Corpus<br><br>
+        <strong>₹ {{ "{:,.0f}".format(retirement_amount) }}</strong>
     </div>
 
     <div class="box">
-        💳 Total Payment
-        <br><br>
-        <strong>₹ {{ "{:,.2f}".format(total_payment) }}</strong>
+        📈 Monthly SIP Required<br><br>
+        <strong>₹ {{ "{:,.0f}".format(monthly_investment) }}</strong>
     </div>
 
     <div class="box">
-        📅 Loan Tenure
-        <br><br>
-        <strong>{{ tenure }} Years</strong>
+        💸 Current Monthly Expense<br><br>
+        <strong>₹ {{ "{:,.0f}".format(monthly_expense) }}</strong>
+    </div>
+
+    <div class="box">
+        🎯 Expected Return<br><br>
+        <strong>{{ expected_return }}%</strong>
     </div>
 
 </div>
 
 <div class="nav-links">
-
-    <a href="/emi_calculator" class="btn btn-secondary">
+    <a href="/retirement_calculator" class="btn btn-secondary">
         🔄 Calculate Again
     </a>
 
@@ -239,211 +227,83 @@ grid-template-columns:1fr;
         🏠 Back to Dashboard
     </a>
 
-</div>
-
-{% else %}
-
-<div class="header">
-
-<h1>📊 Your Personal Investment Report</h1>
-
-<p class="subtitle">
-
-Prepared exclusively for <strong>{{ user.name }}</strong>
-
-</p>
-
-</div>
-
-<div class="score">
-    <h1 style="font-size: 50px; color: #B8860B; margin: 0;">{{ data.score }}</h1>
-    <p style="font-size: 14px; color: #555; margin: 0;">Financial Health Score</p>
-</div>
-
-<div class="summary">
-    <div class="card-box">
-        <h3>Monthly Income</h3>
-        <h2>₹ {{ "{:,.0f}".format(data.income | float if data.income else 0) }}</h2>
-    </div>
-
-    <div class="card-box">
-        <h3>Monthly Expense</h3>
-        <h2>₹ {{ "{:,.0f}".format(data.expense | float if data.expense else 0) }}</h2>
-    </div>
-
-    <div class="card-box">
-        <h3>Monthly Savings</h3>
-        <h2>₹ {{ "{:,.0f}".format(data.savings | float if data.savings else 0) }}</h2>
-    </div>
-</div>
-
-<h2 class="section-title">
-
-Recommended Investment Allocation
-
-</h2>
-
-<div class="allocate">
-
-<div class="box">
-💰 SIP Investment
-<br><br>
-<strong>₹ {{ "{:,.0f}".format(data.sip) }}</strong>
-</div>
-
-<div class="box">
-🏦 Large Cap
-<br><br>
-<strong>₹ {{ "{:,.0f}".format(data.large_cap) }}</strong>
-</div>
-
-<div class="box">
-📈 Mid Cap
-<br><br>
-<strong>₹ {{ "{:,.0f}".format(data.mid_cap) }}</strong>
-</div>
-
-<div class="box">
-🚀 Small Cap
-<br><br>
-<strong>₹ {{ "{:,.0f}".format(data.small_cap) }}</strong>
-</div>
-
-<div class="box">
-🛡 Emergency Fund
-<br><br>
-<strong>₹ {{ "{:,.0f}".format(data.emergency_fund) }}</strong>
-</div>
-
-<div class="box">
-🎯 Risk Profile
-<br><br>
-<strong>{{ data.risk|upper }}</strong>
-</div>
-
-</div>
-
-<div class="note">
-
-<b>💡 SmartPlan Finance Recommendation</b>
-
-<br><br>
-
-<ul style="line-height:30px; padding-left:20px; margin:0;">
-
-{% for insight in data.advice %}
-
-<li>{{ insight }}</li>
-
-{% endfor %}
-
-</ul>
-
-</div>
-
-
-{% if data.sip_calc_fv > 0 %}
-
-<h2 class="section-title">
-
-📊 SIP Projection
-
-</h2>
-
-<div class="box">
-
-<strong>Monthly Investment</strong>
-
-<br><br>
-
-₹ {{ "{:,.0f}".format(data.sip_calc_monthly) }}
-
-<br><br>
-
-<strong>Investment Duration</strong>
-
-<br><br>
-
-{{ data.sip_calc_years }} Years
-
-<br><br>
-
-<strong>Estimated Future Value</strong>
-
-<br><br>
-
-₹ {{ "{:,.0f}".format(data.sip_calc_fv) }}
-
-</div>
-
-{% endif %}
-
-
-{% if data.future_target_amount > 0 %}
-
-<h2 class="section-title">
-
-🎯 Financial Goal Planner
-
-</h2>
-
-<div class="box">
-
-<strong>Goal Amount</strong>
-
-<br><br>
-
-₹ {{ "{:,.0f}".format(data.future_target_amount) }}
-
-<br><br>
-
-<strong>Time Horizon</strong>
-
-<br><br>
-
-{{ data.future_target_years }} Years
-
-<br><br>
-
-<strong>Required Monthly Investment</strong>
-
-<br><br>
-
-₹ {{ "{:,.0f}".format(data.future_req_monthly) }}
-
-</div>
-
-{% endif %}
-
-<div class="nav-links">
-
-    <a href="/sip-calculator" class="btn btn-secondary">
-        📊 SIP Calculator
-    </a>
-
-    <a href="/financial-future" class="btn btn-secondary">
-        🎯 Plan Financial Goal
-    </a>
-
-    <a href="/tax_calculator" class="btn btn-secondary">
-        🎯 PTax Regime Comparator
-    </a>
-
-    <a href="/emi_calculator" class="btn btn-secondary">
-        🎯 EMI Calculator
-    </a>
-
-
-    <button
-        type="button"
-        class="btn btn-primary"
-        onclick="window.print()">
+    <button class="btn btn-primary" onclick="window.print()">
         📄 Download PDF
     </button>
-
 </div>
-{% endif %}
-</div>
-
+        {% else %}
+            <div class="header">
+                <h1>📊 Your Personal Investment Report</h1>
+                <p class="subtitle">
+                    {% if user is defined %}
+                        Prepared exclusively for <strong>{{ user.name }}</strong>
+                    {% else %}
+                        Personalized Financial Report by SmartPlan Finance
+                    {% endif %}
+                </p>
+            </div>
+            <div class="score">
+                <h1 style="font-size: 50px; color: #B8860B; margin: 0;">{{ data.score }}</h1>
+                <p style="font-size: 14px; color: #555; margin: 0;">Financial Health Score</p>
+            </div>
+            <div class="summary">
+                <div class="card-box">
+                    <h3>Monthly Income</h3>
+                    <h2>₹ {{ "{:,.0f}".format(data.income | float if data.income else 0) }}</h2>
+                </div>
+                <div class="card-box">
+                    <h3>Monthly Expense</h3>
+                    <h2>₹ {{ "{:,.0f}".format(data.expense | float if data.expense else 0) }}</h2>
+                </div>
+                <div class="card-box">
+                    <h3>Monthly Savings</h3>
+                    <h2>₹ {{ "{:,.0f}".format(data.savings | float if data.savings else 0) }}</h2>
+                </div>
+            </div>
+            <h2 class="section-title">Recommended Investment Allocation</h2>
+            <div class="allocate">
+                <div class="box">💰 SIP Investment<br><br><strong>₹ {{ "{:,.0f}".format(data.sip) }}</strong></div>
+                <div class="box">🏦 Large Cap<br><br><strong>₹ {{ "{:,.0f}".format(data.large_cap) }}</strong></div>
+                <div class="box">📈 Mid Cap<br><br><strong>₹ {{ "{:,.0f}".format(data.mid_cap) }}</strong></div>
+                <div class="box">🚀 Small Cap<br><br><strong>₹ {{ "{:,.0f}".format(data.small_cap) }}</strong></div>
+                <div class="box">🛡 Emergency Fund<br><br><strong>₹ {{ "{:,.0f}".format(data.emergency_fund) }}</strong></div>
+                <div class="box">🎯 Risk Profile<br><br><strong>{{ data.risk|upper }}</strong></div>
+            </div>
+            <div class="note">
+                <b>💡 SmartPlan Finance Recommendation</b>
+                <br><br>
+                <ul style="line-height:30px; padding-left:20px; margin:0;">
+                    {% for insight in data.advice %}
+                        <li>{{ insight }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% if data.sip_calc_fv > 0 %}
+                <h2 class="section-title">📊 SIP Projection</h2>
+                <div class="box">
+                    <strong>Monthly Investment</strong><br><br>₹ {{ "{:,.0f}".format(data.sip_calc_monthly) }}<br><br>
+                    <strong>Investment Duration</strong><br><br>{{ data.sip_calc_years }} Years<br><br>
+                    <strong>Estimated Future Value</strong><br><br>₹ {{ "{:,.0f}".format(data.sip_calc_fv) }}
+                </div>
+            {% endif %}
+            {% if data.future_target_amount > 0 %}
+                <h2 class="section-title">🎯 Financial Goal Planner</h2>
+                <div class="box">
+                    <strong>Goal Amount</strong><br><br>₹ {{ "{:,.0f}".format(data.future_target_amount) }}<br><br>
+                    <strong>Time Horizon</strong><br><br>{{ data.future_target_years }} Years<br><br>
+                    <strong>Required Monthly Investment</strong><br><br>₹ {{ "{:,.0f}".format(data.future_req_monthly) }}
+                </div>
+            {% endif %}
+            <div class="nav-links">
+                <a href="/sip-calculator" class="btn btn-secondary">📊 SIP Calculator</a>
+                <a href="/financial-future" class="btn btn-secondary">🎯 Plan Financial Goal</a>
+                <a href="/tax_calculator" class="btn btn-secondary">🎯 Tax Regime Comparator</a>
+                <a href="/emi_calculator" class="btn btn-secondary">🎯 EMI Calculator</a>
+                <a href="/retirement_calculator" class="btn btn-secondary">👴 Retirement Calculator</a>
+                <button type="button" class="btn btn-primary" onclick="window.print()">📄 Download PDF</button>
+                
+            </div>
+        {% endif %}
+    </div>
 </body>
 </html>

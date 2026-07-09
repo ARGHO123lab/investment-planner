@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Retirement Calculator | SmartPlan Finance</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        body{
+            background:#FFFDF5;
+            font-family:'Poppins',sans-serif;
+            padding:40px;
+        }
+
+        .container{
+            max-width:800px;
+            margin:auto;
+            background:white;
+            padding:40px;
+            border-radius:20px;
+            box-shadow:0 5px 20px rgba(0,0,0,.08);
+        }
+
+        h1{
+            color:#B8860B;
+            text-align:center;
+            margin-bottom:10px;
+        }
+
+        .subtitle{
+            text-align:center;
+            color:#666;
+            margin-bottom:35px;
+        }
+
+        .form-group{
+            margin-bottom:20px;
+        }
+
+        label{
+            display:block;
+            font-weight:600;
+            margin-bottom:8px;
+        }
+
+        input{
+            width:100%;
+            padding:14px;
+            border:1px solid #ddd;
+            border-radius:10px;
+            font-size:16px;
+            box-sizing:border-box;
+        }
+
+        input:focus{
+            outline:none;
+            border:1px solid #B8860B;
+        }
+
+        button{
+            width:100%;
+            padding:15px;
+            border:none;
+            background:#B8860B;
+            color:white;
+            font-size:18px;
+            border-radius:12px;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        button:hover{
+            background:#9a7306;
+        }
+
+        .note{
+            margin-top:30px;
+            font-size:14px;
+            color:#666;
+            text-align:center;
+            line-height:24px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🏖 Retirement Calculator</h1>
+
+    <p class="subtitle">
+
+        Estimate how much retirement corpus you need and the monthly SIP required to achieve it.
+
+    </p>
+
+    <form method="POST">
+
+        <div class="form-group">
+
+            <label>Current Age</label>
+
+            <input
+                type="number"
+                name="current_age"
+                placeholder="Example: 28"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Retirement Age</label>
+
+            <input
+                type="number"
+                name="retirement_age"
+                placeholder="Example: 60"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Current Monthly Expenses (₹)</label>
+
+            <input
+                type="number"
+                name="current_expense"
+                placeholder="Example: 40000"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Expected Inflation (%)</label>
+
+            <input
+                type="number"
+                step="0.1"
+                name="inflation"
+                value="6"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Expected Annual Return Before Retirement (%)</label>
+
+            <input
+                type="number"
+                step="0.1"
+                name="return_before"
+                value="12"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Expected Annual Return After Retirement (%)</label>
+
+            <input
+                type="number"
+                step="0.1"
+                name="return_after"
+                value="8"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Life Expectancy (Years)</label>
+
+            <input
+                type="number"
+                name="life_expectancy"
+                value="85"
+                required>
+
+        </div>
+
+        <button type="submit">
+
+            Calculate Retirement Plan
+
+        </button>
+
+    </form>
+
+    <div class="note">
+
+        SmartPlan Finance provides educational retirement estimates based on your assumptions.
+        Actual retirement planning should consider taxes, healthcare expenses, pensions, and lifestyle changes.
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

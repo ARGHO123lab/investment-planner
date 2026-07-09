@@ -397,6 +397,56 @@ def emi_calculator():
         )
 
     return render_template("emi_calculator.html")
+@app.route("/retirement_calculator", methods=["GET", "POST"])
+def retirement_calculator():
+
+    if request.method == "GET":
+        return render_template("retirement_calculator.html")
+
+    current_age = int(request.form["current_age"])
+    retirement_age = int(request.form["retirement_age"])
+
+    monthly_expense = float(request.form["current_expense"])
+
+    inflation = float(request.form["inflation"]) / 100
+
+    expected_return = float(request.form["return_before"]) / 100
+
+    return_after = float(request.form["return_after"]) / 100
+
+    life_expectancy = int(request.form["life_expectancy"])
+
+    years = retirement_age - current_age
+
+    retirement_amount = (
+        monthly_expense
+        * 12
+        * ((1 + inflation) ** years)
+        * 25
+    )
+
+    monthly_return = expected_return / 12
+    months = years * 12
+
+    monthly_investment = (
+        retirement_amount
+        * monthly_return
+        / (((1 + monthly_return) ** months) - 1)
+    )
+
+    return render_template(
+        "report.html",
+        report_type="retirement",
+        current_age=current_age,
+        retirement_age=retirement_age,
+        monthly_expense=monthly_expense,
+        inflation=inflation * 100,
+        expected_return=expected_return * 100,
+        return_after=return_after * 100,
+        life_expectancy=life_expectancy,
+        retirement_amount=retirement_amount,
+        monthly_investment=monthly_investment
+    )
 @app.route('/admin')
 @requires_auth # <--- This locks the admin panel!
 def admin():
