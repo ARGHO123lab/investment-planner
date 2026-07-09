@@ -275,6 +275,7 @@ def dashboard():
     return render_template('report.html', user=user, data=report_data)
 
 @app.route('/sip-calculator', methods=['GET', 'POST'])
+@login_required
 def sip_calculator():
     result = None
     if request.method == 'POST':
@@ -300,6 +301,7 @@ def sip_calculator():
     return render_template('sip_calculator.html', result=result)
 
 @app.route('/financial-future', methods=['GET', 'POST'])
+@login_required
 def financial_future():
     result = None
     if request.method == 'POST':
@@ -335,6 +337,7 @@ def financial_future():
         }
     return render_template('financial_future.html', result=result)
 @app.route('/tax_calculator', methods=['GET', 'POST'])
+@login_required
 def tax_calculator():
     result = None
     if request.method == 'POST':
@@ -376,6 +379,7 @@ def tax_calculator():
         
     return render_template('tax_calculator.html', result=result)
 @app.route("/emi_calculator", methods=["GET", "POST"])
+@login_required
 def emi_calculator():
 
     if request.method == "POST":
@@ -409,6 +413,7 @@ def emi_calculator():
 
     return render_template("emi_calculator.html")
 @app.route("/retirement_calculator", methods=["GET", "POST"])
+@login_required
 def retirement_calculator():
 
     if request.method == "GET":
@@ -459,6 +464,7 @@ def retirement_calculator():
         monthly_investment=monthly_investment
     )
 @app.route("/fd_calculator", methods=["GET", "POST"])
+@login_required
 def fd_calculator():
 
     if request.method == "GET":
