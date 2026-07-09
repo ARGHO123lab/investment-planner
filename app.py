@@ -164,7 +164,7 @@ def profile():
     if request.method == 'POST':
         income = float(request.form.get('income') or 0)
         expense = float(request.form.get('expense') or 0)
-        risk = (request.form.get('risk') or 'medium').lower()
+        risk = (request.form.get('risk') or     'medium').lower()
         savings = income - expense
         conn = get_db_connection()
         cur = conn.cursor()
