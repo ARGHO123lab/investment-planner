@@ -532,3 +532,30 @@ hr{
     }
 
 }
+/* ===== Feature List ===== */
+
+.feature-list{
+    list-style:none;
+    padding:0;
+    margin-top:20px;
+}
+
+.feature-list li{
+    margin:14px 0;
+    font-size:16px;
+    font-weight:500;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.feature-list li a{
+    color:#444;
+    text-decoration:none;
+    transition:0.25s;
+}
+
+.feature-list li a:hover{
+    color:#B8860B;
+    padding-left:6px;
+}

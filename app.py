@@ -7,6 +7,8 @@ from flask import Flask, render_template, request, redirect, session, url_for, R
 from functools import wraps
 from config import COUNTRIES
 from dotenv import load_dotenv
+from functools import wraps
+from flask import session, redirect, url_for
 load_dotenv()
 
 app = Flask(__name__)
@@ -32,6 +34,13 @@ def requires_auth(f):
             return authenticate()
         return f(*args, **kwargs)
     return decorated
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "user_id" not in session:
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated_function
 # ---------------------------------------------
 
 # PostgreSQL does not use a local file path, but kept for codebase consistency
@@ -148,6 +157,7 @@ def login():
     )
 
 @app.route('/profile', methods=['GET', 'POST'])
+@login_required
 def profile():
     if 'user_id' not in session: return redirect(url_for('login'))
     user_id = session['user_id']
@@ -206,6 +216,7 @@ def publish():
     return render_template("publish.html")
 
 @app.route('/dashboard')
+@login_required
 def dashboard():
     if 'user_id' not in session: return redirect(url_for('login'))
     user_id = session['user_id']
@@ -447,6 +458,37 @@ def retirement_calculator():
         retirement_amount=retirement_amount,
         monthly_investment=monthly_investment
     )
+@app.route("/fd_calculator", methods=["GET", "POST"])
+def fd_calculator():
+
+    if request.method == "GET":
+        return render_template("fd_calculator.html")
+
+    try:
+
+        principal = float(request.form.get("principal", 0))
+        rate = float(request.form.get("rate", 0)) / 100
+        tenure = float(request.form.get("years", 0))
+
+        # Quarterly Compounding
+        n = 4
+
+        maturity_amount = principal * ((1 + (rate / n)) ** (n * tenure))
+
+        interest_earned = maturity_amount - principal
+
+        return render_template(
+            "report.html",
+            report_type="fd",
+            principal=principal,
+            rate=rate * 100,
+            years=tenure,
+            interest_earned=round(interest_earned, 2),
+            maturity_amount=round(maturity_amount, 2)
+        )
+
+    except ValueError:
+        return "Invalid input. Please enter numeric values.", 400
 @app.route('/admin')
 @requires_auth # <--- This locks the admin panel!
 def admin():

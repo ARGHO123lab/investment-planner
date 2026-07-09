@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>FD Calculator | SmartPlan Finance</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        body{
+            background:#FFFDF5;
+            font-family:'Poppins',sans-serif;
+            padding:40px;
+        }
+
+        .container{
+            max-width:800px;
+            margin:auto;
+            background:white;
+            padding:40px;
+            border-radius:20px;
+            box-shadow:0 5px 20px rgba(0,0,0,.08);
+        }
+
+        h1{
+            color:#B8860B;
+            text-align:center;
+        }
+
+        .subtitle{
+            text-align:center;
+            color:#666;
+            margin-bottom:30px;
+        }
+
+        .form-group{
+            margin-bottom:20px;
+        }
+
+        label{
+            display:block;
+            font-weight:600;
+            margin-bottom:8px;
+        }
+
+        input{
+            width:100%;
+            padding:14px;
+            border-radius:10px;
+            border:1px solid #ddd;
+            font-size:16px;
+            box-sizing:border-box;
+        }
+
+        button{
+            width:100%;
+            padding:15px;
+            border:none;
+            background:#B8860B;
+            color:white;
+            font-size:18px;
+            border-radius:12px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#9d7609;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🏦 Fixed Deposit Calculator</h1>
+
+<p class="subtitle">
+
+Calculate the maturity amount and interest earned on your Fixed Deposit.
+
+</p>
+
+<form method="POST">
+
+<div class="form-group">
+<label>Deposit Amount (₹)</label>
+<input type="number"
+       name="principal"
+       required>
+</div>
+
+<div class="form-group">
+<label>Interest Rate (% p.a.)</label>
+<input type="number"
+       step="0.1"
+       name="rate"
+       required>
+</div>
+
+<div class="form-group">
+<label>Investment Duration (Years)</label>
+<input type="number"
+       step="0.5"
+       name="years"
+       required>
+</div>
+
+<button type="submit">
+
+Calculate FD Returns
+
+</button>
+
+</form>
+{% if result %}
+    <div style="margin-top: 30px; padding: 20px; background: #FFF8E1; border-radius: 12px; border-left: 5px solid #B8860B;">
+        <h2 style="color: #B8860B; margin-top: 0;">Calculation Results</h2>
+        <p><strong>Total Maturity Value:</strong> ₹ {{ "{:,.2f}".format(result.total_amount) }}</p>
+        <p><strong>Interest Earned:</strong> ₹ {{ "{:,.2f}".format(result.interest_earned) }}</p>
+    </div>
+{% endif %}
+</div>
+
+</body>
+
+</html>

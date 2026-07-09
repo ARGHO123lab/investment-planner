@@ -231,6 +231,51 @@
         📄 Download PDF
     </button>
 </div>
+{% elif report_type == "fd" %}
+<div class="header">
+    <h1>🏦 Fixed Deposit Report</h1>
+    <p class="subtitle">Estimated maturity value of your FD investment</p>
+</div>
+
+<div class="summary">
+    <div class="card-box">
+        <h3>Deposit Amount</h3>
+        <h2>₹ {{ "{:,.2f}".format(principal) }}</h2>
+    </div>
+    <div class="card-box">
+        <h3>Interest Rate</h3>
+        <h2>{{ rate }}%</h2>
+    </div>
+    <div class="card-box">
+        <h3>Investment Period</h3>
+        <h2>{{ years }} Years</h2>
+    </div>
+</div>
+
+<div class="allocate">
+    <div class="box">
+        💰 Interest Earned<br><br><strong>₹ {{ "{:,.2f}".format(interest_earned) }}</strong>
+    </div>
+    <div class="box">
+        🏦 Maturity Amount<br><br><strong>₹ {{ "{:,.2f}".format(maturity_amount) }}</strong>
+    </div>
+</div>
+
+<div class="nav-links">
+    <a href="/fd_calculator" class="btn btn-secondary">
+        🔄 Calculate Again
+    </a>
+
+    <a href="/dashboard" class="btn btn-secondary">
+        🏠 Back to Dashboard
+    </a>
+
+    <button class="btn btn-primary" onclick="window.print()">
+        📄 Download PDF
+    </button>
+</div>
+
+
         {% else %}
             <div class="header">
                 <h1>📊 Your Personal Investment Report</h1>
@@ -297,9 +342,10 @@
             <div class="nav-links">
                 <a href="/sip-calculator" class="btn btn-secondary">📊 SIP Calculator</a>
                 <a href="/financial-future" class="btn btn-secondary">🎯 Plan Financial Goal</a>
-                <a href="/tax_calculator" class="btn btn-secondary">🎯 Tax Regime Comparator</a>
-                <a href="/emi_calculator" class="btn btn-secondary">🎯 EMI Calculator</a>
+                <a href="/tax_calculator" class="btn btn-secondary">📑 Tax Regime Comparator</a>
+                <a href="/emi_calculator" class="btn btn-secondary">💳 EMI Calculator</a>
                 <a href="/retirement_calculator" class="btn btn-secondary">👴 Retirement Calculator</a>
+                <a href="/fd_calculator" class="btn btn-secondary"> 🏦 FD Calculator</a>
                 <button type="button" class="btn btn-primary" onclick="window.print()">📄 Download PDF</button>
                 
             </div>
