@@ -341,6 +341,25 @@ def dashboard():
         "future_target_amount": report['future_target_amount'] or 0,
         "future_target_years": report['future_target_years'] or 0,
         "future_req_monthly": report['future_req_monthly'] or 0,
+        "emi_loan_amount": report["emi_loan_amount"] or 0,
+"emi_rate": report["emi_rate"] or 0,
+"emi_years": report["emi_years"] or 0,
+"emi_monthly": report["emi_monthly"] or 0,
+"emi_interest": report["emi_interest"] or 0,
+"emi_total": report["emi_total"] or 0,
+"retirement_corpus": report["retirement_corpus"] or 0,
+"retirement_monthly": report["retirement_monthly"] or 0,
+"retirement_age": report["retirement_age"] or 0,
+"fd_principal": report["fd_principal"] or 0,
+"fd_rate": report["fd_rate"] or 0,
+"fd_years": report["fd_years"] or 0,
+"fd_interest": report["fd_interest"] or 0,
+"fd_maturity": report["fd_maturity"] or 0,
+"tax_income": report["tax_income"] or 0,
+"tax_old": report["tax_old"] or 0,
+"tax_new": report["tax_new"] or 0,
+"tax_savings": report["tax_savings"] or 0,
+"tax_better": report["tax_better"] or "",
         "score": score # Score is now inside the same dictionary
     }
     
@@ -503,13 +522,13 @@ def tax_calculator():
 
     if request.method == 'POST':
 
-        # Get Input
         income = float(request.form.get('income') or 0)
         investments = float(request.form.get('investments') or 0)
 
         # -----------------------------
-        # NEW REGIME CALCULATION
+        # NEW REGIME
         # -----------------------------
+
         std_new = 75000
         taxable_new = max(0, income - std_new)
 
@@ -534,11 +553,13 @@ def tax_calculator():
         if remaining > 0:
             tax_new += remaining * 0.30
 
-        tax_new = tax_new * 1.04      # 4% Cess
+        tax_new *= 1.04
+
 
         # -----------------------------
-        # OLD REGIME CALCULATION
+        # OLD REGIME
         # -----------------------------
+
         std_old = 50000
 
         taxable_old = max(
@@ -547,146 +568,293 @@ def tax_calculator():
         )
 
         if taxable_old <= 250000:
+
             tax_old = 0
 
         elif taxable_old <= 500000:
+
             tax_old = (taxable_old - 250000) * 0.05
 
         elif taxable_old <= 1000000:
+
             tax_old = 12500 + (taxable_old - 500000) * 0.20
 
         else:
+
             tax_old = 112500 + (taxable_old - 1000000) * 0.30
 
-        tax_old = tax_old * 1.04      # 4% Cess
+        tax_old *= 1.04
+
 
         # -----------------------------
         # RESULT
         # -----------------------------
+
+        savings = abs(tax_old - tax_new)
+
+        better_option = (
+            "New Regime"
+            if tax_new < tax_old
+            else "Old Regime"
+        )
+
+
+        # -----------------------------
+        # SAVE TO REPORT
+        # -----------------------------
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        cur.execute("""
+            UPDATE reports
+            SET
+                tax_income=%s,
+                tax_old=%s,
+                tax_new=%s,
+                tax_savings=%s,
+                tax_better=%s
+            WHERE id=(
+                SELECT id
+                FROM reports
+                WHERE user_id=%s
+                ORDER BY created_at DESC
+                LIMIT 1
+            )
+        """,
+        (
+            income,
+            tax_old,
+            tax_new,
+            savings,
+            better_option,
+            session["user_id"]
+        ))
+
+        conn.commit()
+        conn.close()
+
+
         result = {
-            "new_regime": "{:,.2f}".format(tax_new),
-            "old_regime": "{:,.2f}".format(tax_old),
-            "savings": "{:,.2f}".format(abs(tax_new - tax_old)),
-            "better_option": "New Regime" if tax_new < tax_old else "Old Regime"
+            "income": income,
+            "old_regime": tax_old,
+            "new_regime": tax_new,
+            "savings": savings,
+            "better_option": better_option
         }
 
     return render_template(
-        'tax_calculator.html',
+        "tax_calculator.html",
         result=result
     )
 @app.route("/emi_calculator", methods=["GET", "POST"])
 @login_required
 def emi_calculator():
 
+    result = None
+
     if request.method == "POST":
 
-        loan_amount = float(request.form["loan_amount"])
-        annual_rate = float(request.form["interest_rate"])
-        tenure_years = int(request.form["tenure"])
+        loan_amount = float(request.form.get("loan_amount") or 0)
+        annual_rate = float(request.form.get("interest_rate") or 0)
+        tenure_years = int(request.form.get("tenure") or 0)
 
         monthly_rate = annual_rate / (12 * 100)
         months = tenure_years * 12
 
-        emi = (
-            loan_amount
-            * monthly_rate
-            * ((1 + monthly_rate) ** months)
-        ) / (((1 + monthly_rate) ** months) - 1)
+        if monthly_rate == 0:
+            emi = loan_amount / months if months else 0
+        else:
+            emi = (
+                loan_amount
+                * monthly_rate
+                * ((1 + monthly_rate) ** months)
+            ) / (((1 + monthly_rate) ** months) - 1)
 
         total_payment = emi * months
         total_interest = total_payment - loan_amount
 
-        return render_template(
-            "report.html",
-            report_type="emi",
-            loan_amount=loan_amount,
-            emi=round(emi, 2),
-            total_interest=round(total_interest, 2),
-            total_payment=round(total_payment, 2),
-            tenure=tenure_years,
-            rate=annual_rate
-        )
+        # Save to latest report
+        conn = get_db_connection()
+        cur = conn.cursor()
 
-    return render_template("emi_calculator.html")
+        cur.execute("""
+            UPDATE reports
+            SET
+                emi_loan_amount=%s,
+                emi_rate=%s,
+                emi_years=%s,
+                emi_monthly=%s,
+                emi_interest=%s,
+                emi_total=%s
+            WHERE id=(
+                SELECT id
+                FROM reports
+                WHERE user_id=%s
+                ORDER BY created_at DESC
+                LIMIT 1
+            )
+        """,(
+            loan_amount,
+            annual_rate,
+            tenure_years,
+            emi,
+            total_interest,
+            total_payment,
+            session["user_id"]
+        ))
+
+        conn.commit()
+        conn.close()
+
+        result = {
+            "loan_amount": loan_amount,
+            "rate": annual_rate,
+            "years": tenure_years,
+            "emi": emi,
+            "interest": total_interest,
+            "total": total_payment
+        }
+
+    return render_template(
+        "emi_calculator.html",
+        result=result
+    )
 @app.route("/retirement_calculator", methods=["GET", "POST"])
 @login_required
 def retirement_calculator():
 
-    if request.method == "GET":
-        return render_template("retirement_calculator.html")
+    result = None
 
-    current_age = int(request.form["current_age"])
-    retirement_age = int(request.form["retirement_age"])
-    monthly_expense = float(request.form["current_expense"])
+    if request.method == "POST":
 
-    inflation = float(request.form["inflation"]) / 100
-    expected_return = float(request.form["return_before"]) / 100
-    return_after = float(request.form["return_after"]) / 100
-    life_expectancy = int(request.form["life_expectancy"])
+        current_age = int(request.form["current_age"])
+        retirement_age = int(request.form["retirement_age"])
+        monthly_expense = float(request.form["current_expense"])
 
-    years = retirement_age - current_age
+        inflation = float(request.form["inflation"]) / 100
+        expected_return = float(request.form["return_before"]) / 100
+        return_after = float(request.form["return_after"]) / 100
+        life_expectancy = int(request.form["life_expectancy"])
 
-    retirement_amount = (
-        monthly_expense
-        * 12
-        * ((1 + inflation) ** years)
-        * 25
-    )
+        years = retirement_age - current_age
 
-    monthly_return = expected_return / 12
-    months = years * 12
+        retirement_amount = (
+            monthly_expense
+            * 12
+            * ((1 + inflation) ** years)
+            * 25
+        )
 
-    monthly_investment = (
-        retirement_amount
-        * monthly_return
-        / (((1 + monthly_return) ** months) - 1)
-    )
+        monthly_return = expected_return / 12
+        months = years * 12
+
+        monthly_investment = (
+            retirement_amount
+            * monthly_return
+            / (((1 + monthly_return) ** months) - 1)
+        )
+
+        # Save into latest report
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        cur.execute("""
+            UPDATE reports
+            SET
+                retirement_corpus=%s,
+                retirement_monthly=%s,
+                retirement_age=%s
+            WHERE id=(
+                SELECT id
+                FROM reports
+                WHERE user_id=%s
+                ORDER BY created_at DESC
+                LIMIT 1
+            )
+        """,
+        (
+            retirement_amount,
+            monthly_investment,
+            retirement_age,
+            session["user_id"]
+        ))
+
+        conn.commit()
+        conn.close()
+
+        result = {
+            "corpus": retirement_amount,
+            "monthly": monthly_investment,
+            "age": retirement_age
+        }
 
     return render_template(
-        "report.html",
-        report_type="retirement",
-        current_age=current_age,
-        retirement_age=retirement_age,
-        monthly_expense=monthly_expense,
-        inflation=inflation * 100,
-        expected_return=expected_return * 100,
-        return_after=return_after * 100,
-        life_expectancy=life_expectancy,
-        retirement_amount=round(retirement_amount, 2),
-        monthly_investment=round(monthly_investment, 2)
+        "retirement_calculator.html",
+        result=result
     )
 @app.route("/fd_calculator", methods=["GET", "POST"])
 @login_required
 def fd_calculator():
 
-    if request.method == "GET":
-        return render_template("fd_calculator.html")
+    result = None
 
-    try:
+    if request.method == "POST":
 
-        principal = float(request.form.get("principal", 0))
-        rate = float(request.form.get("rate", 0)) / 100
-        tenure = float(request.form.get("years", 0))
+        principal = float(request.form.get("principal") or 0)
+        rate = float(request.form.get("rate") or 0)
+        years = float(request.form.get("years") or 0)
 
-        # Quarterly Compounding
+        r = rate / 100
         n = 4
 
-        maturity_amount = principal * ((1 + (rate / n)) ** (n * tenure))
-
+        maturity_amount = principal * ((1 + (r / n)) ** (n * years))
         interest_earned = maturity_amount - principal
 
-        return render_template(
-            "report.html",
-            report_type="fd",
-            principal=principal,
-            rate=rate * 100,
-            years=tenure,
-            interest_earned=round(interest_earned, 2),
-            maturity_amount=round(maturity_amount, 2)
-        )
+        conn = get_db_connection()
+        cur = conn.cursor()
 
-    except ValueError:
-        return "Invalid input. Please enter numeric values.", 400
+        cur.execute("""
+            UPDATE reports
+            SET
+                fd_principal=%s,
+                fd_rate=%s,
+                fd_years=%s,
+                fd_interest=%s,
+                fd_maturity=%s
+            WHERE id=(
+                SELECT id
+                FROM reports
+                WHERE user_id=%s
+                ORDER BY created_at DESC
+                LIMIT 1
+            )
+        """,
+        (
+            principal,
+            rate,
+            years,
+            interest_earned,
+            maturity_amount,
+            session["user_id"]
+        ))
+
+        conn.commit()
+        conn.close()
+
+        result = {
+            "principal": principal,
+            "rate": rate,
+            "years": years,
+            "interest": interest_earned,
+            "maturity": maturity_amount
+        }
+
+    return render_template(
+        "fd_calculator.html",
+        result=result
+    )
 @app.route('/admin')
 @requires_auth # <--- This locks the admin panel!
 def admin():

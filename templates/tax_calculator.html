@@ -27,14 +27,43 @@
         <button type="submit">Compare Regimes</button>
     </form>
 
-    <a href="/dashboard" class="btn-link">← Back to Dashboard</a>
+    <a href="{{ url_for('dashboard') }}" class="back-btn">
+    ← Back to Dashboard
+</a>
 
     {% if result %}
-        <div class="result-box">
-            <h3>Comparison Result</h3>
-            <p>{{ result }}</p>
-        </div>
-    {% endif %}
+
+<hr style="margin:35px 0;">
+
+<h3 style="color:#B8860B;text-align:center;">
+📑 Tax Comparison Summary
+</h3>
+
+<div style="margin-top:20px;line-height:34px;">
+
+    <p>
+        <strong>Old Regime Tax :</strong>
+        ₹ {{ "{:,.0f}".format(result.old_regime) }}
+    </p>
+
+    <p>
+        <strong>New Regime Tax :</strong>
+        ₹ {{ "{:,.0f}".format(result.new_regime) }}
+    </p>
+
+    <p>
+        <strong>Tax Saving :</strong>
+        ₹ {{ "{:,.0f}".format(result.savings) }}
+    </p>
+
+    <p>
+        <strong>Recommended Option :</strong>
+        {{ result.better_option }}
+    </p>
+
+</div>
+
+{% endif %}
 </div>
 
 </body>

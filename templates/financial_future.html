@@ -76,7 +76,9 @@
 
 </form>
 
-<a href="/dashboard" class="btn-link">📊 Go to Investment Planner</a>
+<a href="{{ url_for('dashboard') }}" class="back-btn">
+    ← Back to Dashboard
+</a>
 
 {% if result %}
 

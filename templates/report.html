@@ -12,14 +12,21 @@
             background: #FFFDF5;
             font-family: 'Poppins', sans-serif;
         }
-        .report {
-            max-width: 900px;
-            margin: auto;
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,.08);
-        }
+        .report{
+
+    max-width:900px;
+
+    margin:auto;
+
+    background:white;
+
+    padding:50px;
+
+    border-radius:20px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.10);
+
+}
         .header {
             text-align: center;
             margin-bottom: 35px;
@@ -66,10 +73,23 @@
         .card-box h2 {
             color: #B8860B;
         }
-        .section-title {
-            margin: 35px 0 20px;
-            color: #B8860B;
-        }
+        .section-title{
+
+    margin-top:45px;
+
+    margin-bottom:25px;
+
+    padding-bottom:10px;
+
+    border-bottom:2px solid #F5E6A6;
+
+    color:#B8860B;
+
+    font-size:24px;
+
+    font-weight:700;
+
+}
         .allocate {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -277,20 +297,44 @@
 
 
         {% else %}
-            <div class="header">
-                <h1>📊 Your Personal Investment Report</h1>
-                <p class="subtitle">
-                    {% if user is defined %}
-                        Prepared exclusively for <strong>{{ user.name }}</strong>
-                    {% else %}
-                        Personalized Financial Report by SmartPlan Finance
-                    {% endif %}
-                </p>
-            </div>
-            <div class="score">
-                <h1 style="font-size: 50px; color: #B8860B; margin: 0;">{{ data.score }}</h1>
-                <p style="font-size: 14px; color: #555; margin: 0;">Financial Health Score</p>
-            </div>
+<div class="header">
+
+    <img src="{{ url_for('static', filename='images/logo.png') }}"
+         alt="SmartPlan Finance"
+         style="height:70px;margin-bottom:15px;">
+
+    <h1>Personal Financial Report</h1>
+
+    <p class="subtitle">
+        Prepared by <strong>SmartPlan Finance</strong>
+        <br>
+
+        {% if user is defined %}
+            for <strong>{{ user.name }}</strong>
+        {% endif %}
+    </p>
+
+</div>
+            <hr style="margin:30px 0; border:none; border-top:1px solid #eee;">
+            <div class="score-card">
+
+    <h2>Financial Health Score</h2>
+
+    <div class="score-circle">
+        {{ data.score }}
+    </div>
+
+    <p>
+        {% if data.score >= 80 %}
+            🟢 Excellent Financial Position
+        {% elif data.score >= 60 %}
+            🟡 Healthy Financial Position
+        {% else %}
+            🔴 Needs Improvement
+        {% endif %}
+    </p>
+
+</div>
             <div class="summary">
                 <div class="card-box">
                     <h3>Monthly Income</h3>
@@ -307,38 +351,227 @@
             </div>
             <h2 class="section-title">Recommended Investment Allocation</h2>
             <div class="allocate">
-                <div class="box">💰 SIP Investment<br><br><strong>₹ {{ "{:,.0f}".format(data.sip) }}</strong></div>
-                <div class="box">🏦 Large Cap<br><br><strong>₹ {{ "{:,.0f}".format(data.large_cap) }}</strong></div>
-                <div class="box">📈 Mid Cap<br><br><strong>₹ {{ "{:,.0f}".format(data.mid_cap) }}</strong></div>
-                <div class="box">🚀 Small Cap<br><br><strong>₹ {{ "{:,.0f}".format(data.small_cap) }}</strong></div>
-                <div class="box">🛡 Emergency Fund<br><br><strong>₹ {{ "{:,.0f}".format(data.emergency_fund) }}</strong></div>
-                <div class="box">🎯 Risk Profile<br><br><strong>{{ data.risk|upper }}</strong></div>
+            <div class="card-box">
+                <h3>💰 SIP Investment</h3>
+                <h2>₹ {{ "{:,.0f}".format(data.sip) }}</h2>
+            </div>
+                <div class="card-box">
+                    <h3>🏦 Large Cap</h3>
+                    <h2>₹ {{ "{:,.0f}".format(data.large_cap) }}</h2>
+                </div>
+                <div class="card-box">
+    <h3>📈 Mid Cap</h3>
+    <h2>₹ {{ "{:,.0f}".format(data.mid_cap) }}</h2>
+</div>
+                <div class="card-box">
+    <h3>🚀 Small Cap</h3>
+    <h2>₹ {{ "{:,.0f}".format(data.small_cap) }}</h2>
+</div>
+                <div class="card-box">
+    <h3>🛡 Emergency Fund</h3>
+    <h2>₹ {{ "{:,.0f}".format(data.emergency_fund) }}</h2>
+</div>
+                <div class="card-box">
+    <h3>🎯 Risk Profile</h3>
+    <h2>{{ data.risk|upper }}</h2>
+</div>
             </div>
             <div class="note">
                 <b>💡 SmartPlan Finance Recommendation</b>
                 <br><br>
-                <ul style="line-height:30px; padding-left:20px; margin:0;">
-                    {% for insight in data.advice %}
-                        <li>{{ insight }}</li>
-                    {% endfor %}
-                </ul>
+                <div class="advice-list">
+
+    {% for insight in data.advice %}
+
+    <div class="advice-item">
+        ✅ {{ insight }}
+    </div>
+
+    {% endfor %}
+
+</div>
             </div>
             {% if data.sip_calc_fv > 0 %}
-                <h2 class="section-title">📊 SIP Projection</h2>
-                <div class="box">
-                    <strong>Monthly Investment</strong><br><br>₹ {{ "{:,.0f}".format(data.sip_calc_monthly) }}<br><br>
-                    <strong>Investment Duration</strong><br><br>{{ data.sip_calc_years }} Years<br><br>
-                    <strong>Estimated Future Value</strong><br><br>₹ {{ "{:,.0f}".format(data.sip_calc_fv) }}
-                </div>
-            {% endif %}
-            {% if data.future_target_amount > 0 %}
-                <h2 class="section-title">🎯 Financial Goal Planner</h2>
-                <div class="box">
-                    <strong>Goal Amount</strong><br><br>₹ {{ "{:,.0f}".format(data.future_target_amount) }}<br><br>
-                    <strong>Time Horizon</strong><br><br>{{ data.future_target_years }} Years<br><br>
-                    <strong>Required Monthly Investment</strong><br><br>₹ {{ "{:,.0f}".format(data.future_req_monthly) }}
-                </div>
-            {% endif %}
+
+<h2 class="section-title">📊 SIP Projection</h2>
+
+<div class="summary">
+
+    <div class="card-box">
+        <h3>Monthly Investment</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.sip_calc_monthly) }}</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Duration</h3>
+        <h2>{{ data.sip_calc_years }} Years</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Future Value</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.sip_calc_fv) }}</h2>
+    </div>
+
+</div>
+
+{% endif %}
+
+
+{% if data.future_target_amount > 0 %}
+
+<h2 class="section-title">🎯 Financial Goal Planner</h2>
+
+<div class="summary">
+
+    <div class="card-box">
+        <h3>Goal Amount</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.future_target_amount) }}</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Time Horizon</h3>
+        <h2>{{ data.future_target_years }} Years</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Monthly Investment</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.future_req_monthly) }}</h2>
+    </div>
+
+</div>
+
+{% endif %}
+{% if data.emi_monthly > 0 %}
+
+<h2 class="section-title">💳 EMI Analysis</h2>
+
+<div class="summary">
+
+    <div class="card-box">
+        <h3>Loan Amount</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.emi_loan_amount) }}</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Monthly EMI</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.emi_monthly) }}</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Interest Rate</h3>
+        <h2>{{ data.emi_rate }}%</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Loan Tenure</h3>
+        <h2>{{ data.emi_years }} Years</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Total Interest</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.emi_interest) }}</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Total Payment</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.emi_total) }}</h2>
+    </div>
+
+</div>
+
+{% endif %}
+{% if data.retirement_corpus > 0 %}
+
+<h2 class="section-title">🏖 Retirement Planning</h2>
+
+<div class="summary">
+
+    <div class="card-box">
+        <h3>Retirement Age</h3>
+        <h2>{{ data.retirement_age }} Years</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Required Corpus</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.retirement_corpus) }}</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Monthly Investment</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.retirement_monthly) }}</h2>
+    </div>
+
+</div>
+
+{% endif %}
+{% if data.fd_maturity > 0 %}
+
+<h2 class="section-title">🏦 Fixed Deposit Analysis</h2>
+
+<div class="summary">
+
+    <div class="card-box">
+        <h3>Deposit Amount</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.fd_principal) }}</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Interest Rate</h3>
+        <h2>{{ data.fd_rate }}%</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Investment Period</h3>
+        <h2>{{ data.fd_years }} Years</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Interest Earned</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.fd_interest) }}</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Maturity Amount</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.fd_maturity) }}</h2>
+    </div>
+
+</div>
+
+{% endif %}
+{% if data.tax_old > 0 or data.tax_new > 0 %}
+
+<h2 class="section-title">📑 Tax Regime Comparison</h2>
+
+<div class="summary">
+
+    <div class="card-box">
+        <h3>Annual Income</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.tax_income) }}</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Old Regime</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.tax_old) }}</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>New Regime</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.tax_new) }}</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Tax Saving</h3>
+        <h2>₹ {{ "{:,.0f}".format(data.tax_savings) }}</h2>
+    </div>
+
+    <div class="card-box">
+        <h3>Recommended</h3>
+        <h2>{{ data.tax_better }}</h2>
+    </div>
+
+</div>
+
+{% endif %}
             <div class="nav-links">
                 <a href="/sip-calculator" class="btn btn-secondary">📊 SIP Calculator</a>
                 <a href="/financial-future" class="btn btn-secondary">🎯 Plan Financial Goal</a>
@@ -349,7 +582,25 @@
                 <button type="button" class="btn btn-primary" onclick="window.print()">📄 Download PDF</button>
                 
             </div>
-        {% endif %}
-    </div>
+       {% endif %}
+
+<hr style="margin-top:50px;">
+
+<div style="text-align:center; margin-top:20px; color:#777; font-size:14px; line-height:28px;">
+
+    <strong>SmartPlan Finance</strong><br>
+
+    Plan Smart. Invest Smarter.<br><br>
+
+    🌐 www.smartplanfinance.com<br>
+    <br>
+
+    <em>
+    This report is computer generated for informational purposes only and should not be treated as investment advice.
+    </em>
+
+</div>
+
+</div>
 </body>
 </html>

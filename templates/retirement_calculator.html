@@ -199,7 +199,39 @@
         </button>
 
     </form>
+    {% if result %}
 
+<hr style="margin:35px 0;">
+
+<h3 style="color:#B8860B;text-align:center;">
+🏖 Retirement Summary
+</h3>
+
+<div style="margin-top:20px;line-height:34px;">
+
+    <p>
+        <strong>Retirement Age :</strong>
+        {{ result.age }} Years
+    </p>
+
+    <p>
+        <strong>Required Retirement Corpus :</strong>
+        ₹ {{ "{:,.0f}".format(result.corpus) }}
+    </p>
+
+    <p>
+        <strong>Required Monthly Investment :</strong>
+        ₹ {{ "{:,.0f}".format(result.monthly) }}
+    </p>
+
+</div>
+
+{% endif %}
+<div style="margin-top:20px;">
+    <a href="{{ url_for('dashboard') }}" class="btn">
+    ← Back to Dashboard
+</a>
+</div>
     <div class="note">
 
         SmartPlan Finance provides educational retirement estimates based on your assumptions.
@@ -211,4 +243,4 @@
 
 </body>
 
-</html>
+</html> 

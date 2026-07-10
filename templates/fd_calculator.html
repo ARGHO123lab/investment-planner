@@ -120,13 +120,50 @@ Calculate FD Returns
 </button>
 
 </form>
+
 {% if result %}
-    <div style="margin-top: 30px; padding: 20px; background: #FFF8E1; border-radius: 12px; border-left: 5px solid #B8860B;">
-        <h2 style="color: #B8860B; margin-top: 0;">Calculation Results</h2>
-        <p><strong>Total Maturity Value:</strong> ₹ {{ "{:,.2f}".format(result.total_amount) }}</p>
-        <p><strong>Interest Earned:</strong> ₹ {{ "{:,.2f}".format(result.interest_earned) }}</p>
-    </div>
+
+<hr style="margin:35px 0;">
+
+<h3 style="color:#B8860B;text-align:center;">
+🏦 Fixed Deposit Summary
+</h3>
+
+<div style="margin-top:20px;line-height:34px;">
+
+    <p>
+        <strong>Deposit Amount :</strong>
+        ₹ {{ "{:,.0f}".format(result.principal) }}
+    </p>
+
+    <p>
+        <strong>Interest Rate :</strong>
+        {{ result.rate }}%
+    </p>
+
+    <p>
+        <strong>Investment Period :</strong>
+        {{ result.years }} Years
+    </p>
+
+    <p>
+        <strong>Interest Earned :</strong>
+        ₹ {{ "{:,.0f}".format(result.interest) }}
+    </p>
+
+    <p>
+        <strong>Maturity Amount :</strong>
+        ₹ {{ "{:,.0f}".format(result.maturity) }}
+    </p>
+
+</div>
+
 {% endif %}
+<div style="margin-top:20px;">
+    <a href="{{ url_for('dashboard') }}" class="btn">
+    ← Back to Dashboard
+</a>
+</div>
 </div>
 
 </body>

@@ -118,7 +118,7 @@
 
     </p>
 
-    <form method="POST">
+    <form action="{{ url_for('emi_calculator') }}" method="POST">
 
         <div class="form-group">
 
@@ -163,8 +163,35 @@
 
         </button>
 
-    </form>
+    </form> 
+{% if result %}
 
+<div style="margin-top:25px;">
+
+    <h3 style="color:#B8860B;">
+        EMI Calculation Result
+    </h3>
+
+    <p><strong>Monthly EMI:</strong>
+        ₹ {{ "{:,.2f}".format(result.emi) }}
+    </p>
+
+    <p><strong>Total Interest:</strong>
+        ₹ {{ "{:,.2f}".format(result.interest) }}
+    </p>
+
+    <p><strong>Total Payment:</strong>
+        ₹ {{ "{:,.2f}".format(result.total) }}
+    </p>
+
+</div>
+
+{% endif %}
+<div style="margin-top:20px;">
+    <a href="{{ url_for('dashboard') }}" class="btn">
+    ← Back to Dashboard
+</a>
+</div>
     <div class="note">
 
         SmartPlan Finance provides estimates for educational purposes.
