@@ -19,6 +19,7 @@ app.secret_key = os.environ.get(
 )
 
 # --- SECURITY GUARD (ADMIN AUTHENTICATION) ---
+
 def check_auth(username, password):
     # This checks against the ADMIN_PASSWORD environment variable you set in Render
     return username == 'admin' and password == os.environ.get('ADMIN_PASSWORD')
@@ -106,7 +107,9 @@ def delete_article(article_id):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
     if request.method == 'POST':
+
         name = request.form.get('name')
         mobile = request.form.get('mobile')
         country = request.form.get('country')
@@ -114,40 +117,60 @@ def login():
         conn = get_db_connection()
         cur = conn.cursor()
 
-        cur.execute("SELECT id FROM users WHERE mobile=%s", (mobile,))
+        cur.execute(
+            "SELECT id FROM users WHERE mobile = %s",
+            (mobile,)
+        )
 
         existing_user = cur.fetchone()
 
         if existing_user:
+
             user_id = existing_user["id"]
 
-            # Update latest details
+            # Update latest user details
             cur.execute("""
                 UPDATE users
-                SET name=%s, country=%s
-                WHERE id=%s
+                SET name = %s,
+                    country = %s
+                WHERE id = %s
             """, (
                 name,
                 country,
                 user_id
             ))
+
             conn.commit()
+
         else:
+
             cur.execute("""
-                INSERT INTO users(name,mobile,country)
-                VALUES(%s,%s,%s) RETURNING id
+                INSERT INTO users
+                (
+                    name,
+                    mobile,
+                    country
+                )
+                VALUES
+                (
+                    %s,
+                    %s,
+                    %s
+                )
+                RETURNING id
             """, (
                 name,
                 mobile,
                 country
             ))
+
             conn.commit()
-            user_id = cur.fetchone()['id']
+
+            user_id = cur.fetchone()["id"]
 
         conn.close()
 
         session["user_id"] = user_id
-        session.pop("report_id", None)
 
         return redirect(url_for("profile"))
 
@@ -159,26 +182,75 @@ def login():
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    if 'user_id' not in session: return redirect(url_for('login'))
+
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
     user_id = session['user_id']
+
     if request.method == 'POST':
+
         income = float(request.form.get('income') or 0)
         expense = float(request.form.get('expense') or 0)
-        risk = (request.form.get('risk') or     'medium').lower()
+        risk = (request.form.get('risk') or 'medium').lower()
+
         savings = income - expense
+
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute("INSERT INTO reports (user_id, income, expense, savings, risk, created_at) VALUES (%s, %s, %s, %s, %s, %s) RETURNING id", (user_id, income, expense, savings, risk, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+
+        cur.execute("""
+            INSERT INTO reports
+            (
+                user_id,
+                income,
+                expense,
+                savings,
+                risk,
+                created_at
+            )
+            VALUES
+            (
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                %s
+            )
+        """,
+        (
+            user_id,
+            income,
+            expense,
+            savings,
+            risk,
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        ))
+
         conn.commit()
-        session['report_id'] = cur.fetchone()['id']
         conn.close()
+
         return redirect(url_for('dashboard'))
+
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+
+    cur.execute(
+        "SELECT * FROM users WHERE id = %s",
+        (user_id,)
+    )
+
     user = cur.fetchone()
+
     conn.close()
-    return render_template('profile.html', name=user['name'], mobile=user['mobile'], country=user['country'])
+
+    return render_template(
+        'profile.html',
+        name=user['name'],
+        mobile=user['mobile'],
+        country=user['country']
+    )
 
 @app.route('/publish', methods=['GET', 'POST'])
 @requires_auth
@@ -277,107 +349,231 @@ def dashboard():
 @app.route('/sip-calculator', methods=['GET', 'POST'])
 @login_required
 def sip_calculator():
+
     result = None
+
     if request.method == 'POST':
+
         P = float(request.form.get('monthly_investment') or 0)
         annual_return = float(request.form.get('annual_return') or 0)
         years = int(request.form.get('years') or 0)
-        
+
         i = annual_return / 100 / 12
         n = years * 12
-    
+
         if i == 0:
             fv = P * n
         else:
-            fv = P * (((1 + i)**n - 1) / i) * (1 + i)
-            
+            fv = P * (((1 + i) ** n - 1) / i) * (1 + i)
+
         result = "{:,.2f}".format(fv)
-        if 'report_id' in session:
+
+        if 'user_id' in session:
+
             conn = get_db_connection()
             cur = conn.cursor()
-            cur.execute('UPDATE reports SET sip_calc_monthly = %s, sip_calc_years = %s, sip_calc_fv = %s WHERE id = %s', (P, years, fv, session['report_id']))
+
+            cur.execute("""
+                UPDATE reports
+                SET sip_calc_monthly = %s,
+                    sip_calc_years = %s,
+                    sip_calc_fv = %s
+                WHERE id = (
+                    SELECT id
+                    FROM reports
+                    WHERE user_id = %s
+                    ORDER BY created_at DESC
+                    LIMIT 1
+                )
+            """,
+            (
+                P,
+                years,
+                fv,
+                session['user_id']
+            ))
+
             conn.commit()
             conn.close()
-    return render_template('sip_calculator.html', result=result)
+
+    return render_template(
+        'sip_calculator.html',
+        result=result
+    )
 
 @app.route('/financial-future', methods=['GET', 'POST'])
 @login_required
 def financial_future():
     result = None
+
     if request.method == 'POST':
+
         age = int(request.form.get('age') or 0)
         target = float(request.form.get('target') or 0)
         years = int(request.form.get('years') or 0)
-        
+
         months = years * 12
         m_rate = 0.12 / 12
-        
+
         if months == 0 or target == 0:
             req_monthly = 0.0
         else:
-            req_monthly = target / (((1 + m_rate)**months - 1) / m_rate) / (1 + m_rate)
-            
+            req_monthly = target / (((1 + m_rate) ** months - 1) / m_rate) / (1 + m_rate)
+
         if 'user_id' in session:
+
             conn = get_db_connection()
             cur = conn.cursor()
-            cur.execute("UPDATE users SET target_amount = %s, target_years = %s WHERE id = %s", (target, years, session['user_id']))
-            if 'report_id' in session:
-                cur.execute('UPDATE reports SET future_target_amount = %s, future_target_years = %s, future_req_monthly = %s WHERE id = %s', (target, years, req_monthly, session['report_id']))
+
+            # Update user table
+            cur.execute(
+                """
+                UPDATE users
+                SET target_amount = %s,
+                    target_years = %s
+                WHERE id = %s
+                """,
+                (
+                    target,
+                    years,
+                    session['user_id']
+                )
+            )
+
+            # Always update the latest report for this user
+            cur.execute(
+                """
+                UPDATE reports
+                SET future_target_amount = %s,
+                    future_target_years = %s,
+                    future_req_monthly = %s
+                WHERE id = (
+                    SELECT id
+                    FROM reports
+                    WHERE user_id = %s
+                    ORDER BY created_at DESC
+                    LIMIT 1
+                )
+                """,
+                (
+                    target,
+                    years,
+                    req_monthly,
+                    session['user_id']
+                )
+            )
+
             conn.commit()
             conn.close()
-            
+
         result = {
-            "monthly_total": "{:,.2f}".format(req_monthly), 
+            "monthly_total": "{:,.2f}".format(req_monthly),
             "breakdown": {
-                "sip": {"amount": "{:,.2f}".format(req_monthly * 0.4), "return": "12%"}, 
-                "large": {"label": "Large Cap", "amount": "{:,.2f}".format(req_monthly * 0.3), "return": "10%"}, 
-                "mid": {"label": "Mid Cap", "amount": "{:,.2f}".format(req_monthly * 0.2), "return": "15%"}, 
-                "small": {"label": "Small Cap", "amount": "{:,.2f}".format(req_monthly * 0.1), "return": "18%"}
+                "sip": {
+                    "amount": "{:,.2f}".format(req_monthly * 0.4),
+                    "return": "12%"
+                },
+                "large": {
+                    "label": "Large Cap",
+                    "amount": "{:,.2f}".format(req_monthly * 0.3),
+                    "return": "10%"
+                },
+                "mid": {
+                    "label": "Mid Cap",
+                    "amount": "{:,.2f}".format(req_monthly * 0.2),
+                    "return": "15%"
+                },
+                "small": {
+                    "label": "Small Cap",
+                    "amount": "{:,.2f}".format(req_monthly * 0.1),
+                    "return": "18%"
+                }
             }
         }
-    return render_template('financial_future.html', result=result)
+
+    return render_template(
+        'financial_future.html',
+        result=result
+    )
 @app.route('/tax_calculator', methods=['GET', 'POST'])
 @login_required
 def tax_calculator():
+
     result = None
+
     if request.method == 'POST':
-        # 1. Get input
+
+        # Get Input
         income = float(request.form.get('income') or 0)
         investments = float(request.form.get('investments') or 0)
-        
-        # 2. Logic for New Regime
+
+        # -----------------------------
+        # NEW REGIME CALCULATION
+        # -----------------------------
         std_new = 75000
         taxable_new = max(0, income - std_new)
+
         tax_new = 0
-        # 2026-27 Slabs: (4L @ 0%, 4L @ 5%, 4L @ 10%, 4L @ 15%, 4L @ 20%, 4L @ 25%, above @ 30%)
-        slabs = [(400000, 0), (400000, 0.05), (400000, 0.10), (400000, 0.15), (400000, 0.20), (400000, 0.25)]
+
+        slabs = [
+            (400000, 0.00),
+            (400000, 0.05),
+            (400000, 0.10),
+            (400000, 0.15),
+            (400000, 0.20),
+            (400000, 0.25)
+        ]
+
         remaining = taxable_new
+
         for limit, rate in slabs:
             chunk = min(max(0, remaining), limit)
             tax_new += chunk * rate
             remaining -= limit
-        if remaining > 0: tax_new += remaining * 0.30
-        tax_new = tax_new * 1.04 # Add 4% Cess
-        
-        # 3. Logic for Old Regime
+
+        if remaining > 0:
+            tax_new += remaining * 0.30
+
+        tax_new = tax_new * 1.04      # 4% Cess
+
+        # -----------------------------
+        # OLD REGIME CALCULATION
+        # -----------------------------
         std_old = 50000
-        taxable_old = max(0, income - std_old - investments)
-        tax_old = 0
-        if taxable_old <= 250000: tax_old = 0
-        elif taxable_old <= 500000: tax_old = (taxable_old - 250000) * 0.05
-        elif taxable_old <= 1000000: tax_old = 12500 + (taxable_old - 500000) * 0.20
-        else: tax_old = 112500 + (taxable_old - 1000000) * 0.30
-        tax_old = tax_old * 1.04 # Add 4% Cess
-        
-        # 4. Prepare Result
+
+        taxable_old = max(
+            0,
+            income - std_old - investments
+        )
+
+        if taxable_old <= 250000:
+            tax_old = 0
+
+        elif taxable_old <= 500000:
+            tax_old = (taxable_old - 250000) * 0.05
+
+        elif taxable_old <= 1000000:
+            tax_old = 12500 + (taxable_old - 500000) * 0.20
+
+        else:
+            tax_old = 112500 + (taxable_old - 1000000) * 0.30
+
+        tax_old = tax_old * 1.04      # 4% Cess
+
+        # -----------------------------
+        # RESULT
+        # -----------------------------
         result = {
             "new_regime": "{:,.2f}".format(tax_new),
             "old_regime": "{:,.2f}".format(tax_old),
             "savings": "{:,.2f}".format(abs(tax_new - tax_old)),
             "better_option": "New Regime" if tax_new < tax_old else "Old Regime"
         }
-        
-    return render_template('tax_calculator.html', result=result)
+
+    return render_template(
+        'tax_calculator.html',
+        result=result
+    )
 @app.route("/emi_calculator", methods=["GET", "POST"])
 @login_required
 def emi_calculator():
@@ -421,15 +617,11 @@ def retirement_calculator():
 
     current_age = int(request.form["current_age"])
     retirement_age = int(request.form["retirement_age"])
-
     monthly_expense = float(request.form["current_expense"])
 
     inflation = float(request.form["inflation"]) / 100
-
     expected_return = float(request.form["return_before"]) / 100
-
     return_after = float(request.form["return_after"]) / 100
-
     life_expectancy = int(request.form["life_expectancy"])
 
     years = retirement_age - current_age
@@ -460,8 +652,8 @@ def retirement_calculator():
         expected_return=expected_return * 100,
         return_after=return_after * 100,
         life_expectancy=life_expectancy,
-        retirement_amount=retirement_amount,
-        monthly_investment=monthly_investment
+        retirement_amount=round(retirement_amount, 2),
+        monthly_investment=round(monthly_investment, 2)
     )
 @app.route("/fd_calculator", methods=["GET", "POST"])
 @login_required
