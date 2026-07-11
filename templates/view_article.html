@@ -1,338 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>{{ article.title }} | SmartPlan Finance</title>
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-body{
-
-    margin:0;
-    background:#FFFDF7;
-    font-family:'Poppins',sans-serif;
-    color:#333;
-
-}
-
-.container{
-
-    max-width:900px;
-    margin:60px auto;
-    background:white;
-    border-radius:20px;
-    padding:50px;
-    box-shadow:0 15px 40px rgba(0,0,0,.08);
-
-}
-
-.blog-tag{
-
-    display:inline-block;
-    background:#FFF4D6;
-    color:#B8860B;
-    padding:8px 18px;
-    border-radius:30px;
-    font-weight:600;
-    margin-bottom:20px;
-
-}
-
-h1{
-
-    font-size:42px;
-    line-height:1.35;
-    margin:0 0 20px;
-    color:#222;
-
-}
-
-.meta{
-
-    color:#888;
-    font-size:15px;
-    margin-bottom:35px;
-
-}
-
-.article-content{
-
-    font-size:18px;
-    line-height:34px;
-    color:#444;
-
-}
-
-.article-content h2{
-
-    color:#B8860B;
-    margin-top:45px;
-    margin-bottom:18px;
-
-}
-
-.article-content h3{
-
-    margin-top:35px;
-    color:#444;
-
-}
-
-.article-content p{
-
-    margin-bottom:22px;
-
-}
-
-.article-content ul{
-
-    padding-left:24px;
-
-}
-
-.article-content li{
-
-    margin-bottom:12px;
-
-}
-
-.article-content img{
-
-    max-width:100%;
-    border-radius:15px;
-    margin:30px 0;
-
-}
-
-.article-content table{
-
-    width:100%;
-    border-collapse:collapse;
-    margin:30px 0;
-
-}
-
-.article-content table td,
-.article-content table th{
-
-    border:1px solid #eee;
-    padding:12px;
-
-}
-
-.article-content table th{
-
-    background:#FFF8E1;
-
-}
-
-.cta{
-
-    margin-top:60px;
-    background:#FFF8E1;
-    border-radius:18px;
-    padding:35px;
-    text-align:center;
-
-}
-
-.cta h2{
-
-    color:#B8860B;
-    margin-bottom:15px;
-
-}
-
-.cta p{
-
-    color:#555;
-    margin-bottom:25px;
-
-}
-
-.cta a{
-
-    display:inline-block;
-    background:#FFC107;
-    color:#222;
-    text-decoration:none;
-    padding:14px 28px;
-    border-radius:12px;
-    font-weight:600;
-    transition:.3s;
-
-}
-
-.cta a:hover{
-
-    background:#E0A800;
-
-}
-
-.bottom{
-
-    margin-top:45px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:20px;
-
-}
-
-.back-btn{
-
-    color:#B8860B;
-    text-decoration:none;
-    font-weight:600;
-
-}
-
-.back-btn:hover{
-
-    color:#8C6A00;
-
-}
-
-.share{
-
-    color:#666;
-
-}
-
-.share span{
-
-    margin-left:12px;
-    font-size:20px;
-
-}
-
-@media(max-width:768px){
-
-body{
-
-    padding:20px;
-
-}
-
-.container{
-
-    padding:25px;
-    margin:20px auto;
-
-}
-
-h1{
-
-    font-size:30px;
-
-}
-
-.article-content{
-
-    font-size:17px;
-    line-height:30px;
-
-}
-
-.bottom{
-
-    flex-direction:column;
-    align-items:flex-start;
-
-}
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article.title }} | SmartPlan Finance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #FFFDF7; font-family: 'Poppins', sans-serif; }
+        .article-wrapper { max-width: 900px; margin: 50px auto; padding: 0 20px; }
+        .article-card { background: white; padding: 50px; border-radius: 24px; box-shadow: 0 18px 40px rgba(0,0,0,.08); }
+        .article-title { font-size: 42px; line-height: 1.35; color: #222; margin-bottom: 20px; }
+        .article-meta { color: #888; margin-bottom: 35px; font-size: 15px; }
+        
+        /* Premium Content Styles */
+        .article-content { font-size: 18px; line-height: 2; color: #444; }
+        .article-content h2 { color: #B8860B !important; border-left: 6px solid #FFC107 !important; padding-left: 18px; font-size: 34px; margin-top: 45px; margin-bottom: 20px; }
+        .article-content h2::after { content: ""; display: block; width: 90px; height: 4px; background: #FFC107; margin-top: 12px; }
+        
+        /* Restoring Premium CTA Box */
+        .cta { margin-top: 60px; background: #FFF8E1; border-radius: 18px; padding: 35px; text-align: center; }
+        .cta h2 { color: #B8860B; margin-bottom: 15px; }
+        .cta a { display: inline-block; background: #FFC107; color: #222; text-decoration: none; padding: 14px 28px; border-radius: 12px; font-weight: 600; }
+        
+        /* Restoring Bottom Meta */
+        .bottom { margin-top: 45px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .back-btn { color: #B8860B; text-decoration: none; font-weight: 600; }
+        
+        @media(max-width:768px) { .article-card { padding: 25px; } .article-title { font-size: 30px; } }
+    </style>
 </head>
-
 <body>
 
-<div class="container">
+<div class="article-wrapper">
+    <div class="article-card">
+        <!-- Tag -->
+        <div style="margin-bottom:25px;">
+            <span style="display:inline-flex; align-items:center; gap:8px; padding:10px 18px; background:#FFF3CD; border:1px solid #F6D365; border-radius:50px; font-weight:700; color:#B8860B; font-size:15px;">
+                📚 SmartPlan Finance
+            </span>
+        </div>
 
-<div class="blog-tag">
+        <h1 class="article-title">{{ article.title }}</h1>
+        <div class="article-meta">📅 Published on {{ article.created_at.strftime('%d %B %Y') }}</div>
+        <hr style="margin-bottom:35px; border: 0; border-top: 1px solid #eee;">
 
-📚 SmartPlan Finance
+        <div class="article-content">
+            {{ article.content | safe }}
+{% include 'partials/related_articles.html' %}
+    {% include 'partials/faq_section.html' %}
+            <!-- Premium CTA Section -->
+            <div class="cta">
+                <h2>Ready to Build Your Financial Future?</h2>
+                <p>Generate your personalised investment report in less than 2 minutes using SmartPlan Finance.</p>
+                <a href="{{ url_for('dashboard') }}">📊 Generate My Free Financial Report</a>
+            </div>
 
-</div>
+        </div>
 
-<h1>
-
-{{ article.title }}
-
-</h1>
-
-<div class="meta">
-
-📅 Published on {{ article.created_at }}
-
-</div>
-
-<hr style="border:none;border-top:1px solid #eee;margin-bottom:35px;">
-
-<div class="article-content">
-
-{{ article.content | safe }}
-
-</div>
-
-<div class="cta">
-
-<h2>
-
-Ready to Build Your Financial Future?
-
-</h2>
-
-<p>
-
-Generate your personalised investment report in less than 2 minutes using SmartPlan Finance.
-
-</p>
-
-<a href="{{ url_for('login') }}">
-
-📊 Generate My Free Financial Report
-
-</a>
-
-</div>
-
-<div class="bottom">
-
-<a href="{{ url_for('articles') }}" class="back-btn">
-
-← Back to Articles
-
-</a>
-
-<div class="share">
-
-Share this article
-
-<span>📘</span>
-
-<span>💼</span>
-
-<span>📱</span>
-
-</div>
-
-</div>
-
+        <!-- Premium Bottom Section -->
+        <div class="bottom">
+            <a href="{{ url_for('articles') }}" class="back-btn">← Back to Articles</a>
+            <div class="share">Share this article 🔗</div>
+        </div>
+    </div>
 </div>
 
 </body>
-
 </html>

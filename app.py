@@ -11,6 +11,10 @@ from functools import wraps
 from flask import session, redirect, url_for
 from flask import send_file
 from pdf_generator import generate_financial_report
+from flask import send_file
+import FAQ
+
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -890,17 +894,21 @@ def articles():
 def view_article(slug):
     conn = get_db_connection()
     cur = conn.cursor()
-    # Query for the specific article
+    
+    # 1. Fetch the specific article
     cur.execute("SELECT * FROM articles WHERE slug = %s", (slug,))
     article = cur.fetchone()
+    
+    # 2. Fetch all articles for the "Related Articles" section
+    cur.execute("SELECT id, title, slug, tag FROM articles LIMIT 5")
+    all_articles = cur.fetchall()
+    
     conn.close()
     
-    # If no article is found, return a 404
     if article is None:
         return "Article not found", 404
         
-    # If found, render the template
-    return render_template('view_article.html', article=article)
+    return render_template('view_article.html', article=article, all_articles=all_articles)
 
 @app.route("/disclaimer")
 def disclaimer():
@@ -913,6 +921,14 @@ def privacy():
 @app.route("/terms")
 def terms():
     return render_template("terms.html")
+
+@app.route('/generate-faq-pdf')
+def generate_faq():
+    # Trigger the generation function
+    FAQ.create_faq_pdf()
+    
+    # After it's created, send it to the user's browser
+    return send_file('financial_guide.pdf', as_attachment=True)
 
 @app.route("/health")
 def health():

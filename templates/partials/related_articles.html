@@ -1,0 +1,11 @@
+<div style="margin-top:50px; padding:20px; border-top:2px solid #FFF8E1;">
+    <h3>Recommended Reading</h3>
+    <ul style="line-height:2;">
+        {% for item in all_articles %}
+            {# Check that tag exists and is not None before checking membership #}
+            {% if item.id != article.id and article.tag and item.tag and article.tag in item.tag %}
+                <li><a href="{{ url_for('view_article', slug=item.slug) }}" style="color:#B8860B; font-weight:600; text-decoration:none;">{{ item.title }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
