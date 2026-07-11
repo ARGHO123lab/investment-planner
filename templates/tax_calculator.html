@@ -13,53 +13,134 @@
         button:hover { background: #E0A800; }
         .result-box { margin-top: 30px; padding: 20px; background: #FFF8E1; border-left: 5px solid #FFC107; border-radius: 12px; text-align: center; }
         .btn-link { display: block; text-align: center; margin-top: 20px; color: #666; text-decoration: none; }
+    
+.back-btn{
+    display:inline-block;
+    margin-top:8px;
+    color:#B8860B;
+    font-weight:600;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.back-btn:hover{
+    color:#8C6A00;
+    transform:translateX(-4px);
+}
+@media (max-width:768px){
+
+    body{
+        padding:20px;
+    }
+
+    .container{
+        width:100%;
+        padding:25px;
+    }
+
+    h1{
+        font-size:28px;
+    }
+
+    input{
+        font-size:16px;
+    }
+
+    button{
+        font-size:17px;
+    }
+
+    .result-box{
+        padding:18px;
+    }
+
+}
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>⚖️ Tax Regime Comparator</h1>
+    <h1>📑 Income Tax Calculator</h1>
+
+<p style="text-align:center;color:#666;margin-bottom:30px;">
+Compare the Old vs New Tax Regime and find which one helps you save more tax.
+</p>
 
     <form method="POST">
-        <label>Enter Annual Income</label>
-        <input type="number" name="income" required>
+        <label>Annual Taxable Income (₹)</label>
 
-        <button type="submit">Compare Regimes</button>
+<input
+    type="number"
+    name="income"
+    placeholder="Eg. 1200000"
+    required>
+
+        <button type="submit">
+📊 Compare Tax Regimes
+</button>
     </form>
 
-    <a href="{{ url_for('dashboard') }}" class="back-btn">
-    ← Back to Dashboard
+    
+
+<div style="margin-top:20px;">
+
+<a href="{{ url_for('dashboard') }}" class="back-btn">
+
+← Back to Dashboard
+
 </a>
+
+</div>
 
     {% if result %}
 
-<hr style="margin:35px 0;">
+<div class="result-box">
 
-<h3 style="color:#B8860B;text-align:center;">
-📑 Tax Comparison Summary
-</h3>
+<h2 style="color:#B8860B;">
+📊 Tax Comparison Result
+</h2>
 
-<div style="margin-top:20px;line-height:34px;">
+<div style="margin-top:25px;text-align:left;line-height:34px;">
 
-    <p>
-        <strong>Old Regime Tax :</strong>
-        ₹ {{ "{:,.0f}".format(result.old_regime) }}
-    </p>
+<p>
+💼 <strong>Annual Income</strong><br>
+₹ {{ "{:,.0f}".format(result.income) }}
+</p>
 
-    <p>
-        <strong>New Regime Tax :</strong>
-        ₹ {{ "{:,.0f}".format(result.new_regime) }}
-    </p>
+<hr>
 
-    <p>
-        <strong>Tax Saving :</strong>
-        ₹ {{ "{:,.0f}".format(result.savings) }}
-    </p>
+<p>
+📑 <strong>Old Regime Tax</strong><br>
+₹ {{ "{:,.0f}".format(result.old_regime) }}
+</p>
 
-    <p>
-        <strong>Recommended Option :</strong>
-        {{ result.better_option }}
-    </p>
+<p>
+🆕 <strong>New Regime Tax</strong><br>
+₹ {{ "{:,.0f}".format(result.new_regime) }}
+</p>
+
+<p>
+💰 <strong>Tax Saving</strong><br>
+₹ {{ "{:,.0f}".format(result.savings) }}
+</p>
+
+<hr>
+
+<p style="font-size:18px;">
+
+🏆 <strong>Recommended</strong>
+
+<br><br>
+
+<span style="color:#B8860B;font-size:22px;font-weight:700;">
+
+{{ result.better_option }}
+
+</span>
+
+</p>
+
+</div>
 
 </div>
 
