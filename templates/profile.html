@@ -24,164 +24,311 @@
 
     <style>
 
-        body{
+       body{
 
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            min-height:100vh;
-            padding:40px;
+margin:0;
+min-height:100vh;
 
-        }
+font-family:'Poppins',sans-serif;
 
-        .card{
+background:linear-gradient(135deg,#FFFDF7,#FFF5DB);
 
-            width:700px;
-            padding:40px;
+display:flex;
+justify-content:center;
+align-items:center;
 
-        }
+padding:40px;
 
-        .step{
+}
 
-            color:#B8860B;
-            font-weight:600;
-            margin-bottom:10px;
+.card{
 
-        }
+width:100%;
+max-width:850px;
 
-        h2{
+background:white;
 
-            margin-bottom:10px;
+padding:50px;
 
-        }
+border-radius:28px;
 
-        .subtitle{
+box-shadow:0 20px 45px rgba(0,0,0,.08);
 
-            color:#666;
-            margin-bottom:30px;
+}
 
-        }
+.step{
 
-        .grid{
+display:inline-block;
 
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            gap:20px;
+background:#FFF4CF;
 
-        }
+color:#B8860B;
 
-        .field{
+padding:8px 18px;
 
-            display:flex;
-            flex-direction:column;
+border-radius:30px;
 
-        }
+font-weight:600;
 
-        label{
+margin-bottom:20px;
 
-            margin-bottom:8px;
-            font-weight:600;
+}
 
-        }
+h2{
 
-        .risk-title{
+font-size:36px;
 
-            margin-top:30px;
-            margin-bottom:15px;
-            font-weight:700;
-            color:#B8860B;
+margin-bottom:12px;
 
-        }
+color:#333;
 
-        .risk-options{
+}
 
-            display:grid;
-            grid-template-columns:repeat(3,1fr);
-            gap:18px;
+.subtitle{
 
-        }
+font-size:18px;
 
-        .risk-card{
+line-height:30px;
 
-            border:2px solid #EEE;
-            border-radius:15px;
-            padding:20px;
-            cursor:pointer;
-            transition:.30s;
-            text-align:center;
-            background:white;
+color:#666;
 
-        }
+margin-bottom:40px;
 
-        .risk-card:hover{
+}
 
-            border-color:#FFC107;
-            transform:translateY(-5px);
+.grid{
 
-        }
+display:grid;
 
-        .risk-card input{
+grid-template-columns:1fr 1fr;
 
-            display:none;
+gap:30px;
 
-        }
+}
 
-        .risk-card input:checked + div{
+.field{
 
-            color:#B8860B;
+display:flex;
 
-        }
+flex-direction:column;
 
-        .risk-card:has(input:checked){
+}
 
-            border-color:#FFC107;
-            background:#FFF8E1;
+label{
 
-        }
+font-weight:600;
 
-        .risk-name{
+margin-bottom:10px;
 
-            font-weight:700;
-            font-size:18px;
-            margin-bottom:10px;
+}
 
-        }
+input{
 
-        .risk-desc{
+padding:16px;
 
-            font-size:13px;
-            color:#666;
-            line-height:20px;
+border-radius:14px;
 
-        }
+border:1px solid #ddd;
 
-        button{
+font-size:17px;
 
-            margin-top:35px;
+transition:.25s;
 
-        }
+}
 
-        @media(max-width:768px){
+input:focus{
 
-            .grid{
+outline:none;
 
-                grid-template-columns:1fr;
+border-color:#B8860B;
 
-            }
+box-shadow:0 0 12px rgba(184,134,11,.15);
 
-            .risk-options{
+}
 
-                grid-template-columns:1fr;
+.risk-title{
 
-            }
+margin-top:45px;
 
-            .card{
+font-size:22px;
 
-                width:95%;
+font-weight:700;
 
-            }
+color:#B8860B;
 
-        }
+margin-bottom:25px;
+
+}
+
+.risk-options{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:25px;
+
+}
+
+.risk-card{
+
+background:white;
+
+border:2px solid #ECECEC;
+
+border-radius:20px;
+
+padding:28px;
+
+cursor:pointer;
+
+transition:.3s;
+
+text-align:center;
+
+}
+
+.risk-card:hover{
+
+transform:translateY(-8px);
+
+box-shadow:0 15px 30px rgba(0,0,0,.08);
+
+border-color:#D9A600;
+
+}
+
+.risk-card input{
+
+display:none;
+
+}
+
+.risk-card:has(input:checked){
+
+background:#FFF7DF;
+
+border-color:#B8860B;
+
+box-shadow:0 12px 30px rgba(184,134,11,.15);
+
+}
+
+.risk-name{
+
+font-size:20px;
+
+font-weight:700;
+
+margin-bottom:15px;
+
+}
+
+.risk-desc{
+
+font-size:14px;
+
+line-height:24px;
+
+color:#666;
+
+}
+
+button{
+
+margin-top:45px;
+
+width:100%;
+
+padding:18px;
+
+font-size:18px;
+
+font-weight:600;
+
+background:#B8860B;
+
+color:white;
+
+border:none;
+
+border-radius:14px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+button:hover{
+
+background:#9C7600;
+
+transform:translateY(-2px);
+
+}
+
+.progress{
+
+height:10px;
+
+background:#EFEFEF;
+
+border-radius:30px;
+
+overflow:hidden;
+
+margin-bottom:35px;
+
+}
+
+.progress span{
+
+display:block;
+
+height:100%;
+
+width:66%;
+
+background:linear-gradient(90deg,#D9A600,#F2C94C);
+
+}
+
+@media(max-width:900px){
+
+.card{
+
+padding:30px;
+
+}
+
+.grid{
+
+grid-template-columns:1fr;
+
+}
+
+.risk-options{
+
+grid-template-columns:1fr;
+
+}
+
+h2{
+
+font-size:30px;
+
+}
+
+.subtitle{
+
+font-size:16px;
+
+line-height:28px;
+
+}
+
+}
 
     </style>
 
@@ -197,6 +344,9 @@ Step 2 of 3
 
 </div>
 
+<div class="progress">
+<span></span>
+</div>
 <h2>
 
 Financial Profile
