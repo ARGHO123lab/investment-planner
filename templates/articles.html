@@ -17,170 +17,138 @@ href="{{ url_for('static', filename='css/style.css') }}">
 <style>
 
 body{
-
     margin:0;
     background:#FFFDF7;
     font-family:'Poppins',sans-serif;
-
 }
 
 .hero{
-
     background:linear-gradient(135deg,#FFF8E1,#FFFDF7);
-
     padding:70px 10%;
-
     text-align:center;
-
 }
 
 .hero h1{
-
     color:#B8860B;
-
     font-size:48px;
-
-    margin-bottom:20px;
-
+    margin-bottom:15px;
 }
 
 .hero p{
-
     color:#666;
-
     font-size:20px;
-
     max-width:750px;
-
     margin:auto;
-
     line-height:34px;
-
 }
 
 .container{
-
     max-width:1200px;
-
     margin:60px auto;
-
-    padding:0 30px;
-
+    padding:0 25px;
 }
 
 .grid{
-
     display:grid;
-
     grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
-
     gap:30px;
-
 }
 
 .card{
-
     background:white;
-
-    border-radius:20px;
-
+    border-radius:18px;
     overflow:hidden;
-
     box-shadow:0 15px 35px rgba(0,0,0,.08);
-
     transition:.35s;
-
 }
 
 .card:hover{
-
     transform:translateY(-8px);
-
 }
 
 .card-content{
-
     padding:28px;
-
 }
 
 .badge{
-
     display:inline-block;
-
     background:#B8860B;
-
     color:white;
-
     padding:6px 14px;
-
     border-radius:30px;
-
     font-size:13px;
-
     margin-bottom:18px;
-
 }
 
 .card h2{
-
     margin:0;
-
-    font-size:24px;
-
     line-height:34px;
-
+    font-size:24px;
 }
 
 .card h2 a{
-
     color:#333;
-
     text-decoration:none;
-
 }
 
 .card h2 a:hover{
-
     color:#B8860B;
-
 }
 
 .date{
-
     color:#888;
-
     margin-top:18px;
-
     font-size:14px;
-
 }
 
 .read{
-
     display:inline-block;
-
     margin-top:22px;
-
-    text-decoration:none;
-
     background:#B8860B;
-
     color:white;
-
+    text-decoration:none;
     padding:12px 20px;
-
     border-radius:10px;
-
     font-weight:600;
-
     transition:.3s;
-
 }
 
 .read:hover{
-
     background:#9C6B00;
+}
+
+@media(max-width:768px){
+
+.hero{
+    padding:50px 25px;
+}
+
+.hero h1{
+    font-size:34px;
+}
+
+.hero p{
+    font-size:17px;
+    line-height:30px;
+}
+
+.container{
+    padding:20px;
+    margin-top:30px;
+}
+
+.grid{
+    grid-template-columns:1fr;
+}
+
+.card-content{
+    padding:22px;
+}
+
+.card h2{
+    font-size:22px;
+    line-height:32px;
+}
 
 }
 
@@ -192,11 +160,11 @@ body{
 
 <section class="hero">
 
-<h1>Financial Insights & Articles</h1>
+<h1>📚 Financial Insights & Articles</h1>
 
 <p>
 
-Learn investing, mutual funds, retirement planning, tax saving and wealth creation with practical guides written for Indian investors.
+Learn investing, mutual funds, retirement planning, taxation and wealth creation through practical guides written by SmartPlan Finance.
 
 </p>
 
@@ -212,11 +180,11 @@ Learn investing, mutual funds, retirement planning, tax saving and wealth creati
 
 <div class="card-content">
 
-<span class="badge">
+<div class="badge">
 
 SmartPlan Finance
 
-</span>
+</div>
 
 <h2>
 
@@ -230,13 +198,11 @@ SmartPlan Finance
 
 <div class="date">
 
-📅 {{ article.created_at.strftime('%d %B %Y') if article.created_at else '' }}
+📅 {{ article.created_at }}
 
 </div>
 
-<a class="read"
-
-href="{{ url_for('view_article', slug=article.slug) }}">
+<a href="{{ url_for('view_article', slug=article.slug) }}" class="read">
 
 Read Article →
 
