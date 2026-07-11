@@ -56,51 +56,109 @@
         border-radius: 12px;
         text-align: center;
     }
+    .back-btn{
+    display:block;
+    text-align:center;
+    width:100%;
+    padding:14px;
+    background:#fff;
+    border:2px solid #FFC107;
+    border-radius:12px;
+    color:#B8860B;
+    font-weight:600;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.back-btn:hover{
+    background:#FFF8E1;
+}
+
+@media(max-width:768px){
+
+    body{
+        padding:20px;
+    }
+
+    .container{
+        padding:25px;
+    }
+
+    h1{
+        font-size:28px;
+    }
+
+    .result-box h1{
+        font-size:32px;
+    }
+
+}
 </style>
 
 </head>
 
 <body>
 
-<div class="card">
+<div class="container">
 
 <h1>🚀 Financial Future Planner</h1>
 
 <form method="POST">
 
-<input name="age" type="number" placeholder="Current Age" required>
-<input name="target" type="number" placeholder="Target Amount" required>
-<input name="years" type="number" placeholder="Time (Years)" required>
+<label>Current Age</label>
+<input type="number" name="age" placeholder="28" required>
+
+<label>Target Amount (₹)</label>
+<input type="number" name="target" placeholder="10000000" required>
+
+<label>Time Horizon (Years)</label>
+<input type="number" name="years" placeholder="15" required>
 
 <button type="submit" class="btn-submit">Estimate Monthly Investment</button>
 
 </form>
 
-<a href="{{ url_for('dashboard') }}" class="back-btn">
-    ← Back to Dashboard
-</a>
+<div style="margin-top:20px;">
+    <a href="{{ url_for('dashboard') }}" class="back-btn">
+        ← Back to Dashboard
+    </a>
+</div>
 
 {% if result %}
 
-<div class="result">
+<div class="result-box">
 
-<h3>Total Monthly Investment: ₹ {{ result.monthly_total }}</h3>
+    <h2 style="color:#B8860B;">
+        Monthly Investment Required
+    </h2>
 
-<div class="box">
-SIP ({{ result.breakdown.sip.return }}) → ₹ {{ result.breakdown.sip.amount }}
-</div>
+    <h1 style="margin:15px 0;">
+        ₹ {{ result.monthly_total }}
+    </h1>
 
-<div class="box">
-{{ result.breakdown.large.label }} ({{ result.breakdown.large.return }}) → ₹ {{ result.breakdown.large.amount }}
-</div>
+    <hr style="margin:20px 0;">
 
-<div class="box">
-{{ result.breakdown.mid.label }} ({{ result.breakdown.mid.return }}) → ₹ {{ result.breakdown.mid.amount }}
-</div>
+    <div style="text-align:left;line-height:34px;">
 
-<div class="box">
-{{ result.breakdown.small.label }} ({{ result.breakdown.small.return }}) → ₹ {{ result.breakdown.small.amount }}
-</div>
+        <strong>📈 SIP ({{ result.breakdown.sip.return }})</strong><br>
+        ₹ {{ result.breakdown.sip.amount }}
+
+        <br><br>
+
+        <strong>🏦 {{ result.breakdown.large.label }} ({{ result.breakdown.large.return }})</strong><br>
+        ₹ {{ result.breakdown.large.amount }}
+
+        <br><br>
+
+        <strong>📊 {{ result.breakdown.mid.label }} ({{ result.breakdown.mid.return }})</strong><br>
+        ₹ {{ result.breakdown.mid.amount }}
+
+        <br><br>
+
+        <strong>🚀 {{ result.breakdown.small.label }} ({{ result.breakdown.small.return }})</strong><br>
+        ₹ {{ result.breakdown.small.amount }}
+
+    </div>
 
 </div>
 
