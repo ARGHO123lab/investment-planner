@@ -579,7 +579,9 @@
                 <a href="/emi_calculator" class="btn btn-secondary">💳 EMI Calculator</a>
                 <a href="/retirement_calculator" class="btn btn-secondary">👴 Retirement Calculator</a>
                 <a href="/fd_calculator" class="btn btn-secondary"> 🏦 FD Calculator</a>
-                <button type="button" class="btn btn-primary" onclick="window.print()">📄 Download PDF</button>
+                <a href="{{ url_for('download_report') }}" class="btn btn-primary">
+    📄 Download Personalized Financial Report 
+</a>
                 
             </div>
        {% endif %}

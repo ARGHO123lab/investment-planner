@@ -27,30 +27,196 @@
     <style>
 
         .hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
 
-            min-height:100vh;
+radial-gradient(circle at top right,#fff3c8 0%,transparent 40%),
 
-            display:flex;
+radial-gradient(circle at bottom left,#fff8e5 0%,transparent 35%),
 
-            justify-content:center;
+#FFFDF7;
+    padding:60px 8%;
+}
 
-            align-items:center;
+.hero-container{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:60px;
+    width:100%;
+    max-width:1300px;
+    flex-wrap:wrap;
+}
 
-            padding:40px;
+.hero-left{
+    flex:1;
+    max-width:600px;
+}
 
-        }
+.hero-right{
+    flex:1;
+    text-align:center;
+}
 
-        .hero-card{
+.hero-right img{
+    width:100%;
+    max-width:520px;
+}
+.hero-right img{
 
-            max-width:760px;
+    width:100%;
 
-            width:100%;
+    max-width:500px;
 
-            padding:50px;
+    animation:floatLogo 5s ease-in-out infinite;
 
-            text-align:center;
+}
 
-        }
+@keyframes floatLogo{
+
+0%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-10px);
+}
+
+100%{
+transform:translateY(0px);
+}
+
+}
+
+.hero-title{
+    font-size:56px;
+    line-height:1.15;
+    color:#B8860B;
+    font-weight:700;
+}
+
+
+.hero-subtitle{
+    font-size:20px;
+    color:#666;
+    margin:25px 0;
+    line-height:34px;
+}
+
+.hero-list{
+    list-style:none;
+    padding:0;
+    margin:35px 0;
+}
+
+.hero-list li{
+    margin-bottom:14px;
+}
+
+.hero-list li a{
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    padding:14px 18px;
+
+    background:white;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    color:#444;
+
+    font-size:18px;
+
+    font-weight:500;
+
+    transition:.25s;
+
+    border:1px solid #f1e2b6;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
+
+}
+
+.hero-list li a:hover{
+
+    background:#B8860B;
+
+    color:white;
+
+    transform:translateX(6px);
+
+}
+
+.hero-buttons{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-top:35px;
+}
+.hero-line{
+
+width:90px;
+
+height:6px;
+
+background:#B8860B;
+
+border-radius:50px;
+
+margin:22px 0;
+
+}
+.primary-btn{
+
+    background:linear-gradient(135deg,#D4A017,#B8860B);
+
+    color:white;
+
+    padding:17px 36px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.3s;
+
+    box-shadow:0 8px 20px rgba(184,134,11,.35);
+
+}
+.primary-btn:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.secondary-btn{
+    border:2px solid #B8860B;
+     color:#B8860B;
+    padding:16px 34px;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:600;
+    background:white;
+
+
+}
+.secondary-btn:hover{
+
+    background:#B8860B;
+
+    color:white;
+
+}
 
         .logo{
 
@@ -179,6 +345,43 @@
             font-size:14px;
 
         }
+        .footer-links{
+
+display:flex;
+
+justify-content:center;
+
+gap:18px;
+
+flex-wrap:wrap;
+
+margin-top:25px;
+
+}
+
+.footer-links a{
+
+padding:10px 18px;
+
+border-radius:8px;
+
+text-decoration:none;
+
+background:rgba(255,255,255,.12);
+
+color:white;
+
+transition:.3s;
+
+}
+
+.footer-links a:hover{
+
+background:#FFD45C;
+
+color:#2E4A73;
+
+}
 
     </style>
 
@@ -188,70 +391,23 @@
 
 <div class="hero">
 
-<div class="hero-card">
+<div class="hero-container">
 
-<div class="logo">
-    <img src="{{ url_for('static', filename='images/logo.png') }}" 
-         alt="SmartPlan Finance Logo" 
-         style="max-width: 250px; display: block; margin: 0 auto 10px auto;">
-</div>
+<div class="hero-left">
 
-<h1 class="title">
-
-SmartPlan Finance
-
+<h1 class="hero-title">
+    <div class="hero-line"></div>
+Build Wealth.<br>
+Plan Smarter.<br>
+Retire Rich.
 </h1>
 
-<p class="subtitle">
-
-Your personal financial planning companion.
-
-Generate investment plans, calculate SIP returns and build long-term wealth with confidence.
-
+<p class="hero-subtitle">
+India's AI Powered Personal Finance Platform designed to help you invest wisely and achieve financial freedom.
 </p>
 
-<a href="/login" class="btn">
-
-Start Your Financial Journey →
-
-</a>
-
-<div class="stats">
-
-<div class="stat">
-
-<h3>5+</h3>
-
-<p>Countries Supported</p>
-
-</div>
-
-<div class="stat">
-
-<h3>3</h3>
-
-<p>Risk Profiles</p>
-
-</div>
-
-<div class="stat">
-
-<h3>100%</h3>
-
-<p>Free Financial Planning</p>
-
-</div>
-
-</div>
-
-<div class="features">
-
-<h3>Why SmartPlan Finance?</h3>
-
-<h3>💼 Free Financial Planning Tools & Investment Calculators</h3>
-
-<ul class="feature-list">
-    <li><a href="/login">📈 Personalized Investment Planner</a></li>
+<ul class="hero-list">
+<li><a href="/login">📈 Personalized Investment Planner</a></li>
     <li><a href="/login">💹 SIP Calculator – Estimate Mutual Fund Returns</a></li>
     <li><a href="/login">🎯 Financial Goal Planner</a></li>
     <li><a href="/login">🧾 Income Tax Calculator (Old vs New Regime)</a></li>
@@ -260,13 +416,33 @@ Start Your Financial Journey →
     <li><a href="/login">💰 Fixed Deposit (FD) Calculator</a></li>
 </ul>
 
-</div>
+<div class="hero-buttons">
+
+<a href="/login" class="primary-btn">
+Start Free →
+</a>
+
+<a href="/articles" class="secondary-btn">
+Explore Articles
+</a>
 
 </div>
 
 </div>
 
-<footer style="background:#0b4da2;color:white;padding:25px;margin-top:50px;text-align:center;">
+<div class="hero-right">
+
+<img src="{{ url_for('static', filename='images/logo.png') }}" alt="SmartPlan Finance">
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<footer style="background:hsla(120, 100%, 6%, 0.659);color:#fafbfa;padding:25px;margin-top:50px;text-align:center;">
 
     <h3 style="margin-bottom:15px;">SmartPlan Finance</h3>
 

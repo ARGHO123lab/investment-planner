@@ -9,6 +9,8 @@ from config import COUNTRIES
 from dotenv import load_dotenv
 from functools import wraps
 from flask import session, redirect, url_for
+from flask import send_file
+from pdf_generator import generate_financial_report
 load_dotenv()
 
 app = Flask(__name__)
@@ -969,7 +971,125 @@ def sitemap():
 
     return Response("\n".join(xml), mimetype="application/xml")
 
+@app.route("/download-report")
+@login_required
+def download_report():
 
+    user_id = session["user_id"]
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # User
+    cur.execute(
+        "SELECT * FROM users WHERE id=%s",
+        (user_id,)
+    )
+    user = cur.fetchone()
+
+    # Latest Report
+    cur.execute("""
+        SELECT *
+        FROM reports
+        WHERE user_id=%s
+        ORDER BY created_at DESC
+        LIMIT 1
+    """, (user_id,))
+
+    report = cur.fetchone()
+
+    conn.close()
+
+    if not report:
+        return redirect(url_for("dashboard"))
+
+    savings = report["savings"]
+    risk = report["risk"].lower()
+
+    rules = RISK_RULES.get(
+        risk,
+        RISK_RULES["medium"]
+    )
+
+    # Financial Score
+    savings_rate = (
+        report["savings"] / report["income"]
+    ) * 100 if report["income"] > 0 else 0
+
+    score = int(40 + (savings_rate * 0.7))
+    score = min(score, 99)
+
+    # Complete report data
+    data = {
+
+    "income": report["income"],
+    "expense": report["expense"],
+    "savings": savings,
+
+    "score": score,
+
+    "risk": risk.capitalize(),
+
+    "sip": savings * rules["sip"],
+    "large_cap": savings * rules["large_cap"],
+    "mid_cap": savings * rules["mid_cap"],
+    "small_cap": savings * rules["small_cap"],
+    "emergency_fund": savings * rules["emergency"],
+
+    "advice": ADVISOR_INSIGHTS.get(risk, []),
+
+    # SIP
+    "sip_calc_monthly": report["sip_calc_monthly"] or 0,
+    "sip_calc_years": report["sip_calc_years"] or 0,
+    "sip_calc_fv": report["sip_calc_fv"] or 0,
+
+    # Financial Goal
+    "future_target_amount": report["future_target_amount"] or 0,
+    "future_target_years": report["future_target_years"] or 0,
+    "future_req_monthly": report["future_req_monthly"] or 0,
+
+    # EMI
+    "emi_loan_amount": report["emi_loan_amount"] or 0,
+    "emi_rate": report["emi_rate"] or 0,
+    "emi_years": report["emi_years"] or 0,
+    "emi_monthly": report["emi_monthly"] or 0,
+    "emi_interest": report["emi_interest"] or 0,
+    "emi_total": report["emi_total"] or 0,
+
+    # Retirement
+    "retirement_corpus": report["retirement_corpus"] or 0,
+    "retirement_monthly": report["retirement_monthly"] or 0,
+    "retirement_age": report["retirement_age"] or 0,
+
+    # FD
+    "fd_principal": report["fd_principal"] or 0,
+    "fd_rate": report["fd_rate"] or 0,
+    "fd_years": report["fd_years"] or 0,
+    "fd_interest": report["fd_interest"] or 0,
+    "fd_maturity": report["fd_maturity"] or 0,
+
+    # Tax
+    "tax_income": report["tax_income"] or 0,
+    "tax_old": report["tax_old"] or 0,
+    "tax_new": report["tax_new"] or 0,
+    "tax_savings": report["tax_savings"] or 0,
+    "tax_better": report["tax_better"] or ""
+
+}
+
+    pdf_path = "financial_report.pdf"
+
+    generate_financial_report(
+        pdf_path,
+        user,
+        data
+    )
+
+    return send_file(
+        pdf_path,
+        as_attachment=True,
+        download_name="SmartPlan_Finance_Report.pdf"
+    )
 if __name__ == '__main__':
     # This runs only when you execute 'python app.py' locally
     # It will NOT override the production server settings
