@@ -13,19 +13,14 @@
             font-family: 'Poppins', sans-serif;
         }
         .report{
-
+    width:100%;
     max-width:900px;
-
     margin:auto;
-
     background:white;
-
-    padding:50px;
-
+    padding:40px;
     border-radius:20px;
-
     box-shadow:0 20px 50px rgba(0,0,0,.10);
-
+    box-sizing:border-box;
 }
         .header {
             text-align: center;
@@ -147,11 +142,73 @@
         .btn-secondary:hover {
             background: #FFF8E1;
         }
-        @media(max-width: 768px) {
-            .summary, .allocate {
-                grid-template-columns: 1fr;
-            }
-        }
+        @media (max-width:768px){
+
+    body{
+        padding:15px;
+    }
+
+    .report{
+        padding:20px;
+        border-radius:15px;
+    }
+
+    .header img{
+        height:55px !important;
+    }
+
+    .header h1{
+        font-size:28px;
+        line-height:36px;
+    }
+
+    .subtitle{
+        font-size:15px;
+        line-height:24px;
+    }
+
+    .summary,
+    .allocate{
+        grid-template-columns:1fr;
+        gap:15px;
+    }
+
+    .card-box{
+        padding:18px;
+    }
+
+    .card-box h2{
+        font-size:24px;
+    }
+
+    .section-title{
+        font-size:22px;
+        text-align:center;
+    }
+
+    .nav-links{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .btn{
+        width:100%;
+        max-width:100%;
+        flex:none;
+    }
+
+    .score{
+        width:140px;
+        height:140px;
+    }
+
+    .score-circle{
+        width:130px;
+        height:130px;
+        font-size:34px;
+    }
+
+}
     </style>
 </head>
 <body>
