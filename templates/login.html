@@ -26,97 +26,288 @@
 
         body{
 
-            display:flex;
+    margin:0;
+    min-height:100vh;
 
-            justify-content:center;
+    font-family:'Poppins',sans-serif;
 
-            align-items:center;
+    background:linear-gradient(135deg,#FFFDF7,#FFF6DD);
 
-            min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-            padding:30px;
+    padding:25px;
 
-        }
+}
 
-        .card{
+.login-wrapper{
 
-            width:480px;
+    width:100%;
+    max-width:1100px;
 
-            padding:40px;
+    display:grid;
+    grid-template-columns:1fr 470px;
 
-        }
+    gap:60px;
 
-        .logo{
+    align-items:center;
 
-            text-align:center;
+}
 
-            font-size:55px;
+.left-panel h1{
 
-            margin-bottom:10px;
+    font-size:54px;
+    color:#B8860B;
+    line-height:1.2;
+    margin-bottom:20px;
 
-        }
+}
 
-        h2{
+.left-panel p{
 
-            text-align:center;
+    font-size:19px;
+    line-height:34px;
+    color:#666;
 
-            margin-bottom:10px;
+}
 
-        }
+.left-panel ul{
 
-        .subtitle{
+    list-style:none;
+    padding:0;
+    margin-top:40px;
 
-            text-align:center;
+}
 
-            color:#666;
+.left-panel li{
 
-            margin-bottom:30px;
+    margin-bottom:18px;
+    font-size:18px;
 
-            font-size:15px;
+}
 
-        }
+.card{
 
-        label{
+    background:white;
 
-            display:block;
+    width:100%;
 
-            margin-bottom:8px;
+    padding:45px;
 
-            margin-top:18px;
+    border-radius:24px;
 
-            font-weight:600;
+    box-shadow:0 18px 45px rgba(0,0,0,.08);
 
-        }
+    box-sizing:border-box;
 
-        .security{
+}
 
-            margin-top:25px;
+.logo{
 
-            background:#FFF8E1;
+    text-align:center;
 
-            border-left:5px solid #FFC107;
+    font-size:58px;
 
-            padding:15px;
+    margin-bottom:12px;
 
-            border-radius:12px;
+}
 
-            font-size:14px;
+h2{
 
-            color:#555;
+    text-align:center;
 
-        }
+    margin-bottom:12px;
 
-        .security strong{
+    color:#333;
 
-            color:#B8860B;
+}
 
-        }
+.subtitle{
 
+    text-align:center;
+
+    color:#666;
+
+    margin-bottom:30px;
+
+    line-height:28px;
+
+}
+
+label{
+
+    display:block;
+
+    font-weight:600;
+
+    margin:20px 0 8px;
+
+}
+
+input,
+select{
+
+    width:100%;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    border:1px solid #ddd;
+
+    font-size:16px;
+
+    box-sizing:border-box;
+
+}
+
+input:focus,
+select:focus{
+
+    outline:none;
+
+    border-color:#B8860B;
+
+    box-shadow:0 0 10px rgba(184,134,11,.15);
+
+}
+
+button{
+
+    margin-top:28px;
+
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#B8860B;
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#9F7600;
+
+}
+
+.security{
+
+    margin-top:28px;
+
+    background:#FFF8E1;
+
+    border-left:5px solid #B8860B;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    line-height:28px;
+
+    color:#555;
+
+}
+
+@media(max-width:900px){
+
+.login-wrapper{
+
+grid-template-columns:1fr;
+
+gap:30px;
+
+}
+
+.left-panel{
+
+text-align:center;
+
+}
+
+.left-panel h1{
+
+font-size:34px;
+
+}
+
+.left-panel p{
+
+font-size:17px;
+
+line-height:30px;
+
+}
+
+.left-panel ul{
+
+text-align:left;
+
+max-width:330px;
+
+margin:30px auto 0;
+
+}
+
+.card{
+
+padding:30px;
+
+}
+
+}
     </style>
 
 </head>
 
 <body>
+
+<div class="login-wrapper">
+
+<div class="left-panel">
+
+<h1>
+
+Plan Smart.<br>
+Invest Smarter.
+
+</h1>
+
+<p>
+
+Generate your personalised financial roadmap in less than two minutes using SmartPlan Finance.
+
+</p>
+
+<ul>
+
+<li>📈 Investment Planner</li>
+
+<li>💹 SIP Calculator</li>
+
+<li>🏦 EMI & FD Calculator</li>
+
+<li>👴 Retirement Planner</li>
+
+<li>🧾 Tax Regime Comparator</li>
+
+</ul>
+
+</div>
 
 <div class="card">
 
@@ -185,7 +376,7 @@ We never sell or share your personal information.
 </div>
 
 </div>
-
+</div>
 </body>
 
 </html>
