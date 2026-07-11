@@ -134,17 +134,20 @@ h3{
 =========================== */
 
 input,
-select{
+select,
+textarea{
 
     width:100%;
 
-    padding:13px 15px;
+    padding:14px;
 
     border:1px solid #dddddd;
 
-    border-radius:12px;
+    border-radius:10px;
 
-    font-size:15px;
+box-sizing:border-box;
+
+    font-size:16px;
 
     background:white;
 
@@ -155,11 +158,11 @@ select{
 input:focus,
 select:focus{
 
-    outline:none;
+outline:none;
 
-    border-color:var(--primary);
+border:2px solid #FFC107;
 
-    box-shadow:0 0 0 4px rgba(255,193,7,.18);
+box-shadow:0 0 10px rgba(255,193,7,.25);
 
 }
 
