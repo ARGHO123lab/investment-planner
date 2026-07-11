@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>SIP Calculator</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         
     body {
@@ -65,42 +65,191 @@
         border-radius: 12px;
         text-align: center;
     }
+    .back-btn{
+
+display:inline-block;
+
+padding:14px 28px;
+
+background:#ffffff;
+
+border:2px solid #FFC107;
+
+border-radius:12px;
+
+text-decoration:none;
+
+font-weight:600;
+
+color:#B8860B;
+
+transition:.3s;
+
+}
+
+.back-btn:hover{
+
+background:#FFF8E1;
+
+transform:translateY(-2px);
+
+}
+
+.result-box h1{
+
+font-size:40px;
+
+margin:15px 0;
+
+}
+
+input:focus{
+
+outline:none;
+
+border:2px solid #FFC107;
+
+box-shadow:0 0 12px rgba(255,193,7,.25);
+
+}
+@media(max-width:768px){
+
+body{
+
+padding:15px;
+
+}
+
+.container{
+
+padding:25px;
+
+}
+
+h1{
+
+font-size:30px;
+
+}
+
+.result-box h1{
+
+font-size:32px;
+
+}
+
+button{
+
+font-size:16px;
+
+}
+
+.back-btn{
+
+width:100%;
+
+display:block;
+
+}
+
+}
 </style>
     
 </head>
 
 <body>
 
-<div class="card">
+<div class="container">
+
+<div style="text-align:center; margin-bottom:30px;">
+
+    <h1 style="margin-bottom:10px;">
+        📈 SIP Calculator
+    </h1>
+
+    <p style="color:#666;font-size:17px;line-height:28px;">
+        Estimate how much your monthly SIP can grow over time.
+    </p>
+
+</div>
 
     <h1>📊 SIP Calculator</h1>
 
     <form method="POST">
 
         <label>Monthly Investment</label>
-        <input type="number" name="monthly_investment" required>
+        <input
+type="number"
+name="monthly_investment"
+placeholder="₹ 10,000"
+required>
 
         <label>Expected Annual Return (%)</label>
-        <input type="number" name="annual_return" required>
+        <input
+type="number"
+name="annual_return"
+placeholder="12"
+required>   
 
         <label>Time Period (Years)</label>
-        <input type="number" name="years" required>
+       <input
+type="number"
+name="years"
+placeholder="20"
+required>
 
-        <button type="submit">Calculate</button>
+       <button type="submit">
+
+🚀 Calculate My Wealth
+
+</button>
 
     </form>
 
-   <div style="margin-top:20px;">
+   <div style="margin-top:30px;text-align:center;">
     <a href="{{ url_for('dashboard') }}" class="back-btn">
-    ← Back to Dashboard
+
+🏠 Back to Dashboard
+
 </a>
 </div>
 
     {% if result %}
-        <div class="result">
-            Future Value: ₹ {{ result }}
-        </div>
-    {% endif %}
+
+<div class="result-box">
+
+<h3 style="margin-bottom:10px;color:#555;">
+Estimated Future Value
+</h3>
+
+<h1 style="font-size:42px;color:#B8860B;">
+₹ {{ result }}
+</h1>
+
+<p>
+Based on your monthly investment and expected returns.
+</p>
+
+</div>
+
+{% endif %}
+{% if result %}
+
+<div class="result-box" style="margin-top:20px;text-align:left;">
+
+<h3>
+💡 SmartPlan Insight
+</h3>
+
+<p>
+
+Starting your SIP today instead of waiting even one year can significantly increase your wealth because of the power of compounding.
+
+</p>
+
+</div>
+
+{% endif %}
 
 </div>
 
