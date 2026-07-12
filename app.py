@@ -12,11 +12,18 @@ from flask import session, redirect, url_for
 from flask import send_file
 from pdf_generator import generate_financial_report
 from flask import send_file
+from openai import OpenAI
 import FAQ
-
+import logging
+logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
-
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+print("Groq Key Found:", GROQ_API_KEY is not None)
+client = OpenAI(
+    api_key=GROQ_API_KEY,
+    base_url="https://api.groq.com/openai/v1"
+)
 app = Flask(__name__)
 # Make sure this matches your production environment
 app.secret_key = os.environ.get(
@@ -25,7 +32,63 @@ app.secret_key = os.environ.get(
 )
 
 # --- SECURITY GUARD (ADMIN AUTHENTICATION) ---
+def generate_ai_advice(report):
 
+    app.logger.info("===== AI FUNCTION STARTED =====")
+    app.logger.info(f"API KEY EXISTS: {bool(GROQ_API_KEY)}")
+
+    prompt = f"""
+You are a Certified Financial Planner.
+
+Analyze this person's finances.
+
+Income: {report['income']}
+Expense: {report['expense']}
+Savings: {report['savings']}
+Risk: {report['risk']}
+
+Give:
+
+1. Financial Health
+2. Strengths
+3. Weaknesses
+4. Investment Suggestions
+5. Emergency Fund Advice
+6. Retirement Advice
+7. Tax Saving Advice
+
+Return only clean HTML.
+
+Use:
+
+<h3> for headings
+
+<ul><li> for recommendations
+
+<p> for paragraphs
+
+Do NOT use Markdown.
+
+Do NOT use **
+
+Do NOT use numbered lists.
+
+Do NOT return ```html
+Maximum 300 words.
+"""
+
+    completion = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        temperature=0.5
+    )
+    print("Groq response received")
+    return completion.choices[0].message.content
 def check_auth(username, password):
     # This checks against the ADMIN_PASSWORD environment variable you set in Render
     return username == 'admin' and password == os.environ.get('ADMIN_PASSWORD')
@@ -368,7 +431,7 @@ def dashboard():
 "tax_better": report["tax_better"] or "",
         "score": score # Score is now inside the same dictionary
     }
-    
+    report_data["ai_advice"] = generate_ai_advice(report_data)
     return render_template('report.html', user=user, data=report_data)
 
 @app.route('/sip-calculator', methods=['GET', 'POST'])
