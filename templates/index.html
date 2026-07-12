@@ -5,9 +5,19 @@
 
     <meta charset="UTF-8">
 
+<link rel="icon" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}" sizes="32x32">
+
+<link rel="icon" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}" sizes="16x16">
+
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+
+<link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+<meta name="theme-color" content="#FFC107">
+<meta name="msapplication-TileColor" content="#FFC107">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SmartPlan Finance | Smart Investment Planner</title>
+    <title>SmartPlan Finance |  SIP Calculator, Investment Planner & Personal Finance Guide</title>
 
     <meta name="description" content="Plan your investments intelligently with SmartPlan Finance. Generate personalized investment plans, calculate SIP returns and build your financial future.">
 
@@ -420,7 +430,6 @@ width:100%;
 
 margin:auto;
 height:auto;
-
 }
 
 .hero-title{
@@ -531,7 +540,17 @@ width:220px;
 }
 
     </style>
-
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Organization",
+  "name":"SmartPlan Finance",
+  "url":"https://smartplanfinance.com",
+  "logo":"https://smartplanfinance.com/static/images/logo.png",
+  "description":"SmartPlan Finance helps Indian investors with SIP calculators, investment planning, retirement planning, tax planning and personal finance education.",
+  "sameAs":[]
+}
+</script>
 </head>
 
 <body>

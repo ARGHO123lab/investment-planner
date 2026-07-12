@@ -2,6 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+
+<link rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+
+<link rel="apple-touch-icon"
+      href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+
+<link rel="manifest"
+      href="{{ url_for('static', filename='icons/site.webmanifest') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ article.title }} | SmartPlan Finance</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -28,6 +43,60 @@
         
         @media(max-width:768px) { .article-card { padding: 25px; } .article-title { font-size: 30px; } }
     </style>
+    <script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "headline":"{{ article.title }}",
+  "datePublished":"{{ article.created_at.strftime('%Y-%m-%d') if article.created_at else '' }}",
+  "author":{
+      "@type":"Organization",
+      "name":"SmartPlan Finance"
+  },
+  "publisher":{
+      "@type":"Organization",
+      "name":"SmartPlan Finance",
+      "logo":{
+          "@type":"ImageObject",
+          "url":"https://smartplanfinance.com/static/images/logo.png"
+      }
+  },
+  "mainEntityOfPage":"{{ request.url }}",
+  "image":"https://smartplanfinance.com/static/images/logo.png"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {
+      "@type":"Question",
+      "name":"How can I start investing with SmartPlan Finance?",
+      "acceptedAnswer":{
+        "@type":"Answer",
+        "text":"You can explore our SIP Calculator, EMI Calculator, Financial Goal Planner and investment guides to begin planning your financial future."
+      }
+    },
+    {
+      "@type":"Question",
+      "name":"Is SmartPlan Finance free to use?",
+      "acceptedAnswer":{
+        "@type":"Answer",
+        "text":"Yes. Our financial calculators and educational articles are completely free for everyone."
+      }
+    },
+    {
+      "@type":"Question",
+      "name":"Which calculator should I use first?",
+      "acceptedAnswer":{
+        "@type":"Answer",
+        "text":"Most beginners start with the SIP Calculator and Financial Goal Planner to estimate how much they need to invest every month."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
