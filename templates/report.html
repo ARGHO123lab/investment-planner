@@ -224,6 +224,42 @@
     }
 
 }
+.ai-card{
+    margin-top:25px;
+    background:#ffffff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    border:1px solid #f2e3a4;
+}
+
+.ai-header{
+    background:linear-gradient(90deg,#FFC107,#FF9800);
+    color:white;
+    padding:18px 25px;
+    font-size:20px;
+    font-weight:600;
+}
+
+.ai-content{
+    padding:30px;
+    font-size:17px;
+    line-height:32px;
+    color:#444;
+}
+
+.ai-content h3{
+    color:#B8860B;
+    margin-top:25px;
+}
+
+.ai-content ul{
+    padding-left:22px;
+}
+
+.ai-content li{
+    margin-bottom:12px;
+}
     </style>
 </head>
 <body>
@@ -644,6 +680,17 @@
 </div>
 
 {% endif %}
+<h2 class="section-title">🤖 SmartPlan AI Advisor</h2>
+
+<div class="ai-card">
+    <div class="ai-header">
+        <span>✨ Personalized AI Financial Insights</span>
+    </div>
+
+    <div class="ai-content">
+        {{ data.ai_advice|safe }}
+    </div>
+</div>
             <div class="nav-links">
                 <a href="/sip-calculator" class="btn btn-secondary">📊 SIP Calculator</a>
                 <a href="/financial-future" class="btn btn-secondary">🎯 Plan Financial Goal</a>
