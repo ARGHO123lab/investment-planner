@@ -640,7 +640,142 @@ Explore Articles
     </small>
 
 </footer>
+<!-- ================= CHATBOT ================= -->
 
+<div id="chat-toggle">
+    💬
+</div>
+
+<div id="chat-box">
+
+    <div id="chat-header">
+        🤖 SmartPlan AI
+        <span id="close-chat">✖</span>
+    </div>
+
+    <div id="chat-body">
+
+        <div class="bot-message">
+            👋 Hi! I'm SmartPlan AI.
+
+            <br><br>
+
+            Ask me anything about:
+
+            <ul>
+                <li>SIP</li>
+                <li>Mutual Funds</li>
+                <li>Tax Saving</li>
+                <li>Retirement</li>
+                <li>Investment Planning</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div id="chat-footer">
+
+        <input
+            type="text"
+            id="chat-input"
+            placeholder="Ask anything..."
+        >
+
+        <button id="send-btn">
+            ➤
+        </button>
+
+    </div>
+
+</div>
+<script>
+const toggle = document.getElementById("chat-toggle");
+const box = document.getElementById("chat-box");
+const close = document.getElementById("close-chat");
+
+toggle.onclick = () => {
+    box.style.display = "block";
+};
+
+close.onclick = () => {
+    box.style.display = "none";
+};
+
+const sendBtn = document.getElementById("send-btn");
+const input = document.getElementById("chat-input");
+const chatBody = document.getElementById("chat-body");
+
+sendBtn.onclick = sendMessage;
+input.addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        sendMessage();
+    }
+});
+
+function sendMessage(){
+
+    const message = input.value.trim();
+
+    if(message === "") return;
+
+    // Show user message
+    chatBody.innerHTML += `
+        <div style="text-align:right; margin:10px 0;">
+            <div style="display:inline-block;background:#FFC107;padding:10px 15px;border-radius:15px;">
+                ${message}
+            </div>
+        </div>
+    `;
+
+    input.value = "";
+
+    // Show typing message
+    chatBody.innerHTML += `
+        <div id="typing" class="bot-message">
+            🤖 Thinking...
+        </div>
+    `;
+
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    fetch("/chat",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            message:message
+        })
+    })
+    .then(res => res.json())
+    .then(data=>{
+
+        document.getElementById("typing").remove();
+
+        chatBody.innerHTML += `
+            <div class="bot-message">
+                ${data.reply}
+            </div>
+        `;
+
+        chatBody.scrollTop = chatBody.scrollHeight;
+
+    })
+    .catch(error=>{
+
+        document.getElementById("typing").remove();
+
+        chatBody.innerHTML += `
+            <div class="bot-message">
+                Sorry, something went wrong.
+            </div>
+        `;
+
+    });
+
+}
+</script>
 </body>
 
 </html>

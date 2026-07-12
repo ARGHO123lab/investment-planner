@@ -15,6 +15,7 @@ from flask import send_file
 from openai import OpenAI
 import FAQ
 import logging
+from flask import jsonify
 logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
@@ -163,7 +164,63 @@ init_db()
 @app.route('/')
 def index():
     return render_template('index.html')
+@app.route("/chat", methods=["POST"])
+def chat():
 
+    user_message = request.json.get("message", "")
+
+    prompt = f"""
+You are SmartPlan AI, the official AI assistant of SmartPlan Finance.
+
+Your mission is to help people make better financial decisions.
+
+You can answer questions about:
+- Mutual Funds
+- SIP
+- Stocks
+- Emergency Funds
+- Retirement Planning
+- Tax Planning
+- Fixed Deposits
+- Budgeting
+- Financial Independence
+- Insurance
+- Personal Finance
+
+Rules:
+
+1. Answer in simple English.
+2. Keep answers under 180 words.
+3. Use HTML only.
+4. Use:
+<h4> for headings
+<ul><li> for bullet points
+<p> for paragraphs
+5. Never use Markdown.
+6. If someone asks a non-financial question, politely say:
+"I'm SmartPlan AI and currently specialize in finance and investment-related questions."
+7. Never guarantee returns.
+8. Always encourage long-term investing.
+9. If asked about specific stocks, remind users to do their own research.
+
+Question:
+{user_message}
+"""
+
+    completion = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        temperature=0.5
+    )
+
+    return jsonify({
+        "reply": completion.choices[0].message.content
+    })
 @app.route('/delete/<int:article_id>', methods=['POST'])
 @requires_auth
 def delete_article(article_id):
