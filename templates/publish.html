@@ -1,83 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <link rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+          type="image/png"
+          sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
 
-<link rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
 
-<link rel="apple-touch-icon"
-      href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
 
-<link rel="manifest"
-      href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+    <link rel="manifest"
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Publish Article | SmartPlan Finance</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css"
+          rel="stylesheet">
 
     <style>
-        body { padding: 40px; background: #FFFDF5; font-family: 'Poppins', sans-serif; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,.08); }
-        h1 { color: #B8860B; margin-bottom: 25px; }
-        input[type="text"] { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        .editor-wrapper { margin-bottom: 25px; }
-        #editor { height: 400px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; font-size: 16px; }
-        .ql-toolbar { border-top-left-radius: 8px; border-top-right-radius: 8px; background: #fafafa; }
-        button { background: #FFC107; color: #000; border: none; padding: 14px 30px; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 16px; font-family: 'Poppins', sans-serif; transition: 0.2s; }
-        button:hover { background: #E0A800; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>✍️ Publish New Article</h1>
-        
-        <form action="/publish" method="POST" onsubmit="prepareFormSubmission()">
-            <input type="text" name="title" placeholder="Article Title" required>
-            
-            <input type="hidden" name="content" id="hidden-content">
 
-            <div class="editor-wrapper">
-                <div id="editor">
-                    <p>Start writing your financial article here...</p>
-                </div>
-            </div>
-            
-            <button type="submit">Publish Article</button>
-        </form>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
-
-    <script>
-        // Initialize the editor with custom toolbar elements for charts, tables, images, and links
-        const quill = new Quill('#editor', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    [{ 'header': [1, 2, 3, false] }],
-                    ['bold', 'italic', 'underline', 'strike'],        
-                    ['link', 'image', 'video'],                       // Handles file linking and images
-                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                    [{ 'color': [] }, { 'background': [] }],          
-                    ['clean']                                         
-                ]
-            }
-        });
-
-        // Intercept form submittal to extract data out of Quill layer and save it inside your database
-        function prepareFormSubmission() {
-            const richTextHtml = quill.root.innerHTML;
-            document.getElementById('hidden-content').value = richTextHtml;
+        body{
+            padding:40px;
+            background:#FFFDF5;
+            font-family:'Poppins',sans-serif;
         }
-    </script>
+
+        .container{
+            max-width:900px;
+            margin:auto;
+            background:white;
+            padding:40px;
+            border-radius:20px;
+            box-shadow:0 15px 40px rgba(0,0,0,.08);
+        }
+
+        h1{
+            color:#B8860B;
+        }
+
+        h2{
+            color:#B8860B;
+            margin-top:30px;
+        }
+
+        input[type=text]{
+
+            width:100%;
+            padding:14px;
+            margin-bottom:20px;
+
+            border:1px solid #ddd;
+
+            border-radius:10px;
+
+            font-size:16px;
+
+            font-family:'Poppins',sans-serif;
+
+            box-sizing:border-box;
+        }
+
+        #editor{
+
+            height:500px;
+
+            font-size:16px;
+
+            border-bottom-left-radius:8px;
+
+            border-bottom-right-radius:8px;
+        }
+
+        .ql-toolbar{
+
+            border-top-left-radius:8px;
+
+            border-top-right-radius:8px;
+
+            background:#fafafa;
+        }
+
+        button{
+
+            background:#FFC107;
+
+            color:#000;
+
+            border:none;
+
+            padding:14px 28px;
+
+            border-radius:12px;
+
+            font-weight:600;
+
+            cursor:pointer;
+
+            font-size:16px;
+
+            transition:.2s;
+
+            margin-top:10px;
+        }
+
+        button:hover{
+
+            background:#E0A800;
+        }
+
+        hr{
+
+            margin:30px 0;
+
+            border:none;
+
+            border-top:1px solid #eee;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>✍️ Publish New Article</h1>
+
+    <form
+        action="/publish"
+        method="POST"
+        onsubmit="prepareFormSubmission()">
+
+        <h2>🤖 AI Article Generator</h2>
+
+        <input
+            type="text"
+            name="ai_topic"
+            placeholder="Example: SIP vs FD: Which is Better in 2026?">
+
+        <button
+            type="submit"
+            name="action"
+            value="generate">
+            ✨ Generate Article with AI
+        </button>
+
+        <hr>
+
+        <input
+            type="text"
+            name="title"
+            placeholder="Article Title"
+            value="{{ generated_title if generated_title else '' }}"
+            required>
+
+        <input
+            type="hidden"
+            name="meta_description"
+            value="{{ generated_meta if generated_meta else '' }}">
+
+        <input
+            type="hidden"
+            name="content"
+            id="hidden-content">
+
+        <div id="editor">
+            {% if generated_content %}
+                {{ generated_content|safe }}
+            {% else %}
+                <p>Start writing your financial article here...</p>
+            {% endif %}
+        </div>
+
+        <button type="submit">
+            🚀 Publish Article
+        </button>
+
+    </form>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+<script>
+
+const quill = new Quill('#editor',{
+
+    theme:'snow',
+
+    modules:{
+
+        toolbar:[
+
+            [{header:[1,2,3,false]}],
+
+            ['bold','italic','underline','strike'],
+
+            ['blockquote','code-block'],
+
+            [{'list':'ordered'},{'list':'bullet'}],
+
+            ['link','image','video'],
+
+            [{color:[]},{background:[]}],
+
+            ['clean']
+
+        ]
+
+    }
+
+});
+
+const generatedContent = {{ generated_content|tojson if generated_content else 'null' }};
+
+if(generatedContent){
+
+    quill.root.innerHTML = generatedContent;
+
+}
+
+function prepareFormSubmission(){
+
+    document.getElementById("hidden-content").value = quill.root.innerHTML;
+
+}
+
+</script>
+
 </body>
 </html>

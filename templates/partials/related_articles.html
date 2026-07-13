@@ -1,11 +1,47 @@
-<div style="margin-top:50px; padding:20px; border-top:2px solid #FFF8E1;">
-    <h3>Recommended Reading</h3>
-    <ul style="line-height:2;">
-        {% for item in all_articles %}
-            {# Check that tag exists and is not None before checking membership #}
-            {% if item.id != article.id and article.tag and item.tag and article.tag in item.tag %}
-                <li><a href="{{ url_for('view_article', slug=item.slug) }}" style="color:#B8860B; font-weight:600; text-decoration:none;">{{ item.title }}</a></li>
-            {% endif %}
+<div class="related-section">
+
+    <h2 style="
+        color:#B8860B;
+        margin-top:50px;
+        border-left:6px solid #FFC107;
+        padding-left:15px;
+    ">
+        Recommended Articles
+    </h2>
+
+
+    {% if related_articles %}
+
+        {% for item in related_articles %}
+
+        <div style="
+            background:#FFFDF7;
+            border-radius:15px;
+            padding:20px;
+            margin:15px 0;
+            border:1px solid #eee;
+        ">
+
+            <a href="{{ url_for('view_article', slug=item.slug) }}"
+               style="
+               text-decoration:none;
+               color:#222;
+               font-size:18px;
+               font-weight:600;
+               ">
+
+                {{ item.title }}
+
+            </a>
+
+        </div>
+
         {% endfor %}
-    </ul>
+
+    {% else %}
+
+        <p>No related articles available.</p>
+
+    {% endif %}
+
 </div>

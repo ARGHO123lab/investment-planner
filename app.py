@@ -15,7 +15,10 @@ from flask import send_file
 from openai import OpenAI
 import FAQ
 import logging
+from article_prompt import MASTER_ARTICLE_PROMPT
 from flask import jsonify
+from prompts import ARTICLE_PROMPT
+from knowledge_base import INTERNAL_LINKS
 logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
@@ -90,6 +93,208 @@ Maximum 300 words.
     )
     print("Groq response received")
     return completion.choices[0].message.content
+def generate_ai_article(topic):
+
+    logging.info("===== AI ARTICLE GENERATION STARTED =====")
+    logging.info(f"Topic: {topic}")
+
+    try:
+
+        prompt = MASTER_ARTICLE_PROMPT.format(
+            topic=topic
+        )
+
+        completion = client.chat.completions.create(
+
+            model="llama-3.1-8b-instant",
+
+            messages=[
+                {
+                    "role": "system",
+                    "content": """
+You are the Chief Financial Editor of SmartPlan Finance.
+
+Write SEO friendly financial education articles.
+
+Return only HTML.
+
+Keep article between 1200-1500 words.
+
+Do not add META_TITLE.
+Do not add META_DESCRIPTION.
+Do not add KEYWORDS.
+
+Only provide article HTML.
+"""
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+
+            temperature=0.45,
+
+            max_tokens=3500
+        )
+
+
+        article = completion.choices[0].message.content
+
+        return article
+
+
+    except Exception as e:
+
+        logging.error(
+            f"AI ARTICLE ERROR: {str(e)}"
+        )
+
+        return """
+        <h2>Article Generation Failed</h2>
+        <p>Please try again.</p>
+        """
+
+
+    except Exception as e:
+
+        logging.error(
+            f"AI ARTICLE ERROR: {str(e)}"
+        )
+
+        return """
+        <h2>Article Generation Failed</h2>
+        <p>Please try again.</p>
+        """
+def generate_metadata(title, content):
+
+    text = re.sub(
+        "<.*?>",
+        "",
+        content
+    )
+
+    return {
+        "meta_title": title[:60],
+        "meta_description": text[:155],
+        "keywords": "",
+        "excerpt": text[:250],
+        "reading_time": max(1, len(text.split()) // 200)
+    }
+def extract_article_data(ai_response):
+
+    import re
+
+    data = {
+        "meta_title": "",
+        "meta_description": "",
+        "keywords": "",
+        "excerpt": "",
+        "reading_time": 0,
+        "article_html": ""
+    }
+
+
+    if not ai_response:
+        return data
+
+
+    try:
+
+        if "ARTICLE_HTML:" in ai_response:
+
+            parts = ai_response.split(
+                "ARTICLE_HTML:",
+                1
+            )
+
+
+            header = parts[0]
+            html = parts[1]
+
+
+            data["article_html"] = html.strip()
+
+
+            title = re.search(
+                r"META_TITLE:\s*(.*?)\n\n",
+                header,
+                re.S
+            )
+
+            if title:
+                data["meta_title"] = title.group(1).strip()
+
+
+
+            description = re.search(
+                r"META_DESCRIPTION:\s*(.*?)\n\n",
+                header,
+                re.S
+            )
+
+            if description:
+                data["meta_description"] = description.group(1).strip()
+
+
+
+            keywords = re.search(
+                r"KEYWORDS:\s*(.*?)\n\n",
+                header,
+                re.S
+            )
+
+            if keywords:
+                data["keywords"] = keywords.group(1).strip()
+
+
+
+            excerpt = re.search(
+                r"EXCERPT:\s*(.*?)\n\n",
+                header,
+                re.S
+            )
+
+            if excerpt:
+                data["excerpt"] = excerpt.group(1).strip()
+
+
+
+            reading = re.search(
+                r"READING_TIME:\s*(\d+)",
+                header
+            )
+
+            if reading:
+                data["reading_time"] = int(
+                    reading.group(1)
+                )
+
+
+        else:
+
+            # fallback if AI returns only HTML
+            data["article_html"] = ai_response
+
+
+
+    except Exception as e:
+
+        print(
+            "ARTICLE PARSER ERROR:",
+            e
+        )
+
+        data["article_html"] = ai_response
+
+
+
+    return data
+def generate_meta_description(title, content):
+
+    text = re.sub("<.*?>", "", content)
+
+    return text[:155]
 def check_auth(username, password):
     # This checks against the ADMIN_PASSWORD environment variable you set in Render
     return username == 'admin' and password == os.environ.get('ADMIN_PASSWORD')
@@ -381,37 +586,301 @@ def profile():
 @app.route('/publish', methods=['GET', 'POST'])
 @requires_auth
 def publish():
-    if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
 
-        # Generate SEO-friendly slug
-        slug = re.sub(
-            r'[^a-z0-9]+',
-            '-',
-            title.lower()
-        ).strip('-')
+    # -----------------------------
+    # OPEN PAGE
+    # -----------------------------
+    if request.method == "GET":
+
+        return render_template(
+            "publish.html",
+            generated_title="",
+            generated_content="",
+            generated_meta=""
+        )
+
+
+    action = request.form.get("action")
+
+
+    # ==========================================================
+    # AI ARTICLE GENERATION
+    # ==========================================================
+    if action == "generate":
+
+        topic = request.form.get(
+            "ai_topic",
+            ""
+        ).strip()
+
+
+        if not topic:
+
+            return render_template(
+                "publish.html",
+                generated_title="",
+                generated_content="<p>Please enter an article topic.</p>",
+                generated_meta=""
+            )
+
+
+        # Generate article using AI
+        article_html = generate_ai_article(topic)
+
+
+        # Safety check
+        if not article_html:
+
+            article_html = """
+            <h2>Article Generation Failed</h2>
+            <p>
+            AI did not return any content.
+            Please try again.
+            </p>
+            """
+
+
+        # Add internal links
+        article_html = add_internal_links(
+            article_html
+        )
+
+
+        # Generate SEO meta description
+        meta_description = generate_meta_description(
+            topic,
+            article_html
+        )
+
+
+        return render_template(
+            "publish.html",
+            generated_title=topic,
+            generated_content=article_html,
+            generated_meta=meta_description
+        )
+
+
+
+    # ==========================================================
+    # PUBLISH ARTICLE TO DATABASE
+    # ==========================================================
+
+    title = request.form.get(
+        "title",
+        ""
+    ).strip()
+
+
+    content = request.form.get(
+        "content",
+        ""
+    ).strip()
+
+
+    meta_description = request.form.get(
+        "meta_description",
+        ""
+    ).strip()
+
+
+
+    # Generate meta description if empty
+    if not meta_description:
+
+        meta_description = generate_meta_description(
+            title,
+            content
+        )
+
+
+    # Create SEO slug
+    slug = re.sub(
+        r'[^a-z0-9]+',
+        '-',
+        title.lower()
+    ).strip('-')
+
+
+
+    conn = get_db_connection()
+
+    cur = conn.cursor()
+
+
+    cur.execute(
+        """
+        INSERT INTO articles
+        (
+            title,
+            slug,
+            content,
+            meta_description
+        )
+        VALUES
+        (
+            %s,
+            %s,
+            %s,
+            %s
+        )
+        """,
+        (
+            title,
+            slug,
+            content,
+            meta_description
+        )
+    )
+
+
+    conn.commit()
+
+    conn.close()
+
+
+    return redirect(
+        url_for(
+            "view_article",
+            slug=slug
+        )
+    )
+
+def add_internal_links(content):
+
+    # ----------------------------------
+    # Calculator Links
+    # ----------------------------------
+
+    internal_links = {
+
+        "SIP Calculator": "/sip-calculator",
+        "SIP": "/sip-calculator",
+
+        "EMI Calculator": "/emi_calculator",
+        "EMI": "/emi_calculator",
+
+        "Retirement Calculator": "/retirement_calculator",
+        "Retirement": "/retirement_calculator",
+
+        "FD Calculator": "/fd_calculator",
+        "FD": "/fd_calculator",
+        "Fixed Deposit": "/fd_calculator",
+
+        "Tax Calculator": "/tax_calculator",
+        "Tax": "/tax_calculator",
+
+        "Financial Planner": "/financial-future",
+        "Financial Goal": "/financial-future",
+
+        "SmartPlan Finance": "/"
+
+    }
+
+
+    # ----------------------------------
+    # Add Calculator Links
+    # ----------------------------------
+
+    for text, url in internal_links.items():
+
+        if f'href="{url}"' in content:
+            continue
+
+
+        pattern = rf"\b{text}\b"
+
+
+        replacement = (
+            f'<a href="{url}" '
+            f'style="color:#B8860B;font-weight:600;">'
+            f'{text}</a>'
+        )
+
+
+        content = re.sub(
+            pattern,
+            replacement,
+            content,
+            count=1,
+            flags=re.IGNORECASE
+        )
+
+
+
+    # ----------------------------------
+    # Add Related Article Links
+    # ----------------------------------
+
+    try:
 
         conn = get_db_connection()
         cur = conn.cursor()
+
+
         cur.execute(
             """
-            INSERT INTO articles
-            (title, slug, content)
-            VALUES (%s, %s, %s)
-            """,
-            (
-                title,
-                slug,
-                content
-            )
+            SELECT title, slug
+            FROM articles
+            ORDER BY created_at DESC
+            LIMIT 20
+            """
         )
-        conn.commit()
+
+
+        articles = cur.fetchall()
+
         conn.close()
 
-        return redirect(url_for("articles"))
 
-    return render_template("publish.html")
+
+        for article in articles:
+
+            title = article["title"]
+            slug = article["slug"]
+
+
+            # Avoid empty titles
+
+            if len(title) < 10:
+                continue
+
+
+            if f"/blog/{slug}" in content:
+                continue
+
+
+
+            pattern = rf"\b{re.escape(title)}\b"
+
+
+
+            replacement = (
+                f'<a href="/blog/{slug}" '
+                f'style="color:#B8860B;font-weight:600;">'
+                f'{title}</a>'
+            )
+
+
+            content = re.sub(
+                pattern,
+                replacement,
+                content,
+                count=1,
+                flags=re.IGNORECASE
+            )
+
+
+    except Exception as e:
+
+        logging.error(
+            f"Article linking error: {e}"
+        )
+
+
+    return content
+
+
 
 @app.route('/dashboard')
 @login_required
@@ -1012,23 +1481,152 @@ def articles():
 
 @app.route('/blog/<slug>')
 def view_article(slug):
+
     conn = get_db_connection()
     cur = conn.cursor()
-    
-    # 1. Fetch the specific article
-    cur.execute("SELECT * FROM articles WHERE slug = %s", (slug,))
+
+
+    # Current article
+    cur.execute(
+        """
+        SELECT *
+        FROM articles
+        WHERE slug = %s
+        """,
+        (slug,)
+    )
+
     article = cur.fetchone()
-    
-    # 2. Fetch all articles for the "Related Articles" section
-    cur.execute("SELECT id, title, slug, tag FROM articles LIMIT 5")
-    all_articles = cur.fetchall()
-    
-    conn.close()
-    
+
+
     if article is None:
+        conn.close()
         return "Article not found", 404
-        
-    return render_template('view_article.html', article=article, all_articles=all_articles)
+
+
+
+    # -----------------------------------
+    # Find related articles
+    # -----------------------------------
+
+    current_text = (
+        article["title"]
+        + " "
+        + article["content"]
+    ).lower()
+
+
+    keywords = [
+        "sip",
+        "investment",
+        "mutual fund",
+        "salary",
+        "saving",
+        "tax",
+        "retirement",
+        "fd",
+        "financial",
+        "wealth",
+        "emergency fund",
+        "budget"
+    ]
+
+
+    matched_keywords = []
+
+
+    for word in keywords:
+
+        if word in current_text:
+            matched_keywords.append(word)
+
+
+
+    if matched_keywords:
+
+
+        conditions = " OR ".join(
+            [
+                "LOWER(title) LIKE %s",
+                "LOWER(content) LIKE %s"
+            ]
+        )
+
+
+        query = """
+        SELECT id,title,slug
+        FROM articles
+        WHERE slug != %s
+        AND (
+        """
+
+
+        params = [slug]
+
+
+        search_parts = []
+
+
+        for word in matched_keywords:
+
+            search_parts.append(
+                "LOWER(title) LIKE %s OR LOWER(content) LIKE %s"
+            )
+
+            params.extend(
+                [
+                    f"%{word}%",
+                    f"%{word}%"
+                ]
+            )
+
+
+        query += " OR ".join(search_parts)
+
+        query += """
+        )
+        ORDER BY created_at DESC
+        LIMIT 5
+        """
+
+
+        cur.execute(
+            query,
+            params
+        )
+
+
+        related_articles = cur.fetchall()
+
+
+    else:
+
+        cur.execute(
+            """
+            SELECT id,title,slug
+            FROM articles
+            WHERE slug != %s
+            ORDER BY created_at DESC
+            LIMIT 5
+            """,
+            (slug,)
+        )
+
+
+        related_articles = cur.fetchall()
+
+
+
+    conn.close()
+
+
+
+    return render_template(
+        'view_article.html',
+        article=article,
+        related_articles=related_articles
+
+    )
 
 @app.route("/disclaimer")
 def disclaimer():
@@ -1226,7 +1824,9 @@ def download_report():
         as_attachment=True,
         download_name="SmartPlan_Finance_Report.pdf"
     )
-if __name__ == '__main__':
-    # This runs only when you execute 'python app.py' locally
-    # It will NOT override the production server settings
-    app.run()
+if __name__ == "__main__":
+    app.run(
+        host="127.0.0.1",
+        port=5001,
+        debug=False
+    )
