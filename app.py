@@ -369,8 +369,26 @@ init_db()
 @app.route('/')
 def index():
     return render_template('index.html')
+@app.route("/reset-session")
+@requires_auth
+def reset_session():
+    session.clear()
+    return "✅ Session cleared."
 @app.route("/chat", methods=["POST"])
 def chat():
+
+    # Get current chat count from Flask session
+    chat_count = session.get("chat_count", 0)
+
+    # Stop after 3 chats
+    if chat_count >= 3:
+        return jsonify({
+            "reply": """
+            <h4>Free Limit Reached</h4>
+            <p>You have reached your free limit of <b>3 AI chats</b>.</p>
+            <p>Please sign up or come back later.</p>
+            """
+        })
 
     user_message = request.json.get("message", "")
 
@@ -412,20 +430,31 @@ Question:
 {user_message}
 """
 
-    completion = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=[
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ],
-        temperature=0.5
-    )
+    try:
+        completion = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=0.5
+        )
 
-    return jsonify({
-        "reply": completion.choices[0].message.content
-    })
+        # Increase chat count only after a successful AI response
+        session["chat_count"] = chat_count + 1
+
+        return jsonify({
+            "reply": completion.choices[0].message.content
+        })
+
+    except Exception as e:
+        app.logger.error(f"Chatbot Error: {str(e)}")
+
+        return jsonify({
+            "reply": "<p>Sorry, something went wrong. Please try again later.</p>"
+        }), 500
 @app.route('/delete/<int:article_id>', methods=['POST'])
 @requires_auth
 def delete_article(article_id):
