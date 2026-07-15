@@ -891,3 +891,14 @@ cursor:pointer;
 font-size:20px;
 
 }
+.author-box {
+    margin-top: 40px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f8f8f8;
+    border-left: 4px solid #B8860B;
+}
+
+.author-box h4 {
+    margin-bottom: 10px;
+}
