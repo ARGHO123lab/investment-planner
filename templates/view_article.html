@@ -19,6 +19,7 @@
       href="{{ url_for('static', filename='icons/site.webmanifest') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ article.title }} | SmartPlan Finance</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { margin: 0; background: #FFFDF7; font-family: 'Poppins', sans-serif; }
@@ -110,6 +111,47 @@
         </div>
 
         <h1 class="article-title">{{ article.title }}</h1>
+        {% if article.featured_image %}
+<div style="margin:30px 0;">
+    <img
+        src="{{ article.featured_image }}"
+        alt="{{ article.title }}"
+        style="
+            width:100%;
+            max-height:500px;
+            object-fit:cover;
+            border-radius:18px;
+            box-shadow:0 8px 24px rgba(0,0,0,.12);
+        ">
+</div>
+{% endif %}
+        {% if is_admin %}
+<div style="margin:20px 0; display:flex; gap:12px; flex-wrap:wrap;">
+
+    <a href="{{ url_for('upload_featured_image', article_id=article.id) }}"
+       style="
+            background:#0d6efd;
+            color:white;
+            padding:12px 20px;
+            border-radius:8px;
+            text-decoration:none;
+            font-weight:600;">
+        🖼 Change Featured Image
+    </a>
+
+    <a href="{{ url_for('edit_article', article_id=article.id) }}"
+       style="
+            background:#198754;
+            color:white;
+            padding:12px 20px;
+            border-radius:8px;
+            text-decoration:none;
+            font-weight:600;">
+        ✏️ Edit Article
+    </a>
+
+</div>
+{% endif %}
         <div class="article-meta">📅 Published on {{ article.created_at.strftime('%d %B %Y') }}</div>
         <hr style="margin-bottom:35px; border: 0; border-top: 1px solid #eee;">
 

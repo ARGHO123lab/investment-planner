@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Featured Image</title>
+
+    <style>
+        body{
+            font-family:Arial,sans-serif;
+            max-width:700px;
+            margin:60px auto;
+            padding:20px;
+        }
+
+        h2{
+            margin-bottom:20px;
+        }
+
+        input[type=file]{
+            margin-bottom:20px;
+        }
+
+        button{
+            background:#007bff;
+            color:white;
+            border:none;
+            padding:12px 24px;
+            border-radius:6px;
+            cursor:pointer;
+            font-size:16px;
+        }
+
+        button:hover{
+            background:#0056b3;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<h2>Upload Featured Image</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <input type="file" name="image" required>
+
+    <br>
+
+    <button type="submit">
+        Upload Image
+    </button>
+
+</form>
+
+</body>
+</html>

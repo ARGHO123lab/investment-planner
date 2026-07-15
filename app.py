@@ -23,6 +23,8 @@ from prompts import ARTICLE_PROMPT
 from knowledge_base import INTERNAL_LINKS
 import hmac
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+
 logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
@@ -35,6 +37,9 @@ client = OpenAI(
 app = Flask(__name__)
 # Make sure this matches your production environment
 app.secret_key = os.environ.get("SECRET_KEY")
+UPLOAD_FOLDER = os.path.join(app.root_path, "static", "uploads", "articles")
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 SECURITY_QUESTIONS = [
     "What was the name of your first pet?",
     "What is your mother's maiden name?",
@@ -402,6 +407,7 @@ Allow: /
 Sitemap: https://smartplanfinance.com/sitemap.xml
 """
     return Response(content, mimetype="text/plain")
+
 @app.route("/chat", methods=["POST"])
 @csrf.exempt
 def chat():
@@ -724,7 +730,179 @@ def profile():
         mobile=user['mobile'],
         country=user['country']
     )
+@app.route("/admin/edit-article/<int:article_id>", methods=["GET", "POST"])
+@requires_auth
+def edit_article(article_id):
 
+    conn = get_db_connection()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+
+    # Get article
+    cur.execute(
+        """
+        SELECT *
+        FROM articles
+        WHERE id = %s
+        """,
+        (article_id,)
+    )
+
+    article = cur.fetchone()
+
+    if article is None:
+        conn.close()
+        return "Article not found", 404
+
+    # Save changes
+    if request.method == "POST":
+
+        title = request.form.get("title", "").strip()
+        meta_description = request.form.get("meta_description", "").strip()
+        content = request.form.get("content", "").strip()
+
+        # Generate meta description if empty
+        if not meta_description:
+            plain_text = re.sub("<.*?>", "", content)
+            meta_description = plain_text[:155]
+
+        # Generate SEO slug
+        slug = re.sub(
+            r"[^a-z0-9]+",
+            "-",
+            title.lower()
+        ).strip("-")
+
+        # Update article
+        cur.execute(
+            """
+            UPDATE articles
+            SET
+                title = %s,
+                slug = %s,
+                content = %s,
+                meta_description = %s,
+                updated_at = NOW()
+            WHERE id = %s
+            """,
+            (
+                title,
+                slug,
+                content,
+                meta_description,
+                article_id
+            )
+        )
+
+        conn.commit()
+        conn.close()
+
+        return redirect(
+            url_for(
+                "view_article",
+                slug=slug
+            )
+        )
+
+    conn.close()
+
+    return render_template(
+        "edit_article.html",
+        article=article
+    )
+@app.route("/admin/upload-featured-image/<int:article_id>", methods=["GET", "POST"])
+@requires_auth
+def upload_featured_image(article_id):
+
+    conn = get_db_connection()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+
+    if request.method == "POST":
+
+        if "image" not in request.files:
+            cur.close()
+            conn.close()
+            return "No image selected."
+
+        image = request.files["image"]
+
+        if image.filename == "":
+            cur.close()
+            conn.close()
+            return "No image selected."
+
+        filename = secure_filename(image.filename)
+
+        # Ensure upload directory exists
+        os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+
+        # Absolute file path
+        filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+
+        print("=" * 60)
+        print("Saving image to:", filepath)
+        print("=" * 60)
+
+        image.save(filepath)
+
+        # Store relative path in database
+        image_path = f"/static/uploads/articles/{filename}"
+
+        cur.execute(
+            """
+            UPDATE articles
+            SET featured_image = %s
+            WHERE id = %s
+            """,
+            (image_path, article_id)
+        )
+
+        conn.commit()
+
+        # Get slug for redirect
+        cur.execute(
+            """
+            SELECT slug
+            FROM articles
+            WHERE id = %s
+            """,
+            (article_id,)
+        )
+
+        article = cur.fetchone()
+
+        cur.close()
+        conn.close()
+
+        return redirect(
+            url_for(
+                "view_article",
+                slug=article["slug"]
+            )
+        )
+
+    # GET request
+    cur.execute(
+        """
+        SELECT id, title, slug, featured_image
+        FROM articles
+        WHERE id = %s
+        """,
+        (article_id,)
+    )
+
+    article = cur.fetchone()
+
+    cur.close()
+    conn.close()
+
+    if article is None:
+        return "Article not found.", 404
+
+    return render_template(
+        "upload_featured_image.html",
+        article=article,
+        article_id=article_id
+    )
 @app.route('/publish', methods=['GET', 'POST'])
 @requires_auth
 def publish():
@@ -1760,14 +1938,17 @@ def view_article(slug):
 
 
     conn.close()
-
-
-
+    is_admin = False
+    auth = request.authorization
+    if auth and check_auth(auth.username, auth.password):
+        is_admin = True
+    
     return render_template(
         'view_article.html',
         article=article,
-        related_articles=related_articles
+        related_articles=related_articles,
 
+is_admin=is_admin
     )
 
 @app.route("/disclaimer")
