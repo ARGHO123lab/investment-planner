@@ -403,6 +403,7 @@ Sitemap: https://smartplanfinance.com/sitemap.xml
 """
     return Response(content, mimetype="text/plain")
 @app.route("/chat", methods=["POST"])
+@csrf.exempt
 def chat():
 
     # Get current chat count from Flask session
