@@ -1,5 +1,7 @@
 import re
 import os
+import uuid
+import tempfile
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from datetime import datetime
@@ -19,6 +21,8 @@ from article_prompt import MASTER_ARTICLE_PROMPT
 from flask import jsonify
 from prompts import ARTICLE_PROMPT
 from knowledge_base import INTERNAL_LINKS
+import hmac
+from werkzeug.security import generate_password_hash, check_password_hash
 logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
@@ -30,10 +34,21 @@ client = OpenAI(
 )
 app = Flask(__name__)
 # Make sure this matches your production environment
-app.secret_key = os.environ.get(
-    "SECRET_KEY",
-    "smartplanfinance-dev-secret"
-)
+app.secret_key = os.environ.get("SECRET_KEY")
+SECURITY_QUESTIONS = [
+    "What was the name of your first pet?",
+    "What is your mother's maiden name?",
+    "What was the name of your first school?",
+    "What city were you born in?",
+]
+from flask_wtf import CSRFProtect
+
+csrf = CSRFProtect(app)
+if not app.secret_key:
+    raise RuntimeError(
+        "SECRET_KEY environment variable is not set. "
+        "The app will not start without it for security reasons."
+    )
 
 # --- SECURITY GUARD (ADMIN AUTHENTICATION) ---
 def generate_ai_advice(report):
@@ -297,7 +312,12 @@ def generate_meta_description(title, content):
     return text[:155]
 def check_auth(username, password):
     # This checks against the ADMIN_PASSWORD environment variable you set in Render
-    return username == 'admin' and password == os.environ.get('ADMIN_PASSWORD')
+    admin_password = os.environ.get('ADMIN_PASSWORD') or ''
+
+    username_ok = hmac.compare_digest(username, 'admin')
+    password_ok = hmac.compare_digest(password, admin_password)
+
+    return username_ok and password_ok
 
 def authenticate():
     return Response('Access Denied', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
@@ -369,7 +389,7 @@ init_db()
 @app.route('/')
 def index():
     return render_template('index.html')
-@app.route("/reset-session")
+@app.route("/reset-session")    
 @requires_auth
 def reset_session():
     session.clear()
@@ -464,7 +484,51 @@ def delete_article(article_id):
     conn.commit()
     conn.close()
     return redirect(url_for('articles'))
+@app.route('/forgot-password', methods=['GET', 'POST'])
+def forgot_password():
 
+    error = None
+
+    if request.method == 'POST':
+
+        mobile = request.form.get('mobile', '').strip()
+        answer = request.form.get('security_answer', '').strip().lower()
+        new_password = request.form.get('new_password', '').strip()
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        cur.execute(
+            "SELECT id, security_answer_hash FROM users WHERE mobile = %s",
+            (mobile,)
+        )
+        user = cur.fetchone()
+
+        if not user or not user['security_answer_hash']:
+            # Don't reveal whether the mobile number exists — just show a generic error
+            error = "We couldn't verify those details. Please check and try again."
+
+        elif not check_password_hash(user['security_answer_hash'], answer):
+            error = "That answer doesn't match. Please try again."
+
+        elif len(new_password) < 6:
+            error = "New password must be at least 6 characters."
+
+        else:
+            new_hash = generate_password_hash(new_password, method="pbkdf2:sha256")
+
+            cur.execute(
+                "UPDATE users SET password_hash = %s WHERE id = %s",
+                (new_hash, user['id'])
+            )
+            conn.commit()
+            conn.close()
+
+            return redirect(url_for('login'))
+
+        conn.close()
+
+    return render_template('forgot_password.html', error=error)
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
@@ -473,12 +537,13 @@ def login():
         name = request.form.get('name')
         mobile = request.form.get('mobile')
         country = request.form.get('country')
+        password = request.form.get('password')
 
         conn = get_db_connection()
         cur = conn.cursor()
 
         cur.execute(
-            "SELECT id FROM users WHERE mobile = %s",
+            "SELECT id, password_hash FROM users WHERE mobile = %s",
             (mobile,)
         )
 
@@ -486,9 +551,32 @@ def login():
 
         if existing_user:
 
+            stored_hash = existing_user["password_hash"]
             user_id = existing_user["id"]
 
-            # Update latest user details
+            if not stored_hash:
+                # Old account with no password yet — don't just accept any typed
+                # password as "proof" it's really them. Block login and tell them
+                # to contact support to set up their password securely.
+                conn.close()
+                return render_template(
+                    "login.html",
+                    countries=COUNTRIES.keys(),
+                    security_questions=SECURITY_QUESTIONS,
+                    error="Your account needs a password set up. Please contact support."
+                )
+
+            elif not check_password_hash(stored_hash, password):
+                # Existing password doesn't match what they typed.
+                conn.close()
+                return render_template(
+                    "login.html",
+                    countries=COUNTRIES.keys(),
+                    security_questions=SECURITY_QUESTIONS,
+                    error="Incorrect mobile number or password."
+                )
+
+            # Update latest user details (but never overwrite the password here)
             cur.execute("""
                 UPDATE users
                 SET name = %s,
@@ -504,15 +592,27 @@ def login():
 
         else:
 
+            # New user - create their account with a securely hashed password
+            password_hash = generate_password_hash(password, method="pbkdf2:sha256")
+            security_question = request.form.get('security_question', '').strip()
+            security_answer = request.form.get('security_answer', '').strip().lower()
+            security_answer_hash = generate_password_hash(security_answer, method="pbkdf2:sha256") if security_answer else None
+
             cur.execute("""
                 INSERT INTO users
                 (
                     name,
                     mobile,
-                    country
+                    country,
+                    password_hash,
+                    security_question,
+                    security_answer_hash
                 )
                 VALUES
                 (
+                    %s,
+                    %s,
+                    %s,
                     %s,
                     %s,
                     %s
@@ -521,7 +621,10 @@ def login():
             """, (
                 name,
                 mobile,
-                country
+                country,
+                password_hash,
+                security_question,
+                security_answer_hash
             ))
 
             conn.commit()
@@ -536,7 +639,8 @@ def login():
 
     return render_template(
         "login.html",
-        countries=COUNTRIES.keys()
+        countries=COUNTRIES.keys(),
+        security_questions=SECURITY_QUESTIONS
     )
 
 @app.route('/profile', methods=['GET', 'POST'])
@@ -1840,7 +1944,8 @@ def download_report():
 
 }
 
-    pdf_path = "financial_report.pdf"
+    unique_filename = f"financial_report_{uuid.uuid4().hex}.pdf"
+    pdf_path = os.path.join(tempfile.gettempdir(), unique_filename)
 
     generate_financial_report(
         pdf_path,
@@ -1848,11 +1953,20 @@ def download_report():
         data
     )
 
-    return send_file(
+    response = send_file(
         pdf_path,
         as_attachment=True,
         download_name="SmartPlan_Finance_Report.pdf"
     )
+
+    @response.call_on_close
+    def cleanup():
+        try:
+            os.remove(pdf_path)
+        except OSError:
+            pass
+
+    return response
 if __name__ == "__main__":
     app.run(
         host="127.0.0.1",

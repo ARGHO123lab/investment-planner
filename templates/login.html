@@ -336,7 +336,12 @@ Enter your details to generate your personalised investment plan.
 
 </p>
 
+{% if error %}
+<p style="color:red; text-align:center; margin-bottom:10px;">{{ error }}</p>
+{% endif %}
+
 <form method="POST">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
 <label>Full Name</label>
 
@@ -353,6 +358,15 @@ type="text"
 name="mobile"
 placeholder="+91 9876543210"
 maxlength="15"
+required>
+
+<label>Password</label>
+
+<input
+type="password"
+name="password"
+placeholder="Enter your password"
+minlength="6"
 required>
 
 <label>Select Country</label>
@@ -372,13 +386,28 @@ required>
 {% endfor %}
 
 </select>
+<label>Security Question</label>
+<select name="security_question" required>
+    <option value="">Choose a security question</option>
+    {% for q in security_questions %}
+    <option value="{{ q }}">{{ q }}</option>
+    {% endfor %}
+</select>
 
+<label>Your Answer</label>
+<input
+    type="text"
+    name="security_answer"
+    placeholder="Your answer"
+    required>
 <button type="submit">
 
 Continue →
 
 </button>
-
+<p style="text-align:center; margin-top:15px;">
+    <a href="{{ url_for('forgot_password') }}" style="color:#B8860B;">Forgot your password?</a>
+</p>
 </form>
 
 <div class="security">

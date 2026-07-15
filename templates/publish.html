@@ -148,6 +148,8 @@
         action="/publish"
         method="POST"
         onsubmit="prepareFormSubmission()">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
 
         <h2>🤖 AI Article Generator</h2>
 

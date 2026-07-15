@@ -7,6 +7,8 @@
         <td>
             <a href="/edit/{{ art.id }}">Edit</a>
             <form action="/delete/{{ art.id }}" method="POST" style="display:inline;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
                 <button type="submit">Delete</button>
             </form>
         </td>

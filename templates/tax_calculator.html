@@ -82,6 +82,9 @@ Compare the Old vs New Tax Regime and find which one helps you save more tax.
 </p>
 
     <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
         <label>Annual Taxable Income (₹)</label>
 
 <input

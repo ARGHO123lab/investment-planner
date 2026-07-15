@@ -375,6 +375,7 @@ Tell us about your finances so we can build a personalised investment strategy.
 </p>
 
 <form method="POST">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
 <div class="grid">
 

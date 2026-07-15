@@ -228,6 +228,8 @@ display:block;
     <h1>📊 SIP Calculator</h1>
 
     <form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
 
         <label>Monthly Investment</label>
         <input
