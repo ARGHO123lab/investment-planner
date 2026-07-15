@@ -394,6 +394,14 @@ def index():
 def reset_session():
     session.clear()
     return "✅ Session cleared."
+@app.route("/robots.txt")
+def robots_txt():
+    content = """User-agent: *
+Allow: /
+
+Sitemap: https://smartplanfinance.com/sitemap.xml
+"""
+    return Response(content, mimetype="text/plain")
 @app.route("/chat", methods=["POST"])
 def chat():
 
