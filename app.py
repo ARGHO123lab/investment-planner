@@ -678,34 +678,45 @@ def profile():
         conn = get_db_connection()
         cur = conn.cursor()
 
-        cur.execute("""
-            INSERT INTO reports
+        # Check if a report already exists for this user
+        cur.execute(
+            "SELECT id FROM reports WHERE user_id = %s",
+            (user_id,)
+        )
+        existing = cur.fetchone()
+
+        if existing:
+            cur.execute("""
+                UPDATE reports
+                SET income = %s,
+                    expense = %s,
+                    savings = %s,
+                    risk = %s,
+                    created_at = %s
+                WHERE user_id = %s
+            """,
+            (
+                income,
+                expense,
+                savings,
+                risk,
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                user_id
+            ))
+        else:
+            cur.execute("""
+                INSERT INTO reports
+                (user_id, income, expense, savings, risk, created_at)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            """,
             (
                 user_id,
                 income,
                 expense,
                 savings,
                 risk,
-                created_at
-            )
-            VALUES
-            (
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s
-            )
-        """,
-        (
-            user_id,
-            income,
-            expense,
-            savings,
-            risk,
-            datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        ))
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            ))
 
         conn.commit()
         conn.close()
