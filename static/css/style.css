@@ -902,3 +902,27 @@ font-size:20px;
 .author-box h4 {
     margin-bottom: 10px;
 }
+.ai-card {
+    margin-top: 30px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.1);
+}
+
+.ai-header {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.ai-content h3 {
+    margin-top: 18px;
+    color: #0b6bcb;
+}
+
+.ai-content p,
+.ai-content li {
+    line-height: 1.7;
+}

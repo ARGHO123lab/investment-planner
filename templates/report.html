@@ -37,10 +37,42 @@
     box-shadow:0 20px 50px rgba(0,0,0,.10);
     box-sizing:border-box;
 }
-        .header {
-            text-align: center;
-            margin-bottom: 35px;
-        }
+       .header {
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+    padding:35px;
+
+    background:
+    linear-gradient(135deg,#fff8e1,#ffffff);
+
+    border-radius:25px;
+
+    border:1px solid #f5e6a6;
+
+}
+
+
+.header h1 {
+
+    color:#B8860B;
+
+    font-size:34px;
+
+    font-weight:700;
+
+}
+
+
+.header img {
+
+    height:80px;
+
+    margin-bottom:15px;
+
+}
         .header h1 {
             color: #B8860B;
         }
@@ -260,6 +292,27 @@
 .ai-content li{
     margin-bottom:12px;
 }
+.card-box{
+background:white;
+border-radius:20px;
+padding:25px;
+box-shadow:0 10px 25px rgba(0,0,0,.06);
+border:1px solid #eee;
+}
+@media(max-width:768px){
+
+.nav-links{
+padding-bottom:80px;
+}
+
+}
+.hero-header{
+    background:linear-gradient(135deg,#fff8e1,#ffffff);
+    padding:35px;
+    border-radius:25px;
+    text-align:center;
+    border:1px solid #f5e6a6;
+}
     </style>
 </head>
 <body>
@@ -426,20 +479,36 @@
             <hr style="margin:30px 0; border:none; border-top:1px solid #eee;">
             <div class="score-card">
 
-    <h2>Financial Health Score</h2>
+    <h2>💎 Financial Health Score</h2>
+
+    <div class="score-card">
 
     <div class="score-circle">
         {{ data.score }}
     </div>
 
+
+    <h3>
+
+    {% if data.score >= 80 %}
+
+        🟢 Excellent Financial Health
+
+    {% elif data.score >= 60 %}
+
+        🟡 Good Financial Health
+
+    {% else %}
+
+        🔴 Needs Improvement
+
+    {% endif %}
+
+    </h3>
+
+
     <p>
-        {% if data.score >= 80 %}
-            🟢 Excellent Financial Position
-        {% elif data.score >= 60 %}
-            🟡 Healthy Financial Position
-        {% else %}
-            🔴 Needs Improvement
-        {% endif %}
+        Based on your income, savings and investment behaviour
     </p>
 
 </div>
@@ -680,17 +749,24 @@
 </div>
 
 {% endif %}
-<h2 class="section-title">🤖 SmartPlan AI Advisor</h2>
+<h2 class="section-title">🤖 SmartPlan Financial Advisor</h2>
+
+{% if data.ai_advice %}
 
 <div class="ai-card">
+
     <div class="ai-header">
         <span>✨ Personalized AI Financial Insights</span>
     </div>
 
     <div class="ai-content">
-        {{ data.ai_advice|safe }}
+       {{ data.ai_advice|safe }}
+
     </div>
+
 </div>
+
+{% endif %}
             <div class="nav-links">
                 <a href="/sip-calculator" class="btn btn-secondary">📊 SIP Calculator</a>
                 <a href="/financial-future" class="btn btn-secondary">🎯 Plan Financial Goal</a>
@@ -699,9 +775,12 @@
                 <a href="/retirement_calculator" class="btn btn-secondary">👴 Retirement Calculator</a>
                 <a href="/fd_calculator" class="btn btn-secondary"> 🏦 FD Calculator</a>
                 <a href="{{ url_for('download_report') }}" class="btn btn-primary">
-    📄 Download Personalized Financial Report 
+    📥 Download Financial Report
 </a>
-                
+
+<a href="{{ url_for('generate_ai_report') }}" class="btn btn-primary">
+    🤖 Generate AI-Powered Financial Report
+</a> 
             </div>
        {% endif %}
 

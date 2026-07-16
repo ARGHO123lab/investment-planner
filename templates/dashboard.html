@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 
 <head>
 
 <meta charset="UTF-8">
+
 <link rel="icon"
       type="image/png"
       sizes="32x32"
@@ -21,12 +21,15 @@
 <link rel="manifest"
       href="{{ url_for('static', filename='icons/site.webmanifest') }}">
 
-<title>Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard | SmartPlan Finance</title>
 
 <link rel="stylesheet"
-href="{{ url_for('static', filename='css/style.css') }}">
+      href="{{ url_for('static', filename='css/style.css') }}">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet">
 
 </head>
 
@@ -34,39 +37,122 @@ href="{{ url_for('static', filename='css/style.css') }}">
 
 <div class="dashboard">
 
-<h1>
+    <h1>Welcome {{ name }}</h1>
 
-Welcome {{name}}
+    <h3>📱 Mobile : {{ mobile }}</h3>
 
-</h1>
+    <div class="cards">
 
-<h3>
+        <!-- Profile -->
 
-Mobile : {{mobile}}
+        <div class="card">
 
-</h3>
+            <h3>💰 Income & Expenses</h3>
 
-<div class="cards">
+            <p>
+                Update your income, expenses, savings,
+                investments and risk profile.
+            </p>
 
-<div class="card">
+            <a href="{{ url_for('profile') }}" class="btn">
+                Update Profile
+            </a>
 
-Income
+        </div>
 
-</div>
+        <!-- Report -->
 
-<div class="card">
+        <div class="card">
 
-Expense
+            <h3>📊 Investment Report</h3>
 
-</div>
+            <p>
+                Generate your personalized financial report
+                using SmartPlan Finance.
+            </p>
 
-<div class="card">
+            <a href="{{ url_for('report') }}" class="btn">
+                Generate Report
+            </a>
 
-Investment Report
+        </div>
 
-</div>
+        <!-- AI -->
 
-</div>
+        <div class="card">
+
+            <h3>🤖 AI Financial Advisor</h3>
+
+            <p>
+
+                Receive an AI-powered financial analysis based on
+                your profile, investments, retirement goals and
+                overall financial health.
+
+            </p>
+
+            <form action="{{ url_for('generate_ai_report') }}" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <button type="submit" class="btn" style="width:100%; cursor:pointer;">
+        Generate AI Advice
+    </button>
+</form>
+
+            <p style="
+                margin-top:15px;
+                font-size:13px;
+                color:#666;
+                line-height:1.6;
+            ">
+
+                ✔ One AI report every 24 hours<br>
+
+                ✔ Maximum 5 free reports
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- AI Report Section -->
+
+    {% if ai_report %}
+
+    <div style="
+        margin-top:45px;
+        background:#ffffff;
+        border-radius:18px;
+        padding:35px;
+        box-shadow:0 10px 25px rgba(0,0,0,.08);
+    ">
+
+        <h2 style="
+            margin-top:0;
+            color:#1f2937;
+            border-bottom:2px solid #f4b400;
+            padding-bottom:12px;
+        ">
+
+            🤖 SmartPlan AI Financial Report
+
+        </h2>
+
+        <p style="
+            color:#777;
+            font-size:14px;
+            margin-bottom:25px;
+        ">
+
+            Personalized insights generated using Artificial Intelligence.
+
+        </p>
+
+        {{ ai_report | safe }}
+
+    </div>
+
+    {% endif %}
 
 </div>
 

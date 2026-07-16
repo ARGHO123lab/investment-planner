@@ -4,7 +4,7 @@ import uuid
 import tempfile
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import Flask, render_template, request, redirect, session, url_for, Response
 from functools import wraps
 from config import COUNTRIES
@@ -113,6 +113,7 @@ Maximum 300 words.
     )
     print("Groq response received")
     return completion.choices[0].message.content
+
 def generate_ai_article(topic):
 
     logging.info("===== AI ARTICLE GENERATION STARTED =====")
@@ -342,6 +343,23 @@ def login_required(f):
             return redirect(url_for("login"))
         return f(*args, **kwargs)
     return decorated_function
+def get_latest_report(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM financial_reports
+        WHERE user_id = %s
+        ORDER BY created_at DESC
+        LIMIT 1
+    """, (user_id,))
+
+    report = cursor.fetchone()
+
+    conn.close()
+
+    return report
 # ---------------------------------------------
 
 # PostgreSQL does not use a local file path, but kept for codebase consistency
@@ -1288,7 +1306,11 @@ def dashboard():
 "tax_better": report["tax_better"] or "",
         "score": score # Score is now inside the same dictionary
     }
-    report_data["ai_advice"] = generate_ai_advice(report_data)
+    #report_data["ai_advice"] = generate_ai_advice(report_data)
+    report_data["ai_advice"] = None
+
+    
+
     return render_template('report.html', user=user, data=report_data)
 
 @app.route('/sip-calculator', methods=['GET', 'POST'])
@@ -1318,7 +1340,332 @@ def sip_calculator():
         'sip_calculator.html',
         result=result
     )
+from datetime import datetime, timedelta
 
+def can_generate_ai_report(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT * FROM ai_reports WHERE user_id = %s",
+        (user_id,)
+    )
+
+    row = cursor.fetchone()
+
+    # First report ever
+    if not row:
+        cursor.execute(
+            """
+            INSERT INTO ai_reports (user_id, report_count, last_generated)
+            VALUES (%s, 0, NULL)
+            """,
+            (user_id,)
+        )
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+        return True, ""
+
+    # Maximum 5 reports
+    if row["report_count"] >= 5:
+        cursor.close()
+        conn.close()
+        return False, "You have reached your free AI report limit."
+
+    # One report every 24 hours
+    if row["last_generated"]:
+        next_time = row["last_generated"] + timedelta(hours=24)
+
+        if datetime.now() < next_time:
+            cursor.close()
+            conn.close()
+            return False, "Please try again after 24 hours."
+
+    cursor.close()
+    conn.close()
+
+    return True, ""
+@app.route("/generate_ai_report")
+@login_required
+def generate_ai_report():
+
+    user_id = session["user_id"]
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+
+    # ---------------------------------------------------
+    # Get logged-in user
+    # ---------------------------------------------------
+    cursor.execute(
+        "SELECT * FROM users WHERE id=%s",
+        (user_id,)
+    )
+
+    user = cursor.fetchone()
+
+
+    # ---------------------------------------------------
+    # Check AI report usage (1 report per 24 hours)
+    # ---------------------------------------------------
+    cursor.execute(
+        """
+        SELECT *
+        FROM ai_reports
+        WHERE user_id=%s
+        """,
+        (user_id,)
+    )
+
+    ai_record = cursor.fetchone()
+
+
+    if ai_record is None:
+
+        # First AI report generation
+        cursor.execute(
+            """
+            INSERT INTO ai_reports
+            (
+                user_id,
+                report_html,
+                report_count,
+                last_generated
+            )
+            VALUES
+            (%s,%s,%s,NOW())
+            """,
+            (
+                user_id,
+                "Generating AI report...",
+                1
+            )
+        )
+
+
+    else:
+
+        # ---------------------------------------------------
+        # Check 24 hour limit
+        # ---------------------------------------------------
+        if ai_record["last_generated"]:
+
+            elapsed = datetime.now() - ai_record["last_generated"]
+
+
+            if elapsed < timedelta(hours=24):
+
+                conn.close()
+
+                return (
+                    "You have already generated your AI report today. "
+                    "Please try again after 24 hours."
+                )
+
+
+        # ---------------------------------------------------
+        # Allow next day's report
+        # ---------------------------------------------------
+        cursor.execute(
+            """
+            UPDATE ai_reports
+            SET
+                report_count = 1,
+                last_generated = NOW()
+            WHERE user_id=%s
+            """,
+            (user_id,)
+        )
+
+
+    conn.commit()
+
+
+
+    # ---------------------------------------------------
+    # Fetch latest financial report
+    # ---------------------------------------------------
+    cursor.execute(
+        """
+        SELECT *
+        FROM reports
+        WHERE user_id=%s
+        ORDER BY created_at DESC
+        LIMIT 1
+        """,
+        (user_id,)
+    )
+
+
+    report = cursor.fetchone()
+
+
+    if not report:
+
+        conn.close()
+
+        return redirect(
+            url_for("profile")
+        )
+
+
+
+    # ---------------------------------------------------
+    # Build report data
+    # ---------------------------------------------------
+
+    savings = report["savings"]
+
+    risk = report["risk"].lower()
+
+    rules = RISK_RULES.get(
+        risk,
+        RISK_RULES["medium"]
+    )
+
+
+    savings_rate = (
+        report["savings"] / report["income"]
+    ) * 100 if report["income"] > 0 else 0
+
+
+    score = int(
+        40 + (savings_rate * 0.7)
+    )
+
+    score = min(score,99)
+
+
+
+    report_data = {
+
+        "income": report["income"],
+        "expense": report["expense"],
+        "savings": savings,
+
+        "risk": risk.capitalize(),
+
+        "sip": savings * rules["sip"],
+        "large_cap": savings * rules["large_cap"],
+        "mid_cap": savings * rules["mid_cap"],
+        "small_cap": savings * rules["small_cap"],
+
+        "emergency_fund": savings * rules["emergency"],
+
+        "score": score,
+
+
+        "advice": ADVISOR_INSIGHTS.get(
+            risk,
+            []
+        ),
+
+
+        # SIP Calculator
+        "sip_calc_fv": 0,
+        "sip_calc_monthly": 0,
+        "sip_calc_years": 0,
+
+
+        # Future Planning
+        "future_target_amount": 0,
+        "future_target_years": 0,
+        "future_req_monthly": 0,
+
+
+        # Retirement
+        "retirement_age": 60,
+        "retirement_corpus": 0,
+        "retirement_monthly": 0,
+
+
+        # EMI
+        "emi_loan_amount": 0,
+        "emi_monthly": 0,
+        "emi_rate": 0,
+        "emi_years": 0,
+        "emi_interest": 0,
+        "emi_total": 0,
+
+
+        # FD
+        "fd_principal": 0,
+        "fd_rate": 0,
+        "fd_years": 0,
+        "fd_interest": 0,
+        "fd_maturity": 0,
+
+
+        # Tax
+        "tax_income": 0,
+        "tax_old": 0,
+        "tax_new": 0,
+        "tax_savings": 0,
+        "tax_better": ""
+
+    }
+
+
+
+    # ---------------------------------------------------
+    # Generate AI advice
+    # ---------------------------------------------------
+
+    ai_html = generate_ai_advice(report_data)
+
+
+    if not ai_html:
+
+        ai_html = """
+        <p>
+        AI report generation failed.
+        Please try again later.
+        </p>
+        """
+
+
+
+    report_data["ai_advice"] = ai_html
+
+
+
+    # ---------------------------------------------------
+    # Save AI report
+    # ---------------------------------------------------
+
+    cursor.execute(
+        """
+        UPDATE ai_reports
+        SET
+            report_html=%s
+        WHERE user_id=%s
+        """,
+        (
+            ai_html,
+            user_id
+        )
+    )
+
+
+    conn.commit()
+
+    conn.close()
+
+
+
+    # ---------------------------------------------------
+    # Render report
+    # ---------------------------------------------------
+
+    return render_template(
+        "report.html",
+        user=user,
+        data=report_data
+    )
+    # AI generation code will come in the next step
 @app.route('/financial-future', methods=['GET', 'POST'])
 def financial_future():
     result = None

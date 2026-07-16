@@ -106,3 +106,44 @@ def get_all_reports():
                 """
             )
             return cursor.fetchall()
+def save_ai_report(user_id, report_html):
+    with closing(get_connection()) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """
+                INSERT INTO ai_reports
+                (user_id, report_html)
+                VALUES (%s, %s)
+                """,
+                (user_id, report_html)
+            )
+            conn.commit()
+def get_ai_report_count(user_id):
+    with closing(get_connection()) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT COUNT(*) AS total
+                FROM ai_reports
+                WHERE user_id = %s
+                """,
+                (user_id,)
+            )
+
+            row = cursor.fetchone()
+            return row["total"]
+def get_last_ai_report(user_id):
+    with closing(get_connection()) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT *
+                FROM ai_reports
+                WHERE user_id = %s
+                ORDER BY created_at DESC
+                LIMIT 1
+                """,
+                (user_id,)
+            )
+
+            return cursor.fetchone()
