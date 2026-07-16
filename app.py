@@ -1312,33 +1312,7 @@ def sip_calculator():
 
         result = "{:,.2f}".format(fv)
 
-        if 'user_id' in session:
-
-            conn = get_db_connection()
-            cur = conn.cursor()
-
-            cur.execute("""
-                UPDATE reports
-                SET sip_calc_monthly = %s,
-                    sip_calc_years = %s,
-                    sip_calc_fv = %s
-                WHERE id = (
-                    SELECT id
-                    FROM reports
-                    WHERE user_id = %s
-                    ORDER BY created_at DESC
-                    LIMIT 1
-                )
-            """,
-            (
-                P,
-                years,
-                fv,
-                session['user_id']
-            ))
-
-            conn.commit()
-            conn.close()
+        
 
     return render_template(
         'sip_calculator.html',
@@ -1363,51 +1337,7 @@ def financial_future():
         else:
             req_monthly = target / (((1 + m_rate) ** months - 1) / m_rate) / (1 + m_rate)
 
-        if 'user_id' in session:
-
-            conn = get_db_connection()
-            cur = conn.cursor()
-
-            # Update user table
-            cur.execute(
-                """
-                UPDATE users
-                SET target_amount = %s,
-                    target_years = %s
-                WHERE id = %s
-                """,
-                (
-                    target,
-                    years,
-                    session['user_id']
-                )
-            )
-
-            # Always update the latest report for this user
-            cur.execute(
-                """
-                UPDATE reports
-                SET future_target_amount = %s,
-                    future_target_years = %s,
-                    future_req_monthly = %s
-                WHERE id = (
-                    SELECT id
-                    FROM reports
-                    WHERE user_id = %s
-                    ORDER BY created_at DESC
-                    LIMIT 1
-                )
-                """,
-                (
-                    target,
-                    years,
-                    req_monthly,
-                    session['user_id']
-                )
-            )
-
-            conn.commit()
-            conn.close()
+        
 
         result = {
             "monthly_total": "{:,.2f}".format(req_monthly),
@@ -1526,36 +1456,7 @@ def tax_calculator():
         # SAVE TO REPORT
         # -----------------------------
 
-        conn = get_db_connection()
-        cur = conn.cursor()
-
-        cur.execute("""
-            UPDATE reports
-            SET
-                tax_income=%s,
-                tax_old=%s,
-                tax_new=%s,
-                tax_savings=%s,
-                tax_better=%s
-            WHERE id=(
-                SELECT id
-                FROM reports
-                WHERE user_id=%s
-                ORDER BY created_at DESC
-                LIMIT 1
-            )
-        """,
-        (
-            income,
-            tax_old,
-            tax_new,
-            savings,
-            better_option,
-            session["user_id"]
-        ))
-
-        conn.commit()
-        conn.close()
+        
 
 
         result = {
@@ -1597,37 +1498,7 @@ def emi_calculator():
         total_interest = total_payment - loan_amount
 
         # Save to latest report
-        conn = get_db_connection()
-        cur = conn.cursor()
-
-        cur.execute("""
-            UPDATE reports
-            SET
-                emi_loan_amount=%s,
-                emi_rate=%s,
-                emi_years=%s,
-                emi_monthly=%s,
-                emi_interest=%s,
-                emi_total=%s
-            WHERE id=(
-                SELECT id
-                FROM reports
-                WHERE user_id=%s
-                ORDER BY created_at DESC
-                LIMIT 1
-            )
-        """,(
-            loan_amount,
-            annual_rate,
-            tenure_years,
-            emi,
-            total_interest,
-            total_payment,
-            session["user_id"]
-        ))
-
-        conn.commit()
-        conn.close()
+        
 
         result = {
             "loan_amount": loan_amount,
@@ -1678,32 +1549,7 @@ def retirement_calculator():
 
         # Save into latest report
 
-        conn = get_db_connection()
-        cur = conn.cursor()
-
-        cur.execute("""
-            UPDATE reports
-            SET
-                retirement_corpus=%s,
-                retirement_monthly=%s,
-                retirement_age=%s
-            WHERE id=(
-                SELECT id
-                FROM reports
-                WHERE user_id=%s
-                ORDER BY created_at DESC
-                LIMIT 1
-            )
-        """,
-        (
-            retirement_amount,
-            monthly_investment,
-            retirement_age,
-            session["user_id"]
-        ))
-
-        conn.commit()
-        conn.close()
+        
 
         result = {
             "corpus": retirement_amount,
@@ -1732,36 +1578,7 @@ def fd_calculator():
         maturity_amount = principal * ((1 + (r / n)) ** (n * years))
         interest_earned = maturity_amount - principal
 
-        conn = get_db_connection()
-        cur = conn.cursor()
-
-        cur.execute("""
-            UPDATE reports
-            SET
-                fd_principal=%s,
-                fd_rate=%s,
-                fd_years=%s,
-                fd_interest=%s,
-                fd_maturity=%s
-            WHERE id=(
-                SELECT id
-                FROM reports
-                WHERE user_id=%s
-                ORDER BY created_at DESC
-                LIMIT 1
-            )
-        """,
-        (
-            principal,
-            rate,
-            years,
-            interest_earned,
-            maturity_amount,
-            session["user_id"]
-        ))
-
-        conn.commit()
-        conn.close()
+        
 
         result = {
             "principal": principal,
