@@ -100,14 +100,20 @@ Compare the Old vs New Tax Regime and find which one helps you save more tax.
 
     
 
-<div style="margin-top:20px;">
-
-<a href="{{ url_for('dashboard') }}" class="back-btn">
-
-← Back to Dashboard
-
-</a>
-
+<div style="margin-top:20px; text-align:center;">
+    <a href="{{ url_for('index') }}"
+       style="
+            display:inline-block;
+            background:#f4b400;
+            color:white;
+            padding:12px 28px;
+            border-radius:10px;
+            text-decoration:none;
+            font-weight:600;
+            box-shadow:0 4px 10px rgba(0,0,0,.15);
+       ">
+        ← Back to Home
+    </a>
 </div>
 
     {% if result %}

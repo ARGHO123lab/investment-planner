@@ -1281,7 +1281,6 @@ def dashboard():
     return render_template('report.html', user=user, data=report_data)
 
 @app.route('/sip-calculator', methods=['GET', 'POST'])
-@login_required
 def sip_calculator():
 
     result = None
@@ -1336,7 +1335,6 @@ def sip_calculator():
     )
 
 @app.route('/financial-future', methods=['GET', 'POST'])
-@login_required
 def financial_future():
     result = None
 
@@ -1430,7 +1428,6 @@ def financial_future():
         result=result
     )
 @app.route('/tax_calculator', methods=['GET', 'POST'])
-@login_required
 def tax_calculator():
 
     result = None
@@ -1563,7 +1560,6 @@ def tax_calculator():
         result=result
     )
 @app.route("/emi_calculator", methods=["GET", "POST"])
-@login_required
 def emi_calculator():
 
     result = None
@@ -1636,7 +1632,6 @@ def emi_calculator():
         result=result
     )
 @app.route("/retirement_calculator", methods=["GET", "POST"])
-@login_required
 def retirement_calculator():
 
     result = None
@@ -1710,7 +1705,6 @@ def retirement_calculator():
         result=result
     )
 @app.route("/fd_calculator", methods=["GET", "POST"])
-@login_required
 def fd_calculator():
 
     result = None
