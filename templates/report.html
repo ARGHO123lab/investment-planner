@@ -313,6 +313,48 @@ padding-bottom:80px;
     text-align:center;
     border:1px solid #f5e6a6;
 }
+.executive-summary{
+    margin:35px 0;
+    background:linear-gradient(135deg,#ffffff,#fff8e1);
+    border:1px solid #f5e6a6;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.executive-summary h2{
+    color:#B8860B;
+    margin-bottom:20px;
+    font-size:26px;
+}
+
+.executive-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+    margin-top:25px;
+}
+
+.executive-item{
+    background:white;
+    border-radius:15px;
+    padding:18px;
+    border-left:5px solid #FFC107;
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+}
+
+.executive-item h4{
+    margin:0;
+    color:#777;
+    font-size:14px;
+}
+
+.executive-item p{
+    margin-top:8px;
+    font-size:18px;
+    font-weight:600;
+    color:#333;
+}
     </style>
 </head>
 <body>
@@ -512,6 +554,230 @@ padding-bottom:80px;
     </p>
 
 </div>
+<div class="executive-summary">
+
+<h2>📋 Executive Summary</h2>
+
+<p>
+This report evaluates your financial position based on your income,
+expenses, savings, investments and risk profile.
+</p>
+
+<div class="executive-grid">
+
+<div class="executive-item">
+<h4>Overall Financial Health</h4>
+
+<p>
+
+{% if data.score >=80 %}
+🟢 Excellent
+{% elif data.score >=60 %}
+🟡 Good
+{% else %}
+🔴 Needs Improvement
+{% endif %}
+
+</p>
+</div>
+
+<div class="executive-item">
+<h4>Savings Habit</h4>
+
+<p>
+
+{% if data.savings >= data.income*0.20 %}
+🟢 Strong
+{% elif data.savings >= data.income*0.10 %}
+🟡 Average
+{% else %}
+🔴 Weak
+{% endif %}
+
+</p>
+</div>
+
+<div class="executive-item">
+<h4>Risk Profile</h4>
+
+<p>{{ data.risk|upper }}</p>
+
+</div>
+
+<div class="executive-item">
+<h4>Monthly Savings</h4>
+
+<p>
+
+₹ {{ "{:,.0f}".format(data.savings) }}
+
+</p>
+
+</div>
+
+</div>
+
+<br>
+
+<p>
+
+<strong>SmartPlan Insight</strong>
+
+<br><br>
+
+{% if data.score>=80 %}
+
+Your financial foundation is excellent. Continue investing consistently and review your goals periodically.
+
+{% elif data.score>=60 %}
+
+Your finances are on the right track. Increasing your monthly investments and emergency fund can significantly improve your long-term financial security.
+
+{% else %}
+
+Your financial health needs attention. Focus on reducing unnecessary expenses, building an emergency fund, and starting disciplined monthly investments.
+
+{% endif %}
+
+</p>
+
+</div>
+<div class="health-breakdown">
+
+<h2>📈 Financial Health Breakdown</h2>
+
+<div class="health-item">
+
+<div class="health-label">
+<span>💼 Income Stability</span>
+<span>90%</span>
+</div>
+
+<div class="health-bar">
+<div class="health-fill" style="width:90%"></div>
+</div>
+
+</div>
+
+<div class="health-item">
+
+<div class="health-label">
+<span>💰 Savings Rate</span>
+
+<span>
+
+{% if data.savings >= data.income*0.20 %}
+90%
+{% elif data.savings >= data.income*0.10 %}
+70%
+{% else %}
+40%
+{% endif %}
+
+</span>
+
+</div>
+
+<div class="health-bar">
+
+<div class="health-fill"
+
+style="width:
+
+{% if data.savings >= data.income*0.20 %}
+90%
+{% elif data.savings >= data.income*0.10 %}
+70%
+{% else %}
+40%
+{% endif %};
+
+"></div>
+
+</div>
+
+</div>
+
+<div class="health-item">
+
+<div class="health-label">
+
+<span>📈 Investment Health</span>
+
+<span>
+
+{% if data.sip >= data.income*0.20 %}
+90%
+{% elif data.sip >= data.income*0.10 %}
+70%
+{% else %}
+50%
+{% endif %}
+
+</span>
+
+</div>
+
+<div class="health-bar">
+
+<div class="health-fill"
+
+style="width:
+{% if data.sip >= data.income*0.20 %}
+90%
+{% elif data.sip >= data.income*0.10 %}
+70%
+{% else %}
+50%
+{% endif %};
+
+"></div>
+
+</div>
+
+</div>
+
+<div class="health-item">
+
+<div class="health-label">
+
+<span>🛡 Emergency Fund</span>
+
+<span>80%</span>
+
+</div>
+
+<div class="health-bar">
+
+<div class="health-fill"
+
+style="width:80%;"></div>
+
+</div>
+
+</div>
+
+<div class="health-item">
+
+<div class="health-label">
+
+<span>🎯 Retirement Readiness</span>
+
+<span>65%</span>
+
+</div>
+
+<div class="health-bar">
+
+<div class="health-fill"
+
+style="width:65%;"></div>
+
+</div>
+
+</div>
+
+</div>
             <div class="summary">
                 <div class="card-box">
                     <h3>Monthly Income</h3>
@@ -553,21 +819,1204 @@ padding-bottom:80px;
     <h2>{{ data.risk|upper }}</h2>
 </div>
             </div>
-            <div class="note">
-                <b>💡 SmartPlan Finance Recommendation</b>
-                <br><br>
-                <div class="advice-list">
+            <div class="executive-summary">
 
-    {% for insight in data.advice %}
+<h2>🎯 AI Action Plan</h2>
 
-    <div class="advice-item">
-        ✅ {{ insight }}
-    </div>
+<div class="executive-grid">
 
-    {% endfor %}
+<div class="executive-item">
+<h4>🔴 High Priority</h4>
+
+<p>
+
+{% if data.savings < data.income*0.20 %}
+
+Increase your monthly savings by at least 10%.
+
+{% else %}
+
+Maintain your excellent savings discipline.
+
+{% endif %}
+
+</p>
 
 </div>
-            </div>
+
+<div class="executive-item">
+
+<h4>🟡 Investment Strategy</h4>
+
+<p>
+
+{% if data.risk=="high" %}
+
+Diversify your portfolio to reduce concentration risk.
+
+{% elif data.risk=="medium" %}
+
+Maintain a balanced allocation between equity and debt.
+
+{% else %}
+
+Gradually increase equity exposure for long-term wealth creation.
+
+{% endif %}
+
+</p>
+
+</div>
+
+<div class="executive-item">
+
+<h4>🟢 Emergency Fund</h4>
+
+<p>
+
+Maintain an emergency fund covering at least 6 months of expenses.
+
+</p>
+
+</div>
+
+<div class="executive-item">
+
+<h4>💰 Wealth Building</h4>
+
+<p>
+
+Increase your SIP every year by 10–15% to accelerate long-term wealth creation.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+<div class="summary">
+
+<div class="card-box">
+<h3>📊 Savings Rate</h3>
+
+<h2>
+
+{{ "%.1f"|format((data.savings/data.income)*100) if data.income>0 else 0 }}%
+
+</h2>
+
+</div>
+
+<div class="card-box">
+
+<h3>💸 Expense Ratio</h3>
+
+<h2>
+
+{{ "%.1f"|format((data.expense/data.income)*100) if data.income>0 else 0 }}%
+
+</h2>
+
+</div>
+
+<div class="card-box">
+
+<h3>💵 Investment Ratio</h3>
+
+<h2>
+
+{{ "%.1f"|format((data.sip/data.income)*100) if data.income>0 else 0 }}%
+
+</h2>
+
+</div>
+
+</div>
+<div class="wealth-timeline">
+
+<h2 class="section-title">
+📈 Wealth Growth Projection
+</h2>
+
+<p>
+Estimated wealth if you continue investing consistently.
+</p>
+
+<div class="timeline-grid">
+
+<div class="timeline-card">
+
+<h4>Today</h4>
+
+<h2>
+
+₹ {{ "{:,.0f}".format(data.savings) }}
+
+</h2>
+
+</div>
+
+<div class="timeline-card">
+
+<h4>After 5 Years</h4>
+
+<h2>
+
+₹ {{ "{:,.0f}".format(data.sip*12*5*1.5) }}
+
+</h2>
+
+</div>
+
+<div class="timeline-card">
+
+<h4>After 10 Years</h4>
+
+<h2>
+
+₹ {{ "{:,.0f}".format(data.sip*12*10*2.4) }}
+
+</h2>
+
+</div>
+
+<div class="timeline-card">
+
+<h4>After 20 Years</h4>
+
+<h2>
+
+₹ {{ "{:,.0f}".format(data.sip*12*20*4.5) }}
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+<div class="analysis-grid">
+
+<div class="analysis-card">
+
+<h3>💪 Financial Strengths</h3>
+
+<ul>
+
+{% if data.score>=80 %}
+<li>Excellent overall financial health.</li>
+{% endif %}
+
+{% if data.savings>=data.income*0.20 %}
+<li>Strong monthly savings habit.</li>
+{% endif %}
+
+{% if data.risk=="low" %}
+<li>Conservative and stable investment profile.</li>
+{% endif %}
+
+{% if data.risk=="medium" %}
+<li>Balanced investment approach.</li>
+{% endif %}
+
+{% if data.risk=="high" %}
+<li>High growth investment mindset.</li>
+{% endif %}
+
+<li>Regular financial planning.</li>
+
+</ul>
+
+</div>
+
+<div class="analysis-card">
+
+<h3>⚠ Financial Risks</h3>
+
+<ul>
+
+{% if data.savings<data.income*0.10 %}
+<li>Low monthly savings.</li>
+{% endif %}
+
+{% if data.score<60 %}
+<li>Financial health needs improvement.</li>
+{% endif %}
+
+<li>Review investments every 6 months.</li>
+
+<li>Maintain emergency fund.</li>
+
+<li>Avoid unnecessary debt.</li>
+
+</ul>
+
+</div>
+
+</div>
+<h2 class="section-title">
+📊 Financial Dashboard
+</h2>
+
+<div class="dashboard-metrics">
+
+<div class="metric-card">
+<h5>Monthly Income</h5>
+<h2>₹ {{ "{:,.0f}".format(data.income) }}</h2>
+<small>Cash Inflow</small>
+</div>
+
+<div class="metric-card">
+<h5>Monthly Expenses</h5>
+<h2>₹ {{ "{:,.0f}".format(data.expense) }}</h2>
+<small>Monthly Spending</small>
+</div>
+
+<div class="metric-card">
+<h5>Total Savings</h5>
+<h2>₹ {{ "{:,.0f}".format(data.savings) }}</h2>
+<small>Available Savings</small>
+</div>
+
+<div class="metric-card">
+<h5>Monthly SIP</h5>
+<h2>₹ {{ "{:,.0f}".format(data.sip) }}</h2>
+<small>Investment</small>
+</div>
+
+<div class="metric-card">
+<h5>Risk Profile</h5>
+<h2>{{ data.risk|upper }}</h2>
+<small>Investor Type</small>
+</div>
+
+<div class="metric-card">
+<h5>Health Score</h5>
+<h2>{{ data.score }}/100</h2>
+<small>Overall Rating</small>
+</div>
+
+</div>
+<div class="executive-summary">
+
+<h2>⭐ AI Recommendation Scorecard</h2>
+
+<table style="width:100%;border-collapse:collapse;">
+
+<tr>
+<th align="left">Category</th>
+<th align="center">Status</th>
+</tr>
+
+<tr>
+<td>Savings Discipline</td>
+
+<td align="center">
+
+{% if data.savings>=data.income*0.20 %}
+
+🟢 Excellent
+
+{% elif data.savings>=data.income*0.10 %}
+
+🟡 Good
+
+{% else %}
+
+🔴 Improve
+
+{% endif %}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Investment Habit</td>
+
+<td align="center">
+
+{% if data.sip>0 %}
+
+🟢 Active
+
+{% else %}
+
+🔴 Start Investing
+
+{% endif %}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Emergency Fund</td>
+
+<td align="center">
+
+🟡 Monitor
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Retirement Planning</td>
+
+<td align="center">
+
+🟢 Started
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Financial Health</td>
+
+<td align="center">
+
+{{ data.score }}/100
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+<div class="executive-summary">
+
+<h2>🧠 Your Financial Personality</h2>
+
+{% if data.risk=="low" %}
+
+<h3>🛡 Conservative Wealth Builder</h3>
+
+<p>
+
+You prioritize stability over high returns. You prefer predictable
+growth and lower volatility. Gradually increasing exposure to equity
+can improve long-term wealth while maintaining a comfortable level of
+risk.
+
+</p>
+
+{% elif data.risk=="medium" %}
+
+<h3>⚖ Balanced Investor</h3>
+
+<p>
+
+You balance growth with stability. Continue diversifying across equity,
+debt, and emergency savings while reviewing your portfolio
+periodically.
+
+</p>
+
+{% else %}
+
+<h3>🚀 Growth Investor</h3>
+
+<p>
+
+You are comfortable taking higher risks in pursuit of higher returns.
+Stay diversified and avoid concentrating your investments in a single
+asset or sector.
+
+</p>
+
+{% endif %}
+
+</div>
+<h2 class="section-title">
+
+🏆 Your Next Financial Milestones
+
+</h2>
+
+<div class="dashboard-metrics">
+
+<div class="metric-card">
+
+<h5>Emergency Fund</h5>
+
+<h2>🎯</h2>
+
+<small>Build 6 months of expenses</small>
+
+</div>
+
+<div class="metric-card">
+
+<h5>₹10 Lakh Portfolio</h5>
+
+<h2>💰</h2>
+
+<small>Your first wealth milestone</small>
+
+</div>
+
+<div class="metric-card">
+
+<h5>₹50 Lakh Portfolio</h5>
+
+<h2>📈</h2>
+
+<small>Strong financial foundation</small>
+
+</div>
+
+<div class="metric-card">
+
+<h5>₹1 Crore</h5>
+
+<h2>👑</h2>
+
+<small>Long-term wealth target</small>
+
+</div>
+
+</div>
+<div class="executive-summary">
+
+<h2>✅ Financial Checklist</h2>
+
+<table style="width:100%;line-height:42px;">
+
+<tr>
+
+<td>
+
+{% if data.savings>0 %}
+
+✅ Saving Every Month
+
+{% else %}
+
+⬜ Start Monthly Savings
+
+{% endif %}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+{% if data.sip>0 %}
+
+✅ Investing Regularly
+
+{% else %}
+
+⬜ Start SIP
+
+{% endif %}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>⬜ Emergency Fund (6 Months)</td>
+
+</tr>
+
+<tr>
+
+<td>⬜ Health Insurance Review</td>
+
+</tr>
+
+<tr>
+
+<td>⬜ Annual Portfolio Review</td>
+
+</tr>
+
+<tr>
+
+<td>⬜ Tax Planning</td>
+
+</tr>
+
+</table>
+
+</div>
+<div style="margin-top:50px;
+padding:30px;
+background:linear-gradient(135deg,#fff8e1,#ffffff);
+border-radius:20px;
+text-align:center;">
+
+<h2>
+
+💡 AI Wealth Insight
+
+</h2>
+
+<p style="font-size:22px;
+line-height:40px;
+font-style:italic;">
+
+"Small financial decisions repeated consistently create extraordinary wealth."
+
+</p>
+
+</div>
+<div class="fire-meter">
+
+<h2>🔥 Financial Independence Meter</h2>
+
+<p>
+
+Current Progress toward Financial Freedom
+
+</p>
+
+<div class="fire-progress">
+
+<div class="fire-fill"
+
+style="width:{{ data.score }}%;">
+
+</div>
+
+</div>
+
+<br>
+
+<strong>{{ data.score }}%</strong>
+
+</div>
+<div class="executive-summary">
+
+<h2>🔮 AI Wealth Forecast</h2>
+
+<div class="executive-grid">
+
+<div class="executive-item">
+
+<h4>1 Year</h4>
+
+<p>
+
+Financial habits are expected to improve with disciplined investing.
+
+</p>
+
+</div>
+
+<div class="executive-item">
+
+<h4>5 Years</h4>
+
+<p>
+
+Portfolio could experience significant growth if investments remain consistent.
+
+</p>
+
+</div>
+
+<div class="executive-item">
+
+<h4>10 Years</h4>
+
+<p>
+
+Long-term wealth accumulation becomes more substantial through compounding.
+
+</p>
+
+</div>
+
+<div class="executive-item">
+
+<h4>20 Years</h4>
+
+<p>
+
+Potential to build substantial wealth, subject to investment performance and market conditions.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+   <div class="executive-summary">
+
+<h2>🏅 SmartPlan Monthly Challenge</h2>
+
+<ul>
+
+<li>✅ Save ₹2,000 extra this month</li>
+
+<li>✅ Read one finance article</li>
+
+<li>✅ Increase SIP by 5%</li>
+
+<li>✅ Avoid one unnecessary purchase</li>
+
+<li>✅ Review your investments</li>
+
+</ul>
+
+</div>
+<div class="executive-summary">
+
+<h2>📊 Portfolio Diversification</h2>
+
+<table style="width:100%;line-height:40px;">
+
+<tr>
+
+<td>Large Cap</td>
+
+<td>🟢 Balanced</td>
+
+</tr>
+
+<tr>
+
+<td>Mid Cap</td>
+
+<td>🟡 Moderate</td>
+
+</tr>
+
+<tr>
+
+<td>Small Cap</td>
+
+<td>🟠 Aggressive</td>
+
+</tr>
+
+<tr>
+
+<td>Emergency Fund</td>
+
+<td>🟢 Healthy</td>
+
+</tr>
+
+</table>
+
+</div>
+<div class="metric-card">
+
+<h5>AI Confidence</h5>
+
+<h2>96%</h2>
+
+<small>
+Based on available financial information
+</small>
+
+</div>
+<div style="text-align:center;margin-top:40px;color:#888;font-size:13px;">
+
+Report Version 2.5
+
+<br>
+
+Generated by SmartPlan Finance AI
+
+<br>
+
+Personalized Financial Analysis Engine
+
+</div>
+<div class="risk-meter">
+
+<h2>⚠ Financial Risk Assessment</h2>
+
+<div class="risk-row">
+
+<div class="risk-label">
+<span>Liquidity Risk</span>
+<span>Low</span>
+</div>
+
+<div class="risk-progress">
+<div class="risk-fill" style="width:25%;"></div>
+</div>
+
+</div>
+
+<div class="risk-row">
+
+<div class="risk-label">
+<span>Debt Risk</span>
+<span>Medium</span>
+</div>
+
+<div class="risk-progress">
+<div class="risk-fill" style="width:50%;"></div>
+</div>
+
+</div>
+
+<div class="risk-row">
+
+<div class="risk-label">
+<span>Investment Risk</span>
+<span>{{ data.risk|upper }}</span>
+</div>
+
+<div class="risk-progress">
+
+<div class="risk-fill"
+
+style="width:
+{% if data.risk=='low' %}
+30%
+{% elif data.risk=='medium' %}
+60%
+{% else %}
+90%
+{% endif %}
+;"></div>
+
+</div>
+
+</div>
+
+</div>
+<div class="executive-summary">
+
+<h2>🎂 Financial Age</h2>
+
+<h1 style="font-size:60px;color:#B8860B;">
+
+{% if data.score>=90 %}
+25
+{% elif data.score>=80 %}
+30
+{% elif data.score>=70 %}
+35
+{% elif data.score>=60 %}
+40
+{% else %}
+50
+{% endif %}
+
+Years
+
+</h1>
+
+<p>
+
+Your financial behaviour resembles that of someone with this level of financial maturity.
+
+</p>
+
+</div>
+<div class="executive-summary">
+
+<h2>👤 Investor Archetype</h2>
+
+{% if data.risk=="low" %}
+
+<h3>🏦 Wealth Protector</h3>
+
+<p>
+
+You value stability, capital preservation and predictable growth.
+
+</p>
+
+{% elif data.risk=="medium" %}
+
+<h3>⚖ Strategic Builder</h3>
+
+<p>
+
+You balance growth and stability through diversified investing.
+
+</p>
+
+{% else %}
+
+<h3>🚀 Opportunity Hunter</h3>
+
+<p>
+
+You pursue higher returns while accepting greater market volatility.
+
+</p>
+
+{% endif %}
+
+</div>
+
+     <div class="dashboard-metrics">
+
+<div class="metric-card">
+<h5>Savings</h5>
+<h2>25%</h2>
+</div>
+
+<div class="metric-card">
+<h5>Investments</h5>
+<h2>30%</h2>
+</div>
+
+<div class="metric-card">
+<h5>Debt</h5>
+<h2>15%</h2>
+</div>
+
+<div class="metric-card">
+<h5>Emergency Fund</h5>
+<h2>20%</h2>
+</div>
+
+<div class="metric-card">
+<h5>Planning</h5>
+<h2>10%</h2>
+</div>
+
+</div>
+<div class="executive-summary">
+
+<h2>🏅 SmartPlan Achievements</h2>
+
+<div class="executive-grid">
+
+<div class="executive-item">
+
+🏆
+
+<br><br>
+
+<b>Saver</b>
+
+<br>
+
+Saving every month
+
+</div>
+
+<div class="executive-item">
+
+📈
+
+<br><br>
+
+<b>Investor</b>
+
+<br>
+
+Started SIP Journey
+
+</div>
+
+<div class="executive-item">
+
+🛡
+
+<br><br>
+
+<b>Planner</b>
+
+<br>
+
+Using Financial Reports
+
+</div>
+
+<div class="executive-item">
+
+🤖
+
+<br><br>
+
+<b>AI Explorer</b>
+
+<br>
+
+Generated AI Report
+
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="executive-summary">
+
+<h2>📋 AI Financial SWOT Analysis</h2>
+
+<div class="analysis-grid">
+
+<div class="analysis-card">
+
+<h3>💪 Strengths</h3>
+
+<ul>
+
+<li>Regular monthly income.</li>
+
+<li>Consistent savings.</li>
+
+<li>Investment discipline.</li>
+
+<li>Long-term financial planning.</li>
+
+</ul>
+
+</div>
+
+<div class="analysis-card">
+
+<h3>⚠ Weaknesses</h3>
+
+<ul>
+
+<li>Improve emergency reserves.</li>
+
+<li>Increase annual investments.</li>
+
+<li>Review insurance coverage.</li>
+
+</ul>
+
+</div>
+
+<div class="analysis-card">
+
+<h3>🚀 Opportunities</h3>
+
+<ul>
+
+<li>Increase SIP by 10% yearly.</li>
+
+<li>Explore tax-efficient investments.</li>
+
+<li>Diversify across asset classes.</li>
+
+</ul>
+
+</div>
+
+<div class="analysis-card">
+
+<h3>⛔ Threats</h3>
+
+<ul>
+
+<li>Inflation reducing purchasing power.</li>
+
+<li>Unexpected medical expenses.</li>
+
+<li>Market volatility.</li>
+
+</ul>
+
+</div>
+
+</div>
+<div class="executive-summary">
+
+<h2>🎯 Financial Life Goals</h2>
+
+<table style="width:100%;line-height:42px;">
+
+<tr>
+
+<th align="left">Goal</th>
+
+<th>Status</th>
+
+</tr>
+
+<tr>
+
+<td>Emergency Fund</td>
+
+<td>🟡 In Progress</td>
+
+</tr>
+
+<tr>
+
+<td>Retirement</td>
+
+<td>🟢 Planned</td>
+
+</tr>
+
+<tr>
+
+<td>Dream Home</td>
+
+<td>🟡 Planning</td>
+
+</tr>
+
+<tr>
+
+<td>Financial Freedom</td>
+
+<td>🔵 Long-term</td>
+
+</tr>
+
+</table>
+
+</div>
+<div class="executive-summary">
+
+<h2>💵 Monthly Cash Flow</h2>
+
+<div class="dashboard-metrics">
+
+<div class="metric-card">
+
+<h5>Income</h5>
+
+<h2>
+
+₹ {{ "{:,.0f}".format(data.income) }}
+
+</h2>
+
+</div>
+
+<div class="metric-card">
+
+<h5>Expenses</h5>
+
+<h2>
+
+₹ {{ "{:,.0f}".format(data.expense) }}
+
+</h2>
+
+</div>
+
+<div class="metric-card">
+
+<h5>Available Cash</h5>
+
+<h2>
+
+₹ {{ "{:,.0f}".format(data.income-data.expense) }}
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+<div class="executive-summary">
+
+<h2>🧠 AI Decision Score</h2>
+
+<table style="width:100%;line-height:40px;">
+
+<tr>
+
+<td>Budgeting</td>
+
+<td>9/10</td>
+
+</tr>
+
+<tr>
+
+<td>Saving</td>
+
+<td>8/10</td>
+
+</tr>
+
+<tr>
+
+<td>Investing</td>
+
+<td>9/10</td>
+
+</tr>
+
+<tr>
+
+<td>Risk Management</td>
+
+<td>7/10</td>
+
+</tr>
+
+<tr>
+
+<td>Retirement Planning</td>
+
+<td>8/10</td>
+
+</tr>
+
+</table>
+
+</div>
+<div class="executive-summary">
+
+<h2>🛣 Your Wealth Journey</h2>
+
+<div class="timeline-grid">
+
+<div class="timeline-card">
+
+<h4>Today</h4>
+
+<p>Building financial habits.</p>
+
+</div>
+
+<div class="timeline-card">
+
+<h4>1 Year</h4>
+
+<p>Stronger savings and investment discipline.</p>
+
+</div>
+
+<div class="timeline-card">
+
+<h4>5 Years</h4>
+
+<p>Growing investment portfolio through compounding.</p>
+
+</div>
+
+<div class="timeline-card">
+
+<h4>20 Years</h4>
+
+<p>Potential for long-term financial independence with disciplined investing.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
             {% if data.sip_calc_fv > 0 %}
 
 <h2 class="section-title">📊 SIP Projection</h2>
@@ -784,23 +2233,40 @@ padding-bottom:80px;
             </div>
        {% endif %}
 
-<hr style="margin-top:50px;">
+<div style="margin-top:60px;padding:35px;background:linear-gradient(135deg,#647e58,#374151);border-radius:20px;color:white;text-align:center;">
 
-<div style="text-align:center; margin-top:20px; color:#777; font-size:14px; line-height:28px;">
+<h2>
+🎉 Congratulations!
+</h2>
 
-    <strong>SmartPlan Finance</strong><br>
+<p style="font-size:18px;line-height:34px;">
 
-    Plan Smart. Invest Smarter.<br><br>
+Every financial decision you make today shapes your future.
 
-    🌐 www.smartplanfinance.com<br>
-    <br>
+Continue reviewing your finances regularly, invest consistently,
+and allow SmartPlan Finance AI to guide your wealth journey.
 
-    <em>
-    This report is computer generated for informational purposes only and should not be treated as investment advice.
-    </em>
+</p>
+
+<hr style="margin:30px 0;border-color:rgba(255,255,255,.15);">
+
+<p>
+
+Powered by
+
+<strong>SmartPlan Finance AI</strong>
+
+<br>
+
+Plan Smart. Invest Smarter.
+
+</p>
+
+</div>
 
 </div>
 
 </div>
 </body>
+
 </html>
