@@ -26,7 +26,7 @@ import hmac
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from wellness import LITERACY_QUESTIONS, calculate_health_score, calculate_literacy_score, get_health_breakdown
-
+from partner_links import PARTNER_LINKS, PAGE_PARTNER_MAP, KEYWORD_PARTNER_MAP
 logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
@@ -1361,9 +1361,11 @@ def sip_calculator():
         
 
     return render_template(
-        'sip_calculator.html',
-        result=result
-    )
+    'sip_calculator.html',
+    result=result,
+    partners=PAGE_PARTNER_MAP.get('sip_calculator', []),
+    PARTNER_LINKS=PARTNER_LINKS
+)
 from datetime import datetime, timedelta
 
 def can_generate_ai_report(user_id):
@@ -1736,9 +1738,11 @@ def financial_future():
         }
 
     return render_template(
-        'financial_future.html',
-        result=result
-    )
+    'financial_future.html',
+    result=result,
+    partners=PAGE_PARTNER_MAP.get('financial_future', []),
+    PARTNER_LINKS=PARTNER_LINKS
+)
 @app.route('/tax_calculator', methods=['GET', 'POST'])
 def tax_calculator():
 
@@ -1839,9 +1843,11 @@ def tax_calculator():
         }
 
     return render_template(
-        "tax_calculator.html",
-        result=result
-    )
+    "tax_calculator.html",
+    result=result,
+    partners=PAGE_PARTNER_MAP.get("tax_calculator", []),
+    PARTNER_LINKS=PARTNER_LINKS
+)
 @app.route("/emi_calculator", methods=["GET", "POST"])
 def emi_calculator():
 
@@ -1881,9 +1887,12 @@ def emi_calculator():
         }
 
     return render_template(
-        "emi_calculator.html",
-        result=result
-    )
+    'emi_calculator.html',
+    result=result,
+    partners=PAGE_PARTNER_MAP.get('emi_calculator', []),
+    PARTNER_LINKS=PARTNER_LINKS
+)
+
 @app.route("/retirement_calculator", methods=["GET", "POST"])
 def retirement_calculator():
 
@@ -1927,11 +1936,14 @@ def retirement_calculator():
             "monthly": monthly_investment,
             "age": retirement_age
         }
-
     return render_template(
-        "retirement_calculator.html",
-        result=result
-    )
+    'retirement_calculator.html',
+    result=result,
+    partners=PAGE_PARTNER_MAP.get('retirement_calculator', []),
+    PARTNER_LINKS=PARTNER_LINKS
+)
+
+    
 @app.route("/fd_calculator", methods=["GET", "POST"])
 def fd_calculator():
 
@@ -1960,9 +1972,11 @@ def fd_calculator():
         }
 
     return render_template(
-        "fd_calculator.html",
-        result=result
-    )
+    'fd_calculator.html',
+    result=result,
+    partners=PAGE_PARTNER_MAP.get('fd_calculator', []),
+    PARTNER_LINKS=PARTNER_LINKS
+)
 @app.route('/admin')
 @requires_auth # <--- This locks the admin panel!
 def admin():
@@ -2455,6 +2469,6 @@ def download_report():
 if __name__ == "__main__":
     app.run(
         host="127.0.0.1",
-        port=5001,
+        port=5000,
         debug=False
     )

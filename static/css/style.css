@@ -926,3 +926,57 @@ font-size:20px;
 .ai-content li {
     line-height: 1.7;
 }
+.partner-cta-block {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.partner-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #f9f9f9;
+  text-decoration: none;
+  color: #222;
+  transition: transform 0.15s ease;
+}
+
+.partner-cta:hover {
+  transform: translateY(-2px);
+}
+
+.partner-cta__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.partner-cta__text strong {
+  font-size: 15px;
+}
+
+.partner-cta__text span {
+  font-size: 12px;
+  color: #666;
+}
+
+.partner-cta__arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.partner-disclosure {
+  font-size: 11px;
+  color: #999;
+  margin-top: 4px;
+}
