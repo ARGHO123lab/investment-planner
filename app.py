@@ -27,6 +27,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from wellness import LITERACY_QUESTIONS, calculate_health_score, calculate_literacy_score, get_health_breakdown
 from partner_links import PARTNER_LINKS, PAGE_PARTNER_MAP, KEYWORD_PARTNER_MAP
+from flask import send_from_directory
 logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
@@ -2287,6 +2288,13 @@ def health():
         "application": "SmartPlan Finance",
         "version": "2.1"
     }, 200
+
+from flask import send_from_directory
+
+@app.route("/ads.txt")
+def ads_txt():
+    return send_from_directory("static", "ads.txt", mimetype="text/plain")
+
 @app.route("/sitemap.xml")
 def sitemap():
     conn = get_db_connection()
