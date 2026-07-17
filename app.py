@@ -1,6 +1,7 @@
 import re
 import os
 import uuid
+import requests
 import tempfile
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -24,6 +25,7 @@ from knowledge_base import INTERNAL_LINKS
 import hmac
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+from wellness import LITERACY_QUESTIONS, calculate_health_score, calculate_literacy_score, get_health_breakdown
 
 logging.basicConfig(level=logging.INFO)
 
@@ -56,6 +58,28 @@ if not app.secret_key:
     )
 
 # --- SECURITY GUARD (ADMIN AUTHENTICATION) ---
+def generate_wellness_summary(health_score, literacy_score, literacy_total, breakdown_notes):
+
+    if health_score >= 70:
+        health_note = "You're in a strong position financially — keep up the good habits."
+    elif health_score >= 40:
+        health_note = "You're on a reasonable path, with some room to strengthen your savings and safety net."
+    else:
+        health_note = "There's good opportunity to build stronger financial habits, starting with your emergency fund and savings rate."
+
+    if literacy_score >= (literacy_total * 0.7):
+        lit_note = "Your financial knowledge is solid."
+    else:
+        lit_note = "Brushing up on a few core concepts could really help your planning."
+
+    return f"""
+    <p>{health_note}</p>
+    <p>{lit_note}</p>
+    <ul>
+        <li>Explore our articles on budgeting, emergency funds, and SIP investing to build on your strengths.</li>
+        <li>Small, consistent steps matter more than big changes all at once.</li>
+    </ul>
+    """
 def generate_ai_advice(report):
 
     app.logger.info("===== AI FUNCTION STARTED =====")
@@ -2141,7 +2165,107 @@ def generate_faq():
     
     # After it's created, send it to the user's browser
     return send_file('financial_guide.pdf', as_attachment=True)
+@app.route('/wellness', methods=['GET', 'POST'])
+def wellness_health():
 
+    if request.method == 'POST':
+
+        income = float(request.form.get('income') or 0)
+        expense = float(request.form.get('expense') or 0)
+        savings = float(request.form.get('savings') or 0)
+        emergency_fund = float(request.form.get('emergency_fund') or 0)
+        debt = float(request.form.get('debt') or 0)
+
+        # Store in session temporarily (no login needed, no DB write yet)
+        session['wellness_health'] = {
+            "income": income,
+            "expense": expense,
+            "savings": savings,
+            "emergency_fund": emergency_fund,
+            "debt": debt
+        }
+
+        return redirect(url_for('wellness_quiz'))
+
+    return render_template('wellness_health.html')
+
+
+@app.route('/wellness/quiz', methods=['GET', 'POST'])
+def wellness_quiz():
+
+    if 'wellness_health' not in session:
+        return redirect(url_for('wellness_health'))
+
+    if request.method == 'POST':
+
+        answers = {}
+        for q in LITERACY_QUESTIONS:
+            answers[q['id']] = request.form.get(q['id'])
+
+        correct_count, total = calculate_literacy_score(answers)
+
+        session['wellness_literacy'] = {
+            "correct": correct_count,
+            "total": total
+        }
+
+        return redirect(url_for('wellness_results'))
+
+    return render_template('wellness_quiz.html', questions=LITERACY_QUESTIONS)
+
+
+@app.route('/wellness/results')
+def wellness_results():
+
+    health_data = session.get('wellness_health')
+    literacy_data = session.get('wellness_literacy')
+
+    if not health_data or not literacy_data:
+        return redirect(url_for('wellness_health'))
+
+    health_score = calculate_health_score(
+        health_data['income'],
+        health_data['expense'],
+        health_data['savings'],
+        health_data['emergency_fund'],
+        health_data['debt']
+    )
+
+    breakdown_notes = get_health_breakdown(
+        health_data['income'],
+        health_data['expense'],
+        health_data['savings'],
+        health_data['emergency_fund'],
+        health_data['debt']
+    )
+
+    literacy_score = literacy_data['correct']
+    literacy_total = literacy_data['total']
+
+    # Save anonymous result to DB
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        INSERT INTO wellness_results (health_score, literacy_score, literacy_total)
+        VALUES (%s, %s, %s)
+    """, (health_score, literacy_score, literacy_total))
+    conn.commit()
+    conn.close()
+
+    # Generate AI-personalized summary
+    ai_summary = generate_wellness_summary(health_score, literacy_score, literacy_total, breakdown_notes)
+
+    # Clear session data now that we're done with it
+    session.pop('wellness_health', None)
+    session.pop('wellness_literacy', None)
+
+    return render_template(
+        'wellness_results.html',
+        health_score=health_score,
+        literacy_score=literacy_score,
+        literacy_total=literacy_total,
+        ai_summary=ai_summary
+    )
 @app.route("/health")
 def health():
     return {

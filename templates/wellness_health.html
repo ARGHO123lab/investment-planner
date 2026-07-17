@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Financial Wellness Check | SmartPlan Finance</title>
+    <meta name="description" content="Check your Financial Wellness Score - a free health check covering your savings, emergency fund, and financial literacy.">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body{
+            margin:0; min-height:100vh; font-family:'Poppins',sans-serif;
+            background:linear-gradient(135deg,#FFFDF7,#FFF6DD);
+            display:flex; justify-content:center; align-items:center; padding:25px;
+        }
+        .card{
+            background:white; width:100%; max-width:560px; padding:45px;
+            border-radius:24px; box-shadow:0 18px 45px rgba(0,0,0,.08); box-sizing:border-box;
+        }
+        .progress{ text-align:center; color:#B8860B; font-weight:600; margin-bottom:10px; }
+        h2{ text-align:center; margin-bottom:8px; color:#333; }
+        .subtitle{ text-align:center; color:#666; margin-bottom:30px; line-height:26px; font-size:15px; }
+        label{ display:block; font-weight:600; margin:18px 0 8px; }
+        input{
+            width:100%; padding:14px; border-radius:12px; border:1px solid #ddd;
+            font-size:16px; box-sizing:border-box;
+        }
+        input:focus{ outline:none; border-color:#B8860B; box-shadow:0 0 10px rgba(184,134,11,.15); }
+        button{
+            margin-top:28px; width:100%; padding:16px; border:none; border-radius:12px;
+            background:#B8860B; color:white; font-size:18px; font-weight:600;
+            cursor:pointer; transition:.3s;
+        }
+        button:hover{ background:#9F7600; }
+        .hint{ font-size:13px; color:#999; margin-top:4px; }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="progress">Step 1 of 2 — Financial Health Check</div>
+    <h2>💰 Quick Financial Snapshot</h2>
+    <p class="subtitle">
+        Answer 5 quick questions to see your Financial Health Score. No login required, no data saved to your name.
+    </p>
+
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <label>Monthly Income (₹)</label>
+        <input type="number" name="income" placeholder="e.g. 50000" required min="0" step="any">
+
+        <label>Monthly Expenses (₹)</label>
+        <input type="number" name="expense" placeholder="e.g. 30000" required min="0" step="any">
+
+        <label>Monthly Savings (₹)</label>
+        <input type="number" name="savings" placeholder="e.g. 15000" required min="0" step="any">
+        <p class="hint">Income minus expenses, or however much you actually save each month</p>
+
+        <label>Current Emergency Fund (₹)</label>
+        <input type="number" name="emergency_fund" placeholder="e.g. 100000" required min="0" step="any">
+        <p class="hint">Total money set aside for emergencies (savings account, liquid FD, etc.)</p>
+
+        <label>Total Outstanding Debt (₹)</label>
+        <input type="number" name="debt" placeholder="e.g. 0" required min="0" step="any">
+        <p class="hint">Loans, credit card dues, etc. Enter 0 if none.</p>
+
+        <button type="submit">Continue to Quiz →</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

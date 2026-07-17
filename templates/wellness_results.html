@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Your Financial Wellness Results | SmartPlan Finance</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body{
+            margin:0; font-family:'Poppins',sans-serif;
+            background:linear-gradient(135deg,#FFFDF7,#FFF6DD);
+            padding:40px 20px;
+        }
+        .wrap{ max-width:700px; margin:0 auto; }
+        .score-card{
+            background:white; border-radius:24px; padding:40px;
+            box-shadow:0 18px 45px rgba(0,0,0,.08); text-align:center; margin-bottom:25px;
+        }
+        .scores{
+            display:flex; gap:20px; justify-content:center; margin:25px 0; flex-wrap:wrap;
+        }
+        .score-box{
+            background:#FFF8E1; border-radius:16px; padding:25px 35px; min-width:160px;
+        }
+        .score-box .num{ font-size:42px; font-weight:700; color:#B8860B; }
+        .score-box .label{ font-size:14px; color:#666; margin-top:6px; }
+        .summary-card{
+            background:white; border-radius:20px; padding:35px;
+            box-shadow:0 10px 30px rgba(0,0,0,.06); margin-bottom:25px; line-height:28px;
+        }
+        .summary-card h3{ color:#B8860B; margin-bottom:15px; }
+        .summary-card ul{ padding-left:22px; }
+        .disclaimer{
+            background:#FFF8E1; border-left:5px solid #B8860B; border-radius:12px;
+            padding:18px; font-size:14px; color:#666; line-height:24px; margin-bottom:25px;
+        }
+        .cta{
+            text-align:center; margin-top:20px;
+        }
+        .cta a{
+            display:inline-block; background:linear-gradient(135deg,#D4A017,#B8860B);
+            color:white; padding:16px 34px; border-radius:12px; text-decoration:none;
+            font-weight:600; margin:6px;
+        }
+        .cta a.secondary{
+            background:white; color:#B8860B; border:2px solid #B8860B;
+        }
+        .share-hint{
+            text-align:center; color:#999; font-size:13px; margin-top:20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+    <div class="score-card">
+        <h2>Your Financial Wellness Report</h2>
+        <div class="scores">
+            <div class="score-box">
+                <div class="num">{{ health_score }}/100</div>
+                <div class="label">Financial Health Score</div>
+            </div>
+            <div class="score-box">
+                <div class="num">{{ literacy_score }}/{{ literacy_total }}</div>
+                <div class="label">Money IQ Score</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <h3>📋 Your Personalized Summary</h3>
+        {{ ai_summary | safe }}
+    </div>
+
+    <div class="disclaimer">
+        <strong>Note:</strong> This tool is for financial education purposes only and does not constitute
+        financial, investment, or tax advice. Please consult a certified financial advisor for personalized
+        guidance. Read our full <a href="{{ url_for('disclaimer') }}" style="color:#B8860B;">Disclaimer</a>.
+    </div>
+
+    <div class="cta">
+        <a href="{{ url_for('wellness_health') }}" class="secondary">Retake Check</a>
+        <a href="{{ url_for('articles') }}">Explore Articles →</a>
+    </div>
+
+    <p class="share-hint">Share your score with friends and see how you compare!</p>
+
+</div>
+
+</body>
+</html>
