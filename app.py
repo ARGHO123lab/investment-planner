@@ -1424,6 +1424,55 @@ def swp_calculator():
             result = {"error": str(e)}
 
     return render_template("swp_calculator.html", result=result)
+from math import pow
+
+@app.route("/lumpsum_calculator", methods=["GET", "POST"])
+def lumpsum_calculator():
+
+    result = None
+
+    if request.method == "POST":
+
+        try:
+
+            investment = float(request.form["investment"])
+            annual_return = float(request.form["return_rate"])
+            years = float(request.form["years"])
+
+            future_value = investment * pow((1 + annual_return / 100), years)
+
+            wealth_gained = future_value - investment
+
+            yearly_growth = []
+
+            for year in range(1, int(years) + 1):
+
+                value = investment * pow((1 + annual_return / 100), year)
+
+                yearly_growth.append({
+                    "year": year,
+                    "value": round(value, 2)
+                })
+
+            result = {
+                "investment": round(investment, 2),
+                "future_value": round(future_value, 2),
+                "wealth_gained": round(wealth_gained, 2),
+                "return_rate": annual_return,
+                "years": years,
+                "yearly_growth": yearly_growth
+            }
+
+        except Exception as e:
+
+            result = {
+                "error": str(e)
+            }
+
+    return render_template(
+        "lumpsum_calculator.html",
+        result=result
+    )
 from datetime import datetime, timedelta
 
 def can_generate_ai_report(user_id):
