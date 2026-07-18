@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Inflation Calculator | SmartPlan Finance</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+<style>
+
+body{
+font-family:Poppins,sans-serif;
+background:#f6f8fc;
+margin:0;
+padding:40px;
+}
+
+.container{
+
+max-width:900px;
+margin:auto;
+background:#fff;
+padding:35px;
+border-radius:15px;
+box-shadow:0 12px 30px rgba(0,0,0,.08);
+
+}
+
+h1{
+
+color:#0B7A3D;
+margin-bottom:10px;
+
+}
+
+.subtitle{
+
+color:#666;
+margin-bottom:30px;
+
+}
+
+.form-group{
+
+margin-bottom:20px;
+
+}
+
+label{
+
+display:block;
+font-weight:600;
+margin-bottom:8px;
+
+}
+
+input{
+
+width:100%;
+padding:14px;
+border-radius:8px;
+border:1px solid #ddd;
+font-size:16px;
+box-sizing:border-box;
+
+}
+
+button{
+
+width:100%;
+padding:16px;
+background:#0B7A3D;
+color:#fff;
+font-size:18px;
+font-weight:600;
+border:none;
+border-radius:10px;
+cursor:pointer;
+
+}
+
+button:hover{
+
+background:#096432;
+
+}
+
+.cards{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-top:30px;
+
+}
+
+.card{
+
+background:#f7fff8;
+padding:20px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+.card h2{
+
+color:#0B7A3D;
+margin-bottom:10px;
+
+}
+
+table{
+
+width:100%;
+border-collapse:collapse;
+margin-top:30px;
+
+}
+
+th,td{
+
+padding:12px;
+border:1px solid #ddd;
+text-align:center;
+
+}
+
+th{
+
+background:#0B7A3D;
+color:white;
+
+}
+
+.ai-box{
+
+margin-top:30px;
+padding:20px;
+background:#eef9f1;
+border-left:5px solid #0B7A3D;
+border-radius:10px;
+
+}
+
+@media(max-width:768px){
+
+body{
+
+padding:20px;
+
+}
+
+.container{
+
+padding:20px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>📉 Inflation Calculator</h1>
+
+<p class="subtitle">
+
+Estimate how inflation reduces purchasing power over time.
+
+</p>
+
+<form method="POST">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="form-group">
+
+<label>Current Amount (₹)</label>
+
+<input
+type="number"
+name="current_amount"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Expected Inflation Rate (%)</label>
+
+<input
+type="number"
+step="0.01"
+name="inflation_rate"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Time Period (Years)</label>
+
+<input
+type="number"
+name="years"
+required>
+
+</div>
+
+<button type="submit">
+
+Calculate Inflation Impact
+
+</button>
+
+</form>
+
+{% if result %}
+
+{% if result.error %}
+
+<p style="color:red;">
+
+{{ result.error }}
+
+</p>
+
+{% else %}
+
+<div class="cards">
+
+<div class="card">
+
+<h2>
+
+₹ {{ "{:,.2f}".format(result.current_amount) }}
+
+</h2>
+
+<p>Today's Value</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+
+₹ {{ "{:,.2f}".format(result.future_value) }}
+
+</h2>
+
+<p>Future Value Required</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+
+₹ {{ "{:,.2f}".format(result.loss) }}
+
+</h2>
+
+<p>Purchasing Power Lost</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+
+{{ result.inflation_rate }}%
+
+</h2>
+
+<p>Inflation Rate</p>
+
+</div>
+
+</div>
+
+<h3 style="margin-top:35px;">
+
+Year-wise Inflation Impact
+
+</h3>
+
+<table>
+
+<tr>
+
+<th>Year</th>
+
+<th>Future Value (₹)</th>
+
+</tr>
+
+{% for row in result.yearly_data %}
+
+<tr>
+
+<td>{{ row.year }}</td>
+
+<td>
+
+₹ {{ "{:,.2f}".format(row.value) }}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<div class="ai-box">
+
+<h3>🤖 SmartPlan Insight</h3>
+
+<p>
+
+If inflation averages
+
+<strong>{{ result.inflation_rate }}%</strong>
+
+per year, an amount of
+
+<strong>₹ {{ "{:,.0f}".format(result.current_amount) }}</strong>
+
+today will require approximately
+
+<strong>₹ {{ "{:,.0f}".format(result.future_value) }}</strong>
+
+after
+
+<strong>{{ result.years }}</strong>
+
+years to maintain the same purchasing power.
+
+When planning for retirement, children's education, or other long-term goals, always account for inflation so your savings retain their real value.
+
+</p>
+
+</div>
+
+{% endif %}
+
+{% endif %}
+<div style="margin-top:20px; text-align:center;">
+    <a href="{{ url_for('index') }}"
+       style="
+            display:inline-block;
+            background:#f4b400;
+            color:white;
+            padding:12px 28px;
+            border-radius:10px;
+            text-decoration:none;
+            font-weight:600;
+            box-shadow:0 4px 10px rgba(0,0,0,.15);
+       ">
+        ← Back to Home
+    </a>
+</div>
+</div>
+
+</body>
+
+</html>

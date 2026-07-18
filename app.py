@@ -1513,6 +1513,63 @@ def cagr_calculator():
         "cagr_calculator.html",
         result=result
     )
+from math import pow
+
+@app.route("/inflation_calculator", methods=["GET", "POST"])
+def inflation_calculator():
+
+    result = None
+
+    if request.method == "POST":
+
+        try:
+
+            current_amount = float(request.form["current_amount"])
+            inflation_rate = float(request.form["inflation_rate"])
+            years = int(request.form["years"])
+
+            future_value = current_amount * pow(
+                (1 + inflation_rate / 100),
+                years
+            )
+
+            purchasing_power_loss = future_value - current_amount
+
+            yearly_data = []
+
+            for year in range(1, years + 1):
+
+                value = current_amount * pow(
+                    (1 + inflation_rate / 100),
+                    year
+                )
+
+                yearly_data.append({
+                    "year": year,
+                    "value": round(value, 2)
+                })
+
+            result = {
+
+                "current_amount": round(current_amount, 2),
+                "future_value": round(future_value, 2),
+                "inflation_rate": inflation_rate,
+                "years": years,
+                "loss": round(purchasing_power_loss, 2),
+                "yearly_data": yearly_data
+
+            }
+
+        except Exception as e:
+
+            result = {
+                "error": str(e)
+            }
+
+    return render_template(
+        "inflation_calculator.html",
+        result=result
+    )
 from datetime import datetime, timedelta
 
 def can_generate_ai_report(user_id):
