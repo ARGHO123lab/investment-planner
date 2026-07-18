@@ -18,3 +18,8 @@ openai>=1.40.0
 python-dotenv>=1.0.1
 Flask-WTF==1.2.2
 requests
+yfinance
+pandas
+numpy
+ta
+rapidfuzz
