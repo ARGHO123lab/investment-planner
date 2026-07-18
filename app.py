@@ -1369,6 +1369,61 @@ def sip_calculator():
     partners=PAGE_PARTNER_MAP.get('sip_calculator', []),
     PARTNER_LINKS=PARTNER_LINKS
 )
+@app.route("/swp_calculator", methods=["GET", "POST"])
+def swp_calculator():
+
+    result = None
+
+    if request.method == "POST":
+
+        try:
+            corpus = float(request.form["corpus"])
+            withdrawal = float(request.form["withdrawal"])
+            annual_return = float(request.form["return_rate"])
+            years = int(request.form["years"])
+
+            monthly_rate = annual_return / 100 / 12
+            months = years * 12
+
+            balance = corpus
+
+            total_withdrawn = 0
+
+            yearly_data = []
+
+            for month in range(1, months + 1):
+
+                balance *= (1 + monthly_rate)
+
+                if balance >= withdrawal:
+                    balance -= withdrawal
+                    total_withdrawn += withdrawal
+                else:
+                    total_withdrawn += balance
+                    balance = 0
+
+                if month % 12 == 0:
+
+                    yearly_data.append({
+                        "year": month // 12,
+                        "balance": round(balance, 2)
+                    })
+
+                if balance <= 0:
+                    break
+
+            result = {
+                "remaining": round(balance, 2),
+                "withdrawn": round(total_withdrawn, 2),
+                "interest": round(total_withdrawn + balance - corpus, 2),
+                "years_completed": round(month / 12, 1),
+                "yearly_data": yearly_data
+            }
+
+        except Exception as e:
+            result = {"error": str(e)}
+
+    return render_template("swp_calculator.html", result=result)
 from datetime import datetime, timedelta
 
 def can_generate_ai_report(user_id):
