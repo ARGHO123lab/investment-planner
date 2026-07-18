@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
 <!-- Paste AdSense code here -->
- <!--Modified code for adsense-->
+ <!--Modified code for adsense-->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
      crossorigin="anonymous" defer></script>
 <link rel="icon" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}" sizes="32x32">
@@ -399,70 +399,105 @@ background:#FFD45C;
 color:#2E4A73;
 
 }
+
+/* ==========================================
+   STOCK ANALYSIS SECTION
+========================================== */
+
+.stock-section{
+    padding:70px 8%;
+    background:#ffffff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.stock-container{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:40px;
+    width:100%;
+    max-width:1300px;
+    flex-wrap:wrap;
+}
+
+.stock-left{
+    flex:1;
+    min-width:300px;
+}
+
+.stock-right{
+    flex:1;
+    text-align:center;
+    min-width:260px;
+}
+
+.stock-badge{
+    display:inline-block;
+    background:#FFC107;
+    color:#222;
+    padding:8px 16px;
+    border-radius:30px;
+    font-weight:600;
+    margin-bottom:20px;
+    font-size:14px;
+}
+
+.stock-title{
+    font-size:36px;
+    margin-bottom:18px;
+    line-height:1.3;
+    color:#333;
+}
+
+.stock-title small{
+    display:block;
+    font-size:14px;
+    font-weight:500;
+    color:#666;
+    margin-top:8px;
+}
+
+.stock-description{
+    font-size:18px;
+    line-height:30px;
+    color:#666;
+    margin-bottom:25px;
+}
+
+.stock-emoji{
+    font-size:80px;
+    margin-bottom:20px;
+}
+
+.stock-btn{
+    display:inline-block;
+    background:#FFC107;
+    color:#222;
+    padding:18px 36px;
+    border-radius:12px;
+    text-decoration:none;
+    font-size:18px;
+    font-weight:700;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+    transition:.3s;
+}
+
+.stock-btn:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 35px rgba(0,0,0,.3);
+}
+
+.stock-meta{
+    margin-top:15px;
+    color:#999;
+    font-size:14px;
+}
+
 /* ==========================================
    MOBILE RESPONSIVE
 ========================================== */
-.stock-ai-btn{
-
-display:inline-block;
-
-margin-top:25px;
-
-padding:18px 32px;
-
-background:linear-gradient(135deg,#00C853,#00E676);
-
-color:#ffffff;
-
-font-size:20px;
-
-font-weight:700;
-
-text-decoration:none;
-
-border-radius:14px;
-
-box-shadow:0 10px 28px rgba(0,200,83,.45);
-
-transition:.3s ease;
-
-animation:pulseGlow 2s infinite;
-
-}
-
-.stock-ai-btn:hover{
-
-transform:translateY(-4px) scale(1.03);
-
-box-shadow:0 15px 35px rgba(0,200,83,.6);
-
-background:linear-gradient(135deg,#00E676,#00C853);
-
-color:white;
-
-}
-
-@keyframes pulseGlow{
-
-0%{
-
-box-shadow:0 0 0 rgba(0,200,83,.35);
-
-}
-
-50%{
-
-box-shadow:0 0 22px rgba(0,230,118,.7);
-
-}
-
-100%{
-
-box-shadow:0 0 0 rgba(0,200,83,.35);
-
-}
-
-}
 @media (max-width: 768px){
 
 .hero{
@@ -604,6 +639,58 @@ width:220px;
 
 }
 
+/* Stock Section Mobile */
+.stock-section{
+    padding:50px 20px;
+}
+
+.stock-container{
+    flex-direction:column;
+    gap:30px;
+}
+
+.stock-left{
+    max-width:100%;
+    text-align:center;
+}
+
+.stock-right{
+    max-width:100%;
+}
+
+.stock-title{
+    font-size:28px;
+    line-height:1.2;
+}
+
+.stock-description{
+    font-size:16px;
+    line-height:26px;
+}
+
+.stock-emoji{
+    font-size:60px;
+    margin-bottom:15px;
+}
+
+.stock-btn{
+    padding:15px 28px;
+    font-size:16px;
+    width:100%;
+    max-width:300px;
+    box-sizing:border-box;
+}
+
+}
+
+.stock-card{
+    width:100%;
+    max-width:360px;
+    background:linear-gradient(135deg,#0B7A3D,#149954);
+    border-radius:18px;
+    padding:24px;
+    color:white;
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
 }
 
     </style>
@@ -622,6 +709,9 @@ width:220px;
 
 <body>
 
+<!-- ==========================================
+HERO SECTION
+========================================== -->
 <div class="hero">
 
 <div class="hero-container">
@@ -670,94 +760,48 @@ Check My Wellness Score →
 <div class="hero-right">
 
 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="SmartPlan Finance">
+
+</div>
+
+</div>
+
+</div>
+
 <!-- ==========================================
 AI STOCK RESEARCH SECTION
 ========================================== -->
+<div class="stock-section">
 
-<section style="padding:70px 8%;background:#ffffff;">
+    <div class="stock-container">
 
-    <div style="
-        max-width:1200px;
-        margin:auto;
-        background:linear-gradient(135deg,#0B7A3D,#149954);
-        border-radius:20px;
-        padding:45px;
-        color:white;
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        gap:40px;
-        flex-wrap:wrap;
-        box-shadow:0 15px 35px rgba(0,0,0,.15);
-    ">
+        <div class="stock-left">
 
-        <div style="flex:2;min-width:300px;">
-
-            <span style="
-                display:inline-block;
-                background:#FFC107;
-                color:#222;
-                padding:8px 16px;
-                border-radius:30px;
-                font-weight:600;
-                margin-bottom:20px;
-            ">
+            <span class="stock-badge">
                 🚀 New AI Tool
             </span>
 
-            <h2 style="
-                font-size:36px;
-                margin-bottom:18px;
-                line-height:1.3;
-            ">
-                📊 AI Stock Research & Analysis
-                <br>
-<small style="font-size:14px;font-weight:500;">
-Get Complete Stock Insights in Seconds
-</small>
+            <h2 class="stock-title">
+                📊 AI Stock Research & Analysis
+                <small>Get Complete Stock Insights in Seconds</small>
             </h2>
 
-            <p style="
-                font-size:18px;
-                line-height:30px;
-                opacity:.95;
-            ">
-                Analyze any NSE listed stock using AI.
-                View company fundamentals, valuation metrics,
-                technical indicators, long-term outlook,
-                investor suitability and SmartPlan Finance's
-                personalized investment insights.
+            <p class="stock-description">
+                Analyze any NSE listed stock using AI. View company fundamentals, valuation metrics, technical indicators, long-term outlook, investor suitability and SmartPlan Finance's personalized investment insights.
             </p>
 
         </div>
 
-        <div style="flex:1;text-align:center;min-width:260px;">
+        <div class="stock-right">
 
-            <div style="font-size:80px;margin-bottom:20px;">
+            <div class="stock-emoji">
                 📈🤖
             </div>
 
-            <a href="/stock-analyzer"
-               style="
-                    display:inline-block;
-                    background:#FFC107;
-                    color:#222;
-                    padding:18px 36px;
-                    border-radius:12px;
-                    text-decoration:none;
-                    font-size:18px;
-                    font-weight:700;
-                    box-shadow:0 10px 25px rgba(0,0,0,.2);
-                    transition:.3s;
-               ">
+            <a href="/stock-analyzer" class="stock-btn">
                 Analyze My Stock →
             </a>
 
-            <p style="
-                margin-top:15px;
-                opacity:.9;
-                font-size:14px;
-            ">
+            <p class="stock-meta">
                 Free • AI Powered • NSE Stocks
             </p>
 
@@ -765,15 +809,11 @@ Get Complete Stock Insights in Seconds
 
     </div>
 
-</section>
 </div>
 
-</div>
-
-</div>
-
-
-
+<!-- ==========================================
+FOOTER
+========================================== -->
 <footer style="background:hsla(120, 100%, 6%, 0.659);color:#fafbfa;padding:45px 8%;margin-top:60px;">
 
 <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:50px;align-items:flex-start;">
@@ -865,6 +905,7 @@ Get Complete Stock Insights in Seconds
 </div>
 
 </footer>
+
 <!-- ================= CHATBOT ================= -->
 
 <div id="chat-toggle">
@@ -914,6 +955,7 @@ Get Complete Stock Insights in Seconds
     </div>
 
 </div>
+
 <script>
 const toggle = document.getElementById("chat-toggle");
 const box = document.getElementById("chat-box");
@@ -1001,6 +1043,7 @@ function sendMessage(){
 
 }
 </script>
+
 </body>
 
 </html>
