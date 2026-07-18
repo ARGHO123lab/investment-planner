@@ -1473,6 +1473,46 @@ def lumpsum_calculator():
         "lumpsum_calculator.html",
         result=result
     )
+from math import pow
+
+@app.route("/cagr_calculator", methods=["GET", "POST"])
+def cagr_calculator():
+
+    result = None
+
+    if request.method == "POST":
+
+        try:
+
+            initial = float(request.form["initial"])
+            final = float(request.form["final"])
+            years = float(request.form["years"])
+
+            cagr = ((final / initial) ** (1 / years) - 1) * 100
+
+            profit = final - initial
+
+            absolute_return = ((final - initial) / initial) * 100
+
+            result = {
+                "initial": round(initial, 2),
+                "final": round(final, 2),
+                "years": years,
+                "profit": round(profit, 2),
+                "cagr": round(cagr, 2),
+                "absolute_return": round(absolute_return, 2)
+            }
+
+        except Exception as e:
+
+            result = {
+                "error": str(e)
+            }
+
+    return render_template(
+        "cagr_calculator.html",
+        result=result
+    )
 from datetime import datetime, timedelta
 
 def can_generate_ai_report(user_id):
