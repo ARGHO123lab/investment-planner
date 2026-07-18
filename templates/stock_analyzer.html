@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Stock Analyzer | SmartPlan Finance</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #FFFDF5;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container-custom {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Section */
+        .header-section {
+            background: linear-gradient(135deg, #fff8e1, #ffffff);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f5e6a6;
+            text-align: center;
+        }
+
+        .header-section h1 {
+            color: #B8860B;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header-section p {
+            color: #666;
+            font-size: 15px;
+            line-height: 24px;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eee;
+        }
+
+        .form-section h3 {
+            color: #B8860B;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #FFC107;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
+            outline: none;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .btn-analyze {
+            background: linear-gradient(135deg, #FFC107, #FF9800);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 40px;
+            font-weight: 600;
+            font-size: 15px;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        .btn-analyze:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 152, 0, 0.4);
+            background: linear-gradient(135deg, #FF9800, #FF8800);
+            color: white;
+        }
+
+        .btn-analyze:active {
+            transform: translateY(0);
+        }
+
+        /* Alert Section */
+        .alert-danger {
+            background: #FEE4E4;
+            border: 1px solid #FACACA;
+            color: #C33;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 30px;
+        }
+
+        /* Stock Summary Card */
+        .stock-summary {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            border: 1px solid #eee;
+        }
+
+        .stock-header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+        }
+
+        .stock-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .stock-header small {
+            display: block;
+            margin-top: 5px;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .stock-body {
+            padding: 30px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #FFF8E1, #FFFDF5);
+            border: 1px solid #f5e6a6;
+            border-radius: 15px;
+            padding: 18px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border-color: #FFC107;
+        }
+
+        .metric-card h4 {
+            color: #888;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .metric-card h3 {
+            color: #B8860B;
+            font-size: 22px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .data-table tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s ease;
+        }
+
+        .data-table tr:hover {
+            background-color: #fafafa;
+        }
+
+        .data-table th {
+            background: #f9f9f9;
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #555;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 40%;
+        }
+
+        .data-table td {
+            padding: 14px 16px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* Technical Indicators Section */
+        .tech-indicators {
+            background: white;
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eee;
+        }
+
+        .section-title {
+            color: #B8860B;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .indicator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .indicator-box {
+            background: linear-gradient(135deg, #FFF8E1, #FFFDF5);
+            border: 1px solid #f5e6a6;
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .indicator-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .indicator-box label {
+            display: block;
+            color: #888;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .indicator-box .value {
+            color: #B8860B;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* AI Insights Section */
+        .ai-insights {
+            background: linear-gradient(135deg, #FFC107, #FF9800);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 152, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .ai-header {
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+            padding: 25px 30px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .ai-body {
+            background: white;
+            padding: 30px;
+        }
+
+        .ai-body p {
+            color: #666;
+            line-height: 26px;
+            margin-bottom: 12px;
+        }
+
+        .ai-body ul {
+            padding-left: 20px;
+            color: #666;
+        }
+
+        .ai-body li {
+            margin-bottom: 8px;
+            line-height: 24px;
+        }
+
+        /* Disclaimer Section */
+        .disclaimer {
+            background: #FEF5E7;
+            border: 1px solid #F5E6A6;
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 30px;
+            border-left: 5px solid #FFC107;
+        }
+
+        .disclaimer h5 {
+            color: #B8860B;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .disclaimer p {
+            color: #666;
+            font-size: 13px;
+            line-height: 22px;
+            margin: 0;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn-secondary-custom {
+            background: white;
+            border: 2px solid #FFC107;
+            color: #B8860B;
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-secondary-custom:hover {
+            background: #FFF8E1;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.2);
+            color: #B8860B;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container-custom {
+                padding: 10px;
+            }
+
+            .header-section {
+                padding: 25px;
+                margin-bottom: 20px;
+            }
+
+            .header-section h1 {
+                font-size: 24px;
+            }
+
+            .form-section {
+                padding: 20px;
+            }
+
+            .stock-header {
+                padding: 20px;
+            }
+
+            .stock-header h2 {
+                font-size: 22px;
+            }
+
+            .stock-body {
+                padding: 20px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .indicator-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-secondary-custom {
+                width: 100%;
+                text-align: center;
+            }
+
+            .data-table th {
+                font-size: 12px;
+                padding: 10px;
+            }
+
+            .data-table td {
+                font-size: 13px;
+                padding: 10px;
+            }
+        }
+
+        /* Performance Optimizations */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .form-control, .form-select, .metric-card, .indicator-box {
+            will-change: transform;
+        }
+
+        /* Loading State */
+        .btn-analyze:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container-custom">
+
+        <!-- Header Section -->
+        <div class="header-section">
+            <h1>📈 AI Stock Analyzer</h1>
+            <p>Comprehensive stock analysis with technical & fundamental metrics<br>for educational insights</p>
+        </div>
+
+        <!-- Search Form -->
+        <div class="form-section">
+            <h3>🔍 Search Stock</h3>
+
+            <form method="POST" id="stockForm">
+
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="form-group">
+                    <label for="symbol">NSE Stock Symbol</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="symbol"
+                        name="symbol" 
+                        placeholder="Enter: TCS, INFY, RELIANCE, HDFC..." 
+                        required
+                        autocomplete="off">
+                    <small style="color: #999; margin-top: 5px; display: block;">Example: TCS.NS, INFY.NS, RELIANCE.NS</small>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age">Your Age</label>
+                        <input 
+                            type="number" 
+                            class="form-control" 
+                            id="age"
+                            name="age" 
+                            min="18" 
+                            max="100"
+                            placeholder="Enter your age" 
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="risk_appetite">Risk Profile</label>
+                        <select class="form-select" id="risk_appetite" name="risk_appetite" required>
+                            <option value="">Select Risk Profile</option>
+                            <option value="Low">Conservative (Low Risk)</option>
+                            <option value="Medium" selected>Moderate (Medium Risk)</option>
+                            <option value="High">Aggressive (High Risk)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="investment_years">Investment Horizon (Years)</label>
+                        <input 
+                            type="number" 
+                            class="form-control" 
+                            id="investment_years"
+                            name="investment_years" 
+                            min="1" 
+                            max="50"
+                            placeholder="5" 
+                            required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-analyze">🔍 Analyze Stock</button>
+
+            </form>
+
+        </div>
+
+        <!-- Error Alert -->
+        {% if error %}
+        <div class="alert-danger">
+            <strong>⚠️ Analysis Error:</strong> {{ error }}
+        </div>
+        {% endif %}
+
+        <!-- Stock Summary Section -->
+        {% if stock %}
+        <div class="stock-summary">
+
+            <div class="stock-header">
+                <h2>{{ stock.company_name }}</h2>
+                <small>{{ stock.symbol }} • {{ stock.sector }} • {{ stock.industry }}</small>
+            </div>
+
+            <div class="stock-body">
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h4>Current Price</h4>
+                        <h3>₹ {{ stock.current_price }}</h3>
+                    </div>
+                    <div class="metric-card">
+                        <h4>1 Year Return</h4>
+                        <h3 style="color: {% if stock.one_year_return and stock.one_year_return > 0 %}#27ae60{% elif stock.one_year_return and stock.one_year_return < 0 %}#e74c3c{% else %}#95a5a6{% endif %};">
+                            {{ stock.one_year_return if stock.one_year_return else "N/A" }}%
+                        </h3>
+                    </div>
+                    <div class="metric-card">
+                        <h4>5 Year Return</h4>
+                        <h3 style="color: {% if stock.five_year_return and stock.five_year_return > 0 %}#27ae60{% elif stock.five_year_return and stock.five_year_return < 0 %}#e74c3c{% else %}#95a5a6{% endif %};">
+                            {{ stock.five_year_return if stock.five_year_return else "N/A" }}%
+                        </h3>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Market Capitalization</h4>
+                        <h3>{{ stock.market_cap }}</h3>
+                    </div>
+                </div>
+
+                <h4 style="color: #B8860B; margin-top: 30px; margin-bottom: 15px; font-weight: 600;">Fundamental Metrics</h4>
+
+                <table class="data-table">
+                    <tbody>
+                        <tr>
+                            <th>PE Ratio (Trailing)</th>
+                            <td>{{ stock.pe_ratio if stock.pe_ratio else "N/A" }}</td>
+                        </tr>
+                        <tr>
+                            <th>PE Ratio (Forward)</th>
+                            <td>{{ stock.forward_pe if stock.forward_pe else "N/A" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Price to Book Ratio</th>
+                            <td>{{ stock.pb_ratio if stock.pb_ratio else "N/A" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Return on Equity (ROE)</th>
+                            <td>{{ stock.roe if stock.roe else "N/A" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Debt to Equity Ratio</th>
+                            <td>{{ stock.debt_to_equity if stock.debt_to_equity else "N/A" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Beta (Volatility)</th>
+                            <td>{{ stock.beta if stock.beta else "N/A" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Dividend Yield</th>
+                            <td>{{ stock.dividend_yield if stock.dividend_yield else "N/A" }}</td>
+                        </tr>
+                        <tr>
+                            <th>52-Week High</th>
+                            <td>₹ {{ stock.fifty_two_week_high if stock.fifty_two_week_high else "N/A" }}</td>
+                        </tr>
+                        <tr>
+                            <th>52-Week Low</th>
+                            <td>₹ {{ stock.fifty_two_week_low if stock.fifty_two_week_low else "N/A" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Total Revenue</th>
+                            <td>{{ stock.revenue }}</td>
+                        </tr>
+                        <tr>
+                            <th>Net Income</th>
+                            <td>{{ stock.net_income }}</td>
+                        </tr>
+                        <tr>
+                            <th>Total Cash</th>
+                            <td>{{ stock.cash }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- Technical Indicators Section -->
+        <div class="tech-indicators">
+
+            <h3 class="section-title">📊 Technical Indicators</h3>
+
+            <div class="indicator-grid">
+                <div class="indicator-box">
+                    <label>20-Day MA</label>
+                    <div class="value">₹ {{ stock.moving_average_20 }}</div>
+                </div>
+                <div class="indicator-box">
+                    <label>50-Day MA</label>
+                    <div class="value">₹ {{ stock.moving_average_50 }}</div>
+                </div>
+                <div class="indicator-box">
+                    <label>200-Day MA</label>
+                    <div class="value">₹ {{ stock.moving_average_200 }}</div>
+                </div>
+                <div class="indicator-box">
+                    <label>RSI (14)</label>
+                    <div class="value">{{ stock.rsi }}</div>
+                </div>
+                <div class="indicator-box">
+                    <label>MACD</label>
+                    <div class="value">{{ stock.macd }}</div>
+                </div>
+                <div class="indicator-box">
+                    <label>MACD Signal</label>
+                    <div class="value">{{ stock.macd_signal }}</div>
+                </div>
+                <div class="indicator-box">
+                    <label>Avg Volume</label>
+                    <div class="value">{{ stock.average_volume }}</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- AI Insights Section -->
+        <div class="ai-insights">
+
+            <div class="ai-header">
+                🤖 SmartPlan Finance AI Educational Insights
+            </div>
+
+            <div class="ai-body">
+                <p>Based on your profile and the stock's metrics, here are personalized educational insights:</p>
+                <ul>
+                    <li>✔ Analysis based on fundamental metrics (PE, PB, ROE)</li>
+                    <li>✔ Technical indicator evaluation (Moving averages, RSI, MACD)</li>
+                    <li>✔ Customized for your age and risk profile</li>
+                    <li>✔ Alignment with your investment horizon</li>
+                    <li>✔ Historical performance context (1-year & 5-year returns)</li>
+                </ul>
+                <form method="POST" action="/generate-stock-advice" style="margin-top: 20px;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="symbol" value="{{ stock.symbol }}">
+                    <input type="hidden" name="age" value="{{ age }}">
+                    <input type="hidden" name="risk_appetite" value="{{ risk }}">
+                    <input type="hidden" name="investment_years" value="{{ years }}">
+                    <button type="submit" class="btn-analyze">🤖 Generate Detailed AI Report</button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Disclaimer Section -->
+        <div class="disclaimer">
+            <h5>⚠️ Important Disclaimer</h5>
+            <p>
+                SmartPlan Finance provides <strong>educational insights only</strong>. This analysis is generated using publicly available financial data and AI-based evaluation. 
+                It is <strong>NOT financial or investment advice</strong>. Stock markets involve substantial risk of loss. Past performance does not guarantee future results. 
+                All investments are subject to market risks including potential loss of principal. Please consult a <strong>SEBI-registered financial advisor</strong> before making any investment decisions. 
+                Your investment decisions are your own responsibility.
+            </p>
+        </div>
+
+        {% endif %}
+
+        <!-- AI Report Section -->
+       <!-- AI Stock Analysis Report Section - Improved -->
+
+{% if ai_report %}
+<div class="tech-indicators" style="border-left: 5px solid #FFC107;">
+
+    <h3 class="section-title">🤖 SmartPlan Finance AI Analysis Report</h3>
+
+    <!-- Stock Health Score Card -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px;">
+        <div class="metric-card">
+            <h4>Stock Health Score</h4>
+            <h3 style="color: {% if stock.pe_ratio and stock.pe_ratio < 25 %}#27ae60{% elif stock.pe_ratio and stock.pe_ratio < 35 %}#f39c12{% else %}#e74c3c{% endif %};">
+                {% if stock.pe_ratio and stock.pe_ratio < 25 %}
+                    ✅ 8.5/10
+                {% elif stock.pe_ratio and stock.pe_ratio < 35 %}
+                    ⚠️ 6.5/10
+                {% else %}
+                    ⛔ 4.5/10
+                {% endif %}
+            </h3>
+        </div>
+
+        <div class="metric-card">
+            <h4>Risk Assessment</h4>
+            <h3 style="color: {% if stock.beta and stock.beta < 1 %}#27ae60{% elif stock.beta and stock.beta < 1.3 %}#f39c12{% else %}#e74c3c{% endif %};">
+                {% if stock.beta and stock.beta < 1 %}
+                    🟢 Low
+                {% elif stock.beta and stock.beta < 1.3 %}
+                    🟡 Medium
+                {% else %}
+                    🔴 High
+                {% endif %}
+            </h3>
+        </div>
+
+        <div class="metric-card">
+            <h4>Your Risk Profile</h4>
+            <h3>
+                {% if risk == "Low" %}
+                    🛡️ Conservative
+                {% elif risk == "Medium" %}
+                    ⚖️ Moderate
+                {% else %}
+                    🚀 Aggressive
+                {% endif %}
+            </h3>
+        </div>
+
+        <div class="metric-card">
+            <h4>Recommended Action</h4>
+            <h3 style="color: #B8860B; font-size: 16px;">
+                {% if stock.one_year_return and stock.one_year_return > 15 and risk == "High" %}
+                    ✅ Consider
+                {% elif stock.one_year_return and stock.one_year_return > 10 and risk == "Medium" %}
+                    ✅ Consider
+                {% elif stock.one_year_return and stock.one_year_return > 5 and risk == "Low" %}
+                    ⚖️ Research More
+                {% else %}
+                    🔍 Monitor
+                {% endif %}
+            </h3>
+        </div>
+    </div>
+
+    <!-- Executive Summary -->
+    <div style="background: linear-gradient(135deg, #FFF8E1, #FFFDF5); border: 1px solid #f5e6a6; border-radius: 14px; padding: 25px; margin-bottom: 25px;">
+        <h4 style="color: #B8860B; margin-bottom: 15px; font-weight: 600;">📋 Executive Summary</h4>
+        <p style="color: #555; line-height: 26px; margin: 0;">
+            <strong>{{ stock.company_name }}</strong> is a {{ stock.sector }} company in the {{ stock.industry }} industry. 
+            Based on comprehensive fundamental and technical analysis, the stock shows 
+            {% if stock.pe_ratio and stock.pe_ratio < 25 %}
+                <strong style="color: #27ae60;">strong valuation metrics</strong>
+            {% elif stock.pe_ratio and stock.pe_ratio < 35 %}
+                <strong style="color: #f39c12;">moderate valuation metrics</strong>
+            {% else %}
+                <strong style="color: #e74c3c;">elevated valuation metrics</strong>
+            {% endif %}.
+            Your {{ years }}-year investment horizon aligns well with this company's growth prospects.
+        </p>
+    </div>
+
+    <!-- Analysis Sections -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;">
+
+        <!-- Fundamental Analysis -->
+        <div style="background: white; border: 1px solid #eee; border-radius: 14px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+            <h5 style="color: #B8860B; margin-bottom: 15px; font-weight: 600;">💰 Fundamental Analysis</h5>
+            
+            <div style="font-size: 14px; line-height: 24px; color: #555;">
+                <p>
+                    <strong>PE Ratio:</strong> 
+                    {% if stock.pe_ratio %}
+                        {{ stock.pe_ratio }}
+                        {% if stock.pe_ratio < 20 %}
+                            <span style="color: #27ae60;">✓ Undervalued</span>
+                        {% elif stock.pe_ratio < 30 %}
+                            <span style="color: #f39c12;">⚠ Fair Valuation</span>
+                        {% else %}
+                            <span style="color: #e74c3c;">✗ Overvalued</span>
+                        {% endif %}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </p>
+
+                <p>
+                    <strong>ROE:</strong> 
+                    {% if stock.roe %}
+                        {{ stock.roe }}
+                        {% if stock.roe > 15 %}
+                            <span style="color: #27ae60;">✓ Strong Profitability</span>
+                        {% elif stock.roe > 10 %}
+                            <span style="color: #f39c12;">⚠ Moderate Returns</span>
+                        {% else %}
+                            <span style="color: #e74c3c;">✗ Weak Returns</span>
+                        {% endif %}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </p>
+
+                <p>
+                    <strong>Debt-to-Equity:</strong> 
+                    {% if stock.debt_to_equity %}
+                        {{ stock.debt_to_equity }}
+                        {% if stock.debt_to_equity < 0.5 %}
+                            <span style="color: #27ae60;">✓ Healthy Balance Sheet</span>
+                        {% elif stock.debt_to_equity < 1 %}
+                            <span style="color: #f39c12;">⚠ Moderate Debt</span>
+                        {% else %}
+                            <span style="color: #e74c3c;">✗ High Leverage</span>
+                        {% endif %}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </p>
+
+                <p>
+                    <strong>Revenue & Net Income:</strong> {{ stock.revenue }} / {{ stock.net_income }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Technical Analysis -->
+        <div style="background: white; border: 1px solid #eee; border-radius: 14px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+            <h5 style="color: #B8860B; margin-bottom: 15px; font-weight: 600;">📊 Technical Analysis</h5>
+            
+            <div style="font-size: 14px; line-height: 24px; color: #555;">
+                <p>
+                    <strong>Price vs Moving Averages:</strong>
+                    {% if stock.current_price > stock.moving_average_200 and stock.current_price > stock.moving_average_50 %}
+                        <span style="color: #27ae60;">✓ Bullish Trend</span>
+                    {% elif stock.current_price > stock.moving_average_50 %}
+                        <span style="color: #f39c12;">⚠ Mixed Signals</span>
+                    {% else %}
+                        <span style="color: #e74c3c;">✗ Bearish Trend</span>
+                    {% endif %}
+                </p>
+
+                <p>
+                    <strong>RSI (Relative Strength Index):</strong> {{ stock.rsi }}
+                    {% if stock.rsi > 70 %}
+                        <span style="color: #e74c3c;">⚠ Overbought</span>
+                    {% elif stock.rsi < 30 %}
+                        <span style="color: #27ae60;">✓ Oversold</span>
+                    {% else %}
+                        <span style="color: #f39c12;">⚠ Neutral</span>
+                    {% endif %}
+                </p>
+
+                <p>
+                    <strong>MACD:</strong> {{ stock.macd }} | <strong>Signal:</strong> {{ stock.macd_signal }}
+                </p>
+
+                <p>
+                    <strong>52-Week Range:</strong> ₹{{ stock.fifty_two_week_low }} - ₹{{ stock.fifty_two_week_high }}
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Performance Analysis -->
+    <div style="background: white; border: 1px solid #eee; border-radius: 14px; padding: 20px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+        <h5 style="color: #B8860B; margin-bottom: 15px; font-weight: 600;">📈 Historical Performance</h5>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 14px; line-height: 24px;">
+            <div>
+                <strong>1-Year Return:</strong> 
+                <span style="color: {% if stock.one_year_return and stock.one_year_return > 0 %}#27ae60{% elif stock.one_year_return and stock.one_year_return < 0 %}#e74c3c{% else %}#95a5a6{% endif %}; font-weight: 600;">
+                    {{ stock.one_year_return if stock.one_year_return else "N/A" }}%
+                </span>
+            </div>
+            <div>
+                <strong>5-Year Return:</strong> 
+                <span style="color: {% if stock.five_year_return and stock.five_year_return > 0 %}#27ae60{% elif stock.five_year_return and stock.five_year_return < 0 %}#e74c3c{% else %}#95a5a6{% endif %}; font-weight: 600;">
+                    {{ stock.five_year_return if stock.five_year_return else "N/A" }}%
+                </span>
+            </div>
+        </div>
+
+        <p style="color: #666; line-height: 24px; margin-top: 15px; font-size: 13px;">
+            {% if stock.one_year_return and stock.one_year_return > 20 %}
+                The stock has delivered exceptional returns over the past year, outperforming market benchmarks.
+            {% elif stock.one_year_return and stock.one_year_return > 0 %}
+                The stock has shown positive returns, demonstrating consistent value creation.
+            {% elif stock.one_year_return %}
+                The stock has faced headwinds but may present recovery opportunities.
+            {% endif %}
+        </p>
+    </div>
+
+    <!-- Alignment with Profile -->
+    <div style="background: linear-gradient(135deg, #e3f2fd, #f1f8e9); border: 1px solid #90caf9; border-radius: 14px; padding: 25px; margin-bottom: 25px;">
+        <h5 style="color: #1565c0; margin-bottom: 15px; font-weight: 600;">🎯 Alignment with Your Profile</h5>
+        
+        <div style="color: #333; line-height: 26px; font-size: 14px;">
+            <p>
+                <strong>Age:</strong> {{ age }} years | <strong>Risk Profile:</strong> {{ risk }} | <strong>Investment Horizon:</strong> {{ years }} years
+            </p>
+            
+            {% if risk == "Low" %}
+                <p>
+                    ✅ As a conservative investor, you should prioritize companies with:
+                    <br>• Strong balance sheets and low debt (this stock: {{ stock.debt_to_equity if stock.debt_to_equity else "N/A" }})
+                    <br>• Consistent dividend payments (Dividend Yield: {{ stock.dividend_yield if stock.dividend_yield else "N/A" }})
+                    <br>• Stable historical performance
+                </p>
+            {% elif risk == "Medium" %}
+                <p>
+                    ✅ As a moderate investor, you can balance growth and stability:
+                    <br>• Look for companies with reasonable valuations and growth potential
+                    <br>• This stock's PE ratio of {{ stock.pe_ratio if stock.pe_ratio else "N/A" }} is {{ "attractive" if stock.pe_ratio and stock.pe_ratio < 25 else "moderate" if stock.pe_ratio and stock.pe_ratio < 35 else "elevated" }}
+                    <br>• Consider diversifying across sectors to reduce concentration risk
+                </p>
+            {% else %}
+                <p>
+                    ✅ As an aggressive investor, you seek higher returns:
+                    <br>• This stock's {{ years }}-year performance shows potential for growth
+                    <br>• Technical indicators show {{ "bullish" if stock.current_price > stock.moving_average_200 else "mixed" }} momentum
+                    <br>• Consider this as part of a diversified growth portfolio
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Key Insights -->
+    <div style="background: white; border-left: 5px solid #FFC107; border-radius: 0 14px 14px 0; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+        <h5 style="color: #B8860B; margin-bottom: 15px; font-weight: 600;">💡 Key Insights & Recommendations</h5>
+        
+        <ul style="color: #555; line-height: 26px; font-size: 14px; padding-left: 20px;">
+            <li>
+                <strong>Financial Health:</strong>
+                {% if stock.pe_ratio and stock.pe_ratio < 25 %}
+                    The company appears undervalued based on PE ratio, offering potential value opportunities.
+                {% else %}
+                    Monitor the company's earnings growth to justify current valuation levels.
+                {% endif %}
+            </li>
+            <li>
+                <strong>Growth Potential:</strong>
+                With revenue of {{ stock.revenue }} and net income of {{ stock.net_income }}, the company demonstrates solid operational performance.
+            </li>
+            <li>
+                <strong>Risk Consideration:</strong>
+                Beta of {{ stock.beta if stock.beta else "N/A" }} indicates 
+                {% if stock.beta and stock.beta < 1 %}
+                    lower volatility compared to market.
+                {% elif stock.beta and stock.beta < 1.3 %}
+                    volatility similar to market.
+                {% else %}
+                    higher volatility than market.
+                {% endif %}
+            </li>
+            <li>
+                <strong>Investment Strategy:</strong>
+                Given your {{ years }}-year horizon, consider dollar-cost averaging (regular SIP) to reduce timing risk.
+            </li>
+        </ul>
+    </div>
+
+    <!-- Important Disclaimer -->
+    <div class="disclaimer" style="margin-bottom: 25px;">
+        <h5>⚠️ Important Educational Disclaimer</h5>
+        <p>
+            <strong>This analysis is for educational purposes only.</strong> SmartPlan Finance AI generates insights based on publicly available financial data and technical indicators. 
+            This report is <strong>NOT financial advice, investment recommendation, or endorsement</strong> to buy/sell any security. 
+            Stock market investments carry significant risk of capital loss. Past performance does not guarantee future results. 
+            All analysis is subject to market conditions and assumptions that may change. Please consult a <strong>SEBI-registered financial advisor</strong> 
+            before making any investment decisions. Your investment decisions are entirely your responsibility.
+        </p>
+    </div>
+
+    <!-- Call-to-Action -->
+    <div style="background: linear-gradient(135deg, #FFC107, #FF9800); border-radius: 14px; padding: 25px; text-align: center; color: white;">
+        <h5 style="margin-bottom: 10px; font-weight: 600;">Ready to Start Your Investment Journey?</h5>
+        <p style="margin-bottom: 15px; opacity: 0.95;">
+            Use SmartPlan Finance tools to plan your financial future with confidence.
+        </p>
+        <a href="/sip-calculator" style="display: inline-block; background: rgba(0,0,0,0.15); color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
+            Explore SIP Calculator →
+        </a>
+    </div>
+
+</div>
+{% endif %}
+
+        <!-- Footer Action Buttons -->
+        {% if stock or ai_report %}
+        <div class="action-buttons">
+            <form method="POST" style="width: 100%; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn-secondary-custom">🔍 Analyze Another Stock</button>
+            </form>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <script>
+        // Form Validation
+        document.getElementById('stockForm')?.addEventListener('submit', function(e) {
+            const symbol = document.getElementById('symbol').value.trim();
+            if (!symbol) {
+                e.preventDefault();
+                alert('Please enter a stock symbol');
+                return false;
+            }
+        });
+
+        // Smooth scrolling for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Performance: Lazy loading images if any
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.src = entry.target.dataset.src;
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            document.querySelectorAll('img[data-src]').forEach(img => imageObserver.observe(img));
+        }
+    </script>
+
+</body>
+
+</html>

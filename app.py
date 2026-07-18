@@ -28,6 +28,8 @@ from werkzeug.utils import secure_filename
 from wellness import LITERACY_QUESTIONS, calculate_health_score, calculate_literacy_score, get_health_breakdown
 from partner_links import PARTNER_LINKS, PAGE_PARTNER_MAP, KEYWORD_PARTNER_MAP
 from flask import send_from_directory
+from stock_analyzer import get_stock_data
+from stock_ai import generate_stock_analysis
 logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
@@ -2344,7 +2346,109 @@ def sitemap():
     xml.append("</urlset>")
 
     return Response("\n".join(xml), mimetype="application/xml")
+@app.route("/stock-analyzer", methods=["GET", "POST"])
+def stock_analyzer():
 
+    stock = None
+    ai_report = None
+    error = None
+
+    age = ""
+    risk = ""
+    years = ""
+
+    if request.method == "POST":
+
+        symbol = request.form.get("symbol", "").strip()
+        age = request.form.get("age", "").strip()
+        risk = request.form.get("risk_appetite", "").strip()
+        years = request.form.get("investment_years", "").strip()
+
+        if symbol:
+
+            print("="*60)
+            print("Searching for:", symbol)
+
+            stock = get_stock_data(symbol)
+            session["stock_data"] = stock
+            session["age"] = age
+            session["risk"] = risk
+            session["years"] = years
+            print("Result:", stock)
+
+            if stock:
+
+                print("Generating AI Report...")
+
+                ai_report = generate_stock_analysis(
+                    stock,
+                    age,
+                    risk,
+                    years
+                )
+
+                print("AI Report Generated Successfully.")
+
+            else:
+
+                error = "Unable to fetch stock information."
+
+    return render_template(
+
+        "stock_analyzer.html",
+
+        stock=stock,
+
+        ai_report=None,
+
+        error=error,
+
+        age=age,
+
+        risk=risk,
+
+        years=years
+        
+    )
+
+@app.route("/generate-stock-advice", methods=["POST"])
+def generate_stock_advice():
+
+    print("Generating SPF Advice...")
+
+    symbol = request.form.get("symbol")
+    age = request.form.get("age")
+    risk = request.form.get("risk_appetite")
+    years = request.form.get("investment_years")
+
+
+    stock = get_stock_data(symbol)
+
+
+    if stock is None:
+        return redirect(url_for("stock_analyzer"))
+
+
+    ai_report = generate_stock_analysis(
+        stock,
+        age,
+        risk,
+        years
+    )
+
+
+    print("SPF Advice Generated Successfully")
+
+
+    return render_template(
+        "stock_analyzer.html",
+        stock=stock,
+        ai_report=ai_report,
+        age=age,
+        risk=risk,
+        years=years,
+        error=None
+    )
 @app.route("/download-report")
 @login_required
 def download_report():
@@ -2465,7 +2569,7 @@ def download_report():
         as_attachment=True,
         download_name="SmartPlan_Finance_Report.pdf"
     )
-
+    
     @response.call_on_close
     def cleanup():
         try:
