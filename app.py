@@ -597,10 +597,11 @@ def loan_assistance():
 
         success = True
 
-    return render_template(
-        "loan_assistance.html",
-        success=success
-    )
+    return render_template('loan_assistance.html', success=True)
+    
+    return render_template('loan_assistance.html')
+
+    
 @app.route("/admin-loan-leads")
 @requires_auth
 def admin_loan_leads():

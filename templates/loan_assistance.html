@@ -7,6 +7,8 @@
   --success: #2E7D32;
   --success-light: #E8F5E9;
   --danger: #D32F2F;
+  --warning: #F57C00;
+  --info: #1976D2;
   --neutral-50: #FAFAFA;
   --neutral-100: #F5F5F5;
   --neutral-200: #EEEEEE;
@@ -44,6 +46,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--text-primary);
@@ -51,11 +57,22 @@ body {
   line-height: 1.6;
 }
 
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
 /* Header Section */
 .loan-header {
   text-align: center;
   margin-bottom: var(--spacing-2xl);
-  padding: 0 var(--spacing-md);
+  padding: var(--spacing-lg) var(--spacing-md);
 }
 
 .loan-header-logo {
@@ -102,10 +119,14 @@ body {
 /* Form Section */
 .form-section {
   margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-xl);
+  border-bottom: 1px solid var(--neutral-200);
 }
 
 .form-section:last-of-type {
   margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .form-section-title {
@@ -193,11 +214,112 @@ select:focus {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23B8860B' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
 }
 
+/* Checkbox Styles */
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--primary);
+  flex-shrink: 0;
+}
+
 /* Helper Text */
 .form-hint {
   font-size: 12px;
   color: var(--text-light);
   margin-top: var(--spacing-xs);
+  line-height: 1.5;
+}
+
+/* Checkbox Group */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--neutral-50);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--neutral-200);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.checkbox-item:hover {
+  background: white;
+  border-color: var(--primary);
+}
+
+.checkbox-item input[type="checkbox"] {
+  margin-top: 3px;
+}
+
+.checkbox-item label {
+  margin: 0;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.checkbox-item .form-hint {
+  margin-top: var(--spacing-xs);
+  display: block;
+}
+
+/* Required Indicator */
+.required::after {
+  content: " *";
+  color: var(--danger);
+  font-weight: 700;
+}
+
+/* Alert Box */
+.alert-box {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.alert-info {
+  background: #E3F2FD;
+  border-left: 4px solid var(--info);
+  color: #0D47A1;
+}
+
+.alert-info strong {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Error Message */
+.error-message {
+  display: none;
+  background: #FFEBEE;
+  border-left: 4px solid var(--danger);
+  color: var(--danger);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.error-message.show {
+  display: block;
+}
+
+.error-message strong {
+  display: block;
+  margin-bottom: var(--spacing-xs);
 }
 
 /* Button */
@@ -221,13 +343,13 @@ select:focus {
   gap: var(--spacing-sm);
 }
 
-.btn-request:hover {
+.btn-request:hover:not(:disabled) {
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
   box-shadow: var(--shadow-lg);
   transform: translateY(-1px);
 }
 
-.btn-request:active {
+.btn-request:active:not(:disabled) {
   transform: translateY(0);
 }
 
@@ -318,12 +440,20 @@ select:focus {
   border-radius: var(--radius-md);
   font-size: 12px;
   color: var(--text-light);
-  line-height: 1.6;
+  line-height: 1.7;
   text-align: center;
 }
 
 .disclaimer strong {
   color: var(--text-secondary);
+}
+
+.disclaimer p {
+  margin-bottom: var(--spacing-sm);
+}
+
+.disclaimer p:last-child {
+  margin-bottom: 0;
 }
 
 /* Back Button */
@@ -344,15 +474,21 @@ select:focus {
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-md);
   transition: all 0.2s ease;
+  border: 1px solid transparent;
 }
 
 .back-btn:hover {
   background-color: var(--neutral-100);
   color: var(--primary-dark);
+  border-color: var(--primary);
 }
 
 /* Responsive Design */
 @media (max-width: 640px) {
+  :root {
+    --spacing-xl: 24px;
+  }
+
   .loan-header h1 {
     font-size: 24px;
   }
@@ -386,12 +522,14 @@ select:focus {
   .info-box li {
     font-size: 12px;
   }
-}
 
-/* Utility */
-.required::after {
-  content: " *";
-  color: var(--danger);
+  .checkbox-item {
+    padding: var(--spacing-sm);
+  }
+
+  .checkbox-item label {
+    font-size: 12px;
+  }
 }
 </style>
 
@@ -400,24 +538,28 @@ select:focus {
        class="loan-header-logo"
        alt="SmartPlan Finance">
   <h1>🏦 Loan Assistance</h1>
-  <p>Looking for the right loan? Submit your details below and one of our banking professionals will contact you to discuss suitable loan options, eligibility and documentation.</p>
+  <p>Looking for the right loan? Submit your details below and our banking professionals will contact you to discuss suitable loan options, eligibility and documentation.</p>
 </div>
 
 {% if success %}
 <div class="loan-form-wrapper">
   <div class="success-box">
-    <h2>✅ Callback Request Submitted</h2>
+    <h2>✅ Callback Request Submitted Successfully</h2>
     <p>
       Thank you for choosing <strong>SmartPlan Finance</strong>.
       <br><br>
-      Our banking professional will review your request and contact you shortly to discuss the most suitable loan options based on your requirements.
+      Your request has been recorded. Our banking professionals will review your details and contact you shortly at the phone number provided to discuss personalized loan options based on your requirements.
+      <br><br>
+      <strong>Expected contact time:</strong> Within 24-48 hours
     </p>
   </div>
 </div>
 {% endif %}
 
 <div class="loan-form-wrapper">
-  <form class="loan-form" method="POST">
+  <div id="errorMessage" class="error-message"></div>
+
+  <form class="loan-form" method="POST" id="loanForm">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
     <!-- Personal Information Section -->
@@ -442,18 +584,20 @@ select:focus {
           name="phone"
           placeholder="10-digit mobile number"
           pattern="[0-9]{10}"
+          inputmode="numeric"
+          maxlength="10"
           required>
         <div class="form-hint">10-digit mobile number (e.g., 9876543210)</div>
       </div>
 
       <div class="form-group">
-        <label for="email">Email Address</label>
+        <label for="email">Email Address (Optional)</label>
         <input
           id="email"
           type="email"
           name="email"
-          placeholder="yourname@email.com">
-        <div class="form-hint">We'll send a confirmation to this email</div>
+          placeholder="yourname@example.com">
+        <div class="form-hint">We'll send a confirmation email and loan updates</div>
       </div>
 
       <div class="form-group">
@@ -491,6 +635,7 @@ select:focus {
           placeholder="₹ 10,00,000"
           min="100000"
           step="100000"
+          inputmode="numeric"
           required>
         <div class="form-hint">Minimum ₹1,00,000</div>
       </div>
@@ -501,13 +646,70 @@ select:focus {
           id="callback_time"
           type="text"
           name="callback_time"
-          placeholder="E.g., Monday 6 PM or  Morning">
+          placeholder="E.g., Today 6 PM or Tomorrow Morning">
         <div class="form-hint">We'll call you at your preferred time</div>
       </div>
     </div>
 
+    <!-- Consent Section -->
+    <div class="form-section">
+      <div class="form-section-title">✓ Consent & Transparency</div>
+
+      <div class="alert-box alert-info">
+        <strong>📋 How Your Data is Used:</strong>
+        Your information will be shared with our banking professionals to contact you with suitable loan options, interest rates, and eligibility information.
+      </div>
+
+      <div class="checkbox-group">
+        <div class="checkbox-item">
+          <input 
+            type="checkbox" 
+            id="data_sharing_consent" 
+            name="data_sharing_consent" 
+            required>
+          <label for="data_sharing_consent">
+            <strong class="required">I consent to share my details with banking professionals</strong>
+            <div class="form-hint">
+              I agree that SmartPlan Finance will share my name, phone number, email, and loan requirements with partner banking institutions and their representatives. They will contact me to discuss loan options and eligibility.
+            </div>
+          </label>
+        </div>
+
+        <div class="checkbox-item">
+          <input 
+            type="checkbox" 
+            id="terms_acceptance" 
+            name="terms_acceptance" 
+            required>
+          <label for="terms_acceptance">
+            <strong class="required">I accept the Terms of Service and Privacy Policy</strong>
+            <div class="form-hint">
+              I have read and agree to the 
+              <a href="{{ url_for('privacy') }}" target="_blank">Privacy Policy</a>
+              and
+              <a href="{{ url_for('terms') }}" target="_blank">Terms of Service</a>.
+              I understand my data will be processed according to India's data protection laws.
+            </div>
+          </label>
+        </div>
+
+        <div class="checkbox-item">
+          <input 
+            type="checkbox" 
+            id="marketing_consent" 
+            name="marketing_consent">
+          <label for="marketing_consent">
+            <strong>I'd like to receive updates on loan products and financial tips (Optional)</strong>
+            <div class="form-hint">
+              You may receive SMS and email updates. You can opt-out anytime.
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
     <!-- Submit Button -->
-    <button type="submit" class="btn-request">
+    <button type="submit" class="btn-request" id="submitBtn">
       📞 Request Free Callback
     </button>
   </form>
@@ -518,7 +720,7 @@ select:focus {
   <div class="info-box">
     <h3>⭐ Why Choose SmartPlan Finance?</h3>
     <ul>
-      <li>Free consultation with a banking professional</li>
+      <li>Free consultation with banking professionals</li>
       <li>Guidance on loan eligibility & documentation</li>
       <li>Help understanding interest rates & EMI calculations</li>
       <li>Personalized loan options based on your profile</li>
@@ -530,7 +732,21 @@ select:focus {
 <!-- Disclaimer -->
 <div class="loan-form-wrapper">
   <div class="disclaimer">
-    <strong>Disclaimer:</strong> SmartPlan Finance is a financial education platform. We do not provide loans directly or guarantee loan approval. Loan approval, interest rates, and eligibility are solely determined by the lending financial institution.
+    <p>
+      <strong>IMPORTANT DISCLAIMER:</strong>
+    </p>
+    <p>
+      SmartPlan Finance is a financial education and referral platform. We do not directly provide, disburse, or guarantee loan approvals. Loan approval, interest rates, eligibility, and terms are solely determined by the lending financial institutions.
+    </p>
+    <p>
+      <strong>Data Privacy:</strong> Your personal information is handled securely in compliance with the Digital Personal Data Protection Act, 2023. We will never share your data without explicit consent.
+    </p>
+    <p style="font-size: 11px; margin-top: var(--spacing-md);">
+      SmartPlan Finance | 
+      <a href="{{ url_for('privacy')}}" target="_blank">Privacy Policy</a> | 
+      <a href="{{ url_for('terms') }}" target="_blank">Terms of Service</a> | 
+      <a href="mailto:support@smartplanfinance.com">Contact Us</a>
+    </p>
   </div>
 </div>
 
@@ -542,3 +758,74 @@ select:focus {
     </a>
   </div>
 </div>
+
+<script>
+// Form Validation & Error Handling
+document.getElementById('loanForm').addEventListener('submit', function(e) {
+  const errorDiv = document.getElementById('errorMessage');
+  errorDiv.innerHTML = '';
+  errorDiv.classList.remove('show');
+
+  // Validate phone number
+  const phone = document.getElementById('phone').value;
+  if (phone && !/^[0-9]{10}$/.test(phone)) {
+    showError('Please enter a valid 10-digit mobile number.');
+    e.preventDefault();
+    return;
+  }
+
+  // Validate loan amount
+  const loanAmount = document.getElementById('loan_amount').value;
+  if (loanAmount && loanAmount < 100000) {
+    showError('Loan amount must be at least ₹1,00,000.');
+    e.preventDefault();
+    return;
+  }
+
+  // Validate email if provided
+  const email = document.getElementById('email').value;
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showError('Please enter a valid email address.');
+    e.preventDefault();
+    return;
+  }
+
+  // Validate consent checkboxes
+  if (!document.getElementById('data_sharing_consent').checked) {
+    showError('Please consent to share your details with banking professionals.');
+    e.preventDefault();
+    return;
+  }
+
+  if (!document.getElementById('terms_acceptance').checked) {
+    showError('Please accept the Terms of Service and Privacy Policy to proceed.');
+    e.preventDefault();
+    return;
+  }
+
+  // Disable submit button to prevent double submission
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('submitBtn').textContent = '⏳ Submitting...';
+});
+
+// Show error message
+function showError(message) {
+  const errorDiv = document.getElementById('errorMessage');
+  errorDiv.innerHTML = `<strong>⚠️ Error:</strong> ${message}`;
+  errorDiv.classList.add('show');
+  window.scrollTo({ top: errorDiv.offsetTop - 100, behavior: 'smooth' });
+}
+
+// Phone number formatting (removes non-digits)
+document.getElementById('phone').addEventListener('input', function(e) {
+  e.target.value = e.target.value.replace(/[^0-9]/g, '').substring(0, 10);
+});
+
+// Loan amount formatting
+document.getElementById('loan_amount').addEventListener('change', function(e) {
+  const value = parseInt(e.target.value);
+  if (value && !isNaN(value)) {
+    e.target.title = '₹' + value.toLocaleString('en-IN');
+  }
+});
+</script>
