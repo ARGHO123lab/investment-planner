@@ -305,7 +305,61 @@ grid-template-columns:1fr;
 {% endfor %}
 
 </table>
+<hr>
 
+<h2>🏦 Loan Assistance Leads ({{ total_loan_leads }})</h2>
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>Phone</th>
+
+<th>City</th>
+
+<th>Loan Type</th>
+
+<th>Amount</th>
+
+<th>Callback Time</th>
+
+<th>Date</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for lead in loan_leads %}
+
+<tr>
+
+<td>{{ lead.full_name }}</td>
+
+<td>{{ lead.phone }}</td>
+
+<td>{{ lead.city }}</td>
+
+<td>{{ lead.loan_type }}</td>
+
+<td>₹ {{ lead.loan_amount }}</td>
+
+<td>{{ lead.callback_time }}</td>
+
+<td>{{ lead.created_at }}</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
 </div>
 
 </div>

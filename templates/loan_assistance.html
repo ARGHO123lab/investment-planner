@@ -1,0 +1,544 @@
+<style>
+/* Design System & CSS Variables */
+:root {
+  --primary: #B8860B;
+  --primary-light: #D4A017;
+  --primary-dark: #8B6B09;
+  --success: #2E7D32;
+  --success-light: #E8F5E9;
+  --danger: #D32F2F;
+  --neutral-50: #FAFAFA;
+  --neutral-100: #F5F5F5;
+  --neutral-200: #EEEEEE;
+  --neutral-300: #E0E0E0;
+  --neutral-400: #BDBDBD;
+  --neutral-600: #757575;
+  --neutral-700: #616161;
+  --neutral-800: #424242;
+  --neutral-900: #212121;
+  
+  --text-primary: #212121;
+  --text-secondary: #666666;
+  --text-light: #999999;
+  
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-primary);
+  background-color: #FAFAFA;
+  line-height: 1.6;
+}
+
+/* Header Section */
+.loan-header {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+  padding: 0 var(--spacing-md);
+}
+
+.loan-header-logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: var(--spacing-lg);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+}
+
+.loan-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.5px;
+}
+
+.loan-header p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Form Container */
+.loan-form-wrapper {
+  max-width: 520px;
+  margin: 0 auto var(--spacing-2xl);
+  padding: 0 var(--spacing-md);
+}
+
+.loan-form {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-md);
+}
+
+/* Form Section */
+.form-section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.form-section:last-of-type {
+  margin-bottom: 0;
+}
+
+.form-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.4;
+}
+
+/* Input & Select Styles */
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 12px var(--spacing-md);
+  font-size: 14px;
+  border: 1.5px solid var(--neutral-300);
+  border-radius: var(--radius-md);
+  background-color: white;
+  color: var(--text-primary);
+  font-family: inherit;
+  transition: all 0.2s ease;
+  appearance: none;
+}
+
+input[type="text"]::placeholder,
+input[type="tel"]::placeholder,
+input[type="email"]::placeholder,
+input[type="number"]::placeholder {
+  color: var(--text-light);
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.08);
+  background-color: #FFFDF7;
+}
+
+input[type="text"]:invalid:not(:placeholder-shown),
+input[type="email"]:invalid:not(:placeholder-shown),
+input[type="tel"]:invalid:not(:placeholder-shown) {
+  border-color: var(--danger);
+}
+
+/* Select Arrow */
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23616161' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+select:focus {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23B8860B' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+}
+
+/* Helper Text */
+.form-hint {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: var(--spacing-xs);
+}
+
+/* Button */
+.btn-request {
+  width: 100%;
+  padding: 14px var(--spacing-lg);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+  margin-top: var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.btn-request:hover {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+.btn-request:active {
+  transform: translateY(0);
+}
+
+.btn-request:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Success Message */
+.success-box {
+  background: var(--success-light);
+  border-left: 4px solid var(--success);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.success-box h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--success);
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.success-box p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.success-box strong {
+  color: var(--text-primary);
+}
+
+/* Info Box */
+.info-box {
+  background: #F5F5F5;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-top: var(--spacing-2xl);
+}
+
+.info-box h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.info-box ul {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.info-box li {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+}
+
+.info-box li:before {
+  content: "✓";
+  color: var(--success);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Disclaimer */
+.disclaimer {
+  margin-top: var(--spacing-2xl);
+  padding: var(--spacing-lg);
+  background: #FFFDF7;
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  color: var(--text-light);
+  line-height: 1.6;
+  text-align: center;
+}
+
+.disclaimer strong {
+  color: var(--text-secondary);
+}
+
+/* Back Button */
+.footer-nav {
+  text-align: center;
+  margin-top: var(--spacing-xl);
+  padding-bottom: var(--spacing-xl);
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background-color: var(--neutral-100);
+  color: var(--primary-dark);
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .loan-header h1 {
+    font-size: 24px;
+  }
+
+  .loan-header p {
+    font-size: 14px;
+  }
+
+  .loan-form {
+    padding: var(--spacing-lg);
+  }
+
+  .form-section-title {
+    font-size: 12px;
+  }
+
+  label {
+    font-size: 13px;
+  }
+
+  input,
+  select {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .btn-request {
+    font-size: 14px;
+    padding: 12px var(--spacing-md);
+  }
+
+  .info-box li {
+    font-size: 12px;
+  }
+}
+
+/* Utility */
+.required::after {
+  content: " *";
+  color: var(--danger);
+}
+</style>
+
+<div class="loan-header">
+  <img src="{{ url_for('static', filename='images/logo.png') }}"
+       class="loan-header-logo"
+       alt="SmartPlan Finance">
+  <h1>🏦 Loan Assistance</h1>
+  <p>Looking for the right loan? Submit your details below and one of our banking professionals will contact you to discuss suitable loan options, eligibility and documentation.</p>
+</div>
+
+{% if success %}
+<div class="loan-form-wrapper">
+  <div class="success-box">
+    <h2>✅ Callback Request Submitted</h2>
+    <p>
+      Thank you for choosing <strong>SmartPlan Finance</strong>.
+      <br><br>
+      Our banking professional will review your request and contact you shortly to discuss the most suitable loan options based on your requirements.
+    </p>
+  </div>
+</div>
+{% endif %}
+
+<div class="loan-form-wrapper">
+  <form class="loan-form" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <!-- Personal Information Section -->
+    <div class="form-section">
+      <div class="form-section-title">👤 Your Details</div>
+
+      <div class="form-group">
+        <label for="full_name" class="required">Full Name</label>
+        <input
+          id="full_name"
+          type="text"
+          name="full_name"
+          placeholder="Enter your full name"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone" class="required">Mobile Number</label>
+        <input
+          id="phone"
+          type="tel"
+          name="phone"
+          placeholder="10-digit mobile number"
+          pattern="[0-9]{10}"
+          required>
+        <div class="form-hint">10-digit mobile number (e.g., 9876543210)</div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          placeholder="yourname@email.com">
+        <div class="form-hint">We'll send a confirmation to this email</div>
+      </div>
+
+      <div class="form-group">
+        <label for="city">City</label>
+        <input
+          id="city"
+          type="text"
+          name="city"
+          placeholder="Enter your city">
+      </div>
+    </div>
+
+    <!-- Loan Details Section -->
+    <div class="form-section">
+      <div class="form-section-title">💰 Loan Requirements</div>
+
+      <div class="form-group">
+        <label for="loan_type" class="required">Select Loan Type</label>
+        <select name="loan_type" id="loan_type" required>
+          <option value="">-- Choose a loan type --</option>
+          <option value="home">Home Loan</option>
+          <option value="personal">Personal Loan</option>
+          <option value="business">Business Loan</option>
+          <option value="property">Loan Against Property</option>
+          <option value="balance-transfer">Balance Transfer</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="loan_amount" class="required">Required Loan Amount</label>
+        <input
+          id="loan_amount"
+          type="number"
+          name="loan_amount"
+          placeholder="₹ 10,00,000"
+          min="100000"
+          step="100000"
+          required>
+        <div class="form-hint">Minimum ₹1,00,000</div>
+      </div>
+
+      <div class="form-group">
+        <label for="callback_time">Preferred Callback Time</label>
+        <input
+          id="callback_time"
+          type="text"
+          name="callback_time"
+          placeholder="E.g., Monday 6 PM or  Morning">
+        <div class="form-hint">We'll call you at your preferred time</div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn-request">
+      📞 Request Free Callback
+    </button>
+  </form>
+</div>
+
+<!-- Why Choose Section -->
+<div class="loan-form-wrapper">
+  <div class="info-box">
+    <h3>⭐ Why Choose SmartPlan Finance?</h3>
+    <ul>
+      <li>Free consultation with a banking professional</li>
+      <li>Guidance on loan eligibility & documentation</li>
+      <li>Help understanding interest rates & EMI calculations</li>
+      <li>Personalized loan options based on your profile</li>
+      <li>No obligation to proceed with any loan</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Disclaimer -->
+<div class="loan-form-wrapper">
+  <div class="disclaimer">
+    <strong>Disclaimer:</strong> SmartPlan Finance is a financial education platform. We do not provide loans directly or guarantee loan approval. Loan approval, interest rates, and eligibility are solely determined by the lending financial institution.
+  </div>
+</div>
+
+<!-- Footer Navigation -->
+<div class="loan-form-wrapper">
+  <div class="footer-nav">
+    <a href="{{ url_for('index') }}" class="back-btn">
+      ← Back to Home
+    </a>
+  </div>
+</div>

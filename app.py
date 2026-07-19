@@ -544,6 +544,92 @@ def delete_article(article_id):
     conn.commit()
     conn.close()
     return redirect(url_for('articles'))
+@app.route("/loan-assistance", methods=["GET", "POST"])
+def loan_assistance():
+
+    success = False
+
+    if request.method == "POST":
+
+        full_name = request.form.get("full_name")
+        phone = request.form.get("phone")
+        email = request.form.get("email")
+        city = request.form.get("city")
+        loan_type = request.form.get("loan_type")
+        loan_amount = request.form.get("loan_amount")
+        callback_time = request.form.get("callback_time")
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+
+            INSERT INTO loan_leads
+            (
+                full_name,
+                phone,
+                email,
+                city,
+                loan_type,
+                loan_amount,
+                callback_time
+            )
+
+            VALUES
+            (%s,%s,%s,%s,%s,%s,%s)
+
+        """,
+
+        (
+            full_name,
+            phone,
+            email,
+            city,
+            loan_type,
+            loan_amount,
+            callback_time
+        ))
+
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        success = True
+
+    return render_template(
+        "loan_assistance.html",
+        success=success
+    )
+@app.route("/admin-loan-leads")
+@requires_auth
+def admin_loan_leads():
+
+    conn = get_db_connection()
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+
+        SELECT *
+
+        FROM loan_leads
+
+        ORDER BY created_at DESC
+
+    """)
+
+    leads = cursor.fetchall()
+
+    conn.close()
+
+    return render_template(
+
+        "admin_loan_leads.html",
+
+        leads=leads
+
+    )
 @app.route('/forgot-password', methods=['GET', 'POST'])
 def forgot_password():
 
@@ -2182,25 +2268,112 @@ def fd_calculator():
     PARTNER_LINKS=PARTNER_LINKS
 )
 @app.route('/admin')
-@requires_auth # <--- This locks the admin panel!
+@requires_auth
 def admin():
+
     conn = get_db_connection()
     cur = conn.cursor()
-    query = "SELECT r.id, u.name, u.mobile, u.country, r.income, r.expense, r.savings, r.risk, r.created_at, u.target_amount, u.target_years FROM reports r INNER JOIN users u ON r.user_id = u.id ORDER BY r.id DESC"
-    cur.execute(query)
-    rows = cur.fetchall()
-    cleaned_reports = []
-    for row in rows:
-        r_dict = dict(row)
-        if r_dict['name'].replace('-', '').replace('.', '').isdigit(): r_dict['name'] = f"User #{r_dict['id']}"
-        cleaned_reports.append(r_dict)
-    total_reports = len(cleaned_reports)
-    high_risk, medium_risk, low_risk = sum(1 for r in cleaned_reports if r['risk'].lower() == 'high'), sum(1 for r in cleaned_reports if r['risk'].lower() == 'medium'), sum(1 for r in cleaned_reports if r['risk'].lower() == 'low')
-    avg_income = sum(r['income'] for r in cleaned_reports) / total_reports if total_reports > 0 else 0
-    avg_savings = sum(r['savings'] for r in cleaned_reports) / total_reports if total_reports > 0 else 0
-    conn.close()
-    return render_template('admin.html', total_reports=total_reports, high_risk=high_risk, medium_risk=medium_risk, low_risk=low_risk, avg_income="{:,.2f}".format(avg_income), avg_savings="{:,.2f}".format(avg_savings), reports=cleaned_reports)
 
+    # ---------------- Reports ----------------
+
+    query = """
+        SELECT
+            r.id,
+            u.name,
+            u.mobile,
+            u.country,
+            r.income,
+            r.expense,
+            r.savings,
+            r.risk,
+            r.created_at,
+            u.target_amount,
+            u.target_years
+        FROM reports r
+        INNER JOIN users u
+        ON r.user_id = u.id
+        ORDER BY r.id DESC
+    """
+
+    cur.execute(query)
+
+    rows = cur.fetchall()
+
+    cleaned_reports = []
+
+    for row in rows:
+
+        r_dict = dict(row)
+
+        if r_dict['name'].replace('-', '').replace('.', '').isdigit():
+            r_dict['name'] = f"User #{r_dict['id']}"
+
+        cleaned_reports.append(r_dict)
+
+    total_reports = len(cleaned_reports)
+
+    high_risk = sum(
+        1 for r in cleaned_reports
+        if r['risk'].lower() == 'high'
+    )
+
+    medium_risk = sum(
+        1 for r in cleaned_reports
+        if r['risk'].lower() == 'medium'
+    )
+
+    low_risk = sum(
+        1 for r in cleaned_reports
+        if r['risk'].lower() == 'low'
+    )
+
+    avg_income = (
+        sum(r['income'] for r in cleaned_reports) / total_reports
+        if total_reports > 0 else 0
+    )
+
+    avg_savings = (
+        sum(r['savings'] for r in cleaned_reports) / total_reports
+        if total_reports > 0 else 0
+    )
+
+    # ---------------- Loan Leads ----------------
+
+    cur.execute("""
+        SELECT *
+        FROM loan_leads
+        ORDER BY created_at DESC
+    """)
+
+    loan_leads = cur.fetchall()
+
+    total_loan_leads = len(loan_leads)
+
+    conn.close()
+
+    return render_template(
+
+        "admin.html",
+
+        total_reports=total_reports,
+
+        high_risk=high_risk,
+
+        medium_risk=medium_risk,
+
+        low_risk=low_risk,
+
+        avg_income="{:,.2f}".format(avg_income),
+
+        avg_savings="{:,.2f}".format(avg_savings),
+
+        reports=cleaned_reports,
+
+        loan_leads=loan_leads,
+
+        total_loan_leads=total_loan_leads
+
+    )
 @app.route('/articles')
 def articles():
     conn = get_db_connection()
