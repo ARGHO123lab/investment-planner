@@ -597,7 +597,7 @@ def loan_assistance():
 
         success = True
 
-    return render_template('loan_assistance.html', success=True)
+    return render_template('loan_assistance.html', success=success)
     
     return render_template('loan_assistance.html')
 
