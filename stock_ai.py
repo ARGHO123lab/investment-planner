@@ -1,5 +1,5 @@
 import requests
-import json
+import os
 
 
 def generate_stock_analysis(stock, age, risk, years):
@@ -72,7 +72,6 @@ RSI:
 MACD:
 {stock['macd']}
 
-
 Investor Profile:
 
 Age:
@@ -84,33 +83,24 @@ Risk Appetite:
 Investment Horizon:
 {years} years
 
-
 Generate a professional HTML report.
 
 Include:
 
 1. AI Stock Health Score /100
-
 2. Risk Level
-
 3. Long term stability analysis
-
 4. Explain:
-PE Ratio
-Moving Average
-RSI
-MACD
-ROE
-Debt Equity
-
+   - PE Ratio
+   - Moving Average
+   - RSI
+   - MACD
+   - ROE
+   - Debt Equity
 5. Strengths
-
 6. Weaknesses
-
 7. Investor suitability based on age and risk profile
-
 8. Long term outlook
-
 
 Never say BUY or SELL.
 
@@ -129,33 +119,44 @@ Investments are subject to market risks.
 
 """
 
+    # Default to localhost for local development
+    ollama_url = os.getenv(
+        "OLLAMA_URL",
+        "http://localhost:11434"
+    )
 
     try:
 
         response = requests.post(
-
-            "http://localhost:11434/api/generate",
-
+            f"{ollama_url}/api/generate",
             json={
-                "model":"llama3.2:3b",
-                "prompt":prompt,
-                "stream":False
-            }
-
+                "model": "llama3.2:3b",
+                "prompt": prompt,
+                "stream": False
+            },
+            timeout=180
         )
 
+        response.raise_for_status()
 
-        result=response.json()
+        result = response.json()
 
-        return result["response"]
-
+        return result.get(
+            "response",
+            """
+            <div class='alert alert-warning'>
+            AI generated an empty response.
+            </div>
+            """
+        )
 
     except Exception as e:
 
-        print("OLLAMA ERROR:",e)
+        print("OLLAMA ERROR:", e)
 
         return """
         <div class='alert alert-danger'>
-        AI service unavailable.
+        AI service is currently unavailable.
+        Please try again later.
         </div>
         """
