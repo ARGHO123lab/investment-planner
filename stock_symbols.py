@@ -10,7 +10,7 @@ COMPANY_SYMBOLS = {
     "WIPRO": "WIPRO",
     "HCL": "HCLTECH",
     "HCLTECH": "HCLTECH",
-    "HCL TECHNOLOGIES": "HCLTECH",
+    "HCL TECHNOLOGIES": "HCLTECH",  
     "TECH MAHINDRA": "TECHM",
     "TECHM": "TECHM",
     "LTIM": "LTIM",
@@ -19,6 +19,11 @@ COMPANY_SYMBOLS = {
     "PERSISTENT SYSTEMS": "PERSISTENT",
     "MPHASIS": "MPHASIS",
     "COFORGE": "COFORGE",
+    "ECLERX": "ECLERX",
+    "HEXAWARE": "HEXT",
+    "KPITTECH": "KPITTECH",
+    "LTTS": "LTTS",
+    "SYNGENE": "SYNGENE",
 
     # =====================
     # BANKING
@@ -60,6 +65,37 @@ COMPANY_SYMBOLS = {
     "PNB": "PNB",
     "PUNJAB NATIONAL BANK": "PNB",
 
+    "CANARA BANK": "CANBK",
+    "CANBK": "CANBK",
+
+    "UNION BANK": "UNIONBANK",
+    "UNION BANK OF INDIA": "UNIONBANK",
+
+    "INDIAN BANK": "INDIANB",
+
+    "BANDHAN BANK": "BANDHANBNK",
+
+    "AU SMALL FINANCE": "AUBANK",
+    "AU BANK": "AUBANK",
+
+    "RBL BANK": "RBLBANK",
+
+    "IDBI BANK": "IDBI",
+
+    "BANK OF INDIA": "BANKINDIA",
+
+    "UCO BANK": "UCOBANK",
+
+    "CITY UNION BANK": "CUB",
+
+    "KARUR VYSYA BANK": "KARURVYSYA",
+
+    "CENTRAL BANK": "CENTRALBK",
+
+    "JAMMU & KASHMIR BANK": "J_KBANK",
+
+    "MAHENDRA & MAHENDRA": "M_M",
+
     # =====================
     # RELIANCE / ENERGY
     # =====================
@@ -70,9 +106,10 @@ COMPANY_SYMBOLS = {
     "IOC": "IOC",
     "INDIAN OIL": "IOC",
     "BPCL": "BPCL",
-    "HPCL": "HPCL",
+    "HPCL": "HINDPETRO",
     "GAIL": "GAIL",
     "ADANI TOTAL GAS": "ATGL",
+    "OIL INDIA": "OIL",
 
     # =====================
     # ADANI GROUP
@@ -92,9 +129,10 @@ COMPANY_SYMBOLS = {
     "MARUTI SUZUKI": "MARUTI",
     "TATA MOTORS": "TATAMOTORS",
     "TATAMOTORS": "TATAMOTORS",
-    "MAHINDRA": "M&M",
-    "M&M": "M&M",
-    "BAJAJ AUTO": "BAJAJ-AUTO",
+    "TATA MOTORS PV": "TMPV",
+    "MAHINDRA": "M_M",
+    "M&M": "M_M",
+    "BAJAJ AUTO": "BAJAJ_AUTO",
     "EICHER": "EICHERMOT",
     "EICHER MOTORS": "EICHERMOT",
     "TVS": "TVSMOTOR",
@@ -102,6 +140,9 @@ COMPANY_SYMBOLS = {
     "ASHOK LEYLAND": "ASHOKLEY",
     "HERO": "HEROMOTOCO",
     "HERO MOTOCORP": "HEROMOTOCO",
+    "HYUNDAI": "HYUNDAI",
+    "FORCE MOTORS": "FORCEMOT",
+    "ESCORTS": "ESCORTS",
 
     # =====================
     # FMCG
@@ -115,6 +156,12 @@ COMPANY_SYMBOLS = {
     "BRITANNIA": "BRITANNIA",
     "GODREJ CONSUMER": "GODREJCP",
     "COLGATE": "COLPAL",
+    "MARICO": "MARICO",
+    "EMAMI": "EMAMILTD",
+    "VARUN BEVERAGES": "VBL",
+    "UNITE SPIRITS": "UNITDSPR",
+    "RADICO KHAITAN": "RADICO",
+    "PATANJALI FOODS": "PATANJALI",
 
     # =====================
     # PHARMA
@@ -129,6 +176,21 @@ COMPANY_SYMBOLS = {
     "DIVIS LAB": "DIVISLAB",
     "TORRENT PHARMA": "TORNTPHARM",
     "AUROBINDO": "AUROPHARMA",
+    "GLAND PHARMA": "GLAND",
+    "ZYDUS LIFESCIENCES": "ZYDUSLIFE",
+    "ALKEM": "ALKEM",
+    "AJANTA PHARMA": "AJANTPHARM",
+    "IPCA LAB": "IPCALAB",
+    "NATCO PHARMA": "NATCOPHARM",
+    "GLAXOSMITHKLINE": "GLAXO",
+    "ABBOTT INDIA": "ABBOTINDIA",
+    "PFIZER": "PFIZER",
+    "ASTRAZENECA": "ASTRAZEN",
+    "JB CHEMICALS": "JBCHEPHARM",
+    "EMCURE": "EMCURE",
+    "GLENMARK": "GLENMARK",
+    "ERIS LIFESCIENCES": "ERIS",
+    "MANKIND PHARMA": "MANKIND",
 
     # =====================
     # TELECOM
@@ -139,6 +201,7 @@ COMPANY_SYMBOLS = {
     "VODAFONE IDEA": "IDEA",
     "VI": "IDEA",
     "IDEA": "IDEA",
+    "BHARTI HEXACOM": "BHARTIHEXA",
 
     # =====================
     # METALS
@@ -150,6 +213,11 @@ COMPANY_SYMBOLS = {
     "HINDALCO": "HINDALCO",
     "VEDANTA": "VEDL",
     "COAL INDIA": "COALINDIA",
+    "NATIONAL ALUMINIUM": "NATIONALUM",
+    "HINDU COPPER": "HINDCOPPER",
+    "HINDUSTAN ZINC": "HINDZINC",
+    "LLOYDS METALS": "LLOYDSME",
+    "NMDC": "NMDC",
 
     # =====================
     # CEMENT
@@ -158,6 +226,11 @@ COMPANY_SYMBOLS = {
     "ULTRATECH CEMENT": "ULTRACEMCO",
     "AMBUJA": "AMBUJACEM",
     "ACC": "ACC",
+    "SHREE CEMENT": "SHREECEM",
+    "JK CEMENT": "JKCEMENT",
+    "RAMCO CEMENTS": "RAMCOCEM",
+    "JSW CEMENT": "JSWCEMENT",
+    "DALMIA BHARAT": "DALBHARAT",
 
     # =====================
     # FINANCE
@@ -168,6 +241,19 @@ COMPANY_SYMBOLS = {
     "JIOFIN": "JIOFIN",
     "CHOLA": "CHOLAFIN",
     "SHRIRAM FINANCE": "SHRIRAMFIN",
+    "MUTHOOT FINANCE": "MUTHOOTFIN",
+    "MANAPPURAM FINANCE": "MANAPPURAM",
+    "LT FINANCE": "LTF",
+    "IIFL FINANCE": "IIFL",
+    "PIRAMAL FINANCE": "PIRAMALFIN",
+    "MAHINDRA FINANCE": "M_MFIN",
+    "BAJAJ HOUSING": "BAJAJHFL",
+    "PNB HOUSING": "PNBHOUSING",
+    "AADHAAR HOUSING": "AADHARHFC",
+    "APTUS VALUE": "APTUS",
+    "CREDITACCESS": "CREDITACC",
+    "HDB FINANCE": "HDBFS",
+    "FIVE STAR": "FIVESTAR",
 
     # =====================
     # INSURANCE
@@ -176,6 +262,13 @@ COMPANY_SYMBOLS = {
     "SBI LIFE": "SBILIFE",
     "HDFC LIFE": "HDFCLIFE",
     "ICICI PRUDENTIAL": "ICICIPRULI",
+    "ICICI LOMBARD": "ICICIGI",
+    "GICRE": "GICRE",
+    "NEW INDIA": "NIACL",
+    "STAR HEALTH": "STARHEALTH",
+    "GO DIGIT": "GODIGIT",
+    "NIVA BUPA": "NIVABUPA",
+    "CANARA HSBC": "CANHLIFE",
 
     # =====================
     # NEW AGE
@@ -185,8 +278,12 @@ COMPANY_SYMBOLS = {
     "SWIGGY": "SWIGGY",
     "PAYTM": "PAYTM",
     "NYKAA": "NYKAA",
-    "POLICYBAZAAR": "PBFINTECH",
-    "PB FINTECH": "PBFINTECH",
+    "POLICYBAZAAR": "POLICYBZR",
+    "PB FINTECH": "POLICYBZR",
+    "MEESHO": "MEESHO",
+    "DELHIVERY": "DELHIVERY",
+    "OLA ELECTRIC": "OLAELEC",
+    "GROWTH": "GROWW",
 
     # =====================
     # JEWELLERY
@@ -195,6 +292,7 @@ COMPANY_SYMBOLS = {
     "KALYAN": "KALYANKJIL",
     "KALYAN JEWELLERS": "KALYANKJIL",
     "SENCO": "SENCO",
+    "TANISHQ": "TITAN",
 
     # =====================
     # CONSUMER
@@ -204,6 +302,16 @@ COMPANY_SYMBOLS = {
     "ASIAN PAINTS": "ASIANPAINT",
     "PIDILITE": "PIDILITIND",
     "BERGER": "BERGEPAINT",
+    "BLUE STAR": "BLUESTARCO",
+    "CUMMINS": "CUMMINSIND",
+    "HAVELLS": "HAVELLS",
+    "VOLTAS": "VOLTAS",
+    "CROMPTON": "CROMPTON",
+    "SIEMENS": "SIEMENS",
+    "ABB": "ABB",
+    "SCHNEIDER": "SCHNEIDER",
+    "EAGLE PICHER": "LGEINDIA",
+    "VISHAL MEGA MART": "VMM",
 
     # =====================
     # DEFENCE
@@ -216,6 +324,8 @@ COMPANY_SYMBOLS = {
     "MAZAGON DOCK": "MAZDOCK",
     "COCHIN SHIPYARD": "COCHINSHIP",
     "GRSE": "GRSE",
+    "BHARAT DYNAMICS": "BDL",
+    "BHARAT FORGE": "BHARATFORG",
 
     # =====================
     # RAILWAYS
@@ -224,5 +334,157 @@ COMPANY_SYMBOLS = {
     "IRFC": "IRFC",
     "RVNL": "RVNL",
     "RAILTEL": "RAILTEL",
+    "CONCOR": "CONCOR",
+    "INDIAN RAILWAYS": "IRFC",
+
+    # =====================
+    # INFRASTRUCTURE & REAL ESTATE
+    # =====================
+    "LARSEN TOUBRO": "LT",
+    "L&T": "LT",
+    "DLF": "DLF",
+    "LODHA": "LODHA",
+    "OBEROI REALTY": "OBEROIRLTY",
+    "PRESTIGE ESTATES": "PRESTIGE",
+    "BRIGADE ENTERPRISES": "BRIGADE",
+    "SOBHA": "SOBHA",
+    "GODREJ PROPERTIES": "GODREJPROP",
+    "HIRANANDANI": "LODHA",
+    "KOLTE PATIL": "KPIL",
+    "ANANT RAJ": "ANANTRAJ",
+    "JSW INFRA": "JSWINFRA",
+    "IRCONINTL": "IRCON",
+    "KALPATARU": "KPIL",
+
+    # =====================
+    # POWER & UTILITIES
+    # =====================
+    "NTPC": "NTPC",
+    "POWER GRID": "POWERGRID",
+    "TATA POWER": "TATAPOWER",
+    "JSW ENERGY": "JSWENERGY",
+    "INDIABULLS POWER": "INDIABULLS",
+    "ADANI POWER": "ADANIPOWER",
+    "ADANI GREEN": "ADANIGREEN",
+    "NTPC GREEN": "NTPCGREEN",
+    "RENUKA SUGARS": "RENUKA",
+    "NHPC": "NHPC",
+
+    # =====================
+    # PORTS & LOGISTICS
+    # =====================
+    "ADANI PORTS": "ADANIPORTS",
+    "AEGIS LOGISTICS": "AEGISLOG",
+    "GMR AIRPORTS": "GMRAIRPORT",
+    "INDUS TOWERS": "INDUSTOWER",
+    "APOLLO LOGISTICS": "APOLLOLOG",
+
+    # =====================
+    # CHEMICALS & MATERIALS
+    # =====================
+    "UPL": "UPL",
+    "COROMANDEL": "COROMANDEL",
+    "CHAMBAL FERTILISER": "CHAMBLFERT",
+    "DEEPAK FERTILISER": "DEEPAKFERT",
+    "PARADEEP PHOSPHATES": "PARADEEP",
+    "DEEPAK NITRITE": "DEEPAKNTR",
+    "AARTI INDUSTRIES": "AARTIIND",
+    "BALAJI INDUSTRIES": "BALKRISIND",
+    "NAVIN FLUORINE": "NAVINFLUOR",
+    "SRF": "SRF",
+    "TATA CHEMICALS": "TATACHEM",
+    "BASF INDIA": "BASF",
+    "SUMITOMO CHEMICAL": "SUMICHEM",
+    "FINE ORGANIC": "FINEORG",
+    "ANUPAM RASAYAN": "ANURAS",
+    "AETHER INDUSTRIES": "AETHER",
+    "CONCORD BIOTECH": "CONCORDBIO",
+    "ACUTAAS CHEMICALS": "ACUTAAS",
+    "PRIVI SPECIALITY": "PRIVISCL",
+
+    # =====================
+    # TEXTILES
+    # =====================
+    "VARDHMAN TEXTILES": "VTL",
+    "ARVIND": "ARVIND",
+    "CENTURY PLYBOARDS": "CENTURYPLY",
+    "WELSPUN CORP": "WELCORP",
+    "WELSPUN LIVING": "WELSPUNLIV",
+    "KPRMILL": "KPRMILL",
+    "JSL STAINLESS": "JSL",
+
+    # =====================
+    # ENGINEERING & INDUSTRIAL
+    # =====================
+    "BHARAT HEAVY ELECTRICALS": "BHEL",
+    "THERMAX": "THERMAX",
+    "CRANE": "CRANEWARE",
+    "POLYCAB": "POLYCAB",
+    "KEII": "KEI",
+    "APAR INDUSTRIES": "APARINDS",
+    "MRF": "MRF",
+    "APOLLO TYRES": "APOLLOTYRE",
+    "CEAT": "CEATLTD",
+    "GRINDWELL NORTON": "GRINDWELL",
+    "TUBE INVESTMENTS": "TIINDIA",
+    "KSB": "KSB",
+    "BOSCH": "BOSCHLTD",
+    "HONEYWELL": "HONAUT",
+    "3M INDIA": "3MINDIA",
+    "CG POWER": "CGPOWER",
+    "TENNECO": "TENNIND",
+    "KIRLOSKAR OIL": "KIRLOSENG",
+    "KIRLOSKAR BROS": "KIRLOSBROS",
+    "GRAPHITE INDIA": "GRAPHITE",
+    "CARBORUNDUM": "CARBORUNIV",
+    "TIMKEN": "TIMKEN",
+    "ZF COMMERCIAL": "ZFCVINDIA",
+
+    # =====================
+    # LOGISTICS & TRANSPORT
+    # =====================
+    "GATI SBINPOST": "GATISBI",
+    "DELISTING SGLS": "SGLS",
+
+    # =====================
+    # ENTERTAINMENT & MEDIA
+    # =====================
+    "SUNTV": "SUNTV",
+    "ZEE ENTERTAINMENT": "ZEE",
+    "STAR": "STAR",
+    "INDIABULLS ENTERTAINMENT": "INDIABULLS",
+    "RELIANCE ENTERTAINMENT": "RELIANCE",
+
+    # =====================
+    # TECHNOLOGY SERVICES
+    # =====================
+    "ORACLE FINANCIAL": "OFSS",
+    "CDSL": "CDSL",
+    "CRISIL": "CRISIL",
+    "MCXINDIA": "MCX",
+    "KFINTECH": "KFINTECH",
+    "ANGEL ONE": "ANGELONE",
+    "NUVAMA": "NUVAMA",
+
+    # =====================
+    # HEALTHCARE
+    # =====================
+    "APOLLO HOSPITALS": "APOLLOHOSP",
+    "FORTIS HEALTHCARE": "FORTIS",
+    "MAX HEALTHCARE": "MAXHEALTH",
+    "BIOCON": "BIOCON",
+    "REDINGTON": "REDINGTON",
+    "LAURUS LABS": "LAURUSLABS",
+    "GRANULES INDIA": "GRANULES",
+    "VIJAYA DIAGNOSTIC": "VIJAYA",
+    "NARAYANA": "NH",
+    "KIMS": "KIMS",
+    "MEDANTA": "MEDANTA",
+    "RAINBOW CHILDREN": "RAINBOW",
+    "AGARWAL EYE": "AGARWALEYE",
+    "LALPATHLAB": "LALPATHLAB",
+    "ASTER DM": "ASTERDM",
+    "GLOBAL HEALTH": "MEDANTA",
+    "STAR HEALTH": "STARHEALTH",
 
 }
