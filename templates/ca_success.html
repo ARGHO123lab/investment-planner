@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Request Submitted</title>
+
+<style>
+
+body{
+    font-family:Poppins,sans-serif;
+    background:#FFFDF5;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.card{
+
+    background:white;
+
+    padding:50px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.1);
+
+    max-width:500px;
+
+}
+
+h1{
+    color:#B8860B;
+}
+
+a{
+
+    display:inline-block;
+
+    margin-top:25px;
+
+    padding:14px 28px;
+
+    background:#FFC107;
+
+    color:#222;
+
+    text-decoration:none;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>✅ Request Submitted</h1>
+
+<p>
+
+Thank you!
+
+Your consultation request has been received.
+
+Our CA partner will contact you if required.
+
+</p>
+
+<a href="{{ url_for('index') }}">
+
+Back to Home
+
+</a>
+
+</div>
+
+</body>
+
+</html>

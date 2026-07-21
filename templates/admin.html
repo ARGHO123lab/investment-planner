@@ -276,7 +276,7 @@ grid-template-columns:1fr;
 
 <tr>
 
-<td>{{ report["report_id"] }}</td>
+<td>{{ report["id"] }}</td>
 
 <td>{{ report["name"] }}</td>
 
@@ -352,6 +352,114 @@ grid-template-columns:1fr;
 <td>{{ lead.callback_time }}</td>
 
 <td>{{ lead.created_at }}</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+<hr>
+
+<h2>📑 Tax Calculator Leads ({{ total_tax_leads }})</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+<th>Mobile</th>
+<th>Email</th>
+<th>City</th>
+<th>Income</th>
+<th>Recommended</th>
+<th>Date</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for lead in tax_leads %}
+
+<tr>
+
+<td>{{ lead.full_name }}</td>
+
+<td>{{ lead.mobile }}</td>
+
+<td>{{ lead.email or "-" }}</td>
+
+<td>{{ lead.city or "-" }}</td>
+
+<td>₹ {{ "{:,.0f}".format(lead.annual_income) }}</td>
+
+<td>{{ lead.better_option }}</td>
+
+<td>{{ lead.created_at }}</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+<hr>
+
+<h2>
+
+👨‍💼 CA Consultation Requests ({{ total_ca_requests }})
+
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>Mobile</th>
+
+<th>Email</th>
+
+<th>City</th>
+
+<th>Query</th>
+
+<th>Date</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for req in ca_requests %}
+
+<tr>
+
+<td>{{ req.full_name }}</td>
+
+<td>{{ req.mobile }}</td>
+
+<td>{{ req.email or "-" }}</td>
+
+<td>{{ req.city or "-" }}</td>
+
+<td style="text-align:left">
+
+{{ req.query or "-" }}
+
+</td>
+
+<td>{{ req.created_at }}</td>
 
 </tr>
 

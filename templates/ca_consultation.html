@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Request CA Consultation | SmartPlanFinance</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+
+    margin:0;
+    padding:40px;
+    background:#FFFDF5;
+    font-family:'Poppins',sans-serif;
+
+}
+
+.container{
+
+    max-width:700px;
+    margin:auto;
+    background:white;
+    border-radius:20px;
+    padding:40px;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+
+}
+
+h1{
+
+    text-align:center;
+    color:#B8860B;
+    margin-bottom:10px;
+
+}
+
+.subtitle{
+
+    text-align:center;
+    color:#666;
+    line-height:28px;
+    margin-bottom:35px;
+
+}
+
+label{
+
+    display:block;
+    margin-top:18px;
+    font-weight:600;
+    color:#444;
+
+}
+
+input,
+textarea{
+
+    width:100%;
+    padding:14px;
+    margin-top:8px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    box-sizing:border-box;
+    font-size:15px;
+
+}
+
+textarea{
+
+    resize:vertical;
+    min-height:140px;
+
+}
+
+.checkbox{
+
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    margin-top:25px;
+
+}
+
+.checkbox input{
+
+    width:auto;
+    margin-top:5px;
+
+}
+
+button{
+
+    width:100%;
+    margin-top:30px;
+    padding:16px;
+    border:none;
+    border-radius:12px;
+    background:#FFC107;
+    color:#000;
+    font-size:17px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#E0A800;
+
+}
+
+.note{
+
+    margin-top:30px;
+    background:#FFF8E1;
+    border-left:5px solid #FFC107;
+    padding:18px;
+    border-radius:10px;
+    color:#555;
+    line-height:28px;
+
+}
+
+.home{
+
+    display:inline-block;
+    margin-top:30px;
+    color:#B8860B;
+    text-decoration:none;
+    font-weight:600;
+
+}
+
+.home:hover{
+
+    color:#8B6508;
+
+}
+
+@media(max-width:768px){
+
+body{
+
+padding:20px;
+
+}
+
+.container{
+
+padding:25px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>👨‍💼 Request a Chartered Accountant Consultation</h1>
+
+<p class="subtitle">
+
+Need professional guidance on tax planning, ITR filing, deductions, capital gains, or other financial matters?
+
+Submit your request below. We'll review your query and, where appropriate, connect you with a qualified Chartered Accountant from our professional network.
+
+</p>
+
+<form method="POST">
+
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+<label>Full Name</label>
+
+<input
+type="text"
+name="full_name"
+required
+placeholder="Enter your full name">
+
+<label>Mobile Number</label>
+
+<input
+type="tel"
+name="mobile"
+required
+placeholder="Enter your mobile number">
+
+<label>Email Address (Optional)</label>
+
+<input
+type="email"
+name="email"
+placeholder="Enter your email">
+
+<label>City (Optional)</label>
+
+<input
+type="text"
+name="city"
+placeholder="Your city">
+
+<label>Your Query</label>
+
+<textarea
+name="query"
+placeholder="Describe your tax or financial query..."></textarea>
+
+<div class="checkbox">
+
+<input
+type="checkbox"
+required>
+
+<div>
+
+I consent to SmartPlanFinance contacting me regarding my consultation request. I understand this request does not guarantee immediate advice or consultation.
+
+</div>
+
+</div>
+
+<button>
+
+📩 Submit Consultation Request
+
+</button>
+
+</form>
+
+<div class="note">
+
+<strong>Important:</strong><br><br>
+
+SmartPlanFinance is an educational platform. We do not provide personalized tax or legal advice directly. Consultation requests are reviewed and may be connected with a qualified Chartered Accountant where appropriate.
+
+</div>
+
+<a
+class="home"
+href="{{ url_for('index') }}">
+
+← Back to Home
+
+</a>
+
+</div>
+
+</body>
+
+</html>

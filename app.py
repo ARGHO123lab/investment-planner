@@ -2037,8 +2037,6 @@ def financial_future():
 @app.route('/tax_calculator', methods=['GET', 'POST'])
 def tax_calculator():
 
-    result = None
-
     if request.method == 'POST':
 
         income = float(request.form.get('income') or 0)
@@ -2065,15 +2063,18 @@ def tax_calculator():
         remaining = taxable_new
 
         for limit, rate in slabs:
-            chunk = min(max(0, remaining), limit)
+
+            if remaining <= 0:
+                break
+
+            chunk = min(remaining, limit)
             tax_new += chunk * rate
-            remaining -= limit
+            remaining -= chunk
 
         if remaining > 0:
             tax_new += remaining * 0.30
 
         tax_new *= 1.04
-
 
         # -----------------------------
         # OLD REGIME
@@ -2104,7 +2105,6 @@ def tax_calculator():
 
         tax_old *= 1.04
 
-
         # -----------------------------
         # RESULT
         # -----------------------------
@@ -2117,28 +2117,127 @@ def tax_calculator():
             else "Old Regime"
         )
 
-
         # -----------------------------
-        # SAVE TO REPORT
+        # STORE IN SESSION
         # -----------------------------
 
-        
+        session["tax_result"] = {
 
+    "income": income,
 
-        result = {
-            "income": income,
-            "old_regime": tax_old,
-            "new_regime": tax_new,
-            "savings": savings,
-            "better_option": better_option
-        }
+    "investments": investments,
+
+    "old_regime": round(tax_old, 2),
+
+    "new_regime": round(tax_new, 2),
+
+    "savings": round(savings, 2),
+
+    "better_option": better_option,
+
+    # NEW DATA
+    "taxable_old": taxable_old,
+
+    "taxable_new": taxable_new,
+
+    "std_old": std_old,
+
+    "std_new": std_new,
+
+    "monthly_old": round(tax_old / 12, 2),
+
+    "monthly_new": round(tax_new / 12, 2),
+
+    "monthly_saving": round(savings / 12, 2),
+
+    "effective_old": round((tax_old / income) * 100, 2) if income else 0,
+
+    "effective_new": round((tax_new / income) * 100, 2) if income else 0
+
+}
+
+        return redirect(url_for("tax_report"))
 
     return render_template(
-    "tax_calculator.html",
-    result=result,
-    partners=PAGE_PARTNER_MAP.get("tax_calculator", []),
-    PARTNER_LINKS=PARTNER_LINKS
-)
+        "tax_calculator.html",
+        result=None,
+        partners=PAGE_PARTNER_MAP.get("tax_calculator", []),
+        PARTNER_LINKS=PARTNER_LINKS
+    )
+@app.route("/tax-report")
+def tax_report():
+
+    report = session.get("tax_result")
+
+    if not report:
+        return redirect(url_for("tax_calculator"))
+
+    return render_template(
+        "tax_report.html",
+        report=report,
+        partners=PAGE_PARTNER_MAP.get("tax_calculator", []),
+        PARTNER_LINKS=PARTNER_LINKS
+    )
+@app.route("/ca-consultation", methods=["GET", "POST"])
+def ca_consultation():
+
+    if request.method == "POST":
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        # PostgreSQL uses %s
+        if hasattr(conn, "server_version"):
+
+            cur.execute("""
+                INSERT INTO ca_consultation_requests
+                (
+                    full_name,
+                    mobile,
+                    email,
+                    city,
+                    query
+                )
+                VALUES (%s, %s, %s, %s, %s)
+            """,
+            (
+                request.form["full_name"],
+                request.form["mobile"],
+                request.form.get("email"),
+                request.form.get("city"),
+                request.form.get("query")
+            ))
+
+        # SQLite uses ?
+        else:
+
+            cur.execute("""
+                INSERT INTO ca_consultation_requests
+                (
+                    full_name,
+                    mobile,
+                    email,
+                    city,
+                    query
+                )
+                VALUES (?, ?, ?, ?, ?)
+            """,
+            (
+                request.form["full_name"],
+                request.form["mobile"],
+                request.form.get("email"),
+                request.form.get("city"),
+                request.form.get("query")
+            ))
+
+        conn.commit()
+        conn.close()
+
+        return render_template("ca_success.html")
+
+    return render_template("ca_consultation.html")
+
+    return render_template("ca_consultation.html")
 @app.route("/emi_calculator", methods=["GET", "POST"])
 def emi_calculator():
 
@@ -2299,15 +2398,20 @@ def admin():
     cur.execute(query)
 
     rows = cur.fetchall()
+    
 
     cleaned_reports = []
 
-    for row in rows:
+    for r_dict in rows:
 
-        r_dict = dict(row)
+       
 
-        if r_dict['name'].replace('-', '').replace('.', '').isdigit():
-            r_dict['name'] = f"User #{r_dict['id']}"
+        if (
+        r_dict.get("name") and r_dict["name"].replace("-", "").replace(".", "").isdigit()
+        ):
+
+
+            r_dict["name"] = f"User #{r_dict['id']}"
 
         cleaned_reports.append(r_dict)
 
@@ -2350,6 +2454,30 @@ def admin():
 
     total_loan_leads = len(loan_leads)
 
+    # ---------------- Tax Leads ----------------
+
+    cur.execute("""
+        SELECT *
+        FROM tax_leads
+        ORDER BY created_at DESC
+    """)
+
+    tax_leads = cur.fetchall()
+
+    total_tax_leads = len(tax_leads)
+
+    # ---------------- CA Consultation Requests ----------------
+
+    cur.execute("""
+        SELECT *
+        FROM ca_consultation_requests
+        ORDER BY created_at DESC
+    """)
+
+    ca_requests = cur.fetchall()
+
+    total_ca_requests = len(ca_requests)
+
     conn.close()
 
     return render_template(
@@ -2372,7 +2500,15 @@ def admin():
 
         loan_leads=loan_leads,
 
-        total_loan_leads=total_loan_leads
+        total_loan_leads=total_loan_leads,
+
+        tax_leads=tax_leads,
+
+        total_tax_leads=total_tax_leads,
+
+        ca_requests=ca_requests,
+
+        total_ca_requests=total_ca_requests
 
     )
 @app.route('/articles')
