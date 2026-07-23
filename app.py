@@ -1456,6 +1456,8 @@ def sip_calculator():
     partners=PAGE_PARTNER_MAP.get('sip_calculator', []),
     PARTNER_LINKS=PARTNER_LINKS
 )
+from math import pow
+
 @app.route("/swp_calculator", methods=["GET", "POST"])
 def swp_calculator():
 
@@ -1464,13 +1466,15 @@ def swp_calculator():
     if request.method == "POST":
 
         try:
+
             corpus = float(request.form["corpus"])
             withdrawal = float(request.form["withdrawal"])
             annual_return = float(request.form["return_rate"])
+            inflation = float(request.form.get("inflation", 6))
+            yearly_increase = float(request.form.get("stepup", 5))
             years = int(request.form["years"])
 
             monthly_rate = annual_return / 100 / 12
-            months = years * 12
 
             balance = corpus
 
@@ -1478,39 +1482,161 @@ def swp_calculator():
 
             yearly_data = []
 
-            for month in range(1, months + 1):
+            current_withdrawal = withdrawal
 
-                balance *= (1 + monthly_rate)
+            months_completed = 0
 
-                if balance >= withdrawal:
-                    balance -= withdrawal
-                    total_withdrawn += withdrawal
-                else:
-                    total_withdrawn += balance
-                    balance = 0
+            for year in range(1, years + 1):
 
-                if month % 12 == 0:
+                for month in range(12):
 
-                    yearly_data.append({
-                        "year": month // 12,
-                        "balance": round(balance, 2)
-                    })
+                    balance *= (1 + monthly_rate)
+
+                    if balance >= current_withdrawal:
+
+                        balance -= current_withdrawal
+                        total_withdrawn += current_withdrawal
+
+                    else:
+
+                        total_withdrawn += balance
+                        balance = 0
+
+                    months_completed += 1
+
+                    if balance <= 0:
+                        break
+
+                yearly_data.append({
+
+                    "year": year,
+                    "withdrawal": round(current_withdrawal * 12, 2),
+                    "balance": round(balance, 2)
+
+                })
+
+                current_withdrawal *= (1 + yearly_increase / 100)
 
                 if balance <= 0:
                     break
 
+            future_value = corpus * pow((1 + inflation / 100), years)
+
+            safe_monthly = (corpus * 0.04) / 12
+
+            withdrawal_ratio = withdrawal / safe_monthly
+
+            if withdrawal_ratio <= 1:
+
+                sustainability = "Excellent"
+                badge = "🟢"
+                confidence = 95
+
+            elif withdrawal_ratio <= 1.25:
+
+                sustainability = "Good"
+                badge = "🟡"
+                confidence = 82
+
+            elif withdrawal_ratio <= 1.5:
+
+                sustainability = "Needs Attention"
+                badge = "🟠"
+                confidence = 65
+
+            else:
+
+                sustainability = "High Risk"
+                badge = "🔴"
+                confidence = 40
+
+            net_gain = total_withdrawn + balance - corpus
+
+            stepup_percent = f"{yearly_increase:.0f}%"
+
+            insights = [
+
+                f"Your SWP lasted approximately {round(months_completed/12,1)} years.",
+
+                f"A monthly withdrawal of around ₹{safe_monthly:,.0f} is generally considered more sustainable for long-term investing.",
+
+                "Review your withdrawal amount every year instead of increasing it suddenly.",
+
+                "Maintain 12-24 months of expenses in liquid investments to avoid selling equity during market downturns.",
+
+                "Inflation gradually reduces purchasing power. Review your retirement plan annually.",
+
+                "Diversifying across equity and debt funds can improve long-term SWP sustainability."
+
+            ]
+
+            strategy = [
+
+                "Increase withdrawals gradually every year.",
+
+                "Review your portfolio annually.",
+
+                "Avoid panic selling during market corrections.",
+
+                "Rebalance your asset allocation once a year.",
+
+                "Invest surplus income separately to extend retirement corpus."
+
+            ]
+
             result = {
-                "remaining": round(balance, 2),
-                "withdrawn": round(total_withdrawn, 2),
-                "interest": round(total_withdrawn + balance - corpus, 2),
-                "years_completed": round(month / 12, 1),
-                "yearly_data": yearly_data
+
+                "corpus": round(corpus,2),
+
+                "remaining": round(balance,2),
+
+                "withdrawn": round(total_withdrawn,2),
+
+                "interest": round(net_gain,2),
+
+                "years_completed": round(months_completed/12,1),
+
+                "future_value": round(future_value,2),
+
+                "safe_monthly": round(safe_monthly,2),
+
+                "current_withdrawal": round(withdrawal,2),
+
+                "confidence": confidence,
+
+                "badge": badge,
+
+                "sustainability": sustainability,
+
+                "stepup": stepup_percent,
+
+                "yearly_data": yearly_data,
+
+                "insights": insights,
+
+                "strategy": strategy
+
             }
 
         except Exception as e:
-            result = {"error": str(e)}
 
-    return render_template("swp_calculator.html", result=result)
+            result = {
+
+                "error": str(e)
+
+            }
+
+    return render_template(
+
+        "swp_calculator.html",
+
+        result=result,
+
+        partners=PAGE_PARTNER_MAP.get("swp_calculator", []),
+
+        PARTNER_LINKS=PARTNER_LINKS
+
+    )
 from math import pow
 
 @app.route("/lumpsum_calculator", methods=["GET", "POST"])
@@ -1557,9 +1683,11 @@ def lumpsum_calculator():
             }
 
     return render_template(
-        "lumpsum_calculator.html",
-        result=result
-    )
+    "lumpsum_calculator.html",
+    result=result,
+    partners=PAGE_PARTNER_MAP.get("lumpsum_calculator", []),
+    PARTNER_LINKS=PARTNER_LINKS
+)
 from math import pow
 
 @app.route("/cagr_calculator", methods=["GET", "POST"])

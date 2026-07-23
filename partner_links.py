@@ -84,7 +84,14 @@ PAGE_PARTNER_MAP = {
     "retirement_calculator": [
         "indmoney"
     ],
-
+    "swp_calculator": [
+    "indmoney",
+    "groww"
+],
+"lumpsum_calculator": [
+    "groww",
+    "indmoney"
+],
     "tax_calculator": [
         "axis_salary",
         "zerodha"

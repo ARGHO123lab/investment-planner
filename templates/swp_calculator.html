@@ -2,300 +2,854 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
 
-<meta charset="UTF-8">
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
 
-<title>SWP Calculator | SmartPlan Finance</title>
+    <link rel="manifest"
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+    <title>SWP Calculator | SmartPlan Finance</title>
 
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
+        body {
+            padding: 20px;
+            background: #FFFDF5;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
 
-body{
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
 
-font-family:Poppins,sans-serif;
-background:#f7f8fc;
-margin:0;
-padding:40px;
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
 
-}
+        .header-section h1 {
+            color: #B8860B;
+            font-size: 36px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
 
-.container{
+        .header-section p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
 
-max-width:900px;
-margin:auto;
-background:white;
-padding:35px;
-border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,.1);
+        /* Form Section */
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
 
-}
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-h1{
+        .form-group label {
+            font-weight: 600;
+            color: #555;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
 
-color:#0B7A3D;
-margin-bottom:10px;
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
 
-}
+        .form-group input:focus {
+            outline: none;
+            border-color: #B8860B;
+            background: #FFFEF9;
+        }
 
-.subtitle{
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
 
-color:#666;
-margin-bottom:30px;
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(184, 134, 11, 0.3);
+        }
 
-}
+        .submit-btn:active {
+            transform: translateY(0);
+        }
 
-.form-group{
+        .back-home {
+            display: inline-block;
+            text-align: center;
+            padding: 12px 28px;
+            background: white;
+            border: 2px solid #B8860B;
+            border-radius: 10px;
+            color: #B8860B;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
 
-margin-bottom:20px;
+        .back-home:hover {
+            background: #FFFEF9;
+            transform: translateY(-2px);
+        }
 
-}
+        /* Results Section */
+        .results-section {
+            display: none;
+        }
 
-label{
+        .results-section.show {
+            display: block;
+        }
 
-display:block;
-font-weight:600;
-margin-bottom:8px;
+        /* Card Styles */
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+        }
 
-}
+        /* Main Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
 
-input{
+        .metric-card {
+            background: linear-gradient(135deg, #FFC107 0%, #E0A800 100%);
+            color: white;
+            padding: 28px 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(255, 193, 7, 0.25);
+        }
 
-width:100%;
-padding:14px;
-font-size:16px;
-border-radius:8px;
-border:1px solid #ddd;
-box-sizing:border-box;
+        .metric-card.secondary {
+            background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
+            box-shadow: 0 12px 30px rgba(184, 134, 11, 0.25);
+        }
 
-}
+        .metric-card.info {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            box-shadow: 0 12px 30px rgba(76, 175, 80, 0.25);
+        }
 
-button{
+        .metric-card.warning {
+            background: linear-gradient(135deg, #FF9800 0%, #E68900 100%);
+            box-shadow: 0 12px 30px rgba(255, 152, 0, 0.25);
+        }
 
-width:100%;
-padding:16px;
-background:#0B7A3D;
-color:white;
-font-size:18px;
-font-weight:600;
-border:none;
-border-radius:10px;
-cursor:pointer;
+        .metric-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
 
-}
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
 
-button:hover{
+        .metric-subtitle {
+            font-size: 12px;
+            opacity: 0.85;
+        }
 
-background:#096432;
+        /* SWP Summary */
+        .summary-card {
+            background: linear-gradient(135deg, #F0F7FF 0%, white 100%);
+            border-left: 5px solid #B8860B;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
 
-}
+        .summary-card h2 {
+            color: #B8860B;
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
 
-.results{
+        .summary-items {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
 
-margin-top:35px;
-padding:25px;
-background:#f5fff7;
-border-left:5px solid #0B7A3D;
-border-radius:10px;
+        .summary-item {
+            background: white;
+            padding: 16px;
+            border-radius: 10px;
+            border: 2px solid #FFE082;
+        }
 
-}
+        .summary-item-label {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
 
-.cards{
+        .summary-item-value {
+            font-size: 18px;
+            color: #333;
+            font-weight: 700;
+        }
 
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-margin-top:25px;
+        /* Sustainability Analysis */
+        .sustainability-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, white 100%);
+            border-left: 5px solid #4CAF50;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
 
-}
+        .sustainability-card h2 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
 
-.card{
+        .sustainability-card-subtitle {
+            color: #999;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
 
-background:white;
-padding:20px;
-border-radius:12px;
-box-shadow:0 5px 15px rgba(0,0,0,.08);
-text-align:center;
+        .sustainability-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
 
-}
+        .sustainability-item {
+            background: white;
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+        }
 
-.card h2{
+        .sustainability-item-label {
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
 
-color:#0B7A3D;
-margin-bottom:10px;
+        .sustainability-item-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #B8860B;
+        }
 
-}
+        /* Difficulty & Confidence */
+        .difficulty-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
 
-table{
+        .difficulty-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+        }
 
-width:100%;
-border-collapse:collapse;
-margin-top:30px;
+        .difficulty-badge {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
 
-}
+        .difficulty-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
 
-th,td{
+        .difficulty-value {
+            font-size: 18px;
+            color: #333;
+            font-weight: 600;
+        }
 
-padding:12px;
-border:1px solid #ddd;
-text-align:center;
+        .confidence-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #FFE082;
+            background: #FFFEF9;
+        }
 
-}
+        .stars {
+            font-size: 26px;
+            margin-bottom: 8px;
+            letter-spacing: 3px;
+        }
 
-th{
+        .confidence-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
 
-background:#0B7A3D;
-color:white;
+        .confidence-text {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
 
-}
+        /* SmartPlan Insights */
+        .insights-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, white 100%);
+            border-left: 5px solid #FFC107;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
 
-@media(max-width:768px){
+        .insights-card h2 {
+            color: #B8860B;
+            font-size: 16px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
 
-body{
+        .insights-card-subtitle {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
 
-padding:20px;
+        .insight-item {
+            margin-bottom: 14px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+        }
 
-}
+        .insight-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
 
-.container{
+        /* Recommended Strategy */
+        .strategy-card {
+            background: white;
+            border-top: 5px solid #4CAF50;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
 
-padding:20px;
+        .strategy-card h2 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
 
-}
+        .strategy-list {
+            list-style: none;
+        }
 
-}
+        .strategy-list li {
+            padding: 10px 0;
+            font-size: 14px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            line-height: 1.5;
+        }
 
-</style>
+        .strategy-list li:before {
+            content: "✓";
+            color: #4CAF50;
+            font-weight: 700;
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        /* Year-wise Table */
+        .table-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            border-top: 5px solid #B8860B;
+            margin-bottom: 24px;
+            overflow-x: auto;
+        }
+
+        .table-card h2 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: right;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #FFFEF9;
+            color: #B8860B;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        td:first-child,
+        th:first-child {
+            text-align: left;
+        }
+
+        tr:hover {
+            background: #FFFEF9;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
+            color: white;
+            padding: 32px 24px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .cta-section h2 {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .cta-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cta-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Partner Section */
+        .partner-section {
+            margin-top: 40px;
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: #F5F5F5;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+            margin-top: 30px;
+            border-left: 4px solid #FFC107;
+        }
+
+        /* Error State */
+        .error-message {
+            background: #FFEBEE;
+            border-left: 5px solid #FF5252;
+            color: #C62828;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .header-section h1 {
+                font-size: 28px;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .metric-card {
+                padding: 24px 16px;
+            }
+
+            .metric-value {
+                font-size: 24px;
+            }
+
+            .summary-items {
+                grid-template-columns: 1fr;
+            }
+
+            .sustainability-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .difficulty-section {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .cta-links {
+                flex-direction: column;
+            }
+
+            .cta-link {
+                width: 100%;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
 
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
+        <!-- Header -->
+        <div class="header-section">
+            <h1>💸 SWP Calculator</h1>
+            <p>Calculate how long your retirement corpus will last with systematic monthly withdrawals</p>
+        </div>
 
-<h1>💸 SWP Calculator</h1>
+        <!-- Input Form -->
+        <div class="form-card">
+            <form method="POST" id="swpForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-<p class="subtitle">
+                <div class="form-group">
+                    <label for="corpus">Initial Investment (₹)</label>
+                    <input type="number" id="corpus" name="corpus" placeholder="5000000" required min="100000">
+                </div>
 
-Estimate how long your retirement corpus will last with monthly withdrawals.
+                <div class="form-group">
+                    <label for="withdrawal">Monthly Withdrawal (₹)</label>
+                    <input type="number" id="withdrawal" name="withdrawal" placeholder="50000" required min="5000">
+                </div>
 
-</p>
+                <div class="form-group">
+                    <label for="return_rate">Expected Annual Return (%)</label>
+                    <input type="number" id="return_rate" name="return_rate" step="0.1" placeholder="8" required min="0" max="25">
+                </div>
 
-<form method="POST">
-<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-<div class="form-group">
-<label>Initial Investment (₹)</label>
-<input type="number" name="corpus" required>
-</div>
+                <div class="form-group">
+                    <label for="inflation">Expected Inflation (%)</label>
+                    <input type="number" id="inflation" name="inflation" step="0.1" value="6" min="0" max="15">
+                </div>
 
-<div class="form-group">
-<label>Monthly Withdrawal (₹)</label>
-<input type="number" name="withdrawal" required>
-</div>
+                <div class="form-group">
+                    <label for="stepup">Annual Withdrawal Increase (%)</label>
+                    <input type="number" id="stepup" name="stepup" step="0.1" value="5" min="0" max="20">
+                </div>
 
-<div class="form-group">
-<label>Expected Annual Return (%)</label>
-<input type="number" step="0.01" name="return_rate" required>
-</div>
+                <div class="form-group">
+                    <label for="years">Calculation Period (Years)</label>
+                    <input type="number" id="years" name="years" placeholder="30" required min="1" max="60">
+                </div>
 
-<div class="form-group">
-<label>Withdrawal Duration (Years)</label>
-<input type="number" name="years" required>
-</div>
+                <button type="submit" class="submit-btn">Calculate SWP</button>
+                <a href="{{ url_for('index') }}" class="back-home">← Back to Home</a>
+            </form>
+        </div>
 
-<button type="submit">
-Calculate SWP
-</button>
+        <!-- Results Section -->
+        {% if result %}
+        <div class="results-section show">
 
-</form>
+            {% if result.error %}
+            <div class="error-message">
+                <strong>Error:</strong> {{ result.error }}
+            </div>
+            {% else %}
 
-{% if result %}
+            <!-- Main Metrics -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Remaining Corpus</div>
+                    <div class="metric-value">₹{{ "{:,.0f}".format(result.remaining) }}</div>
+                    <div class="metric-subtitle">after {{ result.years_completed }} years</div>
+                </div>
+                <div class="metric-card secondary">
+                    <div class="metric-label">Total Withdrawn</div>
+                    <div class="metric-value">₹{{ "{:,.0f}".format(result.withdrawn) }}</div>
+                    <div class="metric-subtitle">over the period</div>
+                </div>
+            </div>
 
-{% if result.error %}
+            <!-- SWP Summary -->
+            <div class="summary-card">
+                <h2>📊 SWP Performance Summary</h2>
+                <div class="summary-items">
+                    <div class="summary-item">
+                        <div class="summary-item-label">Current Monthly Withdrawal</div>
+                        <div class="summary-item-value">₹{{ "{:,.0f}".format(result.current_withdrawal) }}</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-label">Safe Monthly Withdrawal (4% rule)</div>
+                        <div class="summary-item-value">₹{{ "{:,.0f}".format(result.safe_monthly) }}</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-label">Net Gain/Loss</div>
+                        <div class="summary-item-value">₹{{ "{:,.0f}".format(result.interest) }}</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-label">Annual Increase</div>
+                        <div class="summary-item-value">{{ result.stepup }}</div>
+                    </div>
+                </div>
+            </div>
 
-<p style="color:red;">
-{{ result.error }}
-</p>
+            <!-- Sustainability Analysis -->
+            <div class="sustainability-card">
+                <h2>📈 Sustainability Analysis</h2>
+                <div class="sustainability-card-subtitle">Withdrawal Sustainability Score</div>
+                <div class="sustainability-grid">
+                    <div class="sustainability-item">
+                        <div class="sustainability-item-label">Your Withdrawal</div>
+                        <div class="sustainability-item-value">₹{{ "{:,.0f}".format(result.current_withdrawal) }}</div>
+                    </div>
+                    <div class="sustainability-item">
+                        <div class="sustainability-item-label">Safe Amount (4% Rule)</div>
+                        <div class="sustainability-item-value">₹{{ "{:,.0f}".format(result.safe_monthly) }}</div>
+                    </div>
+                    <div class="sustainability-item">
+                        <div class="sustainability-item-label">Ratio</div>
+                        <div class="sustainability-item-value">{% if result.current_withdrawal <= result.safe_monthly %}✓{% else %}⚠️{% endif %}</div>
+                    </div>
+                </div>
+            </div>
 
-{% else %}
+            <!-- Difficulty & Confidence -->
+            <div class="difficulty-section">
+                <div class="difficulty-card">
+                    <div class="difficulty-badge">{{ result.badge }}</div>
+                    <div class="difficulty-label">SWP Sustainability</div>
+                    <div class="difficulty-value">{{ result.sustainability }}</div>
+                </div>
+                <div class="confidence-card">
+                    <div class="stars">
+                        {% if result.confidence >= 85 %}★★★★★
+                        {% elif result.confidence >= 70 %}★★★★☆
+                        {% elif result.confidence >= 55 %}★★★☆☆
+                        {% else %}★★☆☆☆
+                        {% endif %}
+                    </div>
+                    <div class="confidence-label">Confidence Score</div>
+                    <div class="confidence-text">
+                        {% if result.confidence >= 85 %}
+                        Excellent Plan
+                        {% elif result.confidence >= 70 %}
+                        Good Plan
+                        {% elif result.confidence >= 55 %}
+                        Moderate Plan
+                        {% else %}
+                        High Risk
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
 
-<div class="results">
+            <!-- SmartPlan Insights -->
+            <div class="insights-card">
+                <h2>💡 SmartPlan Finance Insights</h2>
+                <div class="insights-card-subtitle">Key Takeaways</div>
+                {% for insight in result.insights %}
+                <div class="insight-item">{{ insight }}</div>
+                {% endfor %}
+            </div>
 
-<h2>Results</h2>
+            <!-- Recommended Strategy -->
+            <div class="strategy-card">
+                <h2>✓ SWP Success Strategy</h2>
+                <ul class="strategy-list">
+                    {% for item in result.strategy %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
 
-<div class="cards">
+            <!-- Year-wise Table -->
+            {% if result.yearly_data %}
+            <div class="table-card">
+                <h2>📋 Year-wise Remaining Balance</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Annual Withdrawal</th>
+                                <th>Remaining Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in result.yearly_data %}
+                            <tr>
+                                <td>{{ row.year }}</td>
+                                <td>₹{{ "{:,.0f}".format(row.withdrawal) }}</td>
+                                <td>₹{{ "{:,.0f}".format(row.balance) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
 
-<div class="card">
-<h2>₹ {{ "{:,.2f}".format(result.remaining) }}</h2>
-Remaining Corpus
-</div>
+            <!-- Next Steps CTA -->
+            <div class="cta-section">
+                <h2>Ready for your next step?</h2>
+                <div class="cta-links">
+                    <a href="{{ url_for('swp_calculator') }}" class="cta-link">↻ Recalculate with Different Inputs</a>
+                    <a href="{{ url_for('retirement_calculator') }}" class="cta-link">🏖️ Try Retirement Planning Calculator</a>
+                </div>
+            </div>
 
-<div class="card">
-<h2>₹ {{ "{:,.2f}".format(result.withdrawn) }}</h2>
-Total Withdrawn
-</div>
+            <!-- Disclaimer -->
+            <div class="disclaimer">
+                <strong>⚠️ Important Disclaimer:</strong> This SWP calculator provides educational estimates based on your assumptions. Actual SWP performance depends on market conditions, inflation, and your spending patterns. Please consult with a qualified financial advisor before implementing an SWP strategy. Past performance doesn't guarantee future results.
+            </div>
 
-<div class="card">
-<h2>₹ {{ "{:,.2f}".format(result.interest) }}</h2>
-Net Gain/Loss
-</div>
+            {% endif %}
 
-<div class="card">
-<h2>{{ result.years_completed }}</h2>
-Years Covered
-</div>
+        </div>
+        {% endif %}
 
-</div>
+        <!-- Partner CTA -->
+        <div class="partner-section">
+            {% include "partials/_partner_cta.html" %}
+        </div>
 
-<h3 style="margin-top:35px;">
-Year-wise Remaining Balance
-</h3>
-
-<table>
-
-<tr>
-<th>Year</th>
-<th>Remaining Corpus (₹)</th>
-</tr>
-
-{% for row in result.yearly_data %}
-
-<tr>
-
-<td>{{ row.year }}</td>
-
-<td>{{ "{:,.2f}".format(row.balance) }}</td>
-
-</tr>
-
-{% endfor %}
-
-</table>
-
-</div>
-
-{% endif %}
-
-{% endif %}
-<div style="margin-top:20px; text-align:center;">
-    <a href="{{ url_for('index') }}"
-       style="
-            display:inline-block;
-            background:#f4b400;
-            color:white;
-            padding:12px 28px;
-            border-radius:10px;
-            text-decoration:none;
-            font-weight:600;
-            box-shadow:0 4px 10px rgba(0,0,0,.15);
-       ">
-        ← Back to Home
-    </a>
-</div>
-</div>
+    </div>
 
 </body>
 
