@@ -2396,45 +2396,121 @@ def retirement_calculator():
         current_age = int(request.form["current_age"])
         retirement_age = int(request.form["retirement_age"])
         monthly_expense = float(request.form["current_expense"])
-
         inflation = float(request.form["inflation"]) / 100
         expected_return = float(request.form["return_before"]) / 100
         return_after = float(request.form["return_after"]) / 100
         life_expectancy = int(request.form["life_expectancy"])
 
-        years = retirement_age - current_age
+        years_to_retirement = retirement_age - current_age
+        retirement_years = life_expectancy - retirement_age
 
-        retirement_amount = (
-            monthly_expense
-            * 12
-            * ((1 + inflation) ** years)
-            * 25
+        # Calculate inflation-adjusted monthly expense at retirement
+        monthly_expense_at_retirement = (
+            monthly_expense * ((1 + inflation) ** years_to_retirement)
         )
 
+        # Calculate retirement corpus needed (25x monthly expense rule)
+        retirement_corpus = (
+            monthly_expense_at_retirement * 12 * 25
+        )
+
+        # Calculate monthly investment needed
         monthly_return = expected_return / 12
-        months = years * 12
+        months_to_retirement = years_to_retirement * 12
 
-        monthly_investment = (
-            retirement_amount
-            * monthly_return
-            / (((1 + monthly_return) ** months) - 1)
+        if months_to_retirement == 0 or expected_return == 0:
+            monthly_investment = 0
+        else:
+            monthly_investment = (
+                retirement_corpus
+                * monthly_return
+                / (((1 + monthly_return) ** months_to_retirement) - 1)
+            )
+
+        # Calculate retirement readiness
+        if monthly_investment < 15000:
+            difficulty = "Easy"
+            badge = "🟢"
+            confidence = 90
+        elif monthly_investment < 40000:
+            difficulty = "Moderate"
+            badge = "🟡"
+            confidence = 75
+        else:
+            difficulty = "Aggressive"
+            badge = "🔴"
+            confidence = 55
+
+        # Calculate sustainability score
+        monthly_withdrawal = monthly_expense_at_retirement
+        annual_return_on_corpus = retirement_corpus * return_after
+        monthly_return_on_corpus = annual_return_on_corpus / 12
+        sustainability_ratio = (monthly_return_on_corpus / monthly_withdrawal) * 100
+
+        if sustainability_ratio >= 100:
+            sustainability = "Excellent"
+            sustainability_color = "green"
+        elif sustainability_ratio >= 75:
+            sustainability = "Good"
+            sustainability_color = "orange"
+        else:
+            sustainability = "Needs Review"
+            sustainability_color = "red"
+
+        # Generate insights
+        insights = []
+
+        insights.append(
+            f"You need a retirement corpus of ₹{retirement_corpus:,.0f} to sustain ₹{monthly_expense_at_retirement:,.0f}/month for {retirement_years} years."
         )
 
-        # Save into latest report
+        insights.append(
+            f"At ₹{monthly_investment:,.0f}/month investment, you can accumulate the required corpus in {years_to_retirement} years."
+        )
 
-        
+        if sustainability_ratio >= 100:
+            insights.append(
+                f"Your portfolio returns (₹{monthly_return_on_corpus:,.0f}/month) can sustain your retirement lifestyle. You're on track!"
+            )
+        else:
+            shortfall = monthly_withdrawal - monthly_return_on_corpus
+            insights.append(
+                f"You'll have a monthly shortfall of ₹{shortfall:,.0f}. Consider increasing corpus or reducing expenses."
+            )
+
+        insights.append(
+            "Review your plan annually and adjust for inflation, life changes, and market conditions."
+        )
 
         result = {
-            "corpus": retirement_amount,
-            "monthly": monthly_investment,
-            "age": retirement_age
+            "corpus": "{:,.0f}".format(retirement_corpus),
+            "monthly_investment": "{:,.0f}".format(monthly_investment),
+            "monthly_expense_today": "{:,.0f}".format(monthly_expense),
+            "monthly_expense_retirement": "{:,.0f}".format(monthly_expense_at_retirement),
+            "current_age": current_age,
+            "retirement_age": retirement_age,
+            "years_to_retirement": years_to_retirement,
+            "retirement_years": retirement_years,
+            "life_expectancy": life_expectancy,
+            "inflation": f"{inflation * 100:.1f}%",
+            "return_before": f"{expected_return * 100:.1f}%",
+            "return_after": f"{return_after * 100:.1f}%",
+            "difficulty": difficulty,
+            "badge": badge,
+            "confidence": confidence,
+            "sustainability": sustainability,
+            "sustainability_color": sustainability_color,
+            "sustainability_ratio": f"{sustainability_ratio:.0f}%",
+            "monthly_return_on_corpus": "{:,.0f}".format(monthly_return_on_corpus),
+            "insights": insights,
         }
+
     return render_template(
-    'retirement_calculator.html',
-    result=result,
-    partners=PAGE_PARTNER_MAP.get('retirement_calculator', []),
-    PARTNER_LINKS=PARTNER_LINKS
-)
+        'retirement_calculator.html',
+        result=result,
+        partners=PAGE_PARTNER_MAP.get('retirement_calculator', []),
+        PARTNER_LINKS=PARTNER_LINKS
+    )
 
     
 @app.route("/fd_calculator", methods=["GET", "POST"])
