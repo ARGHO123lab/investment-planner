@@ -2,195 +2,735 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<link rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
 
-<link rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
 
-<link rel="apple-touch-icon"
-      href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
 
-<link rel="manifest"
-      href="{{ url_for('static', filename='icons/site.webmanifest') }}">
-<title>Financial Future Planner</title>
+    <link rel="manifest"
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+    <title>Financial Future Planner</title>
 
-<style>
-    body {
-        padding: 40px;
-        background: #FFFDF5; /* Same background as Report */
-        font-family: 'Poppins', sans-serif;
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container {
-        max-width: 600px;
-        margin: auto;
-        background: white;
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 0 15px 40px rgba(0,0,0,.08);
-    }
+        body {
+            padding: 20px;
+            background: #FFFDF5;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
 
-    h1 { color: #B8860B; margin-bottom: 25px; } /* Same Gold/Yellow header */
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
 
-    label { font-weight: 500; color: #555; display: block; margin-top: 15px; }
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
 
-    input {
-        width: 100%;
-        padding: 12px;
-        margin-top: 8px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-sizing: border-box;
-    }
+        .header-section h1 {
+            color: #B8860B;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
 
-    button {
-        width: 100%;
-        padding: 14px;
-        background: #FFC107; /* Your specific Yellow accent */
-        color: #000;
-        border: none;
-        border-radius: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        margin-top: 25px;
-    }
+        .header-section p {
+            color: #666;
+            font-size: 16px;
+        }
 
-    button:hover { background: #E0A800; }
+        /* Form Section */
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
 
-    .result-box {
-        margin-top: 30px;
-        padding: 20px;
-        background: #FFF8E1; /* Same Box color as Report */
-        border-left: 5px solid #FFC107;
-        border-radius: 12px;
-        text-align: center;
-    }
-    .back-btn{
-    display:block;
-    text-align:center;
-    width:100%;
-    padding:14px;
-    background:#fff;
-    border:2px solid #FFC107;
-    border-radius:12px;
-    color:#B8860B;
-    font-weight:600;
-    text-decoration:none;
-    transition:.3s;
-}
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-.back-btn:hover{
-    background:#FFF8E1;
-}
+        .form-group label {
+            font-weight: 600;
+            color: #555;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
 
-@media(max-width:768px){
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
 
-    body{
-        padding:20px;
-    }
+        .form-group input:focus {
+            outline: none;
+            border-color: #FFC107;
+            background: #FFFEF9;
+        }
 
-    .container{
-        padding:25px;
-    }
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #FFC107;
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
 
-    h1{
-        font-size:28px;
-    }
+        .submit-btn:hover {
+            background: #E0A800;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(224, 168, 0, 0.3);
+        }
 
-    .result-box h1{
-        font-size:32px;
-    }
+        .submit-btn:active {
+            transform: translateY(0);
+        }
 
-}
-</style>
+        .back-home {
+            display: inline-block;
+            text-align: center;
+            padding: 12px 28px;
+            background: white;
+            border: 2px solid #FFC107;
+            border-radius: 10px;
+            color: #B8860B;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .back-home:hover {
+            background: #FFF8E1;
+            transform: translateY(-2px);
+        }
+
+        /* Results Section */
+        .results-section {
+            display: none;
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+        }
+
+        .card.accent {
+            border-top: 5px solid #FFC107;
+            background: linear-gradient(135deg, #FFFDF5 0%, white 100%);
+        }
+
+        .card h2 {
+            color: #B8860B;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card h3 {
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: #666;
+        }
+
+        /* Main SIP Amount */
+        .sip-amount-card {
+            background: linear-gradient(135deg, #FFC107 0%, #E0A800 100%);
+            color: white;
+            text-align: center;
+            padding: 40px 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 15px 40px rgba(255, 193, 7, 0.3);
+        }
+
+        .sip-amount-card h2 {
+            color: white;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+
+        .sip-amount-card .amount {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .sip-amount-card .frequency {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Goal Summary Grid */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .summary-item {
+            background: #FFF8E1;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #FFE082;
+        }
+
+        .summary-item-label {
+            font-size: 12px;
+            color: #B8860B;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .summary-item-value {
+            font-size: 18px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Investment Mix Cards */
+        .investment-mix-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .investment-item {
+            background: #F5F5F5;
+            padding: 16px;
+            border-radius: 12px;
+            border-left: 4px solid #FFC107;
+        }
+
+        .investment-item-label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .investment-item-amount {
+            font-size: 20px;
+            color: #B8860B;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .investment-item-return {
+            font-size: 12px;
+            color: #999;
+            font-weight: 500;
+        }
+
+        /* Inflation Impact Card */
+        .inflation-card {
+            background: linear-gradient(135deg, #FF6B6B 0%, #EE5A6F 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.2);
+        }
+
+        .inflation-card h2 {
+            color: white;
+            font-size: 14px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .inflation-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .inflation-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .inflation-item-label {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 6px;
+        }
+
+        .inflation-item-value {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        /* Goal Difficulty */
+        .difficulty-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .difficulty-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+        }
+
+        .difficulty-badge {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .difficulty-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .difficulty-value {
+            font-size: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .confidence-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #FFE082;
+            background: #FFFEF9;
+        }
+
+        .stars {
+            font-size: 28px;
+            margin-bottom: 8px;
+            letter-spacing: 4px;
+        }
+
+        .confidence-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .confidence-text {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* SmartPlan Insights */
+        .insights-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, white 100%);
+            border-left: 5px solid #FFC107;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .insights-card h2 {
+            color: #B8860B;
+            font-size: 16px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .insights-card-subtitle {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .insight-item {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .insight-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        /* Recommended Strategy */
+        .strategy-card {
+            background: white;
+            border-top: 5px solid #4CAF50;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .strategy-card h2 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .strategy-list {
+            list-style: none;
+        }
+
+        .strategy-list li {
+            padding: 10px 0;
+            font-size: 14px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            line-height: 1.5;
+        }
+
+        .strategy-list li:before {
+            content: "✓";
+            color: #4CAF50;
+            font-weight: 700;
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
+            color: white;
+            padding: 32px 24px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .cta-section h2 {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .cta-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cta-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Partner CTA */
+        .partner-section {
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .header-section h1 {
+                font-size: 28px;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .sip-amount-card {
+                padding: 32px 20px;
+            }
+
+            .sip-amount-card .amount {
+                font-size: 40px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .investment-mix-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .difficulty-section {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .cta-links {
+                flex-direction: column;
+            }
+
+            .cta-link {
+                width: 100%;
+            }
+        }
+    </style>
 
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
+        <!-- Header -->
+        <div class="header-section">
+            <h1>🚀 Financial Future Planner</h1>
+            <p>Calculate your monthly investment needed to achieve your financial goals</p>
+        </div>
 
-<h1>🚀 Financial Future Planner</h1>
+        <!-- Input Form -->
+        <div class="form-card">
+            <form method="POST" id="calculatorForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-<form method="POST">
-<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="form-group">
+                    <label for="age">Current Age</label>
+                    <input type="number" id="age" name="age" placeholder="28" required min="18" max="100">
+                </div>
 
-<label>Current Age</label>
-<input type="number" name="age" placeholder="28" required>
+                <div class="form-group">
+                    <label for="target">Target Amount (₹)</label>
+                    <input type="number" id="target" name="target" placeholder="10000000" required min="100000">
+                </div>
 
-<label>Target Amount (₹)</label>
-<input type="number" name="target" placeholder="10000000" required>
+                <div class="form-group">
+                    <label for="years">Time Horizon (Years)</label>
+                    <input type="number" id="years" name="years" placeholder="15" required min="1" max="50">
+                </div>
 
-<label>Time Horizon (Years)</label>
-<input type="number" name="years" placeholder="15" required>
+                <button type="submit" class="submit-btn">Calculate Now</button>
+                <a href="{{ url_for('index') }}" class="back-home">← Back to Home</a>
+            </form>
+        </div>
 
-<button type="submit" class="btn-submit">Estimate Monthly Investment</button>
+        <!-- Results Section -->
+        {% if result %}
+        <div class="results-section show">
+            <!-- Main SIP Amount -->
+            <div class="sip-amount-card">
+                <h2>Monthly Investment Required</h2>
+                <div class="amount">₹ {{ result.monthly_total }}</div>
+                <div class="frequency">per month</div>
+            </div>
 
-</form>
+            <!-- Goal Summary -->
+            <div class="card">
+                <h2>🎯 Goal Summary</h2>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="summary-item-label">Target</div>
+                        <div class="summary-item-value">₹{{ result.target }}</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-label">Time Horizon</div>
+                        <div class="summary-item-value">{{ result.years }} Years</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-label">Your Age</div>
+                        <div class="summary-item-value">{{ result.age }}</div>
+                    </div>
+                </div>
+            </div>
 
-<div style="margin-top:20px; text-align:center;">
-    <a href="{{ url_for('index') }}"
-       style="
-            display:inline-block;
-            background:#f4b400;
-            color:white;
-            padding:12px 28px;
-            border-radius:10px;
-            text-decoration:none;
-            font-weight:600;
-            box-shadow:0 4px 10px rgba(0,0,0,.15);
-       ">
-        ← Back to Home
-    </a>
-</div>
+            <!-- Investment Mix -->
+            <div class="card">
+                <h2>📈 Suggested Investment Mix</h2>
+                <div class="investment-mix-grid">
+                    <div class="investment-item">
+                        <div class="investment-item-label">{{ result.breakdown.large.label }}</div>
+                        <div class="investment-item-amount">₹{{ result.breakdown.large.amount }}</div>
+                        <div class="investment-item-return">{{ result.breakdown.large.return }} returns</div>
+                    </div>
+                    <div class="investment-item">
+                        <div class="investment-item-label">{{ result.breakdown.mid.label }}</div>
+                        <div class="investment-item-amount">₹{{ result.breakdown.mid.amount }}</div>
+                        <div class="investment-item-return">{{ result.breakdown.mid.return }} returns</div>
+                    </div>
+                    <div class="investment-item">
+                        <div class="investment-item-label">{{ result.breakdown.small.label }}</div>
+                        <div class="investment-item-amount">₹{{ result.breakdown.small.amount }}</div>
+                        <div class="investment-item-return">{{ result.breakdown.small.return }} returns</div>
+                    </div>
+                    <div class="investment-item">
+                        <div class="investment-item-label">{{ result.breakdown.debt.label }}</div>
+                        <div class="investment-item-amount">₹{{ result.breakdown.debt.amount }}</div>
+                        <div class="investment-item-return">{{ result.breakdown.debt.return }} returns</div>
+                    </div>
+                </div>
+            </div>
 
-{% if result %}
+            <!-- Inflation Impact -->
+            <div class="inflation-card">
+                <h2>💰 Inflation Impact</h2>
+                <div class="inflation-row">
+                    <div>
+                        <div class="inflation-item-label">Today's Goal</div>
+                        <div class="inflation-item-value">₹{{ result.target }}</div>
+                    </div>
+                    <div>
+                        <div class="inflation-item-label">Actual Need (6% inflation)</div>
+                        <div class="inflation-item-value">₹{{ result.future_value }}</div>
+                    </div>
+                </div>
+            </div>
 
-<div class="result-box">
+            <!-- Goal Difficulty & Confidence -->
+            <div class="difficulty-section">
+                <div class="difficulty-card">
+                    <div class="difficulty-badge">{{ result.badge }}</div>
+                    <div class="difficulty-label">Goal Difficulty</div>
+                    <div class="difficulty-value">{{ result.difficulty }}</div>
+                </div>
+                <div class="confidence-card">
+                    <div class="stars">
+                        {% if result.confidence >= 80 %}★★★★★
+                        {% elif result.confidence >= 65 %}★★★★☆
+                        {% elif result.confidence >= 50 %}★★★☆☆
+                        {% else %}★★☆☆☆
+                        {% endif %}
+                    </div>
+                    <div class="confidence-label">Goal Confidence</div>
+                    <div class="confidence-text">
+                        {% if result.confidence >= 80 %}
+                        Highly achievable
+                        {% elif result.confidence >= 65 %}
+                        Achievable
+                        {% elif result.confidence >= 50 %}
+                        Possible
+                        {% else %}
+                        Challenging
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
 
-    <h2 style="color:#B8860B;">
-        Monthly Investment Required
-    </h2>
+            <!-- SmartPlan Finance Insights -->
+            <div class="insights-card">
+                <h2>💡 SmartPlan Finance Insights</h2>
+                <div class="insights-card-subtitle">Key Takeaways</div>
+                {% for insight in result.insights %}
+                <div class="insight-item">{{ insight }}</div>
+                {% endfor %}
+            </div>
 
-    <h1 style="margin:15px 0;">
-        ₹ {{ result.monthly_total }}
-    </h1>
+            <!-- Recommended Strategy -->
+            <div class="strategy-card">
+                <h2>✓ Recommended Strategy</h2>
+                <ul class="strategy-list">
+                    <li>Increase SIP by {{ result.stepup }} every year</li>
+                    <li>Review your investment plan yearly</li>
+                    <li>Stay invested regardless of market conditions</li>
+                    <li>Avoid panic selling during downturns</li>
+                    <li>Maintain emergency fund (3-6 months expenses)</li>
+                    <li>Invest surplus bonuses to accelerate goals</li>
+                </ul>
+            </div>
 
-    <hr style="margin:20px 0;">
+            <!-- Next Steps CTA -->
+            <div class="cta-section">
+                <h2>Ready for the next step?</h2>
+                <div class="cta-links">
+                    <a href="{{ url_for('sip_calculator') }}" class="cta-link">📊 Explore SIP Calculator</a>
+                    <a href="{{ url_for('retirement_calculator') }}" class="cta-link">🏖️ Retirement Planner</a>
+                    <a href="{{ url_for('tax_calculator') }}" class="cta-link">💳 Tax Optimization</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
 
-    <div style="text-align:left;line-height:34px;">
-
-        <strong>📈 SIP ({{ result.breakdown.sip.return }})</strong><br>
-        ₹ {{ result.breakdown.sip.amount }}
-
-        <br><br>
-
-        <strong>🏦 {{ result.breakdown.large.label }} ({{ result.breakdown.large.return }})</strong><br>
-        ₹ {{ result.breakdown.large.amount }}
-
-        <br><br>
-
-        <strong>📊 {{ result.breakdown.mid.label }} ({{ result.breakdown.mid.return }})</strong><br>
-        ₹ {{ result.breakdown.mid.amount }}
-
-        <br><br>
-
-        <strong>🚀 {{ result.breakdown.small.label }} ({{ result.breakdown.small.return }})</strong><br>
-        ₹ {{ result.breakdown.small.amount }}
+        <!-- Partner CTA -->
+        <div class="partner-section">
+            {% include "partials/_partner_cta.html" %}
+        </div>
 
     </div>
-
-</div>
-
-{% endif %}
-{% include "partials/_partner_cta.html" %}
-</div>
 
 </body>
 

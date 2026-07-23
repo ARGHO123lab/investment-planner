@@ -1985,6 +1985,7 @@ def generate_ai_report():
     # AI generation code will come in the next step
 @app.route('/financial-future', methods=['GET', 'POST'])
 def financial_future():
+
     result = None
 
     if request.method == 'POST':
@@ -1994,46 +1995,148 @@ def financial_future():
         years = int(request.form.get('years') or 0)
 
         months = years * 12
-        m_rate = 0.12 / 12
+        annual_return = 0.12
+        monthly_rate = annual_return / 12
 
         if months == 0 or target == 0:
-            req_monthly = 0.0
-        else:
-            req_monthly = target / (((1 + m_rate) ** months - 1) / m_rate) / (1 + m_rate)
 
-        
+            monthly_sip = 0
+
+        else:
+
+            monthly_sip = target / (
+                (((1 + monthly_rate) ** months - 1) / monthly_rate)
+                * (1 + monthly_rate)
+            )
+
+        # -------------------------
+        # Inflation
+        # -------------------------
+
+        inflation_rate = 0.06
+
+        future_value = target * ((1 + inflation_rate) ** years)
+
+        # -------------------------
+        # Goal Difficulty
+        # -------------------------
+
+        if monthly_sip < 10000:
+            difficulty = "Easy"
+            badge = "🟢"
+
+        elif monthly_sip < 30000:
+            difficulty = "Moderate"
+            badge = "🟡"
+
+        else:
+            difficulty = "Aggressive"
+            badge = "🔴"
+
+        # -------------------------
+        # Confidence Score
+        # -------------------------
+
+        if years >= 15:
+            confidence = 90
+
+        elif years >= 10:
+            confidence = 80
+
+        elif years >= 5:
+            confidence = 65
+
+        else:
+            confidence = 45
+
+        # -------------------------
+        # SmartPlan Insights
+        # -------------------------
+
+        insights = []
+
+        insights.append(
+            f"Your target of ₹{target:,.0f} could grow to approximately ₹{future_value:,.0f} after inflation."
+        )
+
+        insights.append(
+            "Increasing your SIP by around 10% every year may significantly improve your long-term wealth."
+        )
+
+        insights.append(
+            "Review your investment plan annually to stay aligned with your goal."
+        )
+
+        insights.append(
+            "Maintain an emergency fund before increasing investment risk."
+        )
 
         result = {
-            "monthly_total": "{:,.2f}".format(req_monthly),
+
+            "age": age,
+
+            "target": "{:,.0f}".format(target),
+
+            "future_value": "{:,.0f}".format(future_value),
+
+            "monthly_total": "{:,.2f}".format(monthly_sip),
+
+            "difficulty": difficulty,
+
+            "badge": badge,
+
+            "confidence": confidence,
+
+            "stepup": "10%",
+
+            "insights": insights,
+
             "breakdown": {
-                "sip": {
-                    "amount": "{:,.2f}".format(req_monthly * 0.4),
-                    "return": "12%"
-                },
+
                 "large": {
+
                     "label": "Large Cap",
-                    "amount": "{:,.2f}".format(req_monthly * 0.3),
-                    "return": "10%"
+
+                    "amount": "{:,.2f}".format(monthly_sip * 0.40),
+
+                    "return": "10-12%"
                 },
+
                 "mid": {
+
                     "label": "Mid Cap",
-                    "amount": "{:,.2f}".format(req_monthly * 0.2),
-                    "return": "15%"
+
+                    "amount": "{:,.2f}".format(monthly_sip * 0.25),
+
+                    "return": "12-14%"
                 },
+
                 "small": {
+
                     "label": "Small Cap",
-                    "amount": "{:,.2f}".format(req_monthly * 0.1),
-                    "return": "18%"
+
+                    "amount": "{:,.2f}".format(monthly_sip * 0.15),
+
+                    "return": "14-16%"
+                },
+
+                "debt": {
+
+                    "label": "Debt Funds",
+
+                    "amount": "{:,.2f}".format(monthly_sip * 0.20),
+
+                    "return": "7-8%"
                 }
             }
         }
 
     return render_template(
-    'financial_future.html',
-    result=result,
-    partners=PAGE_PARTNER_MAP.get('financial_future', []),
-    PARTNER_LINKS=PARTNER_LINKS
-)
+        "financial_future.html",
+        result=result,
+        partners=PAGE_PARTNER_MAP.get("financial_future", []),
+        PARTNER_LINKS=PARTNER_LINKS
+    )
 @app.route('/tax_calculator', methods=['GET', 'POST'])
 def tax_calculator():
 
