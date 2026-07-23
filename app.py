@@ -2648,32 +2648,86 @@ def fd_calculator():
 
     if request.method == "POST":
 
-        principal = float(request.form.get("principal") or 0)
-        rate = float(request.form.get("rate") or 0)
-        years = float(request.form.get("years") or 0)
+        try:
+            principal = float(request.form.get("principal") or 0)
+            rate = float(request.form.get("rate") or 0)
+            years = float(request.form.get("years") or 0)
 
-        r = rate / 100
-        n = 4
+            # Quarterly Compounding
+            r = rate / 100
+            n = 4
 
-        maturity_amount = principal * ((1 + (r / n)) ** (n * years))
-        interest_earned = maturity_amount - principal
+            maturity_amount = principal * ((1 + (r / n)) ** (n * years))
+            interest_earned = maturity_amount - principal
 
-        
+            # Additional SmartPlan Metrics
+            total_return_percent = (
+                (interest_earned / principal) * 100
+                if principal else 0
+            )
 
-        result = {
-            "principal": principal,
-            "rate": rate,
-            "years": years,
-            "interest": interest_earned,
-            "maturity": maturity_amount
-        }
+            average_monthly_growth = (
+                interest_earned / (years * 12)
+                if years else 0
+            )
+
+            effective_annual_yield = (
+                ((1 + (r / n)) ** n - 1) * 100
+            )
+
+            # Simple Investment Rating
+            if total_return_percent >= 80:
+                rating = "⭐⭐⭐⭐⭐ Excellent Growth"
+            elif total_return_percent >= 50:
+                rating = "⭐⭐⭐⭐ Very Good"
+            elif total_return_percent >= 25:
+                rating = "⭐⭐⭐ Moderate"
+            else:
+                rating = "⭐⭐ Stable & Conservative"
+
+            # SmartPlan AI Insight
+            if years <= 3:
+                insight = (
+                    "This FD is suitable for short-term goals such as emergency funds "
+                    "or planned purchases. It offers stability with low risk."
+                )
+
+            elif years <= 7:
+                insight = (
+                    "This investment duration is ideal for medium-term goals. "
+                    "Compare FD rates across banks before investing to maximize returns."
+                )
+
+            else:
+                insight = (
+                    "For long-term wealth creation, Fixed Deposits provide safety, "
+                    "but consider combining them with equity mutual funds to help "
+                    "beat inflation over longer periods."
+                )
+
+            # Return Data
+            result = {
+                "principal": principal,
+                "rate": rate,
+                "years": years,
+                "interest": interest_earned,
+                "maturity": maturity_amount,
+                "return_percent": round(total_return_percent, 2),
+                "monthly_growth": average_monthly_growth,
+                "effective_yield": round(effective_annual_yield, 2),
+                "rating": rating,
+                "insight": insight
+            }
+
+        except ValueError:
+            result = None
 
     return render_template(
-    'fd_calculator.html',
-    result=result,
-    partners=PAGE_PARTNER_MAP.get('fd_calculator', []),
-    PARTNER_LINKS=PARTNER_LINKS
-)
+        "fd_calculator.html",
+        result=result,
+        partners=PAGE_PARTNER_MAP.get("fd_calculator", []),
+        PARTNER_LINKS=PARTNER_LINKS
+    )
 @app.route('/admin')
 @requires_auth
 def admin():

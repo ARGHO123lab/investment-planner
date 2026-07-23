@@ -86,6 +86,70 @@
         button:hover{
             background:#9d7609;
         }
+        .result-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:18px;
+    margin-top:25px;
+}
+
+.card{
+    background:#fffdf6;
+    border-left:5px solid #B8860B;
+    padding:18px;
+    border-radius:12px;
+    box-shadow:0 4px 10px rgba(0,0,0,.05);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+}
+
+.card h4{
+    margin-bottom:10px;
+    color:#555;
+}
+
+.card p{
+    font-size:22px;
+    font-weight:bold;
+    color:#222;
+}
+
+.progress-box{
+    margin-top:35px;
+}
+
+.progress{
+    display:flex;
+    width:100%;
+    height:22px;
+    border-radius:30px;
+    overflow:hidden;
+    background:#eee;
+}
+
+.principal-bar{
+    background:#B8860B;
+}
+
+.interest-bar{
+    background:#4CAF50;
+}
+
+.progress-label{
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.smart-tip{
+    margin-top:30px;
+    background:#fff8e5;
+    border-left:5px solid #B8860B;
+    padding:20px;
+    border-radius:10px;
+}
 
     </style>
 
@@ -141,39 +205,86 @@ Calculate FD Returns
 
 <hr style="margin:35px 0;">
 
-<h3 style="color:#B8860B;text-align:center;">
-🏦 Fixed Deposit Summary
+<h3 style="text-align:center;color:#B8860B;">
+📊 Your FD Summary
 </h3>
 
-<div style="margin-top:20px;line-height:34px;">
+<div class="result-grid">
 
-    <p>
-        <strong>Deposit Amount :</strong>
-        ₹ {{ "{:,.0f}".format(result.principal) }}
-    </p>
+    <div class="card">
+        <h4>💰 Deposit</h4>
+        <p>₹ {{ "{:,.0f}".format(result.principal) }}</p>
+    </div>
 
-    <p>
-        <strong>Interest Rate :</strong>
-        {{ result.rate }}%
-    </p>
+    <div class="card">
+        <h4>📈 Interest Earned</h4>
+        <p style="color:green;">
+            ₹ {{ "{:,.0f}".format(result.interest) }}
+        </p>
+    </div>
 
-    <p>
-        <strong>Investment Period :</strong>
-        {{ result.years }} Years
-    </p>
+    <div class="card">
+        <h4>🏆 Maturity Amount</h4>
+        <p>
+            ₹ {{ "{:,.0f}".format(result.maturity) }}
+        </p>
+    </div>
 
-    <p>
-        <strong>Interest Earned :</strong>
-        ₹ {{ "{:,.0f}".format(result.interest) }}
-    </p>
+    <div class="card">
+        <h4>📊 Total Return</h4>
+        <p>
+            {{ "%.1f"|format(result.return_percent) }}%
+        </p>
+    </div>
 
-    <p>
-        <strong>Maturity Amount :</strong>
-        ₹ {{ "{:,.0f}".format(result.maturity) }}
-    </p>
+    <div class="card">
+        <h4>📅 Avg Monthly Growth</h4>
+        <p>
+            ₹ {{ "{:,.0f}".format(result.monthly_growth) }}
+        </p>
+    </div>
 
 </div>
 
+<div class="progress-box">
+
+    <div class="progress-label">
+        Principal vs Interest Earned
+    </div>
+
+    <div class="progress">
+
+        <div class="principal-bar"
+             style="width:73%;">
+        </div>
+
+        <div class="interest-bar"
+             style="width:27%;">
+        </div>
+
+    </div>
+
+</div>
+
+<div class="smart-tip">
+
+    <h3>🤖 SmartPlan Insight</h3>
+
+    <p>{{ result.insight }}</p>
+
+</div>
+<div style="
+    margin-top:30px;
+    padding:18px;
+    background:#fff8e5;
+    border-left:5px solid #B8860B;
+    border-radius:10px;
+    font-size:14px;
+    color:#555;
+    line-height:1.7;
+">
+    <strong>Disclaimer:</strong> The Fixed Deposit Calculator on SmartPlan Finance provides estimated results based on the information you enter and standard compound interest calculations. Actual maturity amounts and interest earned may vary depending on the bank or financial institution's interest rates, compounding frequency, tenure calculation, applicable taxes, and other terms and conditions. SmartPlan Finance does not guarantee the accuracy of returns, recommend or endorse any specific Fixed Deposit product, or provide investment advice. Please consult your bank or a qualified financial advisor before making any investment decisions.
+</div>
 {% endif %}
 {% include "partials/_partner_cta.html" %}
 
