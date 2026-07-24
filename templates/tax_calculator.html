@@ -17,7 +17,57 @@
 
 <link rel="manifest"
       href="{{ url_for('static', filename='icons/site.webmanifest') }}">
-    <title>Tax Regime Comparator</title>
+    <div class="header-section">
+
+<h1>📑 Income Tax Calculator | Smart Plan Finance</h1>
+
+<p style="
+max-width:720px;
+margin:18px auto 0;
+line-height:1.9;
+color:#666;
+font-size:17px;
+text-align:center;
+">
+
+Make informed tax decisions with SmartPlan Finance. Compare your estimated income tax under the Old and New Tax Regime, understand your potential tax savings, and plan your finances with greater confidence.
+
+</p>
+
+</div>
+<div style="
+max-width:680px;
+margin:35px auto;
+background:#fff;
+padding:28px;
+border-radius:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.06);
+border-left:5px solid #FFC107;
+">
+
+<h2 style="
+color:#B8860B;
+margin-bottom:18px;
+font-size:26px;
+">
+🤔 Why Compare Tax Regimes?
+</h2>
+
+<p style="
+line-height:1.9;
+color:#555;
+font-size:16px;
+">
+
+Choosing the right income tax regime can significantly reduce your tax liability. While the Old Tax Regime offers deductions and exemptions, the New Tax Regime provides lower tax rates with fewer deductions.
+
+<br><br>
+
+This calculator helps you compare both regimes quickly and understand which option may be more suitable for your financial situation.
+
+</p>
+
+</div>
     <style>
         body { padding: 40px; background: #FFFDF5; font-family: 'Poppins', sans-serif; }
         .container { max-width: 600px; margin: auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,.08); }
@@ -70,12 +120,43 @@
     }
 
 }
+.education-card{
+    max-width:680px;
+    margin:35px auto;
+    background:#fff;
+    padding:28px;
+    border-radius:16px;
+    box-shadow:0 8px 20px rgba(0,0,0,.06);
+    border-left:5px solid #FFC107;
+}
+
+.education-card h2{
+    color:#B8860B;
+    margin-bottom:18px;
+}
+
+.education-card p,
+.education-card li{
+    line-height:1.9;
+    color:#555;
+}
+
+@media(max-width:768px){
+
+    .education-card{
+        max-width:100%;
+        padding:22px;
+        margin:25px 0;
+    }
+
+}
     </style>
 </head>
+
 <body>
 
 <div class="container">
-    <h1>📑 Income Tax Calculator</h1>
+    <h1>📑 Compare Tax Regime</h1>
 
 <p style="text-align:center;color:#666;margin-bottom:30px;">
 Compare the Old vs New Tax Regime and find which one helps you save more tax.
@@ -167,6 +248,7 @@ Compare the Old vs New Tax Regime and find which one helps you save more tax.
 </div>
 
 </div>
+
 
 {% endif %}
 

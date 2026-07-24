@@ -107,6 +107,21 @@ color:#000;
 font-weight:bold;
 
 }
+.calc-card{
+display:block;
+padding:16px;
+background:#FFF8E1;
+border-radius:10px;
+text-decoration:none;
+color:#B8860B;
+font-weight:600;
+transition:.25s;
+}
+
+.calc-card:hover{
+transform:translateY(-3px);
+box-shadow:0 8px 18px rgba(0,0,0,.12);
+}
 
 </style>
 
@@ -431,13 +446,15 @@ Unless you have significant deductions, this regime is likely to be more benefic
 
 <ul>
 
-<li>Review whether the recommended regime aligns with your eligible deductions.</li>
+<li>✅ Compare both tax regimes every financial year.</li>
 
-<li>Invest under Section 80C only if you're opting for the Old Regime and it benefits you.</li>
+<li>✅ Invest under Section 80C only if the Old Regime offers lower tax.</li>
 
-<li>Plan tax-saving investments before the financial year ends.</li>
+<li>✅ Consider NPS and Health Insurance for additional tax savings where applicable.</li>
 
-<li>Review your salary structure and exemptions annually.</li>
+<li>✅ Review your salary structure after appraisal or job changes.</li>
+
+<li>✅ Recalculate your tax before filing your Income Tax Return.</li>
 
 </ul>
 
@@ -450,6 +467,249 @@ href="{{ url_for('ca_consultation') }}">
 👨‍💼 Request CA Consultation
 
 </a>
+<a
+class="button"
+href="#"
+onclick="window.print();return false;">
+
+🖨 Print Tax Report
+
+</a>
+<a
+class="button"
+href="{{ url_for('tax_calculator') }}">
+
+🧾 Calculate Again
+
+</a>
+<a
+class="button"
+href="{{ url_for('index') }}">
+
+🏠 Back to Home
+
+</a>
+
+<div style="
+    margin-top:30px;
+    padding:18px;
+    background:#fff8e5;
+    border-left:5px solid #B8860B;
+    border-radius:10px;
+    font-size:14px;
+    color:#555;
+    line-height:1.7;
+">
+    <strong>Disclaimer:</strong> The Income Tax Calculator on SmartPlan Finance provides estimated tax calculations based on the information entered by the user and applicable tax rules available at the time of calculation. Actual tax liability may differ depending on individual circumstances, deductions, exemptions, rebates, surcharges, cess, and future changes in tax laws. SmartPlan Finance does not guarantee the accuracy of tax calculations or provide tax, legal, or financial advice. Please consult a qualified Chartered Accountant or tax professional before filing your income tax return or making tax-related decisions.
+
+</div>
+<div style="
+margin-top:35px;
+background:#fff;
+padding:25px;
+border-radius:15px;
+box-shadow:0 8px 20px rgba(0,0,0,.06);
+">
+
+<h2 style="color:#B8860B;margin-bottom:18px;">
+📖 Understanding Your Tax Comparison
+</h2>
+
+<p style="line-height:1.9;color:#555;">
+
+This calculator estimates your income tax under both the Old and New Tax Regime based on the annual taxable income you entered.
+
+If one regime results in lower tax, it may help you save more money. However, your ideal tax regime also depends on deductions, exemptions, investments, and your individual financial situation.
+
+Use this calculator as a planning tool before making tax decisions.
+
+</p>
+
+</div>
+<div style="
+margin-top:30px;
+background:#fff;
+padding:25px;
+border-radius:15px;
+box-shadow:0 8px 20px rgba(0,0,0,.06);
+">
+
+<h2 style="color:#B8860B;">
+🤔 Why Compare Tax Regimes?
+</h2>
+
+<ul style="margin-top:18px;line-height:2;color:#555;padding-left:20px;">
+
+<li>Know which regime could reduce your tax liability.</li>
+
+<li>Plan your investments more effectively.</li>
+
+<li>Understand whether deductions actually benefit you.</li>
+
+<li>Make informed tax planning decisions before filing your return.</li>
+
+<li>Estimate your tax in just a few seconds.</li>
+
+</ul>
+
+</div>
+<div style="
+margin-top:30px;
+background:#fff;
+padding:25px;
+border-radius:15px;
+box-shadow:0 8px 20px rgba(0,0,0,.06);
+">
+
+<h2 style="color:#B8860B;">
+💡 Smart Tax Planning Tips
+</h2>
+
+<div style="margin-top:18px;">
+
+<p style="margin-bottom:16px;line-height:1.8;">
+✔ Start tax planning early instead of waiting until the end of the financial year.
+</p>
+
+<p style="margin-bottom:16px;line-height:1.8;">
+✔ Compare both tax regimes every year because your financial situation may change.
+</p>
+
+<p style="margin-bottom:16px;line-height:1.8;">
+✔ Keep proper records of investments and eligible deductions.
+</p>
+
+<p style="line-height:1.8;">
+✔ Consult a Chartered Accountant for complex tax situations.
+</p>
+
+</div>
+
+</div>
+<!-- Recommended Reading -->
+<div style="
+margin-top:35px;
+background:#fff;
+padding:25px;
+border-radius:15px;
+box-shadow:0 8px 20px rgba(0,0,0,.06);
+">
+
+<h2 style="color:#B8860B;">
+📚 Learn More About Tax Planning
+</h2>
+
+<p style="color:#555;line-height:1.8;margin-top:12px;margin-bottom:25px;">
+
+Understanding India's income tax system can help you make better financial decisions. Explore our detailed guides on tax deductions, tax regimes, and practical tax-saving strategies.
+
+</p>
+
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+">
+
+<a href="https://smartplanfinance.com/blog/the-complete-tax-deduction-strategy-for-salaried-professionals-2026-claim-every-rupee-pay-less-tax"
+style="text-decoration:none;">
+
+<div style="
+background:#FFF8E1;
+border-left:5px solid #FFC107;
+border-radius:12px;
+padding:20px;
+height:100%;
+transition:.25s;
+">
+
+<h3 style="color:#B8860B;margin-top:0;">
+💰 Complete Tax Deduction Strategy
+</h3>
+
+<p style="color:#555;line-height:1.7;">
+
+Learn how salaried professionals can legally reduce their income tax by understanding deductions, exemptions, and effective tax planning strategies.
+
+</p>
+
+<strong style="color:#B8860B;">
+Read Article →
+</strong>
+
+</div>
+
+</a>
+
+<a href="https://smartplanfinance.com/blog/income-tax-slabs-2026-new-regime-vs-old-regime-which-saves-you-more-money"
+style="text-decoration:none;">
+
+<div style="
+background:#FFF8E1;
+border-left:5px solid #FFC107;
+border-radius:12px;
+padding:20px;
+height:100%;
+transition:.25s;
+">
+
+<h3 style="color:#B8860B;margin-top:0;">
+📑 Income Tax Slabs 2026
+</h3>
+
+<p style="color:#555;line-height:1.7;">
+
+Compare the Old and New Tax Regime, understand the latest tax slabs, and discover which option may be more suitable for your financial situation.
+
+</p>
+
+<strong style="color:#B8860B;">
+Read Article →
+</strong>
+
+</div>
+
+</a>
+
+</div>
+
+</div>
+<!-- Related Calculators -->
+<div style="
+margin-top:35px;
+background:#fff;
+padding:25px;
+border-radius:15px;
+box-shadow:0 8px 20px rgba(0,0,0,.06);
+">
+
+<h2 style="color:#B8860B;">
+🧮 Related Financial Calculators
+</h2>
+
+<p style="color:#555;line-height:1.8;margin-top:12px;margin-bottom:20px;">
+
+Continue your financial planning with these free calculators from SmartPlan Finance.
+
+</p>
+
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+">
+
+<a href="https://smartplanfinance.com/emi_calculator" class="calc-card">
+🏠 EMI Calculator
+</a>
+
+<a href="https://smartplanfinance.com/financial-future" class="calc-card">
+🎯 Financial Goal Planner
+</a>
+
+</div>
+
+</div>
 
 {% include "partials/_partner_cta.html" %}
 
