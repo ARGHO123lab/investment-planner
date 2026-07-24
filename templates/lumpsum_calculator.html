@@ -15,150 +15,552 @@ href="{{ url_for('static', filename='css/style.css') }}">
 
 <style>
 
-body{
-font-family:Poppins,sans-serif;
-background:#f6f8fc;
-margin:0;
-padding:40px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.container{
-
-max-width:900px;
-margin:auto;
-background:white;
-padding:35px;
-border-radius:15px;
-box-shadow:0 12px 30px rgba(0,0,0,.08);
-
+body {
+    font-family: Poppins, sans-serif;
+    background: #FFFDF5;
+    padding: 20px;
+    color: #333;
 }
 
-h1{
-
-color:#0B7A3D;
-
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
 }
 
-.subtitle{
-
-color:#666;
-margin-bottom:30px;
-
+/* Header Section */
+.header-section {
+    text-align: center;
+    background: linear-gradient(135deg, rgba(184, 134, 11, 0.08) 0%, rgba(255, 193, 7, 0.05) 100%);
+    padding: 50px 30px;
+    border-radius: 20px;
+    border: 2px solid rgba(184, 134, 11, 0.1);
+    margin-bottom: 40px;
 }
 
-.form-group{
-
-margin-bottom:20px;
-
+.header-subtitle {
+    font-size: 13px;
+    color: #B8860B;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-bottom: 12px;
 }
 
-label{
-
-display:block;
-font-weight:600;
-margin-bottom:8px;
-
+.header-section h1 {
+    color: #B8860B;
+    font-size: 42px;
+    margin-bottom: 16px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
-input{
-
-width:100%;
-padding:14px;
-border-radius:8px;
-border:1px solid #ddd;
-font-size:16px;
-box-sizing:border-box;
-
+.header-section p {
+    color: #555;
+    font-size: 17px;
+    line-height: 1.8;
+    max-width: 650px;
+    margin: 0 auto;
+    font-weight: 500;
 }
 
-button{
-
-width:100%;
-padding:16px;
-background:#0B7A3D;
-color:white;
-font-size:18px;
-font-weight:600;
-border:none;
-border-radius:10px;
-cursor:pointer;
-
+/* Education Card */
+.education-card {
+    background: linear-gradient(135deg, #FFFEF9 0%, #F0F7FF 100%);
+    padding: 32px 28px;
+    border-radius: 16px;
+    border: 2px solid #FFE082;
+    margin-bottom: 40px;
+    border-left: 6px solid #B8860B;
 }
 
-button:hover{
-
-background:#096432;
-
+.education-card h2 {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 14px;
+    font-weight: 700;
 }
 
-.results{
-
-margin-top:35px;
-
+.education-card p {
+    color: #555;
+    font-size: 15px;
+    line-height: 1.8;
+    margin: 0;
 }
 
-.cards{
-
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-
+/* Form Section */
+.form-card {
+    background: white;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    margin-bottom: 40px;
 }
 
-.card{
-
-background:#f7fff8;
-padding:20px;
-border-radius:12px;
-text-align:center;
-box-shadow:0 5px 15px rgba(0,0,0,.08);
-
+.form-group {
+    margin-bottom: 24px;
 }
 
-.card h2{
-
-color:#0B7A3D;
-margin-bottom:10px;
-
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 15px;
 }
 
-table{
-
-width:100%;
-border-collapse:collapse;
-margin-top:30px;
-
+input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
 }
 
-th,td{
-
-padding:12px;
-border:1px solid #ddd;
-text-align:center;
-
+input:focus {
+    outline: none;
+    border-color: #B8860B;
+    background: #FFFEF9;
 }
 
-th{
-
-background:#0B7A3D;
-color:white;
-
+button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Poppins', sans-serif;
 }
 
-@media(max-width:768px){
-
-body{
-
-padding:20px;
-
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(184, 134, 11, 0.3);
 }
 
-.container{
-
-padding:20px;
-
+button:active {
+    transform: translateY(0);
 }
 
+/* Results Section */
+.results {
+    margin-top: 40px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background: linear-gradient(135deg, #FFFEF9 0%, #F0F7FF 100%);
+    padding: 28px 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: 2px solid #FFE082;
+}
+
+.card h2 {
+    color: #B8860B;
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.card p {
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Results Heading */
+.results-heading {
+    color: #333;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+th, td {
+    padding: 14px;
+    text-align: center;
+}
+
+th {
+    background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
+    color: white;
+    font-weight: 600;
+}
+
+td {
+    border-bottom: 1px solid #e0e0e0;
+    color: #555;
+}
+
+tr:hover {
+    background-color: #FFFEF9;
+}
+
+/* SmartPlan Insight */
+.insight-box {
+    margin-top: 30px;
+    padding: 24px;
+    background: linear-gradient(135deg, #F8F9FA 0%, white 100%);
+    border-left: 6px solid #B8860B;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.insight-box h3 {
+    color: #B8860B;
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.insight-box p {
+    color: #555;
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+/* Disclaimer */
+.disclaimer {
+    margin-top: 30px;
+    padding: 20px;
+    background: #fff8e5;
+    border-left: 5px solid #B8860B;
+    border-radius: 10px;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.7;
+}
+
+.disclaimer strong {
+    color: #333;
+}
+
+/* Recommended Calculators Section */
+.recommended-section {
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+
+.section-heading {
+    color: #333;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.section-subtitle {
+    color: #999;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+.calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.calc-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+}
+
+.calc-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    border-color: #B8860B;
+}
+
+.calc-icon {
+    background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
+    color: white;
+    padding: 24px;
+    text-align: center;
+    font-size: 32px;
+}
+
+.calc-content {
+    padding: 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.calc-name {
+    color: #333;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.calc-description {
+    color: #666;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    flex-grow: 1;
+}
+
+.calc-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s;
+    display: inline-block;
+}
+
+.calc-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(184, 134, 11, 0.3);
+}
+
+/* Related Articles Section */
+.articles-section {
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+
+.articles-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.article-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: row;
+}
+
+.article-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    border-color: #B8860B;
+}
+
+.article-icon {
+    background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
+    color: white;
+    padding: 24px;
+    text-align: center;
+    font-size: 28px;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.article-content {
+    padding: 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.article-tag {
+    font-size: 11px;
+    color: #B8860B;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.article-title {
+    color: #333;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.article-description {
+    color: #666;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    flex-grow: 1;
+}
+
+.article-link {
+    color: #B8860B;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s;
+    width: fit-content;
+}
+
+.article-link:hover {
+    color: #8B6400;
+    gap: 10px;
+}
+
+.article-arrow {
+    font-size: 14px;
+}
+
+/* Back to Home */
+.back-home-container {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.back-home {
+    display: inline-block;
+    background: linear-gradient(135deg, #FFC107 0%, #E0A800 100%);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);
+    transition: all 0.3s;
+}
+
+.back-home:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 193, 7, 0.4);
+}
+
+/* Partner Section */
+.partner-section {
+    margin-top: 40px;
+}
+
+/* Error Message */
+.error-message {
+    color: #e74c3c;
+    background: #fadbd8;
+    padding: 16px;
+    border-radius: 10px;
+    border-left: 5px solid #e74c3c;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 16px;
+    }
+
+    .container {
+        padding: 0;
+    }
+
+    .header-section {
+        padding: 40px 20px;
+    }
+
+    .header-section h1 {
+        font-size: 28px;
+    }
+
+    .header-section p {
+        font-size: 15px;
+    }
+
+    .form-card {
+        padding: 20px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .calc-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .article-card {
+        flex-direction: column;
+    }
+
+    .article-icon {
+        min-width: auto;
+        padding: 16px;
+    }
+
+    .article-content {
+        padding: 16px;
+    }
+
+    .article-title {
+        font-size: 14px;
+    }
+
+    .article-description {
+        font-size: 12px;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    th, td {
+        padding: 10px 8px;
+    }
 }
 
 </style>
@@ -169,204 +571,163 @@ padding:20px;
 
 <div class="container">
 
-<h1>💰 Lumpsum Investment Calculator</h1>
-
-<p class="subtitle">
-
-Estimate how much your one-time investment can grow over time through compounding.
-
-</p>
-
-<form method="POST">
-<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-<div class="form-group">
-
-<label>One-Time Investment (₹)</label>
-
-<input
-type="number"
-name="investment"
-required>
-
-</div>
-
-<div class="form-group">
-
-<label>Expected Annual Return (%)</label>
-
-<input
-type="number"
-step="0.01"
-name="return_rate"
-required>
-
-</div>
-
-<div class="form-group">
-
-<label>Investment Period (Years)</label>
-
-<input
-type="number"
-step="0.5"
-name="years"
-required>
-
-</div>
-
-<button type="submit">
-
-Calculate Future Value
-
-</button>
-
-</form>
-
-{% if result %}
-
-{% if result.error %}
-
-<p style="color:red;">
-
-{{ result.error }}
-
-</p>
-
-{% else %}
-
-<div class="results">
-
-<div class="cards">
-
-<div class="card">
-
-<h2>
-
-₹ {{ "{:,.2f}".format(result.investment) }}
-
-</h2>
-
-<p>Initial Investment</p>
-
-</div>
-
-<div class="card">
-
-<h2>
-
-₹ {{ "{:,.2f}".format(result.future_value) }}
-
-</h2>
-
-<p>Future Value</p>
-
-</div>
-
-<div class="card">
-
-<h2>
-
-₹ {{ "{:,.2f}".format(result.wealth_gained) }}
-
-</h2>
-
-<p>Total Wealth Gained</p>
-
-</div>
-
-</div>
-
-<h3 style="margin-top:35px;">
-
-Year-wise Growth
-
-</h3>
-
-<table>
-
-<tr>
-
-<th>Year</th>
-
-<th>Investment Value (₹)</th>
-
-</tr>
-
-{% for row in result.yearly_growth %}
-
-<tr>
-
-<td>{{ row.year }}</td>
-
-<td>{{ "{:,.2f}".format(row.value) }}</td>
-
-</tr>
-
-{% endfor %}
-
-</table>
-
-<div style="margin-top:30px;padding:20px;background:#eef9f1;border-left:5px solid #0B7A3D;border-radius:10px;">
-
-<h3>🤖 SmartPlan Insight</h3>
-
-<p>
-
-A one-time investment of
-<strong>₹ {{ "{:,.0f}".format(result.investment) }}</strong>
-
-growing at
-
-<strong>{{ result.return_rate }}%</strong>
-
-for
-
-<strong>{{ result.years }}</strong>
-
-years could become
-
-<strong>₹ {{ "{:,.2f}".format(result.future_value) }}</strong>.
-
-Long-term investing allows the power of compounding to significantly increase your wealth.
-
-</p>
-
-</div>
-
-</div>
-
-{% endif %}
-<div style="
-    margin-top:30px;
-    padding:18px;
-    background:#fff8e5;
-    border-left:5px solid #B8860B;
-    border-radius:10px;
-    font-size:14px;
-    color:#555;
-    line-height:1.7;
-">
-    <strong>Disclaimer:</strong> The Lumpsum Investment Calculator on SmartPlan Finance provides estimated future values based on the investment amount, expected rate of return, and investment period entered by the user. Actual investment returns are not guaranteed and may vary due to market performance, investment product selection, taxes, expenses, and other factors. SmartPlan Finance does not recommend any investment product or provide financial advice. Please consult a qualified financial advisor before making investment decisions.
-</div>
-{% endif %}
-<div style="margin-top:20px; text-align:center;">
-    <a href="{{ url_for('index') }}"
-       style="
-            display:inline-block;
-            background:#f4b400;
-            color:white;
-            padding:12px 28px;
-            border-radius:10px;
-            text-decoration:none;
-            font-weight:600;
-            box-shadow:0 4px 10px rgba(0,0,0,.15);
-       ">
-        ← Back to Home
-    </a>
-</div>
- <div class="partner-section">
-            {% include "partials/_partner_cta.html" %}
+    <!-- Enhanced Header -->
+    <div class="header-section">
+        <div class="header-subtitle">💡 Investment Calculator</div>
+        <h1>💰 Lumpsum Investment Calculator</h1>
+        <p>Estimate how much your one-time investment can grow over time through the power of compounding returns. See your wealth multiply with long-term strategic investing.</p>
+    </div>
+
+    <!-- Education Card -->
+    <div class="education-card">
+        <h2>📈 Why Lumpsum Investing Matters</h2>
+        <p>A lumpsum investment allows you to deploy capital immediately and benefit from long-term compounding. Whether you have received a bonus, inheritance, or windfall, investing it wisely can significantly accelerate your wealth creation journey. This calculator helps you visualize the growth potential of your investment.</p>
+    </div>
+
+    <!-- Form Section -->
+    <div class="form-card">
+        <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <div class="form-group">
+                <label for="investment">One-Time Investment (₹)</label>
+                <input type="number" id="investment" name="investment" placeholder="100000" required min="1000">
+            </div>
+
+            <div class="form-group">
+                <label for="return_rate">Expected Annual Return (%)</label>
+                <input type="number" id="return_rate" name="return_rate" step="0.01" placeholder="12" required min="0" max="30">
+            </div>
+
+            <div class="form-group">
+                <label for="years">Investment Period (Years)</label>
+                <input type="number" id="years" name="years" step="0.5" placeholder="15" required min="0.5" max="60">
+            </div>
+
+            <button type="submit">Calculate Future Value</button>
+        </form>
+    </div>
+
+    <!-- Results Section -->
+    {% if result %}
+        {% if result.error %}
+            <div class="error-message">
+                {{ result.error }}
+            </div>
+        {% else %}
+            <div class="results">
+                <div class="cards">
+                    <div class="card">
+                        <h2>₹ {{ "{:,.2f}".format(result.investment) }}</h2>
+                        <p>Initial Investment</p>
+                    </div>
+
+                    <div class="card">
+                        <h2>₹ {{ "{:,.2f}".format(result.future_value) }}</h2>
+                        <p>Future Value</p>
+                    </div>
+
+                    <div class="card">
+                        <h2>₹ {{ "{:,.2f}".format(result.wealth_gained) }}</h2>
+                        <p>Total Wealth Gained</p>
+                    </div>
+                </div>
+
+                <h3 class="results-heading">📊 Year-wise Growth</h3>
+                <table>
+                    <tr>
+                        <th>Year</th>
+                        <th>Investment Value (₹)</th>
+                    </tr>
+                    {% for row in result.yearly_growth %}
+                    <tr>
+                        <td>{{ row.year }}</td>
+                        <td>{{ "{:,.2f}".format(row.value) }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+                <!-- SmartPlan Insight -->
+                <div class="insight-box">
+                    <h3>💡 SmartPlan Finance Insight</h3>
+                    <p>
+                        A one-time investment of <strong>₹ {{ "{:,.0f}".format(result.investment) }}</strong> 
+                        growing at <strong>{{ result.return_rate }}%</strong> 
+                        for <strong>{{ result.years }}</strong> years 
+                        could become <strong>₹ {{ "{:,.2f}".format(result.future_value) }}</strong>. 
+                        This represents a wealth gain of <strong>₹ {{ "{:,.2f}".format(result.wealth_gained) }}</strong>. 
+                        Long-term investing allows the power of compounding to significantly increase your wealth over time.
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <strong>⚠️ Disclaimer:</strong> The Lumpsum Investment Calculator on SmartPlan Finance provides estimated future values based on the investment amount, expected rate of return, and investment period entered by you. Actual investment returns are not guaranteed and may vary due to market performance, investment product selection, taxes, expenses, and other factors. SmartPlan Finance does not recommend any investment product or provide financial advice. Please consult a qualified financial advisor before making investment decisions.
         </div>
+    {% endif %}
+
+    <!-- Recommended Calculators Section -->
+    <div class="recommended-section">
+        <h2 class="section-heading">🔧 Recommended Calculators</h2>
+        <p class="section-subtitle">Explore other investment planning tools</p>
+        
+        <div class="calc-grid">
+            <!-- SIP Calculator -->
+            <div class="calc-card">
+                <div class="calc-icon">📊</div>
+                <div class="calc-content">
+                    <h3 class="calc-name">SIP Calculator</h3>
+                    <p class="calc-description">Calculate the future value of your monthly systematic investments. Perfect for building wealth through disciplined, regular investments over time.</p>
+                    <a href="https://smartplanfinance.com/sip-calculator" class="calc-link">Use SIP Calculator</a>
+                </div>
+            </div>
+
+            <!-- FD Calculator -->
+            <div class="calc-card">
+                <div class="calc-icon">🏦</div>
+                <div class="calc-content">
+                    <h3 class="calc-name">FD Calculator</h3>
+                    <p class="calc-description">Estimate returns on your Fixed Deposit investments. Get accurate calculations including compound interest for various FD tenures and rates.</p>
+                    <a href="https://smartplanfinance.com/fd_calculator" class="calc-link">Use FD Calculator</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Articles Section -->
+    <div class="articles-section">
+        <h2 class="section-heading">📚 Related Articles</h2>
+        <p class="section-subtitle">Deepen your investment knowledge</p>
+        
+        <div class="articles-grid">
+            <!-- Article 1 -->
+            <div class="article-card">
+                <div class="article-icon">⚖️</div>
+                <div class="article-content">
+                    <span class="article-tag">Comparison Guide</span>
+                    <h3 class="article-title">SIP vs Lumpsum: Which is Preferable for Your Wealth?</h3>
+                    <p class="article-description">Understand the key differences between Systematic Investment Plans and lumpsum investments. Learn which strategy suits your financial situation, risk appetite, and investment goals better.</p>
+                    <a href="https://smartplanfinance.com/blog/sip-vs-lumpsum-which-is-preferable-for-your-wealth" target="_blank" class="article-link">
+                        Read Article
+                        <span class="article-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Home -->
+    <div class="back-home-container">
+        <a href="{{ url_for('index') }}" class="back-home">← Back to Home</a>
+    </div>
+
+    <!-- Partner Section -->
+    <div class="partner-section">
+        {% include "partials/_partner_cta.html" %}
+    </div>
+
 </div>
 
 </body>
