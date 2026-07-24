@@ -629,6 +629,44 @@
                 padding: 8px;
             }
         }
+        @media(max-width:768px){
+
+.metric-value{
+font-size:22px;
+}
+
+.summary-item-value{
+font-size:16px;
+}
+
+.sustainability-grid{
+grid-template-columns:1fr;
+}
+
+.card{
+padding:18px;
+}
+
+.header-section h1{
+font-size:30px;
+}
+
+.header-section p{
+font-size:15px;
+}
+
+.submit-btn{
+font-size:17px;
+padding:16px;
+}
+
+.back-home{
+display:block;
+margin-top:15px;
+text-align:center;
+}
+
+}
     </style>
 
 </head>
@@ -638,10 +676,33 @@
     <div class="container">
         <!-- Header -->
         <div class="header-section">
-            <h1>💸 SWP Calculator</h1>
-            <p>Calculate how long your retirement corpus will last with systematic monthly withdrawals</p>
-        </div>
+            <div class="header-section">
 
+<h1>💸 SWP Calculator</h1>
+
+<p>
+
+Estimate how long your investment corpus can support monthly withdrawals while accounting for expected returns, inflation, and annual withdrawal increases.
+
+</p>
+
+</div>
+        </div>
+<div class="card" style="margin-bottom:25px;border-left:5px solid #B8860B;">
+
+<h2 style="margin-bottom:15px;color:#B8860B;">
+Why Use This SWP Calculator?
+</h2>
+
+<p style="line-height:1.8;color:#555;">
+
+A Systematic Withdrawal Plan (SWP) allows you to withdraw a fixed amount from your investments every month while the remaining balance continues to earn returns.
+
+This calculator helps estimate how long your retirement corpus may last under different withdrawal and market return assumptions.
+
+</p>
+
+</div>
         <!-- Input Form -->
         <div class="form-card">
             <form method="POST" id="swpForm">
@@ -842,6 +903,7 @@
             {% endif %}
 
         </div>
+       
         {% endif %}
 
         <!-- Partner CTA -->
