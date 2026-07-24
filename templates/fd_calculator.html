@@ -150,6 +150,79 @@
     padding:20px;
     border-radius:10px;
 }
+.education-card{
+
+max-width:700px;
+margin:35px auto;
+background:#fff;
+padding:28px;
+border-radius:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.06);
+border-left:5px solid #B8860B;
+
+}
+
+.education-card h2{
+
+color:#B8860B;
+margin-bottom:15px;
+
+}
+
+.education-card p,
+.education-card li{
+
+line-height:1.9;
+color:#555;
+
+}
+
+@media(max-width:768px){
+
+.education-card{
+
+padding:22px;
+margin:25px 0;
+
+}
+}
+.related-links{
+
+margin-top:15px;
+
+}
+
+.related-links a{
+
+display:block;
+padding:14px 18px;
+margin-bottom:12px;
+
+background:#FFF8E1;
+
+border-left:4px solid #B8860B;
+
+border-radius:10px;
+
+text-decoration:none;
+
+color:#444;
+
+font-weight:600;
+
+transition:.25s;
+
+}
+
+.related-links a:hover{
+
+background:#FFF3CD;
+
+transform:translateX(5px);
+
+}
+
+
 
     </style>
 
@@ -161,12 +234,34 @@
 
 <h1>🏦 Fixed Deposit Calculator</h1>
 
-<p class="subtitle">
+<p class="subtitle" style="
+max-width:700px;
+margin:18px auto 35px;
+line-height:1.9;
+font-size:17px;
+color:#666;
+">
 
-Calculate the maturity amount and interest earned on your Fixed Deposit.
+Estimate your Fixed Deposit maturity amount, total interest earned, and overall returns in seconds. SmartPlan Finance helps you compare investment outcomes and make informed decisions for your short and medium-term financial goals.
+
+</p>
+<div class="education-card">
+
+<h2>💰 What is a Fixed Deposit?</h2>
+
+<p>
+
+A Fixed Deposit (FD) is a savings instrument offered by banks and financial institutions where you invest a lump sum for a fixed period at a predetermined interest rate. At maturity, you receive your original investment along with the accumulated interest.
 
 </p>
 
+<p>
+
+Fixed Deposits are commonly used by investors seeking relatively stable returns and capital preservation.
+
+</p>
+
+</div>
 <form method="POST">
 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
@@ -284,6 +379,104 @@ Calculate FD Returns
     line-height:1.7;
 ">
     <strong>Disclaimer:</strong> The Fixed Deposit Calculator on SmartPlan Finance provides estimated results based on the information you enter and standard compound interest calculations. Actual maturity amounts and interest earned may vary depending on the bank or financial institution's interest rates, compounding frequency, tenure calculation, applicable taxes, and other terms and conditions. SmartPlan Finance does not guarantee the accuracy of returns, recommend or endorse any specific Fixed Deposit product, or provide investment advice. Please consult your bank or a qualified financial advisor before making any investment decisions.
+</div>
+<div class="education-card">
+
+<h2>📖 Understanding Your FD Results</h2>
+
+<p>
+
+Your maturity amount is made up of two components:
+
+</p>
+
+<ul>
+
+<li>Your original deposit amount.</li>
+
+<li>The interest earned during the investment period.</li>
+
+</ul>
+
+<p>
+
+Generally, higher interest rates and longer investment durations result in greater maturity values due to the effect of compounding.
+
+</p>
+
+</div>
+<div class="education-card">
+
+<h2>✅ Benefits of Fixed Deposits</h2>
+
+<ul>
+
+<li>Predictable returns.</li>
+
+<li>Capital preservation.</li>
+
+<li>Suitable for conservative investors.</li>
+
+<li>Flexible investment tenures.</li>
+
+<li>Simple and easy to understand.</li>
+
+</ul>
+
+</div>
+<div class="education-card">
+
+<h2>⚠ Things to Consider Before Investing</h2>
+
+<ul>
+
+<li>Compare interest rates offered by different banks.</li>
+
+<li>Check premature withdrawal rules.</li>
+
+<li>Understand taxation on interest income.</li>
+
+<li>Consider inflation while planning long-term investments.</li>
+
+<li>Review your liquidity requirements before locking your funds.</li>
+
+</ul>
+
+</div>
+<div class="education-card">
+
+<h2>📚 Continue Learning</h2>
+
+<div class="related-links">
+
+<a href="https://smartplanfinance.com/blog/best-fixed-deposit-interest-rates-in-india-2026-fd-returns-calculator">
+📖 Best Fixed Deposit Interest Rates in India (2026)
+</a>
+
+<a href="https://smartplanfinance.com/blog/fixed-deposit-calculator-calculate-fd-maturity-amount-online-2026-guide">
+📖 Complete Guide to Fixed Deposits
+</a>
+<a href="{{ url_for('lumpsum_calculator') }}">
+🧮 Lumpsum Investment Calculator
+</a>
+<a href="{{ url_for('sip_calculator') }}">
+📈 SIP Calculator
+</a>
+
+</div>
+
+
+
+<div class="education-card">
+
+<h2>💡 SmartPlan Finance Insight</h2>
+
+<p>
+
+A Fixed Deposit can provide stability to your portfolio, but its returns may not always outpace inflation over long periods. Many investors use Fixed Deposits alongside other investment options to balance stability, liquidity, and long-term growth based on their financial goals and risk tolerance.
+
+</p>
+
 </div>
 {% endif %}
 {% include "partials/_partner_cta.html" %}
