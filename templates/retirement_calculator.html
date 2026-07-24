@@ -19,7 +19,8 @@
 
     <link rel="manifest"
           href="{{ url_for('static', filename='icons/site.webmanifest') }}">
-    <title>Retirement Calculator | SmartPlan Finance</title>
+    
+
 
     <style>
         * {
@@ -40,22 +41,64 @@
             margin: 0 auto;
         }
 
+        /* Enhanced Header Section */
         .header-section {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, rgba(184, 134, 11, 0.08) 0%, rgba(255, 193, 7, 0.05) 100%);
+            padding: 50px 30px;
+            border-radius: 20px;
+            border: 2px solid rgba(184, 134, 11, 0.1);
+        }
+
+        .header-subtitle {
+            font-size: 13px;
+            color: #B8860B;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            margin-bottom: 12px;
         }
 
         .header-section h1 {
             color: #B8860B;
-            font-size: 36px;
-            margin-bottom: 10px;
-            font-weight: 700;
+            font-size: 42px;
+            margin-bottom: 16px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .header-section p {
-            color: #666;
-            font-size: 16px;
-            line-height: 1.6;
+            color: #555;
+            font-size: 17px;
+            line-height: 1.8;
+            max-width: 650px;
+            margin: 0 auto;
+            font-weight: 500;
+        }
+
+        /* Education Card */
+        .education-card {
+            background: linear-gradient(135deg, #FFFEF9 0%, #F0F7FF 100%);
+            padding: 32px 28px;
+            border-radius: 16px;
+            border: 2px solid #FFE082;
+            margin-bottom: 40px;
+            border-left: 6px solid #B8860B;
+        }
+
+        .education-card h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 14px;
+            font-weight: 700;
+        }
+
+        .education-card p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.8;
+            margin: 0;
         }
 
         /* Form Section */
@@ -562,6 +605,111 @@
             transform: translateY(-2px);
         }
 
+        /* Related Articles Section */
+        .related-articles-section {
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+
+        .related-articles-section h2 {
+            color: #333;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .related-articles-subtitle {
+            color: #999;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            border-color: #B8860B;
+        }
+
+        .article-icon {
+            background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
+            color: white;
+            padding: 24px;
+            text-align: center;
+            font-size: 32px;
+        }
+
+        .article-content {
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-tag {
+            font-size: 11px;
+            color: #B8860B;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .article-title {
+            color: #333;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .article-description {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            flex-grow: 1;
+        }
+
+        .article-link {
+            color: #B8860B;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
+        }
+
+        .article-link:hover {
+            color: #8B6400;
+            gap: 10px;
+        }
+
+        .article-arrow {
+            font-size: 14px;
+        }
+
         /* Partner Section */
         .partner-section {
             margin-top: 40px;
@@ -585,8 +733,16 @@
                 padding: 16px;
             }
 
+            .header-section {
+                padding: 40px 20px;
+            }
+
             .header-section h1 {
                 font-size: 28px;
+            }
+
+            .header-section p {
+                font-size: 15px;
             }
 
             .form-card {
@@ -633,6 +789,37 @@
             .cta-link {
                 width: 100%;
             }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .article-card {
+                display: grid;
+                grid-template-columns: 80px 1fr;
+            }
+
+            .article-icon {
+                padding: 16px;
+                font-size: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .article-content {
+                padding: 16px;
+            }
+
+            .article-title {
+                font-size: 14px;
+            }
+
+            .article-description {
+                font-size: 12px;
+                margin-bottom: 12px;
+            }
         }
     </style>
 
@@ -641,10 +828,17 @@
 <body>
 
     <div class="container">
-        <!-- Header -->
+        <!-- Enhanced Header -->
         <div class="header-section">
-            <h1>🏖️ Retirement Calculator</h1>
-            <p>Plan your retirement corpus and monthly investment needed to achieve your dream retirement</p>
+            <div class="header-subtitle">📊 Financial Planning Tool</div>
+            <h1>🏖 Retirement Calculator</h1>
+            <p>Plan for a financially secure retirement with confidence. The SmartPlan Finance Retirement Calculator helps you estimate the retirement corpus you may need, understand the impact of inflation, and calculate the monthly investment required to achieve your retirement goals.</p>
+        </div>
+
+        <!-- Education Card -->
+        <div class="education-card">
+            <h2>🌅 Why Retirement Planning Matters</h2>
+            <p>Retirement planning is one of the most important long-term financial goals. As life expectancy increases and inflation continues to affect the cost of living, building a retirement corpus early can help maintain your lifestyle after you stop working. This calculator provides an estimate to help you plan ahead with greater confidence.</p>
         </div>
 
         <!-- Input Form -->
@@ -834,7 +1028,43 @@
                 <strong>⚠️ Important Disclaimer:</strong> This retirement calculator provides educational estimates based on your assumptions. Actual retirement planning should consider taxes, healthcare expenses, pension benefits, insurance needs, and lifestyle changes. Please consult with a qualified financial advisor before making investment decisions.
             </div>
         </div>
+        
         {% endif %}
+
+        <!-- Related Articles Section -->
+        <div class="related-articles-section">
+            <h2>📚 Related Articles</h2>
+            <p class="related-articles-subtitle">Deepen your retirement planning knowledge</p>
+            <div class="articles-grid">
+                <!-- Article 1 -->
+                <div class="article-card">
+                    <div class="article-icon">📋</div>
+                    <div class="article-content">
+                        <span class="article-tag">Guide</span>
+                        <h3 class="article-title">Retirement Calculator: How Much Money Do You Need to Retire Comfortably?</h3>
+                        <p class="article-description">Learn the complete guide to calculating your retirement corpus, understanding retirement needs, and building a solid financial foundation for your post-retirement years.</p>
+                        <a href="https://smartplanfinance.com/blog/retirement-calculator-how-much-money-do-you-need-to-retire-comfortably-2026-guide" target="_blank" class="article-link">
+                            Read Article
+                            <span class="article-arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Article 2 -->
+                <div class="article-card">
+                    <div class="article-icon">💰</div>
+                    <div class="article-content">
+                        <span class="article-tag">Strategy</span>
+                        <h3 class="article-title">How to Retire Rich: 12 Proven Steps to Build Lasting Wealth</h3>
+                        <p class="article-description">Discover actionable strategies and proven methods used by wealth builders to accumulate and preserve wealth throughout their working years and beyond.</p>
+                        <a href="https://smartplanfinance.com/blog/how-to-retire-rich-12-proven-steps-to-build-lasting-wealth-2026" target="_blank" class="article-link">
+                            Read Article
+                            <span class="article-arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Partner CTA -->
         <div class="partner-section">
