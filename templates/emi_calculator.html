@@ -125,13 +125,48 @@
 
 <div class="container">
 
-    <h1>EMI Calculator</h1>
+    <h1>🏠 Loan EMI Calculator</h1>
 
-    <p class="subtitle"> 
+<p class="subtitle" style="
+max-width:700px;
+margin:18px auto 35px;
+line-height:1.9;
+font-size:17px;
+color:#666;
+">
 
-        Calculate your Home Loan, Car Loan or Personal Loan EMI instantly.
+Plan your loan repayments with confidence using the SmartPlan Finance EMI Calculator. Estimate your monthly EMI, total interest payable, and total repayment amount for home, car, education, or personal loans in just a few seconds.
 
-    </p>
+</p>
+<div class="education-card">
+
+<h2>💳 What is an EMI?</h2>
+
+<p>
+
+An Equated Monthly Installment (EMI) is the fixed amount you pay every month to repay a loan. Each EMI consists of two components:
+
+</p>
+
+<ul>
+
+<li>Principal repayment</li>
+
+<li>Interest charged by the lender</li>
+
+</ul>
+
+<p>
+
+This calculator helps you estimate your monthly repayment so you can plan your finances before applying for a loan.
+
+</p>
+
+</div>
+<title>Loan EMI Calculator | SmartPlan Finance</title>
+
+<meta name="description"
+content="Free EMI Calculator by SmartPlan Finance. Calculate your monthly loan EMI, total interest payable, and repayment amount for home, car, personal, and education loans.">
 
     <form action="{{ url_for('emi_calculator') }}" method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
@@ -213,6 +248,71 @@
     line-height:1.7;
 ">
     <strong>Disclaimer:</strong> The Loan EMI Calculator on SmartPlan Finance provides estimated EMI, total interest, and repayment amounts based on the loan amount, interest rate, and tenure entered by the user. Actual loan repayments may vary depending on your lender's policies, interest rate changes, processing fees, prepayments, foreclosure charges, taxes, and other applicable terms. SmartPlan Finance does not recommend any loan product or lender and does not provide financial advice. Please verify loan details with your financial institution before making borrowing decisions.
+</div>
+<div class="education-card">
+
+<h2>📖 Understanding Your EMI Result</h2>
+
+<p>
+
+Your monthly EMI depends on three factors:
+
+</p>
+
+<ul>
+
+<li>Loan Amount</li>
+
+<li>Interest Rate</li>
+
+<li>Loan Tenure</li>
+
+</ul>
+
+<p>
+
+Generally, longer loan tenures reduce monthly EMIs but increase the total interest paid over the life of the loan.
+
+</p>
+
+</div>
+<div class="education-card">
+
+<h2>✅ Benefits of Using an EMI Calculator</h2>
+
+<ul>
+
+<li>Estimate monthly repayments instantly.</li>
+
+<li>Compare different loan amounts.</li>
+
+<li>Understand total borrowing costs.</li>
+
+<li>Plan your monthly budget better.</li>
+
+<li>Borrow responsibly.</li>
+
+</ul>
+
+</div>
+<div class="education-card">
+
+<h2>💡 Smart Borrowing Tips</h2>
+
+<ul>
+
+<li>Choose the shortest affordable loan tenure.</li>
+
+<li>Maintain a healthy credit score.</li>
+
+<li>Compare lenders before borrowing.</li>
+
+<li>Avoid taking loans beyond your repayment capacity.</li>
+
+<li>Consider prepayments whenever possible.</li>
+
+</ul>
+
 </div>
 {% endif %}
 {% include "partials/_partner_cta.html" %}
