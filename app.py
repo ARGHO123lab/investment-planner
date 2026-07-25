@@ -3488,13 +3488,13 @@ def download_book():
         return "Payment required. Please purchase the book first.", 403
 
 
-    file_path = "private_books/SmartMoneyBluePrint.pdf"
+    file_path = "private_books/SmartPlanFinance.pdf"
 
 
     return send_file(
         file_path,
         as_attachment=True,
-        download_name="SmartMoneyBlueprint.pdf"
+        download_name="SmartPlanFinance.pdf"
     )
 @app.route("/download-report")
 @login_required
