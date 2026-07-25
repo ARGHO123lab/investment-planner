@@ -714,6 +714,21 @@ gap:15px;
 {% include "partials/_partner_cta.html" %}
 
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Scroll only after a POST submission when results exist
+    const resultsSection = document.getElementById('results-section');
 
+    if (resultsSection && window.location.search === '') {
+        // Small delay ensures layout is fully rendered
+        setTimeout(() => {
+            resultsSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }, 100);
+    }
+});
+</script>
 </body>
 </html>

@@ -574,6 +574,7 @@
 
     <!-- CALCULATION RESULTS - ONLY VISIBLE AFTER CLICKING CALCULATE -->
     {% if result %}
+    <div id="results-section">
 
     <div class="success-banner">
         <h2>✓ Your EMI Calculation Result</h2>
@@ -610,7 +611,7 @@
             <strong>Prepayment Strategy:</strong> If possible, make additional payments toward the principal during your loan tenure. Even small prepayments can significantly reduce total interest and help you become debt-free earlier.
         </p>
     </div>
-
+    </div>
     {% endif %}
 
     <!-- How to Use This Calculator -->
@@ -726,5 +727,20 @@
 </div>
 
 </body>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Scroll only after a POST submission when results exist
+    const resultsSection = document.getElementById('results-section');
 
+    if (resultsSection && window.location.search === '') {
+        // Small delay ensures layout is fully rendered
+        setTimeout(() => {
+            resultsSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }, 100);
+    }
+});
+</script>
 </html>

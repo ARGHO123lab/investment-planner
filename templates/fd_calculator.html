@@ -658,6 +658,7 @@
 
     <!-- Calculation Results - Only Visible After Calculate -->
     {% if result %}
+    <div id="results-section">
 
     <div class="success-banner">
         <h2>✓ Your FD Calculation Result</h2>
@@ -735,6 +736,7 @@
     <div class="smart-tip">
         <h3>🤖 SmartPlan Insight</h3>
         <p>{{ result.insight }}</p>
+    </div>
     </div>
 
     {% endif %}
@@ -849,7 +851,22 @@
     </div>
 
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Scroll only after a POST submission when results exist
+    const resultsSection = document.getElementById('results-section');
 
+    if (resultsSection && window.location.search === '') {
+        // Small delay ensures layout is fully rendered
+        setTimeout(() => {
+            resultsSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }, 100);
+    }
+});
+</script>
 </body>
 
 </html>

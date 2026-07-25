@@ -297,6 +297,7 @@ required>
 </div>
 
     {% if result %}
+    <div id="results-section">
 
 <div class="result-box">
 
@@ -313,7 +314,7 @@ Based on your monthly investment and expected returns.
 </p>
 
 </div>
-
+    </div>
 {% endif %}
 {% if result %}
 
@@ -498,7 +499,22 @@ However, because of compounding, his investment could potentially grow to approx
 
 </html>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Scroll only after a POST submission when results exist
+    const resultsSection = document.getElementById('results-section');
 
+    if (resultsSection && window.location.search === '') {
+        // Small delay ensures layout is fully rendered
+        setTimeout(() => {
+            resultsSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }, 100);
+    }
+});
+</script>
 </body>
 
 </html>

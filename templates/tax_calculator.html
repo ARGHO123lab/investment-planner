@@ -562,6 +562,8 @@
 
         <!-- Results Section (shown after calculation) -->
         {% if result %}
+        <div id="results-section">
+
         <div class="results-section show">
             <!-- Tax Report Header -->
             <h2 style="text-align: center; color: #B8860B; font-size: 22px; margin-bottom: 24px;">📄 Personalized Income Tax Report</h2>
@@ -716,12 +718,14 @@
                     <p>Based on your income, the <strong>New Tax Regime</strong> provides a lower overall tax burden. Unless you have significant deductions, this regime is likely to be more beneficial.</p>
                 {% endif %}
             </div>
+        
 
             <!-- Action Buttons -->
             <div class="action-buttons">
                 <a href="{{ url_for('tax_calculator') }}" class="action-btn">🧾 Calculate Again</a>
                 <a href="#" onclick="window.print(); return false;" class="action-btn">🖨 Print Report</a>
             </div>
+        </div>
         </div>
         {% endif %}
 
@@ -829,7 +833,22 @@
         </div>
 
     </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Scroll only after a POST submission when results exist
+    const resultsSection = document.getElementById('results-section');
 
+    if (resultsSection && window.location.search === '') {
+        // Small delay ensures layout is fully rendered
+        setTimeout(() => {
+            resultsSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }, 100);
+    }
+});
+</script>
 </body>
 
 </html>
