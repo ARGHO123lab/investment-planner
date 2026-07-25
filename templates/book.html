@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Smart Money Blueprint | SmartPlan Finance</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f8fafc;color:#1f2937}
+header{
+
+background:
+
+radial-gradient(circle at top right,
+rgba(255,255,255,.35),
+transparent 35%),
+
+linear-gradient(
+135deg,
+#FFFDF6 0%,
+#F8E9A1 40%,
+#D4AF37 100%
+);
+
+color:#1F2937;
+
+padding:100px 20px;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+header::before{
+
+content:"";
+
+position:absolute;
+
+width:700px;
+
+height:700px;
+
+border-radius:50%;
+
+background:rgba(255,255,255,.18);
+
+top:-250px;
+
+right:-150px;
+
+}
+
+header::after{
+
+content:"";
+
+position:absolute;
+
+width:500px;
+
+height:500px;
+
+border-radius:50%;
+
+background:rgba(255,255,255,.10);
+
+bottom:-220px;
+
+left:-120px;
+
+}
+.container{max-width:1200px;margin:auto;padding:0 20px}
+.hero img{width:100%;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.btn{
+
+display:inline-flex;
+
+align-items:center;
+
+justify-content:center;
+
+padding:16px 34px;
+
+border-radius:50px;
+
+background:linear-gradient(135deg,#B8860B,#D4AF37);
+
+color:white;
+
+font-weight:700;
+
+font-size:17px;
+
+text-decoration:none;
+
+transition:.35s;
+
+box-shadow:0 15px 35px rgba(184,134,11,.35);
+min-width:250px;
+
+font-size:18px;
+
+padding:18px 35px;
+
+}
+section{
+
+padding:90px 0;
+
+border-bottom:1px solid #ececec;
+
+}
+
+.btn:hover{
+
+transform:translateY(-5px);
+
+box-shadow:0 25px 50px rgba(184,134,11,.45);
+
+}
+h1{
+
+font-size:58px;
+
+line-height:1.1;
+
+font-weight:800;
+
+margin-bottom:20px;
+
+}
+
+.hero p{
+
+font-size:20px;
+
+line-height:1.8;
+
+color:#374151;
+
+max-width:650px;
+
+}
+section{padding:70px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px}
+.card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 12px 30px rgba(0,0,0,.08)}
+footer{
+
+background:linear-gradient(135deg,#FFF8E1,#C89B2A);
+
+padding:50px;
+
+text-align:center;
+
+font-size:16px;
+
+font-weight:600;
+
+color:#2D3748;
+
+margin-top:70px;
+
+}
+section h2{
+
+font-size:42px;
+
+margin-bottom:45px;
+
+text-align:center;
+
+color:#7A5A00;
+
+position:relative;
+
+}
+
+section h2::after{
+
+content:"";
+
+display:block;
+
+width:90px;
+
+height:4px;
+
+background:#D4AF37;
+
+margin:15px auto;
+
+border-radius:20px;
+
+}
+.card{
+
+background:linear-gradient(135deg,#FFF8E1,#F8E6A0);
+
+border:2px solid #D4AF37;
+
+border-radius:18px;
+
+padding:24px;
+
+box-shadow:0 15px 35px rgba(212,175,55,.25);
+
+transition:.35s;
+
+}
+
+.card:hover{
+
+transform:translateY(-8px);
+
+box-shadow:0 22px 45px rgba(212,175,55,.40);
+
+}
+.card h3{
+
+color:#7A5A00;
+
+margin-bottom:12px;
+
+font-size:22px;
+
+font-weight:700;
+
+}
+
+.card p{
+
+color:#4B5563;
+
+line-height:1.8;
+
+}
+.card{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.card::before{
+
+content:"";
+
+position:absolute;
+
+top:-100%;
+
+left:-60%;
+
+width:60%;
+
+height:300%;
+
+background:rgba(255,255,255,.25);
+
+transform:rotate(25deg);
+
+transition:.7s;
+
+}
+
+.card:hover::before{
+
+left:140%;
+
+}
+.hero{
+
+text-align:center;
+
+max-width:850px;
+
+margin:auto;
+
+}
+
+.book-cover{
+
+width:380px;
+
+max-width:100%;
+
+border-radius:20px;
+
+box-shadow:0 30px 70px rgba(0,0,0,.35);
+
+transition:.35s;
+
+}
+
+.book-cover:hover{
+
+transform:translateY(-8px) scale(1.02);
+
+}
+
+.subtitle{
+
+font-size:22px;
+
+line-height:1.8;
+
+max-width:700px;
+
+margin:auto;
+
+margin-bottom:35px;
+
+}
+
+.badges{
+
+display:flex;
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+gap:18px;
+
+margin:35px 0;
+
+font-weight:bold;
+
+}
+
+.badges span{
+
+background:white;
+
+padding:12px 20px;
+
+border-radius:40px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.price-box{
+
+display:inline-block;
+
+background:white;
+
+padding:28px 45px;
+
+border-radius:18px;
+
+margin:25px 0;
+
+box-shadow:0 20px 45px rgba(0,0,0,.12);
+
+}
+
+.small{
+
+color:#777;
+
+font-size:17px;
+
+}
+
+.price{
+
+font-size:56px;
+
+font-weight:800;
+
+color:#B8860B;
+
+margin:10px 0;
+
+}
+
+.buttons{
+
+display:flex;
+
+justify-content:center;
+
+gap:18px;
+
+flex-wrap:wrap;
+
+margin-top:35px;
+
+}
+
+.btn.dark{
+
+background:#1F2937;
+
+}
+
+.preview-note{
+
+margin-top:25px;
+
+font-size:17px;
+
+color:#555;
+
+}
+@media(max-width:768px){.hero{grid-template-columns:1fr;text-align:center}}
+</style>
+</head>
+<body>
+<header>
+
+<div class="container">
+
+<div class="hero">
+<div style="margin-bottom:20px;">
+
+<span style="
+background:#2E7D32;
+color:white;
+padding:10px 18px;
+border-radius:50px;
+font-weight:bold;
+">
+
+📘 SmartPlan Finance Exclusive
+
+</span>
+
+</div>
+<img
+class="book-cover"
+src="{{ url_for('static', filename='images/SmartMoneyBluePrint.png') }}"
+alt="Smart Money Blueprint">
+
+<h1>
+
+Master Your Money.
+Build Your Wealth.
+
+</h1>
+
+<h2 style="
+font-size:34px;
+color:#7A5A00;
+margin-top:-10px;
+margin-bottom:25px;
+">
+
+Smart Money Blueprint
+
+</h2>
+
+<p class="subtitle">
+
+A Practical Guide to Building Wealth,
+Managing Money and Achieving Financial Freedom.
+
+</p>
+
+<div class="badges">
+
+<span>⭐⭐⭐⭐⭐ Beginner Friendly</span>
+
+<span>📘 450+ Pages</span>
+
+<span>⚡ Instant PDF Download</span>
+
+<span>🔒 Secure Razorpay Payment</span>
+
+</div>
+
+<div class="price-box">
+
+<div class="small">
+
+One-time Purchase
+
+</div>
+
+<div class="price">
+
+₹299
+
+</div>
+<div style="margin-top:20px;">
+
+⭐⭐⭐⭐⭐
+
+<br><br>
+
+Trusted by readers beginning their financial journey.
+
+</div>
+<div>
+
+Lifetime PDF Access
+
+</div>
+
+</div>
+
+<div class="buttons">
+
+<a class="btn"
+href="{{ url_for('checkout') }}">
+
+🛒 Buy Now
+
+</a>
+
+<a class="btn dark"
+
+href="{{ url_for('book_preview') }}"
+
+target="_blank">
+
+📖 Read First 50 Pages Free
+
+</a>
+
+</div>
+
+<p class="preview-note">
+
+Read the first <strong>50 pages free</strong>.
+Purchase the complete 450+ page book for just ₹299.
+
+</p>
+
+</div>
+
+</div>
+
+</header>
+
+<section class="container">
+<h2>What You'll Learn</h2>
+<div class="grid">
+<div class="card"><h3>Budgeting</h3><p>Build a strong financial foundation.</p></div>
+<div class="card"><h3>Investing</h3><p>Mutual funds, stocks and long-term wealth.</p></div>
+<div class="card"><h3>Tax Planning</h3><p>Optimize legally and efficiently.</p></div>
+<div class="card"><h3>Retirement</h3><p>Create lasting financial independence.</p></div>
+</div>
+</section>
+
+<section class="container">
+<h2>Who This Book Is For</h2>
+<div class="grid">
+<div class="card">
+<h3>🎓 Students</h3>
+<p>Develop smart financial habits from the beginning of your career.</p>
+</div>
+<div class="card">
+<h3>💼 Working Professionals</h3>
+<p>Learn budgeting, investing and tax planning to grow your wealth.</p>
+</div>
+
+<div class="card">
+<h3>📈 New Investors</h3>
+<p>Understand mutual funds, stocks and long-term investing with confidence.</p>
+</div>
+
+<div class="card">
+<h3>👨‍👩‍👧 Families</h3>
+<p>Create a financial roadmap for your family's future and financial security.</p>
+</div>
+</section>
+
+<section class="container">
+<h2>About the Author</h2>
+<div class="card">
+<h3>👨‍💼 Argho Sanyal</h3>
+<p>Founder of SmartPlan Finance and passionate personal finance educator. Through practical financial planning, investing strategies, and easy-to-understand guidance, his mission is to help individuals and families achieve lasting financial freedom.</p>
+</div>
+</section>
+<section class="container">
+
+<div class="card" style="text-align:center">
+
+<h2>Secure Purchase</h2>
+
+<p>
+
+🔒 Secure Razorpay Payments<br><br>
+
+⚡ Instant PDF Delivery<br><br>
+
+📖 Lifetime Access<br><br>
+
+🇮🇳 Designed for Indian Investors
+
+</p>
+
+</div>
+
+</section>
+<section class="container">
+
+<div class="card" style="text-align:center;padding:50px;">
+
+<h2>Start Your Financial Journey Today</h2>
+
+<p style="font-size:20px;max-width:700px;margin:auto;">
+
+Join readers who are learning to budget smarter, invest confidently, and build long-term wealth.
+
+</p>
+
+<br>
+
+<a class="btn" href="{{ url_for('checkout') }}">
+
+🚀 Get Smart Money Blueprint for ₹299
+
+</a>
+
+</div>
+
+</section>
+<footer>
+
+<div>
+
+© 2026 SmartPlan Finance
+
+</div>
+
+<div style="margin-top:15px;">
+
+Helping Indians Build Wealth Through Smarter Financial Decisions.
+
+</div>
+
+<div style="margin-top:20px;">
+
+<a href="/privacy">Privacy Policy</a> •
+
+<a href="/terms">Terms</a> •
+
+<a href="/disclaimer">Disclaimer</a>
+
+</div>
+
+</footer>
+</body>
+</html>

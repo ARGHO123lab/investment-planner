@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<title>Book Preview</title>
+
+<style>
+
+body{
+
+margin:0;
+
+background:#f4f4f4;
+
+font-family:Arial,sans-serif;
+
+}
+
+#viewer{
+
+max-width:900px;
+
+margin:auto;
+
+padding:30px;
+
+}
+
+canvas{
+
+display:block;
+
+margin:30px auto;
+
+box-shadow:0 10px 25px rgba(0,0,0,.2);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="viewer"></div>
+
+<script type="module">
+
+import * as pdfjsLib from "/static/pdfjs/pdf.mjs";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+"/static/pdfjs/pdf.worker.mjs";
+
+const loadingTask = pdfjsLib.getDocument({
+    url: "/static/SmartMoneyBlueprint.pdf"
+});
+
+const pdf = await loadingTask.promise;
+
+const viewer =
+document.getElementById("viewer");
+
+const maxPages =
+Math.min(pdf.numPages,50);
+
+for(let i=1;i<=maxPages;i++){
+
+const page =
+await pdf.getPage(i);
+
+const viewport =
+page.getViewport({scale:1.4});
+
+const canvas =
+document.createElement("canvas");
+
+const ctx =
+canvas.getContext("2d");
+
+canvas.width =
+viewport.width;
+
+canvas.height =
+viewport.height;
+
+viewer.appendChild(canvas);
+
+await page.render({
+
+canvasContext:ctx,
+
+viewport
+
+}).promise;
+
+}
+
+</script>
+
+</body>
+
+</html>

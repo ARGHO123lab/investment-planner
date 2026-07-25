@@ -1,9 +1,12 @@
 import re
 import os
 import uuid
+import razorpay
 import requests
 import tempfile
 import psycopg2
+import hmac
+import hashlib
 from psycopg2.extras import RealDictCursor
 from datetime import datetime, timedelta
 from flask import Flask, render_template, request, redirect, session, url_for, Response
@@ -33,6 +36,11 @@ from stock_ai import generate_stock_analysis
 logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
+razorpay_client = razorpay.Client(
+    auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET)
+)
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 print("Groq Key Found:", GROQ_API_KEY is not None)
 client = OpenAI(
@@ -3321,6 +3329,171 @@ def generate_stock_advice():
         years=years,
         error=None
     )
+@app.route("/book")
+def book():
+
+    return render_template("book.html")
+@app.route("/buy-book")
+def buy_book():
+    return "<h1>Payment page coming soon</h1>"
+@app.route("/checkout")
+def checkout():
+    return render_template("checkout.html")
+from flask import jsonify
+
+@app.route("/create-order", methods=["POST"])
+def create_order():
+    try:
+        order = razorpay_client.order.create({
+            "amount": 29900,
+            "currency": "INR",
+            "payment_capture": 1
+        })
+
+        return jsonify(order)
+
+    except Exception as e:
+        print("RAZORPAY ERROR:", e)
+        return jsonify({"error": str(e)}), 500
+@app.route("/verify-payment", methods=["POST"])
+def verify_payment():
+
+    try:
+
+        data = request.get_json()
+
+        razorpay_order_id = data["razorpay_order_id"]
+        razorpay_payment_id = data["razorpay_payment_id"]
+        razorpay_signature = data["razorpay_signature"]
+
+        generated_signature = hmac.new(
+            bytes(RAZORPAY_KEY_SECRET, "utf-8"),
+            bytes(
+                razorpay_order_id + "|" + razorpay_payment_id,
+                "utf-8"
+            ),
+            hashlib.sha256
+        ).hexdigest()
+
+        if generated_signature == razorpay_signature:
+            print("✅ Signature verification successful")
+
+
+            # Mark this session as paid
+            session["book_paid"] = True
+            print("✅ Signature verification successful")
+
+            # Save purchase to PostgreSQL
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            print("✅ INSERT executed")
+
+            order_number = f"SPF-{razorpay_payment_id[-8:]}"
+            session["order_number"] = order_number
+
+            cursor.execute("""
+                INSERT INTO book_orders
+                (
+                    order_number,
+                    customer_name,
+                    customer_email,
+                    amount,
+                    currency,
+                    razorpay_order_id,
+                    razorpay_payment_id,
+                    razorpay_signature,
+                    payment_status
+                )
+
+                VALUES
+                (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """,
+            (
+                order_number,
+                session.get("customer_name"),
+                session.get("customer_email"),
+                299,
+                "INR",
+                razorpay_order_id,
+                razorpay_payment_id,
+                razorpay_signature,
+                "SUCCESS"
+            ))
+
+            conn.commit()
+            print("✅ COMMIT successful")
+            cursor.close()
+            conn.close()
+
+            return jsonify({
+                "success": True,
+                "redirect": "/payment-success"
+            })
+
+        else:
+
+            return jsonify({
+                "success": False,
+                "message": "Invalid payment signature"
+            }), 400
+
+    except Exception as e:
+
+        import traceback
+        print("VERIFY ERROR:")
+
+
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+@app.route("/book-preview")
+def book_preview():
+    return render_template("preview.html")
+@app.route("/save-customer-details", methods=["POST"])
+def save_customer_details():
+
+    try:
+
+        data = request.get_json()
+
+        session["customer_name"] = data["name"]
+        session["customer_email"] = data["email"]
+
+        return jsonify({
+            "success": True
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+@app.route("/payment-success")
+def payment_success():
+
+    return render_template(
+        "payment-success.html",
+        customer_name=session.get("customer_name"),
+        order_number=session.get("order_number")
+    )
+@app.route("/download-book")
+def download_book():
+
+    if not session.get("book_paid"):
+
+        return "Payment required. Please purchase the book first.", 403
+
+
+    file_path = "private_books/SmartMoneyBluePrint.pdf"
+
+
+    return send_file(
+        file_path,
+        as_attachment=True,
+        download_name="SmartMoneyBlueprint.pdf"
+    )
 @app.route("/download-report")
 @login_required
 def download_report():
@@ -3452,7 +3625,5 @@ def download_report():
     return response
 if __name__ == "__main__":
     app.run(
-        host="127.0.0.1",
-        port=5001,
         debug=False
     )
