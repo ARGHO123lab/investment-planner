@@ -3355,8 +3355,9 @@ def create_order():
     except Exception as e:
         print("RAZORPAY ERROR:", e)
         return jsonify({"error": str(e)}), 500
-@csrf.exempt
+
 @app.route("/verify-payment", methods=["POST"])
+@csrf.exempt
 def verify_payment():
 
     try:
