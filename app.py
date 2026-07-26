@@ -1464,6 +1464,95 @@ def sip_calculator():
     partners=PAGE_PARTNER_MAP.get('sip_calculator', []),
     PARTNER_LINKS=PARTNER_LINKS
 )
+@app.route('/networth-calculator', methods=['GET', 'POST'])
+def networth_calculator():
+    """
+    NetWorth Calculator - Calculate total net worth by tracking assets and liabilities
+    Formula: Net Worth = Total Assets - Total Liabilities
+    """
+    result = None
+    breakdown = None
+    status = None
+    error = None
+
+    if request.method == 'POST':
+        try:
+            # Assets - Convert form data to float with 0 as default
+            real_estate = float(request.form.get('real_estate', 0) or 0)
+            vehicles = float(request.form.get('vehicles', 0) or 0)
+            savings_account = float(request.form.get('savings_account', 0) or 0)
+            current_investments = float(request.form.get('current_investments', 0) or 0)
+            retirement_account = float(request.form.get('retirement_account', 0) or 0)
+            business_value = float(request.form.get('business_value', 0) or 0)
+            other_assets = float(request.form.get('other_assets', 0) or 0)
+
+            # Liabilities - Convert form data to float with 0 as default
+            mortgage = float(request.form.get('mortgage', 0) or 0)
+            auto_loan = float(request.form.get('auto_loan', 0) or 0)
+            personal_loan = float(request.form.get('personal_loan', 0) or 0)
+            credit_card_debt = float(request.form.get('credit_card_debt', 0) or 0)
+            student_loan = float(request.form.get('student_loan', 0) or 0)
+            other_liabilities = float(request.form.get('other_liabilities', 0) or 0)
+
+            # Calculate totals
+            total_assets = (real_estate + vehicles + savings_account + 
+                          current_investments + retirement_account + 
+                          business_value + other_assets)
+            
+            total_liabilities = (mortgage + auto_loan + personal_loan + 
+                               credit_card_debt + student_loan + other_liabilities)
+
+            # Calculate net worth
+            net_worth = total_assets - total_liabilities
+
+            # Create breakdown for display (only include items with values)
+            breakdown = {
+                'assets': {
+                    'real_estate': real_estate,
+                    'vehicles': vehicles,
+                    'savings_account': savings_account,
+                    'current_investments': current_investments,
+                    'retirement_account': retirement_account,
+                    'business_value': business_value,
+                    'other_assets': other_assets,
+                    'total': total_assets
+                },
+                'liabilities': {
+                    'mortgage': mortgage,
+                    'auto_loan': auto_loan,
+                    'personal_loan': personal_loan,
+                    'credit_card_debt': credit_card_debt,
+                    'student_loan': student_loan,
+                    'other_liabilities': other_liabilities,
+                    'total': total_liabilities
+                }
+            }
+
+            # Format result for display
+            result = "{:,.2f}".format(net_worth)
+            
+            # Determine net worth status
+            if net_worth > 0:
+                status = "positive"
+            elif net_worth < 0:
+                status = "negative"
+            else:
+                status = "neutral"
+
+        except (ValueError, TypeError) as e:
+            error = "Please enter valid numbers in all fields"
+            result = None
+            breakdown = None
+            status = None
+
+    return render_template(
+        'networth_calculator.html',
+        result=result,
+        breakdown=breakdown,
+        status=status,
+        error=error,
+        
+    )
 from math import pow
 
 @app.route("/swp_calculator", methods=["GET", "POST"])
