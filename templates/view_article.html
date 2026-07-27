@@ -43,6 +43,23 @@
         .back-btn { color: #B8860B; text-decoration: none; font-weight: 600; }
         
         @media(max-width:768px) { .article-card { padding: 25px; } .article-title { font-size: 30px; } }
+        .voice-btn{
+    background:#efe809c8;
+    color:hsl(240, 5%, 4%);
+    border:none;
+    border-radius:25px;
+    padding:10px 18px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.voice-btn:hover{
+    background:hwb(50 15% 8%);
+    color:rgb(3, 0, 0);
+}
+    
     </style>
     <script type="application/ld+json">
 {
@@ -158,8 +175,43 @@
 {% endif %}
         <div class="article-meta">📅 Published on {{ article.created_at.strftime('%d %B %Y') }}</div>
         <hr style="margin-bottom:35px; border: 0; border-top: 1px solid #eee;">
+        <div style="margin-bottom:30px; display:flex; gap:10px; align-items:center;">
 
-        <div class="article-content">
+    <button
+        class="voice-btn"
+        onclick="readArticle()">
+
+        🔊 Listen to this article
+
+    </button>
+
+    <button
+        class="voice-btn"
+        onclick="speechSynthesis.pause()">
+
+        ⏸ Pause
+
+    </button>
+
+    <button
+        class="voice-btn"
+        onclick="speechSynthesis.resume()">
+
+        ▶ Resume
+
+    </button>
+
+    <button
+        class="voice-btn"
+        onclick="speechSynthesis.cancel()">
+
+        ⏹ Stop
+
+    </button>
+
+</div>
+
+        <div class="article-content" id="article-content">
             {{ article.content | safe }}
             <div class="author-box">
 
@@ -200,6 +252,63 @@
         </div>
     </div>
 </div>
+<script>
+
+let financeVoice = null;
+
+function loadFinanceVoice() {
+
+    const voices = speechSynthesis.getVoices();
+
+    financeVoice =
+        voices.find(v => v.name.includes("Google") && v.lang.startsWith("en")) ||
+        voices.find(v => v.lang.startsWith("en-IN")) ||
+        voices.find(v => v.lang.startsWith("en-US")) ||
+        voices[0];
+
+}
+
+speechSynthesis.onvoiceschanged = loadFinanceVoice;
+loadFinanceVoice();
+
+function speakFinance(text){
+
+    speechSynthesis.cancel();
+
+    const speech = new SpeechSynthesisUtterance(text);
+
+    speech.voice = financeVoice;
+    speech.rate = 1;
+    speech.pitch = 1;
+    speech.volume = 1;
+
+    speechSynthesis.speak(speech);
+
+}
+
+</script>
+<script>
+
+let articleSpeech;
+
+function readArticle(){
+
+    speechSynthesis.cancel();
+
+    const article =
+        document.getElementById("article-content").innerText;
+
+    const speech = new SpeechSynthesisUtterance(article);
+
+    speech.rate = 1;
+    speech.pitch = 1;
+    speech.volume = 1;
+
+    speechSynthesis.speak(speech);
+
+}
+
+</script>
 
 </body>
 </html>
