@@ -692,7 +692,77 @@ width:220px;
     color:white;
     box-shadow:0 15px 35px rgba(0,0,0,.15);
 }
+.calculator-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:12px;
+}
 
+.calculator-link{
+    flex:1;
+}
+
+.voice-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+
+    width:auto;          /* <-- Important */
+    flex:none;           /* <-- Important */
+
+    background:#090a09;
+    color:#eed40f;
+
+    border:none;
+    border-radius:20px;
+
+    padding:6px 12px;
+
+    font-size:13px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    white-space:nowrap;  /* <-- Important */
+}
+.voice-btn:hover{
+    background:#272900;
+    color:rgb(0, 9, 0);
+    transform:translateY(-1px);
+}
+
+.voice-btn:active{
+    transform:scale(.96);
+}
+.wellness-container{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin-top:15px;
+}
+#chat-container{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    z-index:9999;
+}
+
+#chat-limit{
+    background:#ffffff;
+    color:#374151;
+    padding:8px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+    box-shadow:0 4px 12px rgba(0,0,0,0.12);
+    border:1px solid #e5e7eb;
+    white-space:nowrap;
+}
     </style>
 <script type="application/ld+json" defer>
 {
@@ -730,43 +800,250 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
 </p>
 
 <ul class="hero-list">
-<li><a href="/login">📈 Personalized Investment Planner</a></li>
-    <li><a href="/sip-calculator">💹 SIP Calculator – Estimate Mutual Fund Returns</a></li>
-    <li><a href="/financial-future">🎯 Financial Goal Planner</a></li>
-    <li><a href="/tax_calculator">🧾 Income Tax Calculator (Old vs New Regime)</a></li>
-    <li><a href="/emi_calculator">🏦 Loan EMI Calculator</a></li>
-    <li><a href="/retirement_calculator">👴 Retirement Planning Calculator</a></li>
-    <li><a href="/fd_calculator">💰 Fixed Deposit (FD) Calculator</a></li>
-    <li><a href="/swp_calculator">
-💸 SWP Calculator – Plan Retirement Withdrawals
-</a></li>
-<li><a href="/lumpsum_calculator">
-💰 Lumpsum Investment Calculator
-</a></li>
-<li><a href="/cagr_calculator">
-    📈 CAGR Calculator
-</a></li>
-<li><a href="/inflation_calculator">
-    📉 Inflation Calculator
-</a></li>
-<li><a href="/networth-calculator">
-    💼 Net Worth Calculator
-</a></li>
-</ul>
+<li class="calculator-item">
+
+    <a href="/login" class="calculator-link">
+        📈 Personalized Investment Planner
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('Create your own AI powered financial dashboard. After signing in, enter your income, expenses, savings, and financial goals to receive a personalized investment plan, financial insights, and smart recommendations tailored to your needs.');"
+        title="Listen to explanation"
+        aria-label="Listen to Personalized Investment Planner explanation">
+
+        🔊<span>Listen</span>
+
+    </button>
+
+</li>
+    <li style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+
+    <li class="calculator-item">
+
+    <a href="/sip-calculator" class="calculator-link">
+        💹 SIP Calculator – Estimate Mutual Fund Returns
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('S I P stands for Systematic Investment Plan. It helps you invest a fixed amount every month to build wealth through compounding.');"
+        title="Listen to explanation"
+        aria-label="Listen to SIP explanation">
+
+        🔊 <span>Listen</span>
+
+    </button>
+
+</li>
+    <li class="calculator-item">
+
+    <a href="/financial-future" class="calculator-link">
+        🎯 Financial Goal Planner
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('The Financial Goal Planner helps you estimate how much you need to save and invest regularly to achieve your life goals, such as buying a house, funding education, or planning retirement.');"
+        title="Listen to explanation"
+        aria-label="Listen to Financial Goal Planner explanation">
+
+         🔊 <span>Listen</span>
+
+    </button>
+
+</li>
+    <li class="calculator-item">
+
+    <a href="/tax_calculator" class="calculator-link">
+        🧾 Income Tax Calculator (Old vs New Regime)
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('Compare your income tax under the old and new tax regimes. Enter your income and deductions to estimate your tax liability and choose the regime that works best for you.');"
+        title="Listen to explanation"
+        aria-label="Listen to Income Tax Calculator explanation">
+
+        🔊 <span>Listen</span>
+
+    </button>
+
+</li>
+    <li class="calculator-item">
+
+    <a href="/emi_calculator" class="calculator-link">
+        🏦 Loan EMI Calculator
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('Estimate your monthly loan EMI in seconds. Enter the loan amount, interest rate, and tenure to plan your repayments before taking a home, car, or personal loan.');"
+        title="Listen to explanation"
+        aria-label="Listen to Loan EMI Calculator explanation">
+
+       🔊 <span>Listen</span>
+
+    </button>
+
+</li>
+    <li class="calculator-item">
+
+    <a href="/retirement_calculator" class="calculator-link">
+        👴 Retirement Planning Calculator
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('Plan your retirement with confidence. Estimate the retirement corpus you will need based on your age, monthly expenses, inflation, and expected investment returns.');"
+        title="Listen to explanation"
+        aria-label="Listen to Retirement Planning Calculator explanation">
+
+        🔊 <span>Listen</span>
+
+    </button>
+
+</li>
+    <li class="calculator-item">
+
+    <a href="/fd_calculator" class="calculator-link">
+        💰 Fixed Deposit (FD) Calculator
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('Estimate the maturity value of your fixed deposit. Enter the deposit amount, interest rate, and investment period to see how much your savings can grow.');"
+        title="Listen to explanation"
+        aria-label="Listen to Fixed Deposit Calculator explanation">
+
+        🔊 <span>Listen</span>
+
+    </button>
+
+</li>
+    <li class="calculator-item">
+
+    <a href="/swp_calculator" class="calculator-link">
+        💸 SWP Calculator – Plan Retirement Withdrawals
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('Plan regular withdrawals from your investments without exhausting your savings too soon. Estimate how long your money can last during retirement with a Systematic Withdrawal Plan.');"
+        title="Listen to explanation"
+        aria-label="Listen to SWP Calculator explanation">
+
+        🔊 <span>Listen</span>
+
+    </button>
+
+</li>
+<li class="calculator-item">
+
+    <a href="/lumpsum_calculator" class="calculator-link">
+        💰 Lumpsum Investment Calculator
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('Estimate how a one-time investment can grow over time through the power of compounding. Enter your investment amount, expected return, and investment period to calculate your future wealth.');"
+        title="Listen to explanation"
+        aria-label="Listen to Lumpsum Investment Calculator explanation">
+
+        🔊 <span>Listen</span>
+
+    </button>
+
+</li>
+<li class="calculator-item">
+
+    <a href="/cagr_calculator" class="calculator-link">
+        📈 CAGR Calculator
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('Calculate the Compound Annual Growth Rate of your investments. CAGR shows the average annual return over a period of time, making it easy to compare different investment performances.');"
+        title="Listen to explanation"
+        aria-label="Listen to CAGR Calculator explanation">
+
+        🔊 <span>Listen</span>
+
+    </button>
+
+</li>
+<li class="calculator-item">
+
+    <a href="/inflation_calculator" class="calculator-link">
+        📉 Inflation Calculator
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('Understand how inflation reduces the purchasing power of your money over time. Estimate the future value of your expenses and plan your investments to stay ahead of rising prices.');"
+        title="Listen to explanation"
+        aria-label="Listen to Inflation Calculator explanation">
+
+        🔊 <span>Listen</span>
+
+    </button>
+
+</li>
+<li class="calculator-item">
+
+    <a href="/networth-calculator" class="calculator-link">
+        💼 Net Worth Calculator
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('Know your true financial position by calculating your net worth. Simply subtract your total liabilities from your total assets to understand your overall financial health.');"
+        title="Listen to explanation"
+        aria-label="Listen to Net Worth Calculator explanation">
+
+         🔊 <span>Listen</span>
+
+    </button>
+
+</li>
 
 <div class="hero-buttons">
 
-<a href="/login" class="primary-btn">
-Start Free →
-</a>
+<div class="wellness-container">
 
-<a href="/articles" class="secondary-btn">
-Explore Articles
-</a>
+    <a href="/articles" class="secondary-btn">
+        Explore Articles
+    </a>
 
-<a href="/wellness" class="secondary-btn">
-Check My Wellness Score →
-</a>
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('Explore our collection of beginner friendly finance articles covering investing, retirement planning, taxes, budgeting, loans, mutual funds, and practical money management strategies to help you make informed financial decisions.');"
+        title="Listen to explanation"
+        aria-label="Listen to Articles explanation">
+
+       🔊 <span>Listen</span>
+
+    </button>
+
+</div>
+
+<div class="wellness-container">
+
+    <a href="/wellness" class="secondary-btn">
+        Check My Financial Wellness Score →
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('Discover your overall financial health in just a few minutes. Answer a few simple questions to receive your financial wellness score along with personalized insights and recommendations.');"
+        title="Listen to explanation"
+        aria-label="Listen to Financial Wellness Score explanation">
+
+       🔊 <span>Listen</span>
+
+    </button>
+
+</div>
 
 </div>
 
@@ -812,9 +1089,24 @@ AI STOCK RESEARCH SECTION
                 📈🤖
             </div>
 
-            <a href="/stock-analyzer" class="stock-btn">
-                Analyze My Stock →
-            </a>
+            <div class="wellness-container">
+
+    <a href="/stock-analyzer" class="stock-btn">
+        Analyze My Stock →
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('Analyze any stock in seconds using artificial intelligence. Get insights on valuation, financial performance, growth potential, risks, key ratios, and a simplified investment summary to support your research before investing.');"
+        title="Listen to explanation"
+        aria-label="Listen to Stock Analyzer explanation">
+
+        🔊 <span>Listen</span>
+
+
+    </button>
+
+</div>
 
             <p class="stock-meta">
                 Free • AI Powered • NSE Stocks
@@ -1004,8 +1296,14 @@ FOOTER
 
 <!-- ================= CHATBOT ================= -->
 
-<div id="chat-toggle">
-    💬
+<div id="chat-container">
+
+    <div id="chat-toggle">
+        💬
+    </div>
+
+    
+
 </div>
 
 <div id="chat-box">
@@ -1018,21 +1316,31 @@ FOOTER
     <div id="chat-body">
 
         <div class="bot-message">
-            👋 Hi! I'm SmartPlan AI.
 
-            <br><br>
+    👋 Hi! I'm SmartPlan AI.
 
-            Ask me anything about:
+    <br><br>
 
-            <ul>
-                <li>SIP</li>
-                <li>Mutual Funds</li>
-                <li>Tax Saving</li>
-                <li>Retirement</li>
-                <li>Investment Planning</li>
-            </ul>
+    Ask me anything about:
 
-        </div>
+    <ul>
+        <li>SIP</li>
+        <li>Mutual Funds</li>
+        <li>Tax Saving</li>
+        <li>Retirement</li>
+        <li>Investment Planning</li>
+    </ul>
+
+    <button
+        class="voice-btn"
+        onclick="speakFinance('Hello. I am SmartPlan AI, your personal finance assistant. Ask me anything about investing, mutual funds, retirement planning, taxes, budgeting, stock analysis, or financial planning. You have three free AI chats available.');"
+        style="margin-top:10px;">
+
+        🔊 Listen
+
+    </button>
+
+</div>
 
     </div>
 
@@ -1139,7 +1447,41 @@ function sendMessage(){
 
 }
 </script>
+<script>
 
+let financeVoice = null;
+
+function loadFinanceVoice() {
+
+    const voices = speechSynthesis.getVoices();
+
+    financeVoice =
+        voices.find(v => v.name.includes("Google") && v.lang.startsWith("en")) ||
+        voices.find(v => v.lang.startsWith("en-IN")) ||
+        voices.find(v => v.lang.startsWith("en-US")) ||
+        voices[0];
+
+}
+
+speechSynthesis.onvoiceschanged = loadFinanceVoice;
+loadFinanceVoice();
+
+function speakFinance(text){
+
+    speechSynthesis.cancel();
+
+    const speech = new SpeechSynthesisUtterance(text);
+
+    speech.voice = financeVoice;
+    speech.rate = 1;
+    speech.pitch = 1;
+    speech.volume = 1;
+
+    speechSynthesis.speak(speech);
+
+}
+
+</script>
 </body>
 
 </html>
