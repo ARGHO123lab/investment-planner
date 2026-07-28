@@ -30,25 +30,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PFM7XZ5E3P"></script>
 
-<script>
-window.dataLayer = window.dataLayer || [];
-
-function gtag() {
-    dataLayer.push(arguments);
-}
-
-gtag('js', new Date());
-gtag('config', 'G-PFM7XZ5E3P');
-</script>
-
-<!-- Google AdSense -->
-<script async
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
-    crossorigin="anonymous">
-</script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PFM7XZ5E3P" defer></script>
+    <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PFM7XZ5E3P');
+ defer></script>
+    <!-- Google AdSense -->
+<script async 
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
+crossorigin="anonymous" defer></script>
 
     <style>
 
@@ -1009,6 +1003,23 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         onclick="event.stopPropagation(); speakFinance('Know your true financial position by calculating your net worth. Simply subtract your total liabilities from your total assets to understand your overall financial health.');"
         title="Listen to explanation"
         aria-label="Listen to Net Worth Calculator explanation">
+
+         🔊 <span>Listen</span>
+
+    </button>
+
+</li>
+<li class="calculator-item">
+
+    <a href="/xirr-calculator" class="calculator-link">
+        📈 XIRR Calculator
+    </a>
+
+    <button
+        class="voice-btn"
+        onclick="event.stopPropagation(); speakFinance('Calculate the Extended Internal Rate of Return, or XIRR, for investments with multiple cash flows made on different dates. It helps you measure the actual annualized return on your mutual funds, SIPs, or other irregular investments.');"
+        title="Listen to explanation"
+        aria-label="Listen to XIRR Calculator explanation">
 
          🔊 <span>Listen</span>
 

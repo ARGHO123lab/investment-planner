@@ -7,6 +7,7 @@ import tempfile
 import psycopg2
 import hmac
 import hashlib
+import json
 from psycopg2.extras import RealDictCursor
 from datetime import datetime, timedelta
 from flask import Flask, render_template, request, redirect, session, url_for, Response
@@ -1553,6 +1554,286 @@ def networth_calculator():
         error=error,
         
     )
+import json
+from functools import lru_cache
+ 
+# For XIRR calculation
+try:
+    from scipy.optimize import newton
+except ImportError:
+    newton = None
+ 
+ 
+def calculate_xirr(cash_flows, guess=0.1):
+    """
+    Calculate XIRR (Extended Internal Rate of Return)
+    
+    Args:
+        cash_flows: List of tuples (date, amount)
+                   First date should be earliest, last should be latest
+        guess: Initial guess for rate (default 0.1 = 10%)
+    
+    Returns:
+        XIRR as decimal (e.g., 0.158 = 15.8%)
+    """
+    if not cash_flows or len(cash_flows) < 2:
+        return 0
+    
+    # Sort by date
+    sorted_flows = sorted(cash_flows, key=lambda x: x[0])
+    
+    # Get the first date as reference
+    ref_date = sorted_flows[0][0]
+    
+    # Calculate days from reference date
+    def npv(rate):
+        total = 0
+        for date, amount in sorted_flows:
+            days = (date - ref_date).days
+            years = days / 365.0
+            if years == 0:
+                total += amount
+            else:
+                total += amount / ((1 + rate) ** years)
+        return total
+    
+    # Use Newton-Raphson method to find the rate
+    if newton:
+        try:
+            # Calculate derivative for Newton-Raphson
+            def npv_derivative(rate):
+                h = 0.0001
+                return (npv(rate + h) - npv(rate - h)) / (2 * h)
+            
+            xirr = newton(npv, guess, fprime=npv_derivative, maxiter=100)
+            return xirr
+        except:
+            # Fallback to simple iteration
+            return calculate_xirr_iterative(cash_flows)
+    else:
+        return calculate_xirr_iterative(cash_flows)
+ 
+ 
+def calculate_xirr_iterative(cash_flows, guess=0.1, max_iterations=100, tolerance=0.0001):
+    """
+    Fallback XIRR calculation using iterative method (no scipy required)
+    """
+    if not cash_flows or len(cash_flows) < 2:
+        return 0
+    
+    sorted_flows = sorted(cash_flows, key=lambda x: x[0])
+    ref_date = sorted_flows[0][0]
+    
+    def npv(rate):
+        total = 0
+        for date, amount in sorted_flows:
+            days = (date - ref_date).days
+            years = days / 365.0
+            if years == 0:
+                total += amount
+            else:
+                total += amount / ((1 + rate) ** years)
+        return total
+    
+    # Newton-Raphson iteration
+    rate = guess
+    for _ in range(max_iterations):
+        npv_val = npv(rate)
+        if abs(npv_val) < tolerance:
+            break
+        
+        # Numerical derivative
+        h = 0.0001
+        npv_derivative = (npv(rate + h) - npv(rate - h)) / (2 * h)
+        
+        if npv_derivative == 0:
+            break
+        
+        rate = rate - npv_val / npv_derivative
+        
+        # Prevent extreme values
+        if rate > 2:
+            rate = 2
+        elif rate < -0.99:
+            rate = -0.99
+    
+    return rate
+ 
+ 
+def generate_xirr_insights(xirr, total_invested, current_value, duration_years, absolute_return):
+    """
+    Generate AI-powered insights for XIRR results
+    """
+    insights = []
+    xirr_percentage = xirr * 100
+    inflation_rate = 6.0  # India's typical inflation
+    
+    # Main performance insight
+    if xirr_percentage > inflation_rate + 8:  # > 14%
+        insights.append(
+            f"Exceptional performance! Your portfolio has delivered an annualized return of {xirr_percentage:.1f}%, "
+            f"significantly outperforming the inflation rate. This indicates excellent investment discipline and timing."
+        )
+    elif xirr_percentage > inflation_rate + 4:  # 10-14%
+        insights.append(
+            f"Strong performance! Your portfolio has generated an annualized return of {xirr_percentage:.1f}%, "
+            f"comfortably beating inflation. You're on track for consistent wealth creation."
+        )
+    elif xirr_percentage > inflation_rate:  # 6-10%
+        insights.append(
+            f"Moderate performance with {xirr_percentage:.1f}% annualized returns. While beating inflation, "
+            f"consider reviewing your asset allocation for potentially higher returns."
+        )
+    else:
+        insights.append(
+            f"Your portfolio's annualized return of {xirr_percentage:.1f}% is not keeping pace with inflation. "
+            f"Revisit your investment strategy and allocation mix."
+        )
+    
+    # Duration insight
+    if duration_years >= 15:
+        insights.append(
+            "Long-term investing commitment detected! Your investment horizon has allowed compound growth to work effectively. "
+            "Continuing this discipline will likely amplify your wealth over time."
+        )
+    elif duration_years >= 5:
+        insights.append(
+            f"Over {duration_years} years of investing shows good discipline. Maintain consistency and avoid panic selling "
+            f"during market downturns to maximize long-term returns."
+        )
+    else:
+        insights.append(
+            "Your investment duration is relatively short. Longer time horizons typically improve XIRR due to market cycles. "
+            "Consider extending your investment timeline for better returns."
+        )
+    
+    # Cash flow insight
+    if total_invested > 0:
+        average_annual_invested = total_invested / max(duration_years, 1)
+        insights.append(
+            f"You've invested ₹{total_invested:,.0f} over your investment period (₹{average_annual_invested:,.0f}/year). "
+            f"Consider stepping up your investments by 10% annually to accelerate wealth creation."
+        )
+    
+    # Profit insight
+    if absolute_return > 0:
+        profit_percentage = (absolute_return / total_invested) * 100 if total_invested > 0 else 0
+        insights.append(
+            f"Total profit generated: ₹{absolute_return:,.0f} ({profit_percentage:.0f}% absolute return). "
+            f"This demonstrates the power of staying invested and allowing compounding to work."
+        )
+    
+    # Next steps
+    insights.append(
+        "Monitor your portfolio quarterly, rebalance annually, and ensure your asset allocation aligns with your risk profile. "
+        "Avoid chasing high returns and focus on consistent, disciplined investing."
+    )
+    
+    return insights
+@app.route('/xirr-calculator', methods=['GET', 'POST'])
+def xirr_calculator():
+    """
+    XIRR Calculator Route
+    Calculate Extended Internal Rate of Return for portfolios with multiple cash flows
+    """
+    result = None
+    
+    if request.method == 'POST':
+        try:
+            # Parse cash flows from form
+            dates = request.form.getlist('date[]')
+            amounts = request.form.getlist('amount[]')
+            current_value = float(request.form.get('current_value', 0))
+            
+            # Convert to proper format
+            cash_flows = []
+            for date_str, amount_str in zip(dates, amounts):
+                if date_str and amount_str:
+                    try:
+                        date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
+                        amount = float(amount_str)
+                        # Negative for investments (outflows)
+                        cash_flows.append((date_obj, -amount if amount > 0 else amount))
+                    except ValueError:
+                        continue
+            
+            # Add current value as final inflow
+            if cash_flows and current_value > 0:
+                # Use today's date for current value
+                from datetime import date as date_type
+                cash_flows.append((date_type.today(), current_value))
+            
+            if len(cash_flows) >= 2:
+                # Calculate XIRR
+                xirr = calculate_xirr(cash_flows)
+                
+                # Calculate metrics
+                total_invested = sum(abs(cf[1]) for cf in cash_flows[:-1])
+                absolute_return = current_value - total_invested
+                
+                # Calculate duration
+                if len(cash_flows) >= 2:
+                    start_date = min(cf[0] for cf in cash_flows)
+                    end_date = max(cf[0] for cf in cash_flows)
+                    duration_days = (end_date - start_date).days
+                    duration_years = duration_days / 365.0
+                else:
+                    duration_years = 0
+                
+                # Annualized return percentage
+                annualized_return = xirr * 100
+                
+                # Absolute return percentage
+                absolute_return_pct = (absolute_return / total_invested * 100) if total_invested > 0 else 0
+                
+                # Generate insights
+                insights = generate_xirr_insights(xirr, total_invested, current_value, duration_years, absolute_return)
+                
+                # Determine performance badge
+                if annualized_return > 18:
+                    badge = "🔥"
+                    performance = "Outstanding"
+                elif annualized_return > 14:
+                    badge = "⭐"
+                    performance = "Excellent"
+                elif annualized_return > 10:
+                    badge = "👍"
+                    performance = "Good"
+                elif annualized_return > 6:
+                    badge = "📈"
+                    performance = "Fair"
+                else:
+                    badge = "⚠️"
+                    performance = "Below Average"
+                
+                result = {
+                    'xirr': f"{annualized_return:.2f}",
+                    'xirr_value': annualized_return,
+                    'total_invested': f"{total_invested:,.2f}",
+                    'current_value': f"{current_value:,.2f}",
+                    'absolute_return': f"{absolute_return:,.2f}",
+                    'absolute_return_pct': f"{absolute_return_pct:.2f}",
+                    'duration_days': duration_days,
+                    'duration_years': f"{duration_years:.1f}",
+                    'num_transactions': len(cash_flows) - 1,
+                    'badge': badge,
+                    'performance': performance,
+                    'insights': insights,
+                    'confidence': min(95, int(80 + (duration_years * 2)))  # Higher for longer periods
+                }
+        
+        except Exception as e:
+            # Return error message
+            result = {'error': str(e)}
+    
+    return render_template(
+        'xirr_calculator.html',
+        result=result,
+        partners=PAGE_PARTNER_MAP.get("xirr_calculator", []),
+        PARTNER_LINKS=PARTNER_LINKS
+    )
+
+
 from math import pow
 
 @app.route("/swp_calculator", methods=["GET", "POST"])
@@ -3569,6 +3850,7 @@ def payment_success():
         customer_name=session.get("customer_name"),
         order_number=session.get("order_number")
     )
+
 @app.route("/download-book")
 def download_book():
 
@@ -3716,5 +3998,7 @@ def download_report():
     return response
 if __name__ == "__main__":
     app.run(
+        host="127.0.0.1",
+        port=5001,
         debug=False
     )
