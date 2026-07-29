@@ -23,7 +23,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SmartPlan Finance |  Stock Research & Analysis, Fincial Calculators, Investment Planner & Personal Finance Guide</title>
+    <title>SmartPlan Finance |  Stock Research & Analysis, Fincial Calculators, Investment Planner & Personal Finance Guide</title>
 
     <meta name="description" content="Plan your investments intelligently with SmartPlan Finance. Generate personalized investment plans, calculate SIP returns and build your financial future.">
 
@@ -32,17 +32,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PFM7XZ5E3P" defer></script>
-    <script>
+   <!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PFM7XZ5E3P"></script>
+<script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PFM7XZ5E3P');
- defer></script>
-    <!-- Google AdSense -->
-<script async 
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
-crossorigin="anonymous" defer></script>
+</script>
+
+<!-- Google AdSense -->
+<script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
+    crossorigin="anonymous">
+</script>
 
     <style>
 
@@ -73,7 +76,7 @@ radial-gradient(circle at bottom left,#fff8e5 0%,transparent 35%),
 
 .hero-left{
     flex:1;
-    max-width:600px;
+    max-width:640px;
 }
 
 .hero-right{
@@ -132,8 +135,32 @@ transform:translateY(0px);
     margin:35px 0;
 }
 
-.hero-list li{
-    margin-bottom:14px;
+/* ==========================================
+   CALCULATOR CARDS
+   Each item is now a self-contained "card":
+   icon + label on the left, a compact premium
+   mic control docked on the right. Layout,
+   links, and click handlers are unchanged —
+   only the visual treatment is new.
+========================================== */
+.calculator-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    margin-bottom:13px;
+    background:#ffffff;
+    border-radius:14px;
+    border:1px solid #f1e2b6;
+    padding-right:10px;
+    box-shadow:0 3px 10px rgba(120,90,10,.05);
+    transition:.28s cubic-bezier(.4,.2,.2,1);
+}
+
+.calculator-item:hover{
+    transform:translateY(-3px);
+    border-color:#D4A017;
+    box-shadow:0 14px 28px rgba(184,134,11,.16);
 }
 
 .hero-list li a{
@@ -143,35 +170,38 @@ transform:translateY(0px);
 
     gap:12px;
 
-    padding:14px 18px;
+    padding:14px 16px;
 
-    background:white;
+    background:transparent;
 
-    border-radius:12px;
+    border-radius:14px;
 
     text-decoration:none;
 
     color:#444;
 
-    font-size:18px;
+    font-size:17px;
 
     font-weight:500;
 
     transition:.25s;
 
-    border:1px solid #f1e2b6;
+    border:none;
 
-    box-shadow:0 4px 12px rgba(0,0,0,.05);
+    box-shadow:none;
+
+    flex:1;
+    min-width:0;
 
 }
 
 .hero-list li a:hover{
 
-    background:#B8860B;
+    background:rgba(184,134,11,.07);
 
-    color:white;
+    color:#B8860B;
 
-    transform:translateX(6px);
+    transform:none;
 
 }
 
@@ -561,7 +591,7 @@ text-align:left;
 
 margin:25px auto;
 
-max-width:330px;
+max-width:360px;
 
 }
 
@@ -684,6 +714,12 @@ width:220px;
     box-sizing:border-box;
 }
 
+.voice-btn{
+    width:36px;
+    height:36px;
+    margin-right:8px;
+}
+
 }
 
 .stock-card{
@@ -695,55 +731,126 @@ width:220px;
     color:white;
     box-shadow:0 15px 35px rgba(0,0,0,.15);
 }
-.calculator-item{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:12px;
-}
-
 .calculator-link{
     flex:1;
+    min-width:0;
 }
 
+/* ==========================================
+   PREMIUM MIC / VOICE BUTTON
+   Icon-only, circular, dark-glass finish with
+   a gold edge — same onclick/aria behaviour,
+   just a compact, upscale look instead of the
+   old pill-shaped text button. A small tooltip
+   reveals the "Listen" label on hover so no
+   layout width is spent on visible text.
+========================================== */
 .voice-btn{
-    display:inline-flex;
+    position:relative;
+    display:flex;
     align-items:center;
-    gap:5px;
-
-    width:auto;          /* <-- Important */
-    flex:none;           /* <-- Important */
-
-    background:#090a09;
-    color:#eed40f;
-
-    border:none;
-    border-radius:20px;
-
-    padding:6px 12px;
-
-    font-size:13px;
-    font-weight:600;
-
+    padding:0;
+    justify-content:center;
+    flex:none;
+    width:48px;
+    height:48px;
+    margin-right:12px;
+    border:1px solid rgba(212,160,23,.55);
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 32% 28%, rgba(255,224,130,.18), transparent 55%),
+        linear-gradient(150deg,#1a1a12,#0a0a08 70%);
+    color:#eed957;
     cursor:pointer;
-
-    white-space:nowrap;  /* <-- Important */
+    box-shadow:
+        0 3px 8px rgba(0,0,0,.28),
+        inset 0 0 0 1px rgba(255,255,255,.02);
+    transition:transform .25s ease, box-shadow .25s ease, background .3s ease, border-color .25s ease;
 }
-.voice-btn:hover{
-    background:#272900;
-    color:rgb(0, 9, 0);
-    transform:translateY(-1px);
+
+.voice-btn svg{
+    width:22px;
+    height:22px;
+    display:block;
+    fill:none;
+    stroke:#eed957;
+    stroke-width:2.2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    transition:stroke .25s ease, transform .25s ease;
+    margin-left:1px;
+
+}
+
+.voice-btn .voice-btn-label{
+    position:absolute;
+    left:50%;
+    bottom:calc(100% + 9px);
+    transform:translateX(-50%) translateY(4px);
+    background:#111;
+    color:#f5d97a;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.02em;
+    padding:5px 9px;
+    border-radius:6px;
+    white-space:nowrap;
+    opacity:0;
+    pointer-events:none;
+    box-shadow:0 6px 14px rgba(0,0,0,.25);
+    transition:opacity .2s ease, transform .2s ease;
+    padding:6px 10px;
+
+}
+
+.voice-btn .voice-btn-label::after{
+    content:"";
+    position:absolute;
+    top:100%;
+    left:50%;
+    transform:translateX(-50%);
+    border:5px solid transparent;
+    border-top-color:#111;
+}
+
+.voice-btn:hover,
+.voice-btn:focus-visible{
+    transform:translateY(-2px) scale(1.08);
+    border-color:#D4A017;
+    background:
+        radial-gradient(circle at 32% 28%, rgba(255,224,130,.35), transparent 60%),
+        linear-gradient(150deg,#B8860B,#8a6407 75%);
+    box-shadow:
+        0 8px 18px rgba(184,134,11,.4),
+        0 0 0 4px rgba(212,160,23,.14);
+    outline:none;
+}
+
+.voice-btn:hover svg,
+.voice-btn:focus-visible svg{
+    stroke:#161200;
+}
+
+.voice-btn:hover .voice-btn-label,
+.voice-btn:focus-visible .voice-btn-label{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
 }
 
 .voice-btn:active{
-    transform:scale(.96);
+    transform:translateY(0) scale(.94);
 }
+
 .wellness-container{
     display:flex;
     align-items:center;
     justify-content:center;
     gap:12px;
     margin-top:15px;
+}
+
+.wellness-container .voice-btn{
+    margin-right:0;
 }
 #chat-container{
     position:fixed;
@@ -815,12 +922,12 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to Personalized Investment Planner explanation">
 
-        🔊<span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
 </li>
-    <li style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
 
     <li class="calculator-item">
 
@@ -834,7 +941,8 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to SIP explanation">
 
-        🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
@@ -851,7 +959,8 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to Financial Goal Planner explanation">
 
-         🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
@@ -868,7 +977,8 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to Income Tax Calculator explanation">
 
-        🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
@@ -885,7 +995,8 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to Loan EMI Calculator explanation">
 
-       🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
@@ -902,7 +1013,8 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to Retirement Planning Calculator explanation">
 
-        🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
@@ -919,7 +1031,8 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to Fixed Deposit Calculator explanation">
 
-        🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
@@ -936,7 +1049,8 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to SWP Calculator explanation">
 
-        🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
@@ -953,7 +1067,8 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to Lumpsum Investment Calculator explanation">
 
-        🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
@@ -970,7 +1085,8 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to CAGR Calculator explanation">
 
-        🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
@@ -987,7 +1103,8 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to Inflation Calculator explanation">
 
-        🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
@@ -1004,7 +1121,8 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to Net Worth Calculator explanation">
 
-         🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
@@ -1021,7 +1139,8 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to XIRR Calculator explanation">
 
-         🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
@@ -1041,7 +1160,8 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to Articles explanation">
 
-       🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
@@ -1059,7 +1179,8 @@ India's AI Powered Personal Finance Platform designed to help you invest wisely 
         title="Listen to explanation"
         aria-label="Listen to Financial Wellness Score explanation">
 
-       🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
@@ -1121,7 +1242,8 @@ AI STOCK RESEARCH SECTION
         title="Listen to explanation"
         aria-label="Listen to Stock Analyzer explanation">
 
-        🔊 <span>Listen</span>
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
 
     </button>
@@ -1356,7 +1478,8 @@ FOOTER
         onclick="speakFinance('Hello. I am SmartPlan AI, your personal finance assistant. Ask me anything about investing, mutual funds, retirement planning, taxes, budgeting, stock analysis, or financial planning. You have three free AI chats available.');"
         style="margin-top:10px;">
 
-        🔊 Listen
+        <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <span class="voice-btn-label">Listen</span>
 
     </button>
 
