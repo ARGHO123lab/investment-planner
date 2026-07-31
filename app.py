@@ -1833,7 +1833,193 @@ def xirr_calculator():
         PARTNER_LINKS=PARTNER_LINKS
     )
 
-
+@app.route('/loan-eligibility-calculator', methods=['GET', 'POST'])
+def loan_eligibility_calculator():
+    """
+    Loan Eligibility Calculator Route
+    Calculate loan eligibility based on income, debt, credit score, and employment type
+    """
+    result = None
+    
+    if request.method == 'POST':
+        try:
+            # Parse form data
+            annual_income = float(request.form.get('annual_income', 0))
+            monthly_expenses = float(request.form.get('monthly_expenses', 0))
+            existing_loan_emi = float(request.form.get('existing_loan_emi', 0))
+            credit_score = int(request.form.get('credit_score', 0))
+            employment_type = request.form.get('employment_type', 'salaried')
+            desired_loan_amount = float(request.form.get('desired_loan_amount', 0))
+            loan_tenure_years = int(request.form.get('loan_tenure_years', 20))
+            
+            # Validate inputs
+            if annual_income <= 0:
+                raise ValueError("Annual income must be greater than 0")
+            if credit_score < 300 or credit_score > 900:
+                raise ValueError("Credit score must be between 300-900")
+            
+            # Calculate monthly income
+            monthly_income = annual_income / 12
+            
+            # Determine base interest rate based on credit score and employment type
+            if credit_score >= 750:
+                base_rate = 6.5 if employment_type == 'salaried' else 7.5
+            elif credit_score >= 700:
+                base_rate = 7.5 if employment_type == 'salaried' else 8.5
+            elif credit_score >= 650:
+                base_rate = 8.5 if employment_type == 'salaried' else 9.5
+            else:
+                base_rate = 10.0 if employment_type == 'salaried' else 11.5
+            
+            # Calculate maximum monthly loan EMI at 50% debt-to-income ratio
+            max_monthly_obligations = monthly_income * 0.50
+            available_for_new_loan = max_monthly_obligations - (monthly_expenses + existing_loan_emi)
+            
+            # Calculate maximum eligible loan amount
+            # Using EMI formula: EMI = P * [r(1+r)^n] / [(1+r)^n - 1]
+            # where P = principal, r = monthly rate, n = months
+            if available_for_new_loan > 0:
+                monthly_rate = base_rate / 100 / 12
+                months = loan_tenure_years * 12
+                
+                # Reverse EMI calculation to find maximum principal
+                if monthly_rate > 0:
+                    max_eligible_loan = available_for_new_loan * ((1 + monthly_rate) ** months - 1) / (monthly_rate * (1 + monthly_rate) ** months)
+                else:
+                    max_eligible_loan = available_for_new_loan * months
+            else:
+                max_eligible_loan = 0
+            
+            # Calculate EMI for desired loan amount
+            if desired_loan_amount > 0:
+                monthly_rate = base_rate / 100 / 12
+                months = loan_tenure_years * 12
+                
+                if monthly_rate > 0:
+                    desired_loan_emi = desired_loan_amount * (monthly_rate * (1 + monthly_rate) ** months) / ((1 + monthly_rate) ** months - 1)
+                else:
+                    desired_loan_emi = desired_loan_amount / months
+                
+                # Calculate total interest
+                total_repayment = desired_loan_emi * months
+                total_interest = total_repayment - desired_loan_amount
+            else:
+                desired_loan_emi = 0
+                total_interest = 0
+                total_repayment = 0
+            
+            # Calculate DTI ratio with new loan
+            new_total_obligations = monthly_expenses + existing_loan_emi + desired_loan_emi
+            dti_ratio = (new_total_obligations / monthly_income) * 100 if monthly_income > 0 else 0
+            
+            # Determine eligibility status and approval probability
+            if max_eligible_loan <= 0:
+                eligibility_status = "Needs Improvement"
+                eligibility_color = "#FF6B6B"
+                approval_probability = 5
+            elif desired_loan_amount > max_eligible_loan:
+                eligibility_status = "Moderate"
+                eligibility_color = "#FFC107"
+                # Approval probability based on how much over limit
+                over_limit_percent = ((desired_loan_amount - max_eligible_loan) / max_eligible_loan) * 100
+                approval_probability = max(20, 70 - (over_limit_percent * 0.5))
+            elif dti_ratio > 60:
+                eligibility_status = "Moderate"
+                eligibility_color = "#FFC107"
+                approval_probability = 60
+            else:
+                eligibility_status = "Eligible"
+                eligibility_color = "#4CAF50"
+                approval_probability = min(95, 85 + (credit_score - 700) / 20)
+            
+            # Employment type multiplier for approval probability
+            if employment_type == 'self-employed':
+                approval_probability *= 0.85
+            elif employment_type == 'business':
+                approval_probability *= 0.80
+            
+            approval_probability = max(5, min(99, approval_probability))
+            
+            # Generate insights
+            insights = []
+            
+            # Insight 1: Credit Score
+            if credit_score >= 750:
+                insights.append("✓ Excellent credit score! You qualify for the best interest rates available.")
+            elif credit_score >= 700:
+                insights.append("✓ Good credit score. You can access competitive interest rates. Focus on maintaining this score.")
+            elif credit_score >= 650:
+                insights.append("⚠ Your credit score is fair. Consider improving it to access better rates (each 50-point increase saves ₹5-8K annually).")
+            else:
+                insights.append("⚠ Low credit score. Work on improving it before applying. Pay bills on time and reduce credit utilization.")
+            
+            # Insight 2: DTI Ratio
+            if dti_ratio <= 35:
+                insights.append("✓ Your debt-to-income ratio is excellent ({}%). Lenders will view you favorably.".format(int(dti_ratio)))
+            elif dti_ratio <= 50:
+                insights.append("✓ Your DTI ratio is healthy ({}%). You have good borrowing capacity.".format(int(dti_ratio)))
+            elif dti_ratio <= 60:
+                insights.append("⚠ Your DTI is at {}%. Consider reducing existing obligations before taking new loans.".format(int(dti_ratio)))
+            else:
+                insights.append("⚠ Your DTI exceeds 60%. Focus on paying down existing loans first.")
+            
+            # Insight 3: Loan affordability
+            if desired_loan_amount <= max_eligible_loan:
+                savings_vs_max = max_eligible_loan - desired_loan_amount
+                insights.append("✓ Your desired loan amount is well within your eligibility. You have ₹{:,.0f} additional borrowing capacity.".format(savings_vs_max))
+            else:
+                over_by = desired_loan_amount - max_eligible_loan
+                insights.append("⚠ Your desired loan exceeds eligibility by ₹{:,.0f}. Consider reducing tenure to 15-18 years or loan amount.".format(over_by))
+            
+            # Insight 4: Tenure impact
+            if loan_tenure_years <= 15:
+                insights.append("✓ Shorter tenure ({}y) means less total interest. You'll build equity faster.".format(loan_tenure_years))
+            elif loan_tenure_years <= 20:
+                insights.append("✓ {} year tenure balances monthly payment with reasonable interest cost.".format(loan_tenure_years))
+            else:
+                insights.append("⚠ {} year tenure increases total interest paid. Each additional year adds ₹{:,.0f} in interest.".format(
+                    loan_tenure_years, 
+                    desired_loan_amount * 0.06 * 12  # Approximate interest cost per year
+                ))
+            
+            # Employment type insight
+            if employment_type == 'self-employed':
+                insights.append("ℹ As self-employed, maintain 2 years ITR and consistent income proof for faster approval.")
+            elif employment_type == 'business':
+                insights.append("ℹ As business owner, lenders will closely review business financials. Keep detailed records.")
+            
+            result = {
+                'annual_income': f"{annual_income:,.0f}",
+                'monthly_income': f"{monthly_income:,.0f}",
+                'credit_score': credit_score,
+                'employment_type': employment_type.capitalize(),
+                'estimated_interest_rate': f"{base_rate:.2f}",
+                'dti_ratio': f"{dti_ratio:.1f}",
+                'dti_ratio_value': dti_ratio,
+                'max_eligible_loan': f"{max_eligible_loan:,.0f}",
+                'max_eligible_loan_value': max_eligible_loan,
+                'desired_loan_amount': f"{desired_loan_amount:,.0f}",
+                'desired_loan_emi': f"{desired_loan_emi:,.0f}",
+                'total_interest': f"{total_interest:,.0f}",
+                'total_repayment': f"{total_repayment:,.0f}",
+                'loan_tenure_years': loan_tenure_years,
+                'eligibility_status': eligibility_status,
+                'eligibility_color': eligibility_color,
+                'approval_probability': f"{approval_probability:.0f}",
+                'approval_probability_value': approval_probability,
+                'insights': insights,
+                'confidence': min(95, int(70 + (credit_score / 10)))
+            }
+        
+        except Exception as e:
+            result = {'error': str(e)}
+    
+    return render_template(
+        'loan_eligibility_calculator.html',
+        result=result,
+        partners=PAGE_PARTNER_MAP.get("loan_eligibility_calculator", []),
+        PARTNER_LINKS=PARTNER_LINKS
+    )
 from math import pow
 
 @app.route("/swp_calculator", methods=["GET", "POST"])
