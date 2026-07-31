@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+
+    <link rel="manifest"
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+    <title>Loan Eligibility Calculator - Check Your Loan Qualification | SmartPlanFinance</title>
+
+    <meta name="description"
+          content="Free Loan Eligibility Calculator by SmartPlanFinance. Check your loan eligibility based on income, credit score, DTI ratio. Get approval probability, max loan amount, and personalized recommendations for home loans, car loans, and personal loans in India.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 20px;
+            background: #FFFDF5;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Enhanced Header Section */
+        .header-section {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(184, 134, 11, 0.08) 0%, rgba(255, 193, 7, 0.05) 100%);
+            padding: 50px 30px;
+            border-radius: 20px;
+            border: 2px solid rgba(184, 134, 11, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .header-subtitle {
+            font-size: 13px;
+            color: #B8860B;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .header-section h1 {
+            color: #B8860B;
+            font-size: 42px;
+            margin-bottom: 16px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header-section p {
+            color: #555;
+            font-size: 17px;
+            line-height: 1.8;
+            max-width: 650px;
+            margin: 0 auto;
+            font-weight: 500;
+        }
+
+        /* Education Card */
+        .education-card {
+            background: linear-gradient(135deg, #FFFEF9 0%, #F0F7FF 100%);
+            padding: 32px 28px;
+            border-radius: 16px;
+            border: 2px solid #FFE082;
+            margin-bottom: 40px;
+            border-left: 6px solid #B8860B;
+        }
+
+        .education-card h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 14px;
+            font-weight: 700;
+        }
+
+        .education-card p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+
+        .education-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Form Section */
+        .form-card {
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #555;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #FFC107;
+            background: #FFFEF9;
+        }
+
+        .form-group small {
+            color: #999;
+            font-size: 12px;
+            display: block;
+            margin-top: 6px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #FFC107 0%, #E0A800 100%);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 193, 7, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .back-home {
+            display: inline-block;
+            text-align: center;
+            padding: 12px 28px;
+            background: white;
+            border: 2px solid #FFC107;
+            border-radius: 10px;
+            color: #B8860B;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .back-home:hover {
+            background: #FFF8E1;
+            transform: translateY(-2px);
+        }
+
+        /* Results Section */
+        .results-section {
+            display: none;
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            color: #B8860B;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.9;
+            margin: 0;
+        }
+
+        .card ul {
+            color: #555;
+            font-size: 15px;
+            line-height: 2;
+            margin-left: 20px;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+        }
+
+        /* Main Eligibility Display */
+        .eligibility-status-card {
+            color: white;
+            text-align: center;
+            padding: 40px 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .eligibility-status-card h2 {
+            color: white;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+
+        .eligibility-status-card .status {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .eligibility-status-card .approval {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* Performance Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .metric-item {
+            background: #F5F5F5;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #FFC107;
+        }
+
+        .metric-item-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .metric-item-value {
+            font-size: 22px;
+            color: #B8860B;
+            font-weight: 700;
+        }
+
+        .metric-item-unit {
+            font-size: 12px;
+            color: #999;
+            font-weight: 500;
+        }
+
+        /* Eligibility & Confidence */
+        .performance-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .eligibility-badge-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #FFE082;
+            background: #FFFEF9;
+        }
+
+        .eligibility-badge {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .eligibility-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .eligibility-value {
+            font-size: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .confidence-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #4CAF50;
+            background: linear-gradient(135deg, #F1F8F4 0%, white 100%);
+        }
+
+        .stars {
+            font-size: 28px;
+            margin-bottom: 8px;
+            letter-spacing: 4px;
+        }
+
+        .confidence-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .confidence-text {
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* SmartPlan Insights */
+        .insights-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, white 100%);
+            border-left: 5px solid #FFC107;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .insights-card h2 {
+            color: #B8860B;
+            font-size: 16px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .insights-card-subtitle {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .insight-item {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .insight-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        /* Related Calculators */
+        .related-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .related-card {
+            background: #FFF8E1;
+            border-left: 5px solid #FFC107;
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .related-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .related-card h3 {
+            color: #B8860B;
+            margin-top: 0;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .related-card p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
+            color: white;
+            padding: 32px 24px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .cta-section h2 {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .cta-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cta-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            margin-top: 30px;
+            padding: 20px;
+            background: #fff8e5;
+            border-left: 5px solid #B8860B;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .disclaimer strong {
+            color: #333;
+        }
+
+        /* Error Section */
+        .error-card {
+            background: #FFE5E5;
+            border-left: 5px solid #FF6B6B;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .error-card h2 {
+            color: #FF6B6B;
+            margin-bottom: 12px;
+        }
+
+        .error-card p {
+            color: #555;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .header-section {
+                padding: 40px 20px;
+            }
+
+            .header-section h1 {
+                font-size: 28px;
+            }
+
+            .header-section p {
+                font-size: 15px;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .eligibility-status-card {
+                padding: 32px 20px;
+            }
+
+            .eligibility-status-card .status {
+                font-size: 36px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .performance-section {
+                grid-template-columns: 1fr;
+            }
+
+            .related-section {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .cta-links {
+                flex-direction: column;
+            }
+
+            .cta-link {
+                width: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Enhanced Header -->
+        <div class="header-section">
+            <div class="header-subtitle">💰 Loan Planning Tool</div>
+            <h1>💰 Loan Eligibility Calculator</h1>
+            <p>Check your loan eligibility instantly with our free calculator. Analyze your income, credit score, debt-to-income ratio, and employment type to discover your maximum loan amount, approval probability, and personalized recommendations for home loans, car loans, and personal loans.</p>
+        </div>
+
+        <!-- Education Card -->
+        <div class="education-card">
+            <h2>Why Loan Eligibility Matters</h2>
+            <p>Before applying for a loan, it's crucial to understand your eligibility. Banks evaluate multiple factors: your annual income, existing debt obligations, credit score, and debt-to-income (DTI) ratio.</p>
+            <p><strong>This calculator helps you:</strong> Estimate your maximum loan amount without wasting time on rejected applications, understand your approval probability, discover what factors you can improve to qualify for better terms, and plan your finances accordingly.</p>
+            <p><strong>Key Factors Analyzed:</strong> Annual income, monthly obligations (existing loans + expenses), credit score (300-900), employment type (Salaried/Self-employed/Business), and your desired loan amount and tenure.</p>
+        </div>
+
+        <!-- Input Form -->
+        <div class="form-card">
+            <form method="POST" id="loanEligibilityForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="annual_income">Annual Income (₹)</label>
+                        <input type="number" id="annual_income" name="annual_income" placeholder="500000" step="1000" required min="0">
+                        <small>Your gross annual salary or income</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="monthly_expenses">Monthly Expenses (₹)</label>
+                        <input type="number" id="monthly_expenses" name="monthly_expenses" placeholder="30000" step="100" required min="0">
+                        <small>Rent, utilities, groceries, bills, etc.</small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="existing_loan_emi">Existing Loan EMI (₹)</label>
+                        <input type="number" id="existing_loan_emi" name="existing_loan_emi" placeholder="5000" step="100" min="0">
+                        <small>Total EMI of all current loans (home, car, personal)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="credit_score">Credit Score (CIBIL)</label>
+                        <input type="number" id="credit_score" name="credit_score" placeholder="750" step="1" required min="300" max="900">
+                        <small>Range: 300 (poor) to 900 (excellent)</small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="employment_type">Employment Type</label>
+                        <select id="employment_type" name="employment_type" required>
+                            <option value="salaried">Salaried (Best Terms)</option>
+                            <option value="self-employed">Self-Employed</option>
+                            <option value="business">Business Owner</option>
+                        </select>
+                        <small>Affects interest rate and approval terms</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loan_tenure_years">Desired Loan Tenure (Years)</label>
+                        <input type="number" id="loan_tenure_years" name="loan_tenure_years" value="20" step="1" required min="5" max="30">
+                        <small>Loan repayment period</small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="desired_loan_amount">Desired Loan Amount (₹)</label>
+                        <input type="number" id="desired_loan_amount" name="desired_loan_amount" placeholder="2000000" step="10000" required min="0">
+                        <small>Amount of loan you want to borrow</small>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Calculate Eligibility</button>
+                <a href="{{ url_for('index') }}" class="back-home">← Back to Home</a>
+            </form>
+        </div>
+
+        <!-- Results Section (shown after calculation) -->
+        {% if result and not result.error %}
+        <div class="results-section show" id="results-section">
+            
+            <!-- Main Eligibility Status Display -->
+            <div class="eligibility-status-card" style="background: {% if result.eligibility_color == '#4CAF50' %}linear-gradient(135deg, #4CAF50 0%, #45a049 100%){% elif result.eligibility_color == '#FFC107' %}linear-gradient(135deg, #FFC107 0%, #E0A800 100%){% else %}linear-gradient(135deg, #FF6B6B 0%, #EE5A6F 100%){% endif %};">
+                <h2>Your Loan Eligibility Status</h2>
+                <div class="status">{{ result.eligibility_status }}</div>
+                <div class="approval">Approval Probability: {{ result.approval_probability }}%</div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-item-label">Monthly Income</div>
+                    <div class="metric-item-value">₹{{ result.monthly_income }}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-item-label">Interest Rate</div>
+                    <div class="metric-item-value">{{ result.estimated_interest_rate }}%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-item-label">Debt-to-Income Ratio</div>
+                    <div class="metric-item-value">{{ result.dti_ratio }}%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-item-label">Max Eligible Loan</div>
+                    <div class="metric-item-value">₹{{ result.max_eligible_loan }}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-item-label">Your Loan EMI</div>
+                    <div class="metric-item-value">₹{{ result.desired_loan_emi }}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-item-label">Total Interest</div>
+                    <div class="metric-item-value" style="color: #FF6B6B;">₹{{ result.total_interest }}</div>
+                </div>
+            </div>
+
+            <!-- Eligibility & Confidence -->
+            <div class="performance-section">
+                <div class="eligibility-badge-card">
+                    <div class="eligibility-badge">
+                        {% if result.eligibility_status == 'Eligible' %}✓
+                        {% elif result.eligibility_status == 'Moderate' %}⚠
+                        {% else %}✗
+                        {% endif %}
+                    </div>
+                    <div class="eligibility-label">Eligibility Status</div>
+                    <div class="eligibility-value">{{ result.eligibility_status }}</div>
+                </div>
+                <div class="confidence-card">
+                    <div class="stars">
+                        {% if result.confidence >= 80 %}★★★★★
+                        {% elif result.confidence >= 65 %}★★★★☆
+                        {% elif result.confidence >= 50 %}★★★☆☆
+                        {% else %}★★☆☆☆
+                        {% endif %}
+                    </div>
+                    <div class="confidence-label">Data Confidence</div>
+                    <div class="confidence-text">{{ result.confidence }}% Reliable</div>
+                </div>
+            </div>
+
+            <!-- SmartPlan Insights -->
+            <div class="insights-card">
+                <h2>💡 SmartPlan Finance Insights</h2>
+                <div class="insights-card-subtitle">Personalized Recommendations</div>
+                {% for insight in result.insights %}
+                <div class="insight-item">{{ insight }}</div>
+                {% endfor %}
+            </div>
+
+            <!-- Related Calculators -->
+            <div class="card">
+                <h2>Next Steps in Your Loan Journey</h2>
+                <div class="related-section">
+                    <a href="{{ url_for('emi_calculator') }}" class="related-card">
+                        <h3>💳 EMI Calculator</h3>
+                        <p>Calculate monthly EMI for your desired loan with different tenure and interest rates.</p>
+                    </a>
+                    <a href="{{ url_for('networth_calculator') }}" class="related-card">
+                        <h3>📊 NetWorth Calculator</h3>
+                        <p>Track your complete financial position - assets, liabilities, and net worth growth.</p>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        {% elif result and result.error %}
+        <div class="error-card">
+            <h2>Error in Calculation</h2>
+            <p>{{ result.error }}</p>
+            <p style="margin-top: 12px; color: #999; font-size: 14px;">Please check your inputs and try again. Ensure annual income is greater than 0 and credit score is between 300-900.</p>
+        </div>
+        {% endif %}
+
+        <!-- How Loan Eligibility Works -->
+        <div class="card">
+            <h2>How Loan Eligibility is Determined</h2>
+            <p>Banks and financial institutions use a standardized process to assess loan eligibility:</p>
+            <ul>
+                <li><strong>Income Assessment:</strong> Your stable, verifiable annual income determines your repayment capacity</li>
+                <li><strong>Debt-to-Income Ratio (DTI):</strong> Maximum monthly obligations (existing loans + new EMI) should not exceed 50-60% of monthly income</li>
+                <li><strong>Credit Score Analysis:</strong> CIBIL scores above 750 qualify for best rates; scores below 650 face rejection or higher interest rates</li>
+                <li><strong>Employment Stability:</strong> Salaried professionals get better terms than self-employed; business owners face stricter scrutiny</li>
+                <li><strong>Loan-to-Value (LTV):</strong> The ratio of loan amount to property/asset value (lower LTV = better eligibility)</li>
+            </ul>
+        </div>
+
+        <!-- Understanding Credit Score -->
+        <div class="card">
+            <h2>Understanding Your Credit Score Impact</h2>
+            <ul>
+                <li><strong>750+:</strong> Excellent - Access to best interest rates (6.5%-7.5%), instant approval odds</li>
+                <li><strong>700-749:</strong> Good - Competitive rates available (7.5%-8.5%), high approval odds</li>
+                <li><strong>650-699:</strong> Fair - Standard rates (8.5%-9.5%), moderate approval odds</li>
+                <li><strong>Below 650:</strong> Poor - Higher interest rates (10%+), likely rejection or require co-signer</li>
+                <li><strong>Improving Your Score:</strong> Each 50-point increase can save ₹5-8K annually on interest payments over 20 years</li>
+            </ul>
+        </div>
+
+        <!-- DTI Ratio Guide -->
+        <div class="card">
+            <h2>What is Debt-to-Income (DTI) Ratio?</h2>
+            <p>DTI ratio measures what percentage of your monthly income goes toward debt payments. It's calculated as: (Monthly Debt Obligations ÷ Monthly Gross Income) × 100</p>
+            <ul>
+                <li><strong>Below 35%:</strong> Excellent - Maximum borrowing capacity</li>
+                <li><strong>35-50%:</strong> Good - Healthy borrowing range</li>
+                <li><strong>50-60%:</strong> Acceptable - Approaching lender comfort zone</li>
+                <li><strong>Above 60%:</strong> High Risk - Limited borrowing capacity, possible rejection</li>
+                <li><strong>Strategy:</strong> Pay down existing loans or reduce monthly expenses to improve your DTI and qualify for larger loans</li>
+            </ul>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div class="card">
+            <h2>Common Loan Eligibility Mistakes to Avoid</h2>
+            <ul>
+                <li>🚫 <strong>Applying with Low Credit Score:</strong> Each rejected application lowers your score by 20-30 points. Improve your score first.</li>
+                <li>🚫 <strong>Not Disclosing Existing Loans:</strong> Banks verify all EMIs via CIBIL. Hiding loans results in instant rejection.</li>
+                <li>🚫 <strong>Taking New Credit Before Loan Application:</strong> New credit enquiries lower your score and DTI eligibility.</li>
+                <li>🚫 <strong>Ignoring Monthly Expense Impact:</strong> High monthly expenses reduce available EMI capacity.</li>
+                <li>🚫 <strong>Choosing Long Tenure for Affordability:</strong> 30-year loans cost 50%+ more in interest. Shorter tenure = huge savings.</li>
+                <li>🚫 <strong>Not Shopping Around:</strong> Different lenders offer rates 0.5-1.5% apart. Compare thoroughly.</li>
+            </ul>
+        </div>
+
+        <!-- Loan Types & Eligibility -->
+        <div class="card">
+            <h2>Eligibility Requirements by Loan Type</h2>
+            <ul>
+                <li><strong>Home Loans:</strong> DTI: 50-60%, Min Income: ₹25,000/month, Credit Score: 650+, Tenure: 5-30 years</li>
+                <li><strong>Car/Auto Loans:</strong> DTI: 35-50%, Min Income: ₹15,000/month, Credit Score: 600+, Tenure: 3-7 years</li>
+                <li><strong>Personal Loans:</strong> DTI: 50-60%, Min Income: ₹10,000/month, Credit Score: 650+, Tenure: 1-5 years</li>
+                <li><strong>Education Loans:</strong> DTI: 50-70%, Variable based on institution, Credit Score: 600+, Tenure: Course + 5 years</li>
+            </ul>
+        </div>
+
+        <!-- Related Articles -->
+        <div class="card">
+            <h2>Improve Your Loan Eligibility</h2>
+            <p style="margin-bottom: 20px;">Learn proven strategies to enhance your credit profile and maximize loan approval odds.</p>
+            
+            <div class="related-section">
+                <a href="https://smartplanfinance.com/blog/home-loan-emi-calculator-2026-the-complete-guide-to-calculating-emi-saving-lakhs-on-interest-choosing-the-right-home-loan-in-india" style="text-decoration: none;">
+                    <div class="related-card">
+                        <h3>🏠 Home Loan EMI Guide</h3>
+                        <p>Complete guide to calculating EMI, saving lakhs on interest, and choosing the right home loan.</p>
+                    </div>
+                </a>
+
+                <a href="https://smartplanfinance.com/blog/the-complete-guide-to-building-credit-score-optimizing-loans-in-india-2026-increase-cibil-reduce-interest-rates-approve-home-car-loans-build-wealth-faster" style="text-decoration: none;">
+                    <div class="related-card">
+                        <h3>📈 Build Your Credit Score</h3>
+                        <p>Proven strategies to increase CIBIL score, reduce interest rates, and fast-track loan approvals.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Next Steps CTA -->
+        <div class="cta-section">
+            <h2>Ready to Apply for Your Loan?</h2>
+            <div class="cta-links">
+                <a href="{{ url_for('emi_calculator') }}" class="cta-link">💳 Calculate Your EMI</a>
+                <a href="{{ url_for('networth_calculator') }}" class="cta-link">📊 Track Your Net Worth</a>
+                <a href="{{ url_for('index') }}" class="cta-link">🏠 Explore More Tools</a>
+            </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <strong>Disclaimer:</strong> This Loan Eligibility Calculator provides estimated results based on standard lending criteria. Actual eligibility may vary based on lender policies, income verification, employment stability, property valuation, market conditions, and individual circumstances. Banks may apply different eligibility rules and interest rates. Past loan performance, hidden liabilities, or changed financial conditions can affect actual approval. Please consult with your bank or a qualified financial advisor before applying for loans. This calculator is for educational and informational purposes only and does not constitute financial or legal advice.
+        </div>
+
+        <!-- Partner CTA -->
+        <div class="partner-section" style="margin-top: 40px;">
+            {% include "partials/_partner_cta.html" %}
+        </div>
+
+    </div>
+
+    <script>
+        // Auto-scroll to results after calculation
+        document.addEventListener('DOMContentLoaded', function () {
+            const resultsSection = document.getElementById('results-section');
+            if (resultsSection && window.location.search === '') {
+                setTimeout(() => {
+                    resultsSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
+            }
+        });
+
+        // Form validation
+        document.getElementById('loanEligibilityForm').addEventListener('submit', function(e) {
+            const annualIncome = parseFloat(document.getElementById('annual_income').value);
+            const creditScore = parseInt(document.getElementById('credit_score').value);
+            const desiredLoan = parseFloat(document.getElementById('desired_loan_amount').value);
+
+            if (annualIncome <= 0) {
+                e.preventDefault();
+                alert('Please enter your annual income (must be greater than 0).');
+            }
+
+            if (creditScore < 300 || creditScore > 900) {
+                e.preventDefault();
+                alert('Credit score must be between 300 and 900.');
+            }
+
+            if (desiredLoan <= 0) {
+                e.preventDefault();
+                alert('Please enter the desired loan amount.');
+            }
+        });
+    </script>
+
+</body>
+
+</html>
