@@ -3292,6 +3292,221 @@ def fd_calculator():
         partners=PAGE_PARTNER_MAP.get("fd_calculator", []),
         PARTNER_LINKS=PARTNER_LINKS
     )
+"""
+Route + calculation logic for the In-Hand Salary Calculator.
+Paste this into your main Flask app file (same place as loan_eligibility_calculator,
+emi_calculator, networth_calculator, etc).
+
+URL:  /in-hand-salary-calculator
+Template:  in_hand_salary_calculator.html  (put in your templates/ folder)
+
+Tax data used (FY 2025-26 / AY 2026-27, unchanged for FY 2026-27 per Budget 2026):
+- New regime slabs: 0-4L nil, 4-8L 5%, 8-12L 10%, 12-16L 15%, 16-20L 20%,
+  20-24L 25%, above 24L 30%. Standard deduction Rs.75,000. Sec 87A rebate up to
+  Rs.60,000 (net tax nil for taxable income <= Rs.12L), with marginal relief just above.
+- Old regime slabs (age-based): below 60 -> 2.5L/5L/10L; 60-80 -> 3L/5L/10L;
+  above 80 -> 5L/10L. Standard deduction Rs.50,000. Sec 87A rebate up to Rs.12,500
+  (net tax nil for taxable income <= Rs.5L).
+- 4% Health & Education Cess on tax (after surcharge) under both regimes.
+- Simplified surcharge: >50L 10%, >1Cr 15%, >2Cr 25% (both regimes); old regime
+  additionally 37% above 5Cr (new regime surcharge is capped at 25%).
+This is a planning estimate, not a substitute for a CA / Form 16 computation.
+"""
+
+NEW_REGIME_SLABS = [
+    (0, 400000, 0),
+    (400000, 800000, 5),
+    (800000, 1200000, 10),
+    (1200000, 1600000, 15),
+    (1600000, 2000000, 20),
+    (2000000, 2400000, 25),
+    (2400000, float('inf'), 30),
+]
+
+OLD_REGIME_SLABS = {
+    'below60': [(0, 250000, 0), (250000, 500000, 5), (500000, 1000000, 20), (1000000, float('inf'), 30)],
+    '60to80': [(0, 300000, 0), (300000, 500000, 5), (500000, 1000000, 20), (1000000, float('inf'), 30)],
+    'above80': [(0, 500000, 0), (500000, 1000000, 20), (1000000, float('inf'), 30)],
+}
+
+
+def _slab_tax(taxable, slabs):
+    tax = 0
+    for lower, upper, rate in slabs:
+        if taxable > lower:
+            tax += (min(taxable, upper) - lower) * rate / 100
+        else:
+            break
+    return tax
+
+
+def _surcharge_rate(taxable, regime):
+    if taxable > 20000000:
+        return 0.37 if regime == 'old' else 0.25
+    elif taxable > 10000000:
+        return 0.15
+    elif taxable > 5000000:
+        return 0.10
+    return 0
+
+
+def compute_new_regime_tax(taxable):
+    if taxable <= 1200000:
+        return 0.0
+    tax = _slab_tax(taxable, NEW_REGIME_SLABS)
+    # Marginal relief just above the 12L rebate threshold
+    excess = taxable - 1200000
+    if tax > excess:
+        tax = excess
+    surcharge = tax * _surcharge_rate(taxable, 'new')
+    return round((tax + surcharge) * 1.04, 2)
+
+
+def compute_old_regime_tax(taxable, age_group):
+    slabs = OLD_REGIME_SLABS.get(age_group, OLD_REGIME_SLABS['below60'])
+    if taxable <= 500000:
+        return 0.0
+    tax = _slab_tax(taxable, slabs)
+    surcharge = tax * _surcharge_rate(taxable, 'old')
+    return round((tax + surcharge) * 1.04, 2)
+
+
+@app.route('/in-hand-salary-calculator', methods=['GET', 'POST'])
+def in_hand_salary_calculator():
+    """
+    In-Hand Salary Calculator
+    Converts Annual CTC into monthly take-home pay, showing the PF/gratuity
+    held back, income tax under both regimes, and which regime saves more.
+    """
+    result = None
+
+    if request.method == 'POST':
+        try:
+            annual_ctc = float(request.form.get('annual_ctc', 0))
+            basic_percent = float(request.form.get('basic_percent', 40))
+            metro_city = request.form.get('metro_city', 'yes') == 'yes'
+            monthly_rent_paid = float(request.form.get('monthly_rent_paid', 0) or 0)
+            tax_regime = request.form.get('tax_regime', 'new')
+            age_group = request.form.get('age_group', 'below60')
+            professional_tax_annual = float(request.form.get('professional_tax_annual', 2400) or 0)
+            other_deductions = float(request.form.get('other_deductions', 0) or 0)
+
+            if annual_ctc <= 0:
+                raise ValueError("Annual CTC must be greater than 0")
+            if basic_percent < 20 or basic_percent > 60:
+                raise ValueError("Basic salary percentage should be between 20% and 60%")
+
+            # --- Salary structure breakup ---
+            basic = annual_ctc * basic_percent / 100
+            hra_pct = 0.50 if metro_city else 0.40
+            hra_received = basic * hra_pct
+
+            employer_pf = basic * 0.12
+            gratuity = basic * 0.0481
+            retirals = employer_pf + gratuity
+
+            gross_salary = max(0, annual_ctc - retirals)
+            special_allowance = max(0, gross_salary - basic - hra_received)
+            employee_pf = basic * 0.12
+
+            def taxable_and_tax(regime):
+                if regime == 'new':
+                    taxable = max(0, gross_salary - 75000)
+                    tax = compute_new_regime_tax(taxable)
+                    hra_exempt = 0
+                    sec80c = 0
+                else:
+                    hra_exempt = 0
+                    if monthly_rent_paid > 0:
+                        annual_rent = monthly_rent_paid * 12
+                        excess_rent = max(0, annual_rent - basic * 0.10)
+                        hra_exempt = min(hra_received, excess_rent, basic * hra_pct)
+                    sec80c = min(employee_pf, 150000)
+                    taxable = max(0, gross_salary - hra_exempt - 50000 - sec80c - other_deductions)
+                    tax = compute_old_regime_tax(taxable, age_group)
+                return taxable, tax, hra_exempt, sec80c
+
+            new_taxable, new_tax, _, _ = taxable_and_tax('new')
+            old_taxable, old_tax, old_hra_exempt, old_sec80c = taxable_and_tax('old')
+
+            if tax_regime == 'new':
+                income_tax = new_tax
+                taxable_income = new_taxable
+            else:
+                income_tax = old_tax
+                taxable_income = old_taxable
+
+            total_deductions = employee_pf + professional_tax_annual + income_tax
+            annual_take_home = max(0, gross_salary - total_deductions)
+            monthly_take_home = annual_take_home / 12
+            in_hand_percent = (annual_take_home / annual_ctc) * 100 if annual_ctc > 0 else 0
+            effective_tax_rate = (income_tax / gross_salary * 100) if gross_salary > 0 else 0
+
+            better_regime = 'New Regime' if new_tax <= old_tax else 'Old Regime'
+            tax_saving_by_switching = abs(new_tax - old_tax)
+
+            insights = []
+
+            if better_regime.lower().startswith(tax_regime):
+                insights.append("✓ You've selected the {} for this calculation, which also comes out cheaper for your numbers — Old Regime tax: ₹{:,.0f}, New Regime tax: ₹{:,.0f}.".format(
+                    'New Regime' if tax_regime == 'new' else 'Old Regime', old_tax, new_tax))
+            else:
+                insights.append("⚠ The {} looks cheaper for your inputs — you could save about ₹{:,.0f}/year in tax by switching (Old: ₹{:,.0f} vs New: ₹{:,.0f}).".format(
+                    better_regime, tax_saving_by_switching, old_tax, new_tax))
+
+            insights.append("ℹ ₹{:,.0f} of your CTC (Employer PF + Gratuity) is held back for retirement/exit and isn't part of your monthly in-hand pay.".format(retirals))
+
+            if tax_regime == 'old':
+                if old_hra_exempt > 0:
+                    insights.append("✓ You're claiming ₹{:,.0f} in HRA exemption and ₹{:,.0f} under Section 80C, lowering your taxable income.".format(old_hra_exempt, old_sec80c))
+                else:
+                    insights.append("⚠ No HRA exemption applied — add your monthly rent paid if you live in rented accommodation to reduce taxable income.")
+            else:
+                insights.append("ℹ The New Regime doesn't allow HRA or 80C exemptions, but it has lower slab rates and a bigger rebate — often a wash or better for those without large deductions.")
+
+            if in_hand_percent < 65:
+                insights.append("⚠ Your in-hand pay is about {:.0f}% of CTC. A high basic salary % and PF/gratuity structuring account for most of the gap.".format(in_hand_percent))
+            else:
+                insights.append("✓ You're taking home about {:.0f}% of your CTC every year, which is a healthy in-hand ratio.".format(in_hand_percent))
+
+            result = {
+                'annual_ctc': f"{annual_ctc:,.0f}",
+                'basic': f"{basic:,.0f}",
+                'hra_received': f"{hra_received:,.0f}",
+                'special_allowance': f"{special_allowance:,.0f}",
+                'employer_pf': f"{employer_pf:,.0f}",
+                'gratuity': f"{gratuity:,.0f}",
+                'retirals': f"{retirals:,.0f}",
+                'gross_salary': f"{gross_salary:,.0f}",
+                'employee_pf': f"{employee_pf:,.0f}",
+                'professional_tax_annual': f"{professional_tax_annual:,.0f}",
+                'taxable_income': f"{taxable_income:,.0f}",
+                'income_tax': f"{income_tax:,.0f}",
+                'effective_tax_rate': f"{effective_tax_rate:.1f}",
+                'total_deductions': f"{total_deductions:,.0f}",
+                'annual_take_home': f"{annual_take_home:,.0f}",
+                'monthly_take_home': f"{monthly_take_home:,.0f}",
+                'in_hand_percent': f"{in_hand_percent:.1f}",
+                'in_hand_percent_value': in_hand_percent,
+                'tax_regime': 'New Regime' if tax_regime == 'new' else 'Old Regime',
+                'new_regime_tax': f"{new_tax:,.0f}",
+                'old_regime_tax': f"{old_tax:,.0f}",
+                'better_regime': better_regime,
+                'tax_saving_by_switching': f"{tax_saving_by_switching:,.0f}",
+                'regime_matches_best': better_regime.lower().startswith(tax_regime),
+                'insights': insights,
+                'confidence': 80,
+            }
+
+        except Exception as e:
+            result = {'error': str(e)}
+
+    return render_template(
+        'in_hand_salary_calculator.html',
+        result=result,
+        partners=PAGE_PARTNER_MAP.get("in_hand_salary_calculator", []),
+        PARTNER_LINKS=PARTNER_LINKS
+    )
 @app.route('/admin')
 @requires_auth
 def admin():

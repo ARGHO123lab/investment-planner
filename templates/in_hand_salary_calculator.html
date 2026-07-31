@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+
+    <link rel="manifest"
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+    <title>In-Hand Salary Calculator - CTC to Take-Home Pay (2026) | SmartPlanFinance</title>
+
+    <meta name="description"
+          content="Free In-Hand Salary Calculator by SmartPlanFinance. Convert your Annual CTC into monthly take-home pay. See PF, gratuity, professional tax and income tax under Old vs New Regime, plus which regime saves you more in 2026.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 20px;
+            background: #FFFDF5;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Enhanced Header Section */
+        .header-section {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(184, 134, 11, 0.08) 0%, rgba(255, 193, 7, 0.05) 100%);
+            padding: 50px 30px;
+            border-radius: 20px;
+            border: 2px solid rgba(184, 134, 11, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .header-subtitle {
+            font-size: 13px;
+            color: #B8860B;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .header-section h1 {
+            color: #B8860B;
+            font-size: 42px;
+            margin-bottom: 16px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header-section p {
+            color: #555;
+            font-size: 17px;
+            line-height: 1.8;
+            max-width: 650px;
+            margin: 0 auto;
+            font-weight: 500;
+        }
+
+        /* Education Card */
+        .education-card {
+            background: linear-gradient(135deg, #FFFEF9 0%, #F0F7FF 100%);
+            padding: 32px 28px;
+            border-radius: 16px;
+            border: 2px solid #FFE082;
+            margin-bottom: 40px;
+            border-left: 6px solid #B8860B;
+        }
+
+        .education-card h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 14px;
+            font-weight: 700;
+        }
+
+        .education-card p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+
+        .education-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Form Section */
+        .form-card {
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #555;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #FFC107;
+            background: #FFFEF9;
+        }
+
+        .form-group small {
+            color: #999;
+            font-size: 12px;
+            display: block;
+            margin-top: 6px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #FFC107 0%, #E0A800 100%);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 193, 7, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .back-home {
+            display: inline-block;
+            text-align: center;
+            padding: 12px 28px;
+            background: white;
+            border: 2px solid #FFC107;
+            border-radius: 10px;
+            color: #B8860B;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .back-home:hover {
+            background: #FFF8E1;
+            transform: translateY(-2px);
+        }
+
+        /* Results Section */
+        .results-section {
+            display: none;
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            color: #B8860B;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.9;
+            margin: 0;
+        }
+
+        .card ul {
+            color: #555;
+            font-size: 15px;
+            line-height: 2;
+            margin-left: 20px;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+        }
+
+        /* Main Take-Home Display */
+        .eligibility-status-card {
+            color: white;
+            text-align: center;
+            padding: 40px 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+
+        .eligibility-status-card h2 {
+            color: white;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+
+        .eligibility-status-card .status {
+            font-size: 44px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .eligibility-status-card .approval {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* Performance Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .metric-item {
+            background: #F5F5F5;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #FFC107;
+        }
+
+        .metric-item-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .metric-item-value {
+            font-size: 22px;
+            color: #B8860B;
+            font-weight: 700;
+        }
+
+        .metric-item-unit {
+            font-size: 12px;
+            color: #999;
+            font-weight: 500;
+        }
+
+        /* Regime Comparison */
+        .performance-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .eligibility-badge-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #FFE082;
+            background: #FFFEF9;
+        }
+
+        .eligibility-badge {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .eligibility-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .eligibility-value {
+            font-size: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .confidence-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #4CAF50;
+            background: linear-gradient(135deg, #F1F8F4 0%, white 100%);
+        }
+
+        .stars {
+            font-size: 28px;
+            margin-bottom: 8px;
+            letter-spacing: 4px;
+        }
+
+        .confidence-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .confidence-text {
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* SmartPlan Insights */
+        .insights-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, white 100%);
+            border-left: 5px solid #FFC107;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .insights-card h2 {
+            color: #B8860B;
+            font-size: 16px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .insights-card-subtitle {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .insight-item {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .insight-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        /* Related Calculators */
+        .related-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .related-card {
+            background: #FFF8E1;
+            border-left: 5px solid #FFC107;
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .related-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .related-card h3 {
+            color: #B8860B;
+            margin-top: 0;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .related-card p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
+            color: white;
+            padding: 32px 24px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .cta-section h2 {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .cta-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cta-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            margin-top: 30px;
+            padding: 20px;
+            background: #fff8e5;
+            border-left: 5px solid #B8860B;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .disclaimer strong {
+            color: #333;
+        }
+
+        /* Error Section */
+        .error-card {
+            background: #FFE5E5;
+            border-left: 5px solid #FF6B6B;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .error-card h2 {
+            color: #FF6B6B;
+            margin-bottom: 12px;
+        }
+
+        .error-card p {
+            color: #555;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .header-section {
+                padding: 40px 20px;
+            }
+
+            .header-section h1 {
+                font-size: 28px;
+            }
+
+            .header-section p {
+                font-size: 15px;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .eligibility-status-card {
+                padding: 32px 20px;
+            }
+
+            .eligibility-status-card .status {
+                font-size: 32px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .performance-section {
+                grid-template-columns: 1fr;
+            }
+
+            .related-section {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .cta-links {
+                flex-direction: column;
+            }
+
+            .cta-link {
+                width: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Enhanced Header -->
+        <div class="header-section">
+            <div class="header-subtitle">💵 Salary Planning Tool</div>
+            <h1>💵 In-Hand Salary Calculator</h1>
+            <p>Convert your Annual CTC into your real monthly take-home pay. See exactly how much goes to PF, gratuity, professional tax and income tax — and compare the Old vs New Tax Regime to find out which one saves you more in 2026.</p>
+        </div>
+
+        <!-- Education Card -->
+        <div class="education-card">
+            <h2>Why CTC Isn't What You Take Home</h2>
+            <p>Your Cost to Company (CTC) includes far more than your monthly paycheck. It bundles in Employer PF contribution and Gratuity — both retained until you exit or retire — plus deductions like Employee PF, Professional Tax and Income Tax that reduce what actually lands in your bank account.</p>
+            <p><strong>This calculator helps you:</strong> See your real monthly in-hand salary from your CTC, understand the full breakup of Basic, HRA and allowances, compare your tax outgo under the Old and New Regime, and find out which regime is better for your specific numbers.</p>
+            <p><strong>Key Factors Analyzed:</strong> Annual CTC, Basic salary %, city type (for HRA), rent paid, tax regime, age group, professional tax and other deductions like 80C/80D.</p>
+        </div>
+
+        <!-- Input Form -->
+        <div class="form-card">
+            <form method="POST" id="inHandSalaryForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="annual_ctc">Annual CTC (₹)</label>
+                        <input type="number" id="annual_ctc" name="annual_ctc" placeholder="1200000" required min="0">
+                        <small>Your total Cost to Company as per offer letter</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="basic_percent">Basic Salary (% of CTC)</label>
+                        <input type="number" id="basic_percent" name="basic_percent" value="40" required min="20" max="60">
+                        <small>Typically 35%-50% of CTC</small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="metro_city">City Type</label>
+                        <select id="metro_city" name="metro_city" required>
+                            <option value="yes">Metro (Delhi, Mumbai, Chennai, Kolkata)</option>
+                            <option value="no">Non-Metro</option>
+                        </select>
+                        <small>Affects HRA exemption calculation</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="monthly_rent_paid">Monthly Rent Paid (₹)</label>
+                        <input type="number" id="monthly_rent_paid" name="monthly_rent_paid" placeholder="15000" min="0">
+                        <small>Only used for HRA exemption under Old Regime</small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tax_regime">Tax Regime</label>
+                        <select id="tax_regime" name="tax_regime" required>
+                            <option value="new">New Regime (Default)</option>
+                            <option value="old">Old Regime</option>
+                        </select>
+                        <small>We'll also show you which one is cheaper</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age_group">Age Group</label>
+                        <select id="age_group" name="age_group" required>
+                            <option value="below60">Below 60</option>
+                            <option value="60to80">60-80 (Senior Citizen)</option>
+                            <option value="above80">Above 80 (Super Senior)</option>
+                        </select>
+                        <small>Old Regime exemption limit varies by age</small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="professional_tax_annual">Professional Tax (₹/year)</label>
+                        <input type="number" id="professional_tax_annual" name="professional_tax_annual" value="2400" min="0">
+                        <small>State-specific, commonly ₹2,400/year</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="other_deductions">Other Deductions (₹/year)</label>
+                        <input type="number" id="other_deductions" name="other_deductions" placeholder="0" min="0">
+                        <small>80D, home loan interest, NPS, etc. (Old Regime only)</small>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Calculate In-Hand Salary</button>
+                <a href="{{ url_for('index') }}" class="back-home">← Back to Home</a>
+            </form>
+        </div>
+
+        <!-- Results Section (shown after calculation) -->
+        {% if result and not result.error %}
+        <div class="results-section show" id="results-section">
+
+            <!-- Main Take-Home Display -->
+            <div class="eligibility-status-card">
+                <h2>Your Monthly In-Hand Salary</h2>
+                <div class="status">₹{{ result.monthly_take_home }}</div>
+                <div class="approval">Annual Take-Home: ₹{{ result.annual_take_home }} ({{ result.in_hand_percent }}% of CTC)</div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-item-label">Basic Salary (Annual)</div>
+                    <div class="metric-item-value">₹{{ result.basic }}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-item-label">HRA Received (Annual)</div>
+                    <div class="metric-item-value">₹{{ result.hra_received }}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-item-label">Gross Salary (Annual)</div>
+                    <div class="metric-item-value">₹{{ result.gross_salary }}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-item-label">Employer PF + Gratuity</div>
+                    <div class="metric-item-value">₹{{ result.retirals }}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-item-label">Income Tax ({{ result.tax_regime }})</div>
+                    <div class="metric-item-value" style="color: #FF6B6B;">₹{{ result.income_tax }}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-item-label">Total Deductions</div>
+                    <div class="metric-item-value" style="color: #FF6B6B;">₹{{ result.total_deductions }}</div>
+                </div>
+            </div>
+
+            <!-- Regime Comparison & Take-Home % -->
+            <div class="performance-section">
+                <div class="eligibility-badge-card">
+                    <div class="eligibility-badge">
+                        {% if result.regime_matches_best %}✓{% else %}⚠{% endif %}
+                    </div>
+                    <div class="eligibility-label">Better Tax Regime</div>
+                    <div class="eligibility-value">{{ result.better_regime }}</div>
+                </div>
+                <div class="confidence-card">
+                    <div class="stars">
+                        {% if result.in_hand_percent_value >= 75 %}★★★★★
+                        {% elif result.in_hand_percent_value >= 65 %}★★★★☆
+                        {% elif result.in_hand_percent_value >= 55 %}★★★☆☆
+                        {% else %}★★☆☆☆
+                        {% endif %}
+                    </div>
+                    <div class="confidence-label">Effective Tax Rate</div>
+                    <div class="confidence-text">{{ result.effective_tax_rate }}% of Gross Salary</div>
+                </div>
+            </div>
+
+            <!-- SmartPlan Insights -->
+            <div class="insights-card">
+                <h2>💡 SmartPlan Finance Insights</h2>
+                <div class="insights-card-subtitle">Personalized Recommendations</div>
+                {% for insight in result.insights %}
+                <div class="insight-item">{{ insight }}</div>
+                {% endfor %}
+            </div>
+
+            <!-- Related Calculators -->
+            <div class="card">
+                <h2>Next Steps in Your Salary Planning</h2>
+                <div class="related-section">
+                    <a href="{{ url_for('tax_calculator') }}" class="related-card">
+                        <h3>🧾 Income Tax Calculator</h3>
+                        <p>Get a detailed Old vs New Regime tax breakdown beyond just your salary income.</p>
+                    </a>
+                    <a href="{{ url_for('networth_calculator') }}" class="related-card">
+                        <h3>📊 NetWorth Calculator</h3>
+                        <p>Track your complete financial position - assets, liabilities, and net worth growth.</p>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        {% elif result and result.error %}
+        <div class="error-card">
+            <h2>Error in Calculation</h2>
+            <p>{{ result.error }}</p>
+            <p style="margin-top: 12px; color: #999; font-size: 14px;">Please check your inputs and try again. Ensure Annual CTC is greater than 0 and Basic Salary % is between 20-60.</p>
+        </div>
+        {% endif %}
+
+        <!-- How In-Hand Salary is Calculated -->
+        <div class="card">
+            <h2>How In-Hand Salary is Calculated</h2>
+            <p>Getting from CTC to take-home pay involves a few standard steps:</p>
+            <ul>
+                <li><strong>Salary Breakup:</strong> CTC splits into Basic, HRA, Special Allowance, Employer PF and Gratuity</li>
+                <li><strong>Retirals Held Back:</strong> Employer PF (12% of Basic) and Gratuity (4.81% of Basic) are part of CTC but paid out only on exit/retirement</li>
+                <li><strong>Gross Salary:</strong> CTC minus Employer PF and Gratuity - this is what appears on your payslip and Form 16</li>
+                <li><strong>Deductions:</strong> Employee PF (12% of Basic), Professional Tax, and Income Tax are deducted from Gross Salary every month</li>
+                <li><strong>In-Hand Salary:</strong> Gross Salary minus all deductions, divided by 12 for the monthly figure</li>
+            </ul>
+        </div>
+
+        <!-- Old vs New Regime -->
+        <div class="card">
+            <h2>Old Regime vs New Regime: Which Should You Pick?</h2>
+            <ul>
+                <li><strong>New Regime (Default):</strong> Lower slab rates, ₹75,000 standard deduction, and income up to ₹12L is effectively tax-free after the Section 87A rebate. No HRA or 80C exemptions allowed.</li>
+                <li><strong>Old Regime:</strong> Higher slab rates but allows HRA exemption, Section 80C (up to ₹1.5L), 80D, home loan interest, and other deductions. Income up to ₹5L is tax-free.</li>
+                <li><strong>Best For New Regime:</strong> Those without significant rent, insurance, or 80C investments</li>
+                <li><strong>Best For Old Regime:</strong> Those paying rent in a metro city, maxing out 80C, or claiming a home loan deduction</li>
+                <li><strong>Tip:</strong> Run the numbers under both regimes each year - your ideal regime can change with your deductions</li>
+            </ul>
+        </div>
+
+        <!-- Salary Structure Guide -->
+        <div class="card">
+            <h2>Understanding Your Salary Structure</h2>
+            <ul>
+                <li><strong>Basic Salary:</strong> Usually 35%-50% of CTC; the base for PF, gratuity and HRA calculations</li>
+                <li><strong>HRA (House Rent Allowance):</strong> Typically 50% of Basic in metro cities, 40% in non-metro cities</li>
+                <li><strong>Employee PF:</strong> 12% of Basic, deducted from your pay and deposited into your EPF account</li>
+                <li><strong>Employer PF:</strong> A matching 12% of Basic contributed by your employer, part of CTC but not in-hand</li>
+                <li><strong>Gratuity:</strong> Roughly 4.81% of Basic, paid out only after 5 years of continuous service</li>
+                <li><strong>Special Allowance:</strong> The balancing figure that makes up the rest of your Gross Salary</li>
+            </ul>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div class="card">
+            <h2>Common Mistakes When Evaluating a CTC Offer</h2>
+            <ul>
+                <li>🚫 <strong>Comparing Offers by CTC Alone:</strong> Two offers with the same CTC can have very different in-hand pay depending on Basic % and retirals structure.</li>
+                <li>🚫 <strong>Ignoring Gratuity Vesting:</strong> Gratuity is part of CTC but only paid after 5 years - it inflates your "package" without helping cash flow today.</li>
+                <li>🚫 <strong>Sticking with the Default Regime:</strong> The New Regime is default, but it may not be optimal if you pay rent or invest heavily in 80C instruments.</li>
+                <li>🚫 <strong>Forgetting Professional Tax:</strong> A small deduction, but it varies by state and adds up over a year.</li>
+                <li>🚫 <strong>Not Reviewing Basic %:</strong> A very high Basic % increases PF and gratuity (locked away) but also increases HRA exemption potential under the Old Regime.</li>
+            </ul>
+        </div>
+
+        <!-- Improve Your Take-Home -->
+        <div class="card">
+            <h2>Improve Your Take-Home Pay</h2>
+            <p style="margin-bottom: 20px;">Learn how to structure your salary smartly and make the most of a hike.</p>
+
+            <div class="related-section">
+                <a href="https://smartplanfinance.com/blog/got-a-salary-hike-5-smart-moves-to-upgrade-your-finances-not-just-your-lifestyle" style="text-decoration: none;">
+                    <div class="related-card">
+                        <h3>📈 Got a Salary Hike?</h3>
+                        <p>5 smart moves to upgrade your finances instead of just your lifestyle.</p>
+                    </div>
+                </a>
+
+                <a href="https://smartplanfinance.com/blog/income-tax-slabs-2026-new-regime-vs-old-regime-which-saves-you-more-money" style="text-decoration: none;">
+                    <div class="related-card">
+                        <h3>🧾 Old vs New Regime 2026</h3>
+                        <p>A detailed look at which tax regime saves you more money in 2026.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Next Steps CTA -->
+        <div class="cta-section">
+            <h2>Ready to Plan Your Salary Further?</h2>
+            <div class="cta-links">
+                <a href="{{ url_for('tax_calculator') }}" class="cta-link">🧾 Calculate Your Income Tax</a>
+                <a href="{{ url_for('networth_calculator') }}" class="cta-link">📊 Track Your Net Worth</a>
+                <a href="{{ url_for('index') }}" class="cta-link">🏠 Explore More Tools</a>
+            </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <strong>Disclaimer:</strong> This In-Hand Salary Calculator provides estimated results based on standard CTC structuring (12% Employee/Employer PF, 4.81% Gratuity) and FY 2025-26/2026-27 income tax slabs, which are unchanged for FY 2026-27. Actual figures depend on your employer's specific salary structure, applicable state professional tax, exact HRA rules, surcharge, and any additional deductions or exemptions. Please refer to your payslip, Form 16, and a qualified tax advisor before making financial decisions. This calculator is for educational and informational purposes only and does not constitute financial or tax advice.
+        </div>
+
+        <!-- Partner CTA -->
+        <div class="partner-section" style="margin-top: 40px;">
+            {% include "partials/_partner_cta.html" %}
+        </div>
+
+    </div>
+
+    <script>
+        // Auto-scroll to results after calculation
+        document.addEventListener('DOMContentLoaded', function () {
+            const resultsSection = document.getElementById('results-section');
+            if (resultsSection && window.location.search === '') {
+                setTimeout(() => {
+                    resultsSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
+            }
+        });
+
+        // Form validation
+        document.getElementById('inHandSalaryForm').addEventListener('submit', function(e) {
+            const annualCtc = parseFloat(document.getElementById('annual_ctc').value);
+            const basicPercent = parseFloat(document.getElementById('basic_percent').value);
+
+            if (annualCtc <= 0) {
+                e.preventDefault();
+                alert('Please enter your Annual CTC (must be greater than 0).');
+            }
+
+            if (basicPercent < 20 || basicPercent > 60) {
+                e.preventDefault();
+                alert('Basic salary percentage should be between 20% and 60%.');
+            }
+        });
+    </script>
+
+</body>
+
+</html>
