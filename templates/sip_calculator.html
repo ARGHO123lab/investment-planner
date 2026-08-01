@@ -2,6 +2,21 @@
 <html lang="en">
 
 <head>
+    <link rel="canonical" href="https://smartplanfinance.com/sip-calculator">
+
+<meta name="description"
+content="Calculate SIP returns online with SmartPlan Finance SIP Calculator. Estimate your future wealth, investment growth, and compounding benefits by entering monthly investment, expected returns, and time period.">
+
+<meta property="og:title" content="SIP Calculator | SmartPlan Finance">
+
+<meta property="og:description"
+content="Use our free SIP Calculator to estimate mutual fund wealth creation through disciplined monthly investing and long-term compounding.">
+
+<meta property="og:type" content="website">
+
+<meta property="og:url" content="https://smartplanfinance.com/sip-calculator">
+
+<meta property="og:image" content="https://smartplanfinance.com/static/images/logo.png">
     <meta charset="UTF-8">
     <link rel="icon"
       type="image/png"
@@ -18,7 +33,7 @@
 
 <link rel="manifest"
       href="{{ url_for('static', filename='icons/site.webmanifest') }}">
-    <title>SIP Calculator</title>
+    <title>SIP Calculator - Calculate Mutual Fund Returns Online | SmartPlan Finance</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         
@@ -192,21 +207,83 @@ display:block;
 
 }
 </style>
-   <script type="application/ld+json">
+  
+<script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"WebApplication",
-  "name":"SIP Calculator",
+  "name":"SmartPlan Finance SIP Calculator",
   "applicationCategory":"FinanceApplication",
   "operatingSystem":"Any",
-  "url":"https://smartplanfinance.com/SIP_calculator",
-  "description":"Free SIP Calculator by SmartPlan Finance to calculate future value of your monthly investments.",
-  "publisher":{
-      "@type":"Organization",
-      "name":"SmartPlan Finance"
-  }
+  "url":"https://smartplanfinance.com/sip-calculator",
+  "description":"Free SIP Calculator by SmartPlan Finance to estimate future wealth creation through monthly investments, expected returns, and investment duration.",
+  "provider":{
+    "@type":"Organization",
+    "name":"SmartPlan Finance",
+    "url":"https://smartplanfinance.com"
+  },
+  
+"publisher":{
+  "@type":"Organization",
+  "name":"SmartPlan Finance",
+  "url":"https://smartplanfinance.com"
 }
-</script> 
+}
+</script>
+
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {
+      "@type":"Question",
+      "name":"What is a SIP Calculator?",
+      "acceptedAnswer":{
+        "@type":"Answer",
+        "text":"A SIP Calculator estimates the future value of your monthly mutual fund investments based on investment amount, expected return, and investment duration."
+      }
+    },
+    {
+      "@type":"Question",
+      "name":"Are SIP returns guaranteed?",
+      "acceptedAnswer":{
+        "@type":"Answer",
+        "text":"No. SIP returns depend on market performance and mutual fund performance. The calculator provides only an estimated future value."
+      }
+    },
+    {
+      "@type":"Question",
+      "name":"How much should I invest through SIP?",
+      "acceptedAnswer":{
+        "@type":"Answer",
+        "text":"The right SIP amount depends on your financial goals, income, expenses, risk profile, and investment timeline."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"BreadcrumbList",
+ "itemListElement":[
+ {
+  "@type":"ListItem",
+  "position":1,
+  "name":"Home",
+  "item":"https://smartplanfinance.com"
+ },
+ {
+  "@type":"ListItem",
+  "position":2,
+  "name":"SIP Calculator",
+  "item":"https://smartplanfinance.com/sip-calculator"
+ }
+ ]
+}
+</script>
 </head>
 
 <body>
@@ -218,12 +295,12 @@ display:block;
     <h1 style="font-size:38px;color:#B8860B;margin-bottom:15px;">
         SIP Calculator</h1>
 
-    <p style="font-size:18px;color:#555;line-height:1.9;">
-
-        Calculate how much wealth you can build through a Systematic Investment Plan (SIP). Simply enter your monthly investment amount, expected annual return, and investment period to estimate your future investment value.
-
-    </p>
-
+    <p>
+Use the SmartPlan Finance SIP Calculator to estimate your future wealth through monthly mutual fund investments. Calculate expected SIP returns, total investment value, and the power of long-term compounding.
+</p>
+<p>
+Created and maintained by the SmartPlan Finance Editorial Team with a focus on personal finance education, investment awareness, and financial literacy.
+</p>
     <p style="font-size:18px;color:#555;line-height:1.9;">
 
         Whether you're investing for retirement, buying a house, creating wealth, or your child's education, our free SIP Calculator helps you understand the power of disciplined investing and compounding.
@@ -491,28 +568,53 @@ However, because of compounding, his investment could potentially grow to approx
 
 </div>
 </div>
+<div style="
+margin-top:50px;
+padding:25px;
+background:#FFF8E1;
+border-left:5px solid #FFC107;
+border-radius:12px;
+line-height:1.8;
+color:#555;
+">
+
+<h2 style="color:#B8860B;">
+About SmartPlan Finance
+</h2>
+
+<p>
+SmartPlan Finance provides educational resources, calculators, and guides to help individuals understand personal finance, investing, SIPs, retirement planning, and wealth creation.
+</p>
+
+<p>
+This calculator is designed for educational purposes to help users estimate potential future values based on assumptions entered by them.
+</p>
+
+<p>
+Content is reviewed for accuracy and updated periodically by the SmartPlan Finance Editorial Team.
+</p>
+
+</div>
 {% include "partials/_partner_cta.html" %}
 
-</div>
-
-</body>
-
-</html>
-</div>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Scroll only after a POST submission when results exist
+
     const resultsSection = document.getElementById('results-section');
 
     if (resultsSection && window.location.search === '') {
-        // Small delay ensures layout is fully rendered
+
         setTimeout(() => {
+
             resultsSection.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
+
         }, 100);
+
     }
+
 });
 </script>
 

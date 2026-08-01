@@ -2,7 +2,12 @@
 <html lang="en">
 
 <head>
-
+<link rel="canonical" href="https://smartplanfinance.com/articles">
+<meta property="og:title" content="Financial Insights | SmartPlan Finance">
+<meta property="og:description" content="Explore personal finance articles, investment guides, retirement planning, taxation tips, and wealth-building strategies from SmartPlan Finance.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://smartplanfinance.com/articles">
+<meta property="og:image" content="https://smartplanfinance.com/static/images/logo.png">
 <meta charset="UTF-8">
 
 <link rel="icon"
@@ -23,6 +28,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Financial Insights | SmartPlan Finance</title>
+<meta name="description"
+      content="Explore personal finance articles, investment guides, mutual fund insights, retirement planning, taxation tips, and wealth-building strategies from SmartPlan Finance.">
 
 <link rel="stylesheet"
 href="{{ url_for('static', filename='css/style.css') }}">
@@ -182,7 +189,12 @@ body{
 }
 
 }
-
+.excerpt{
+    color:#666;
+    font-size:15px;
+    line-height:1.7;
+    margin:15px 0;
+}
 </style>
 
 </head>
@@ -195,7 +207,7 @@ body{
 
 <p>
 
-Learn investing, mutual funds, retirement planning, taxation and wealth creation through practical guides written by SmartPlan Finance.
+Explore personal finance articles, investment guides, mutual fund insights, retirement planning, taxation tips, and wealth-building strategies from SmartPlan Finance.
 
 </p>
 
@@ -208,6 +220,7 @@ Learn investing, mutual funds, retirement planning, taxation and wealth creation
 {% for article in articles %}
 
 <div class="card">
+    
     <!--
 {% if article.featured_image %}
 <div class="card-image">
@@ -236,10 +249,12 @@ SmartPlan Finance
 </a>
 
 </h2>
-
+<p style="color:#666;line-height:28px;margin-top:15px;">
+    {{ article.content | striptags | truncate(180, True, '...') }}
+</p>
 <div class="date">
 
-📅 {{ article.created_at }}
+📅 {{ article.created_at.strftime('%d %B %Y') }}
 
 </div>
 

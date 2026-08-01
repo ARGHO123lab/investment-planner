@@ -19,6 +19,17 @@
       href="{{ url_for('static', filename='icons/site.webmanifest') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ article.title }} | SmartPlan Finance</title>
+    <meta name="description"
+      content="{{ article.content | striptags | truncate(160, True, '...') }}">
+
+<link rel="canonical" href="{{ request.url }}">
+
+<meta property="og:title" content="{{ article.title }} | SmartPlan Finance">
+<meta property="og:description"
+      content="{{ article.content | striptags | truncate(160, True, '...') }}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{ request.url }}">
+<meta property="og:image" content="https://smartplanfinance.com/static/images/logo.png">
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -67,10 +78,12 @@
   "@type":"Article",
   "headline":"{{ article.title }}",
   "datePublished":"{{ article.created_at.strftime('%Y-%m-%d') if article.created_at else '' }}",
+"dateModified":"{{ article.updated_at.strftime('%Y-%m-%d') if article.updated_at else article.created_at.strftime('%Y-%m-%d') }}",
   "author":{
       "@type":"Organization",
-      "name":"SmartPlan Finance"
-  },
+      "name":"SmartPlan Finance Editorial Team",
+      "url":"https://smartplanfinance.com"
+},
   "publisher":{
       "@type":"Organization",
       "name":"SmartPlan Finance",
@@ -79,8 +92,9 @@
           "url":"https://smartplanfinance.com/static/images/logo.png"
       }
   },
-  "mainEntityOfPage":"{{ request.url }}",
-  "image":"https://smartplanfinance.com/static/images/logo.png"
+ "mainEntityOfPage":"{{ request.url }}",
+"image":"https://smartplanfinance.com/static/images/logo.png",
+"wordCount":"{{ article.content | striptags | wordcount }}"
 }
 </script>
 <script type="application/ld+json">
@@ -96,6 +110,7 @@
         "text":"You can explore our SIP Calculator, EMI Calculator, Financial Goal Planner and investment guides to begin planning your financial future."
       }
     },
+
     {
       "@type":"Question",
       "name":"Is SmartPlan Finance free to use?",
@@ -113,6 +128,32 @@
       }
     }
   ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"BreadcrumbList",
+ "itemListElement":[
+ {
+  "@type":"ListItem",
+  "position":1,
+  "name":"Home",
+  "item":"https://smartplanfinance.com"
+ },
+ {
+  "@type":"ListItem",
+  "position":2,
+  "name":"Articles",
+  "item":"https://smartplanfinance.com/articles"
+ },
+ {
+  "@type":"ListItem",
+  "position":3,
+  "name":"{{ article.title }}",
+  "item":"{{ request.url }}"
+ }
+ ]
 }
 </script>
 </head>
