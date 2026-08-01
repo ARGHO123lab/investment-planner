@@ -212,11 +212,7 @@ display:block;
 <body>
 
 <div class="container">
-<h1>SIP Calculator</h1>
 
-<button id="voiceBtn">
-    🔊 Listen to this calculator
-</button>
 <div style="margin-bottom:35px;">
 
     <h1 style="font-size:38px;color:#B8860B;margin-bottom:15px;">
@@ -519,34 +515,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
-<script>
-document.getElementById("voiceBtn").onclick = function(){
 
-let text = `
-Welcome to SmartPlan Finance SIP Calculator.
-
-A Systematic Investment Plan, or SIP, is a simple way to build wealth by investing a fixed amount regularly, usually every month, in mutual funds.
-
-This calculator helps you estimate how your investments may grow over time through the power of compounding.
-
-To use this calculator, enter your monthly investment amount, expected annual return rate, and investment period.
-
-For example, if you invest ten thousand rupees every month for twenty years and assume an annual return of twelve percent, your total investment would be twenty-four lakh rupees. With the power of compounding, the estimated value could grow to approximately ninety-nine lakh rupees.
-
-Remember, these are only estimated calculations. Actual mutual fund returns are not guaranteed and may vary depending on market conditions, fund performance, expenses, taxes, and other factors.
-
-SIP investing works best when combined with discipline, patience, and long-term financial planning.
-
-Whether your goal is retirement planning, buying a house, children's education, or creating long-term wealth, this SIP Calculator can help you understand how regular investing can support your financial goals.
-
-Start planning your wealth journey with SmartPlan Finance.
-`;
-
-speakText(text);
-
-};
-</script>
-<script src="{{ url_for('static', filename='js/voice_assistant.js') }}"></script>
 </body>
 
 </html>
