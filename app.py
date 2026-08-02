@@ -3507,6 +3507,9 @@ def in_hand_salary_calculator():
         partners=PAGE_PARTNER_MAP.get("in_hand_salary_calculator", []),
         PARTNER_LINKS=PARTNER_LINKS
     )
+@app.route("/handbook")
+def handbook():
+    return render_template("handbook.html")
 @app.route('/admin')
 @requires_auth
 def admin():
