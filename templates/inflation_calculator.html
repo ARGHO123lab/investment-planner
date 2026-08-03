@@ -25,6 +25,15 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+    <link rel="canonical" href="https://smartplanfinance.com/inflation_calculator">
+    <meta name="author" content="Argho Sanyal, Founder, SmartPlanFinance">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Inflation Calculator | SmartPlan Finance">
+    <meta property="og:description" content="Free Inflation Calculator by SmartPlan Finance. Calculate how inflation reduces purchasing power over time. Plan for retirement and long-term financial goals with inflation adjustment.">
+    <meta property="og:url" content="https://smartplanfinance.com/inflation_calculator">
+    <meta property="og:site_name" content="SmartPlanFinance">
+    <meta name="twitter:card" content="summary_large_image">
+
     <style>
 /* ================================
    SMARTPLAN FINANCE PREMIUM THEME
@@ -55,6 +64,11 @@
 
     --shadow:0 12px 35px rgba(0,0,0,.08);
     --shadow-hover:0 18px 45px rgba(0,0,0,.12);
+
+    /* Aliases for legacy variable names used below */
+    --gold: var(--primary);
+    --gold-bg: var(--primary-light);
+    --hover-shadow: var(--shadow-hover);
 
 }
 
@@ -762,6 +776,118 @@ padding:10px;
 
 }
 
+.site-nav{
+
+    justify-content:center;
+    text-align:center;
+
+}
+
+}
+
+/* Site Nav */
+.site-nav{
+
+    max-width:850px;
+    margin:0 auto 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+
+}
+
+.site-nav .brand{
+
+    font-weight:800;
+    color:var(--primary);
+    text-decoration:none;
+    font-size:18px;
+
+}
+
+.site-nav .nav-links{
+
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+
+}
+
+.site-nav .nav-links a{
+
+    color:#555;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:600;
+
+}
+
+.site-nav .nav-links a:hover{
+
+    color:var(--primary);
+
+}
+
+/* Byline */
+.byline{
+
+    text-align:center;
+    font-size:13px;
+    color:#888;
+    margin-top:-10px;
+    margin-bottom:30px;
+
+}
+
+.byline strong{
+
+    color:#666;
+
+}
+
+/* Site Footer */
+.site-footer{
+
+    max-width:850px;
+    margin:30px auto 0;
+    padding-top:24px;
+    border-top:1px solid #eee;
+    text-align:center;
+
+}
+
+.site-footer .footer-links{
+
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:18px;
+    margin-bottom:14px;
+
+}
+
+.site-footer .footer-links a{
+
+    color:#666;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:600;
+
+}
+
+.site-footer .footer-links a:hover{
+
+    color:var(--primary);
+
+}
+
+.site-footer .copyright{
+
+    font-size:12px;
+    color:#999;
+
 }
 </style>
 
@@ -777,6 +903,10 @@ padding:10px;
       "publisher": {
         "@type": "Organization",
         "name": "SmartPlan Finance"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Argho Sanyal"
       }
     }
     </script>
@@ -784,6 +914,11 @@ padding:10px;
 </head>
 
 <body>
+
+<nav class="site-nav">
+    <a href="{{ url_for('index') }}" class="brand">SmartPlanFinance</a>
+   
+</nav>
 
 <div class="container">
 
@@ -793,6 +928,7 @@ padding:10px;
         <p class="subtitle">
             Understand how inflation erodes purchasing power over time. Calculate the real value of money and plan your financial goals by accounting for inflation. This helps you determine how much money you'll need in the future to maintain today's lifestyle.
         </p>
+        <p class="byline">By <strong>Argho Sanyal</strong>, Founder, SmartPlanFinance &middot; Last updated: <time datetime="2026-08-01">August 2026</time></p>
     </div>
 
     <!-- What is Inflation Section -->
@@ -1187,6 +1323,17 @@ padding:10px;
     {% include "partials/_partner_cta.html" %}
 
 </div>
+
+<footer class="site-footer">
+    <div class="footer-links">
+        <a href="/about">About Us</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms &amp; Conditions</a>
+        <a href="/disclaimer">Disclaimer</a>
+    </div>
+    <div class="copyright">&copy; 2026 SmartPlanFinance. All rights reserved.</div>
+</footer>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     // Scroll only after a POST submission when results exist

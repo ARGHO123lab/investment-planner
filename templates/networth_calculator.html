@@ -16,6 +16,14 @@
     
     <title>Free Net Worth Calculator | Calculate Personal Net Worth Online | SmartPlan Finance</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="canonical" href="https://smartplanfinance.com/networth-calculator">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Free Net Worth Calculator | SmartPlan Finance">
+    <meta property="og:description" content="Free Net Worth Calculator by SmartPlan Finance. Calculate your total net worth by tracking assets and liabilities. Understand your financial position and create a wealth-building strategy.">
+    <meta property="og:url" content="https://smartplanfinance.com/networth-calculator">
+    <meta property="og:site_name" content="SmartPlanFinance">
+    <meta name="twitter:card" content="summary_large_image">
     
     <style>
         * {
@@ -421,6 +429,90 @@
             .button-group {
                 flex-direction: column;
             }
+
+            .site-nav {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+
+        /* Site Nav */
+        .site-nav {
+            max-width: 900px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .site-nav .brand {
+            font-weight: 800;
+            color: #B8860B;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .site-nav .nav-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .site-nav .nav-links a {
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .site-nav .nav-links a:hover {
+            color: #B8860B;
+        }
+
+        /* Byline */
+        .byline {
+            font-size: 13px;
+            color: #888;
+            margin-top: 14px;
+        }
+
+        .byline strong {
+            color: #666;
+        }
+
+        /* Site Footer */
+        .site-footer {
+            max-width: 900px;
+            margin: 40px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+
+        .site-footer .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 14px;
+        }
+
+        .site-footer .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .site-footer .footer-links a:hover {
+            color: #B8860B;
+        }
+
+        .site-footer .copyright {
+            font-size: 12px;
+            color: #999;
         }
     </style>
 
@@ -437,6 +529,10 @@
           "@type": "Organization",
           "name": "SmartPlan Finance",
           "url": "https://smartplanfinance.com"
+      },
+      "author": {
+          "@type": "Person",
+          "name": "Argho Sanyal"
       }
     }
     </script>
@@ -470,6 +566,11 @@
 
 <body>
 
+<nav class="site-nav">
+    <a href="{{ url_for('index') }}" class="brand">SmartPlanFinance</a>
+    
+</nav>
+
 <div class="container">
 
     <!-- Header Section -->
@@ -481,6 +582,7 @@
         <p class="intro-text">
             Whether you're planning for retirement, evaluating your financial health, or working toward your long-term financial goals, our free Net Worth Calculator helps you see exactly where you stand financially.
         </p>
+        <p class="byline">By <strong>Argho Sanyal</strong>, Founder, SmartPlanFinance &middot; Last updated: <time datetime="2026-08-01">August 2026</time></p>
     </div>
 
     {% if error %}
@@ -570,7 +672,7 @@
 
             <div class="input-group">
                 <label for="student_loan">Student Loan</label>
-                <input type="number" id="student_loan" name="student_loan" placeholder="₹ 5,00,000" alue="0">
+                <input type="number" id="student_loan" name="student_loan" placeholder="₹ 5,00,000" value="0">
                 <span class="currency-hint">Education loan balance</span>
             </div>
 
@@ -859,8 +961,8 @@
         <div class="article-grid">
             <a href="https://smartplanfinance.com/blog/home-loan-emi-calculator-2026-the-complete-guide-to-calculating-emi-saving-lakhs-on-interest-choosing-the-right-home-loan-in-india" style="text-decoration: none;">
                 <div class="article-card">
-                    <h4>📈 How to calculate your EMI</h4>
-                    <p>Understand EMI Plans, their benefits, and how to decide an EMI</p>
+                    <h4>📈 How to calculate your EMI</h4>
+                    <p>Understand EMI Plans, their benefits, and how to decide an EMI</p>
                     <span class="article-link">Read Article →</span>
                 </div>
             </a>
@@ -868,7 +970,7 @@
             <a href="https://smartplanfinance.com/blog/how-to-build-a-diversified-investment-portfolio-using-multiple-platforms-in-2026-the-complete-beginner-s-blueprint" style="text-decoration: none;">
                 <div class="article-card">
                     <h4>🎯 Portfolio Diversification: Building Balanced Investments</h4>
-                    <p>Learn framework for setting SMART financial goals, creating investment action plans, and tracking your progress toward financial freedom.</p>
+                    <p>Learn framework for setting SMART financial goals, creating investment action plans, and tracking your progress toward financial freedom.</p>
                     <span class="article-link">Read Article →</span>
                 </div>
             </a>
@@ -876,7 +978,7 @@
             <a href="https://smartplanfinance.com/blog/the-step-by-step-wealth-building-blueprint-for-india-2026-a-complete-guide-to-financial-freedom" style="text-decoration: none;">
                 <div class="article-card">
                     <h4>💳 Wealth Building Strategies for Financial Freedom</h4>
-                    <p>Explore effective strategies to build and manage wealth, including step by step methods.</p>
+                    <p>Explore effective strategies to build and manage wealth, including step by step methods.</p>
                     <span class="article-link">Read Article →</span>
                 </div>
             </a>
@@ -894,6 +996,16 @@
     </div>
 
 </div>
+
+<footer class="site-footer">
+    <div class="footer-links">
+        <a href="/about">About Us</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms &amp; Conditions</a>
+        <a href="/disclaimer">Disclaimer</a>
+    </div>
+    <div class="copyright">&copy; 2026 SmartPlanFinance. All rights reserved.</div>
+</footer>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
