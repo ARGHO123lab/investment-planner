@@ -26,6 +26,15 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+    <link rel="canonical" href="https://smartplanfinance.com/emi_calculator">
+    <meta name="author" content="Argho Sanyal, Founder, SmartPlanFinance">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Loan EMI Calculator | SmartPlan Finance">
+    <meta property="og:description" content="Free EMI Calculator by SmartPlan Finance. Calculate your monthly loan EMI, total interest payable, and repayment amount for home, car, personal, and education loans instantly.">
+    <meta property="og:url" content="https://smartplanfinance.com/emi_calculator">
+    <meta property="og:site_name" content="SmartPlanFinance">
+    <meta name="twitter:card" content="summary_large_image">
+
     <style>
         * {
             margin: 0;
@@ -382,6 +391,92 @@
             .related-articles {
                 grid-template-columns: 1fr;
             }
+
+            .site-nav {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+
+        /* Site Nav */
+        .site-nav {
+            max-width: 750px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .site-nav .brand {
+            font-weight: 800;
+            color: #B8860B;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .site-nav .nav-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .site-nav .nav-links a {
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .site-nav .nav-links a:hover {
+            color: #B8860B;
+        }
+
+        /* Byline */
+        .byline {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-top: -10px;
+            margin-bottom: 30px;
+        }
+
+        .byline strong {
+            color: #666;
+        }
+
+        /* Site Footer */
+        .site-footer {
+            max-width: 750px;
+            margin: 30px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+
+        .site-footer .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 14px;
+        }
+
+        .site-footer .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .site-footer .footer-links a:hover {
+            color: #B8860B;
+        }
+
+        .site-footer .copyright {
+            font-size: 12px;
+            color: #999;
         }
     </style>
 
@@ -397,6 +492,10 @@
       "publisher": {
         "@type": "Organization",
         "name": "SmartPlan Finance"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Argho Sanyal"
       }
     }
     </script>
@@ -404,6 +503,17 @@
 </head>
 
 <body>
+
+<nav class="site-nav">
+    <a href="{{ url_for('index') }}" class="brand">SmartPlanFinance</a>
+    <div class="nav-links">
+        <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('index') }}">Calculators</a>
+        <a href="/articles">articles</a>
+        <a href="/about">About</a>
+       
+    </div>
+</nav>
 
 <div class="container">
 
@@ -413,6 +523,7 @@
         <p class="subtitle">
             Plan your loan repayments with confidence using the SmartPlan Finance EMI Calculator. Estimate your monthly EMI, total interest payable, and total repayment amount for home, car, education, or personal loans in just a few seconds.
         </p>
+        <p class="byline">By <strong>Argho Sanyal</strong>, Founder, SmartPlanFinance &middot; Last updated: <time datetime="2026-08-01">August 2026</time></p>
     </div>
 
     <!-- What is EMI Section - VISIBLE BEFORE CALCULATION -->
@@ -660,7 +771,7 @@
                style="text-decoration: none; display: block;">
                 <div class="article-card">
                     <h3>💳 Follow SmartPlan Finance Articles </h3>
-                    <p>Understand the step by step wealth building Strategy.</p>
+                    <p>Understand the step by step wealth building Strategy.</p>
                     <strong>Read Article →</strong>
                 </div>
             </a>
@@ -725,6 +836,17 @@
     </div>
 
 </div>
+
+<footer class="site-footer">
+    <div class="footer-links">
+        <a href="/about">About Us</a>
+        <a href="/contact">Contact Us</a>
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="/terms">Terms &amp; Conditions</a>
+        <a href="/disclaimer">Disclaimer</a>
+    </div>
+    <div class="copyright">&copy; 2026 SmartPlanFinance. All rights reserved.</div>
+</footer>
 
 </body>
 <script>
