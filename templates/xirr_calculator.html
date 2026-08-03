@@ -655,6 +655,38 @@
                 width: 100%;
             }
         }
+          /* Site Footer */
+        .site-footer {
+            max-width: 700px;
+            margin: 40px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+
+        .site-footer .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 14px;
+        }
+
+        .site-footer .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .site-footer .footer-links a:hover {
+            color: #B8860B;
+        }
+
+        .site-footer .copyright {
+            font-size: 12px;
+            color: #999;
+        }
     </style>
 
 </head>
@@ -933,6 +965,16 @@
                 alert('You must have at least one transaction.');
             }
         }
+
+<footer class="site-footer">
+    <div class="footer-links">
+        <a href="/about">About Us</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms &amp; Conditions</a>
+        <a href="/disclaimer">Disclaimer</a>
+    </div>
+    <div class="copyright">&copy; 2026 SmartPlanFinance. All rights reserved.</div>
+</footer>
 
         // Form validation
         document.getElementById('xiirrForm').addEventListener('submit', function(e) {
