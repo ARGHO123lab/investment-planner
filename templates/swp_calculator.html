@@ -233,38 +233,39 @@
             line-height: 1.6;
         }
 
-        .cards {
+        .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            margin-top: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
         }
 
-        .card {
-            background: #fffdf6;
-            padding: 20px;
+        .metric-card {
+            background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
+            color: white;
+            padding: 24px;
             border-radius: 12px;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,.05);
-            transition: all 0.3s ease;
-            border: 1px solid #f0f0f0;
+            box-shadow: 0 4px 15px rgba(184,134,11,.25);
         }
 
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 18px rgba(0,0,0,.12);
-        }
-
-        .card h2 {
-            color: #B8860B;
-            font-size: 28px;
+        .metric-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            opacity: 0.9;
             margin-bottom: 8px;
+            font-weight: 600;
         }
 
-        .card p {
-            color: #555;
-            font-size: 14px;
-            font-weight: 500;
+        .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .metric-subtitle {
+            font-size: 12px;
+            opacity: 0.85;
         }
 
         .result-table {
@@ -322,10 +323,6 @@
             padding: 22px;
             text-decoration: none;
             transition: all 0.3s ease;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             color: inherit;
         }
 
@@ -339,18 +336,15 @@
             color: #B8860B;
         }
 
+        .article-card p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 10px 0;
+        }
+
         .article-card strong {
             color: #B8860B;
-        }
-
-        .article-card a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        .related-articles a {
-            color: inherit;
-            text-decoration: none;
         }
 
         .success-banner {
@@ -380,41 +374,6 @@
             border-radius: 8px;
             color: #c62828;
             margin-top: 20px;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-top: 20px;
-        }
-
-        .metric-card {
-            background: linear-gradient(135deg, #FFC107 0%, #E0A800 100%);
-            color: white;
-            padding: 24px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(255,193,7,.25);
-        }
-
-        .metric-label {
-            font-size: 12px;
-            text-transform: uppercase;
-            opacity: 0.9;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .metric-value {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .metric-subtitle {
-            font-size: 12px;
-            opacity: 0.85;
         }
 
         .results-section {
@@ -456,10 +415,6 @@
                 padding: 14px;
             }
 
-            .card h2 {
-                font-size: 24px;
-            }
-
             .back-btn {
                 width: 100%;
                 display: block;
@@ -470,10 +425,6 @@
             }
 
             .related-articles {
-                grid-template-columns: 1fr;
-            }
-
-            .cards {
                 grid-template-columns: 1fr;
             }
 
@@ -522,7 +473,7 @@
         </p>
     </div>
 
-    <!-- What is SWP Section -->
+    <!-- What is SWP Section - VISIBLE BEFORE CALCULATION -->
     <div class="education-card">
         <h3>📊 What is SWP (Systematic Withdrawal Plan)?</h3>
         <p>
@@ -533,7 +484,7 @@
         </p>
     </div>
 
-    <!-- Why Use SWP Calculator -->
+    <!-- Why Use SWP Calculator - VISIBLE BEFORE CALCULATION -->
     <div style="margin-top: 45px;">
         <h2>🎯 Why Use an SWP Calculator?</h2>
         <div class="calculator-grid">
@@ -647,7 +598,7 @@
         <strong>Disclaimer:</strong> The SWP Calculator on SmartPlan Finance provides estimated calculations based on assumptions about returns, inflation, and withdrawal patterns. Actual SWP performance depends on market conditions, inflation volatility, investment selection, and spending changes. SmartPlan Finance does not provide financial advice or guarantee future returns. Please consult a qualified financial advisor before implementing an SWP strategy.
     </div>
 
-    <!-- Understanding SWP -->
+    <!-- Understanding SWP Better - VISIBLE BEFORE CALCULATION -->
     <div style="margin-top: 45px;">
         <h2>📖 Understanding SWP Better</h2>
         <div class="education-card">
@@ -667,7 +618,7 @@
         </div>
     </div>
 
-    <!-- How to Use Calculator -->
+    <!-- How to Use Calculator - VISIBLE BEFORE CALCULATION -->
     <div style="margin-top: 45px;">
         <h2>📋 How to Use This SWP Calculator</h2>
         <div class="education-card">
@@ -684,7 +635,7 @@
         </div>
     </div>
 
-    <!-- SWP Sustainability Levels -->
+    <!-- SWP Sustainability Levels - VISIBLE BEFORE CALCULATION -->
     <div style="margin-top: 45px;">
         <h2>📊 SWP Sustainability Levels Explained</h2>
         <div class="education-card">
@@ -699,7 +650,7 @@
         </div>
     </div>
 
-    <!-- Investment Return Scenarios -->
+    <!-- Investment Return Scenarios - VISIBLE BEFORE CALCULATION -->
     <div style="margin-top: 45px;">
         <h2>💼 Expected Returns by Investment Type</h2>
         <div class="education-card">
@@ -728,7 +679,39 @@
         </div>
     </div>
 
-    <!-- SWP Calculation Results -->
+    <!-- Key Factors Affecting SWP - VISIBLE BEFORE CALCULATION -->
+    <div style="margin-top: 45px;">
+        <h2>🔍 Key Factors Affecting SWP Sustainability</h2>
+        <div class="education-card">
+            <ul>
+                <li><strong>Investment Returns:</strong> Higher returns extend corpus life. Market volatility affects returns unpredictably.</li>
+                <li><strong>Inflation Rate:</strong> Higher inflation erodes purchasing power; requires withdrawal increases.</li>
+                <li><strong>Withdrawal Amount:</strong> Lower withdrawals preserve corpus for longer. Withdraw conservatively for safety.</li>
+                <li><strong>Market Conditions:</strong> Bear markets reduce returns and corpus balance. Sequence of returns matters in retirement.</li>
+                <li><strong>Portfolio Allocation:</strong> Conservative (bonds) provides stability; equity provides growth but volatility.</li>
+                <li><strong>Expense Ratio:</strong> Lower fund costs mean higher effective returns and longer corpus sustainability.</li>
+                <li><strong>Time Horizon:</strong> Longer retirement periods require more conservative withdrawal rates.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Smart SWP Planning Tips - VISIBLE BEFORE CALCULATION -->
+    <div style="margin-top: 45px;">
+        <h2>💡 Smart SWP Planning Tips</h2>
+        <div class="education-card">
+            <ul>
+                <li><strong>Follow 4% Rule:</strong> Withdraw 4% of corpus in year 1, then adjust for inflation. Conservative and proven strategy.</li>
+                <li><strong>Maintain Flexibility:</strong> Adjust withdrawals based on market conditions and life circumstances.</li>
+                <li><strong>Diversify Portfolio:</strong> Mix of equity (growth) and debt (stability) provides balance for SWP.</li>
+                <li><strong>Account for Inflation:</strong> Increase withdrawals annually to maintain purchasing power.</li>
+                <li><strong>Regular Monitoring:</strong> Review SWP annually and rebalance portfolio based on market conditions.</li>
+                <li><strong>Emergency Reserves:</strong> Keep 1-2 years of expenses in cash/bonds to avoid forced sales during downturns.</li>
+                <li><strong>Professional Guidance:</strong> Work with a financial advisor to customize SWP based on personal goals and risk tolerance.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SWP Calculation Results - Only Visible After Calculation -->
     {% if result %}
     <div id="results-section">
 
@@ -848,46 +831,13 @@
             {% endfor %}
         </table>
     </div>
-    </div>
     {% endif %}
 
     {% endif %}
 
     {% endif %}
 
-    <!-- Key Factors Affecting SWP -->
-    <div style="margin-top: 45px;">
-        <h2>🔍 Key Factors Affecting SWP Sustainability</h2>
-        <div class="education-card">
-            <ul>
-                <li><strong>Investment Returns:</strong> Higher returns extend corpus life. Market volatility affects returns unpredictably.</li>
-                <li><strong>Inflation Rate:</strong> Higher inflation erodes purchasing power; requires withdrawal increases.</li>
-                <li><strong>Withdrawal Amount:</strong> Lower withdrawals preserve corpus for longer. Withdraw conservatively for safety.</li>
-                <li><strong>Market Conditions:</strong> Bear markets reduce returns and corpus balance. Sequence of returns matters in retirement.</li>
-                <li><strong>Portfolio Allocation:</strong> Conservative (bonds) provides stability; equity provides growth but volatility.</li>
-                <li><strong>Expense Ratio:</strong> Lower fund costs mean higher effective returns and longer corpus sustainability.</li>
-                <li><strong>Time Horizon:</strong> Longer retirement periods require more conservative withdrawal rates.</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Smart SWP Planning Tips -->
-    <div style="margin-top: 45px;">
-        <h2>💡 Smart SWP Planning Tips</h2>
-        <div class="education-card">
-            <ul>
-                <li><strong>Follow 4% Rule:</strong> Withdraw 4% of corpus in year 1, then adjust for inflation. Conservative and proven strategy.</li>
-                <li><strong>Maintain Flexibility:</strong> Adjust withdrawals based on market conditions and life circumstances.</li>
-                <li><strong>Diversify Portfolio:</strong> Mix of equity (growth) and debt (stability) provides balance for SWP.</li>
-                <li><strong>Account for Inflation:</strong> Increase withdrawals annually to maintain purchasing power.</li>
-                <li><strong>Regular Monitoring:</strong> Review SWP annually and rebalance portfolio based on market conditions.</li>
-                <li><strong>Emergency Reserves:</strong> Keep 1-2 years of expenses in cash/bonds to avoid forced sales during downturns.</li>
-                <li><strong>Professional Guidance:</strong> Work with a financial advisor to customize SWP based on personal goals and risk tolerance.</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Comparing SWP with Other Strategies -->
+    <!-- Comparing SWP with Other Strategies - VISIBLE BEFORE CALCULATION -->
     <div style="margin-top: 45px;">
         <h2>⚖️ SWP vs Other Retirement Income Strategies</h2>
         <div class="education-card">
@@ -930,18 +880,18 @@
                 </div>
             </a>
 
-            <a href="{{ url_for('inflation_calculator') }}" style="text-decoration: none; display: block;">
-                <div class="article-card">
-                    <h3>📉 Inflation Calculator</h3>
-                    <p>Understand inflation impact on your withdrawals and adjust SWP amounts for real purchasing power.</p>
-                    <strong>Try Calculator →</strong>
-                </div>
-            </a>
-
             <a href="{{ url_for('lumpsum_calculator') }}" style="text-decoration: none; display: block;">
                 <div class="article-card">
                     <h3>📈 Lumpsum Investment Calculator</h3>
                     <p>Calculate growth of one-time investments to understand potential corpus for SWP planning.</p>
+                    <strong>Try Calculator →</strong>
+                </div>
+            </a>
+
+            <a href="{{ url_for('retirement_calculator') }}" style="text-decoration: none; display: block;">
+                <div class="article-card">
+                    <h3>🏖️ Retirement Calculator</h3>
+                    <p>Calculate retirement corpus needed based on expenses and plan your financial independence date.</p>
                     <strong>Try Calculator →</strong>
                 </div>
             </a>
@@ -987,9 +937,10 @@
     {% include "partials/_partner_cta.html" %}
 
 </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Scroll only after a POST submission when results exist
+    // Scroll to results section after POST submission when results exist
     const resultsSection = document.getElementById('results-section');
 
     if (resultsSection && window.location.search === '') {
@@ -1003,6 +954,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
+
 </body>
 
 </html>
