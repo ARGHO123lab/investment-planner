@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+
+    <title>Personal Financial Planner | SmartPlan Finance</title>
+    <meta name="description" content="Build your complete personalized financial roadmap. SmartPlan Finance's Personal Financial Planner maps your income, expenses, goals and risk profile into a step-by-step life plan.">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="canonical" href="https://smartplanfinance.com/financial-planner">
+    <meta name="author" content="Argho Sanyal, Founder, SmartPlanFinance">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Personal Financial Planner | SmartPlan Finance">
+    <meta property="og:description" content="Build your complete personalized financial roadmap in minutes.">
+    <meta property="og:url" content="https://smartplanfinance.com/financial-planner">
+    <meta property="og:site_name" content="SmartPlanFinance">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <style>
+/* ================================
+   SMARTPLAN FINANCE PREMIUM THEME
+   Green + Premium Gold
+================================ */
+
+:root{
+    --primary:#D4AF37;
+    --primary-dark:#B99120;
+    --primary-light:#FFF7D6;
+
+    --accent:#0B7A3D;
+    --accent-dark:#086633;
+    --accent-light:#F0FFF5;
+
+    --background:#FFFDF5;
+    --background-soft:#FCFAF2;
+
+    --surface:#FFFFFF;
+
+    --text:#222222;
+    --text-light:#666666;
+
+    --border:#EFE7CC;
+
+    --shadow:0 12px 35px rgba(0,0,0,.08);
+    --shadow-hover:0 18px 45px rgba(0,0,0,.12);
+
+    --gold: var(--primary);
+    --gold-bg: var(--primary-light);
+    --hover-shadow: var(--shadow-hover);
+
+    --danger:#DC2626;
+    --danger-bg:#FEECEC;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+    background: linear-gradient(180deg, #FFFDF5 0%, #FAFCFB 100%);
+    font-family:'Poppins',sans-serif;
+    color:var(--text);
+    line-height:1.7;
+    padding:40px 20px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    background:white;
+    border-radius:22px;
+    padding:45px;
+    box-shadow:var(--shadow);
+}
+
+h1{
+    text-align:center;
+    font-size:42px;
+    font-weight:700;
+    background:linear-gradient(90deg, #f1a520, #D4AF37);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    margin-bottom:15px;
+}
+
+.subtitle{
+    text-align:center;
+    color:var(--text-light);
+    max-width:700px;
+    margin:0 auto 20px;
+    font-size:17px;
+}
+
+.byline{
+    text-align:center;
+    font-size:13px;
+    color:#888;
+    margin-bottom:30px;
+}
+
+.byline strong{ color:#666; }
+
+/* Site Nav */
+.site-nav{
+    max-width:900px;
+    margin:0 auto 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.site-nav .brand{
+    font-weight:800;
+    color:var(--primary);
+    text-decoration:none;
+    font-size:18px;
+}
+
+/* ============================= */
+/* Wizard Shell                   */
+/* ============================= */
+
+.wizard-container{
+    border:1px solid rgba(212,175,55,.20);
+    border-top:4px solid var(--gold);
+    border-radius:18px;
+    box-shadow:0 6px 20px rgba(0,0,0,.05);
+    overflow:hidden;
+}
+
+.progress-wrapper{
+    background:#F1EAD0;
+    height:8px;
+    position:relative;
+}
+
+.progress-bar{
+    height:100%;
+    background:linear-gradient(90deg, var(--accent), var(--gold));
+    width:12.5%;
+    transition:width .35s ease;
+}
+
+.step-indicator{
+    display:grid;
+    grid-template-columns:repeat(8,1fr);
+    gap:8px;
+    padding:22px 25px;
+    background:var(--background-soft);
+    border-bottom:1px solid var(--border);
+}
+
+.step-dot{
+    width:38px;
+    height:38px;
+    margin:0 auto;
+    border-radius:50%;
+    background:#fff;
+    border:2px solid #ddd;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    color:#999;
+    font-size:13px;
+    transition:all .3s;
+}
+
+.step-dot.active{
+    background:var(--gold);
+    border-color:var(--primary-dark);
+    color:#fff;
+    box-shadow:0 4px 12px rgba(212,175,55,.35);
+}
+
+.step-dot.completed{
+    background:var(--accent);
+    border-color:var(--accent-dark);
+    color:#fff;
+}
+
+.form-wrapper{ padding:40px; }
+
+.step-title{
+    color:var(--primary);
+    font-size:27px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.step-subtitle{
+    color:var(--text-light);
+    font-size:15px;
+    margin-bottom:30px;
+}
+
+.form-group{ margin-bottom:24px; }
+
+.form-group label{
+    display:block;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:8px;
+    font-size:14.5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    padding:14px 15px;
+    border:1px solid #DDD;
+    border-radius:12px;
+    font-size:15px;
+    font-family:inherit;
+    background:white;
+    transition:.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    outline:none;
+    border-color:var(--gold);
+    box-shadow:0 0 0 4px rgba(212,175,55,.18);
+    background:var(--background-soft);
+}
+
+.form-group input.input-error,
+.form-group select.input-error{
+    border-color:var(--danger);
+    box-shadow:0 0 0 3px rgba(220,38,38,.12);
+}
+
+.form-group.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.form-group.three-col{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; }
+
+/* Radio / Checkbox groups */
+.radio-group, .checkbox-group{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-top:8px;
+}
+
+.radio-item, .checkbox-item{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    flex:1;
+    min-width:150px;
+    padding:12px 14px;
+    border:1.5px solid var(--border);
+    border-radius:10px;
+    background:var(--background-soft);
+    transition:.2s;
+}
+
+.radio-item:has(input:checked), .checkbox-item:has(input:checked){
+    border-color:var(--gold);
+    background:var(--gold-bg);
+}
+
+.radio-item input[type="radio"], .checkbox-item input[type="checkbox"]{
+    width:18px;
+    height:18px;
+    margin-top:2px;
+    cursor:pointer;
+    accent-color:var(--accent);
+    flex-shrink:0;
+}
+
+.radio-item label, .checkbox-item label{
+    margin:0;
+    cursor:pointer;
+    font-weight:500;
+    font-size:14px;
+    color:var(--text);
+}
+
+/* Section subheads inside a step */
+.section-heading{
+    color:var(--primary);
+    margin:28px 0 14px;
+    font-size:15.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+}
+
+.section-heading.danger{ color:var(--danger); }
+
+/* Info / success / error boxes */
+.info-box{
+    background:var(--accent-light);
+    border-left:4px solid var(--accent);
+    padding:14px 16px;
+    border-radius:10px;
+    margin-bottom:26px;
+    font-size:14px;
+    color:var(--accent-dark);
+}
+
+.success-message{
+    background:var(--accent-light);
+    border:2px solid var(--accent);
+    color:var(--accent-dark);
+    padding:16px;
+    border-radius:12px;
+    margin-bottom:24px;
+    text-align:center;
+    font-weight:600;
+}
+
+.form-error-banner{
+    display:none;
+    background:var(--danger-bg);
+    border-left:5px solid var(--danger);
+    color:#B91C1C;
+    padding:14px 16px;
+    border-radius:10px;
+    margin-bottom:24px;
+    font-size:14.5px;
+    font-weight:500;
+}
+
+.form-error-banner.show{ display:block; }
+
+/* Goal cards (Step 6) */
+.goal-item{
+    background:var(--background-soft);
+    border:1px solid var(--border);
+    border-left:4px solid var(--gold);
+    padding:20px;
+    border-radius:14px;
+    margin-bottom:18px;
+}
+
+.goal-item h4{
+    color:var(--primary);
+    margin-bottom:12px;
+    font-size:16px;
+}
+
+.goal-toggle{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    margin-bottom:4px;
+}
+
+.goal-toggle input[type="checkbox"]{
+    width:19px;
+    height:19px;
+    accent-color:var(--accent);
+    cursor:pointer;
+}
+
+.goal-toggle span{ font-weight:500; font-size:14.5px; }
+
+.goal-inputs{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px dashed var(--border);
+}
+
+/* What you'll get card on final step */
+.recap-card{
+    background:var(--background-soft);
+    border:1px solid var(--border);
+    border-left:4px solid var(--gold);
+    padding:24px;
+    border-radius:14px;
+    margin-bottom:24px;
+}
+
+.recap-card h4{ color:var(--primary); margin-bottom:12px; font-size:16px; }
+.recap-card ul{ color:#555; line-height:2; padding-left:20px; }
+
+/* Navigation buttons */
+.form-navigation{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:36px;
+    padding-top:22px;
+    border-top:1px solid var(--border);
+    gap:12px;
+}
+
+.nav-slot{ flex:1; display:flex; }
+.nav-slot.right{ justify-content:flex-end; }
+
+.btn{
+    padding:13px 30px;
+    border:none;
+    border-radius:12px;
+    font-weight:600;
+    font-size:15px;
+    cursor:pointer;
+    transition:.3s;
+    font-family:inherit;
+    white-space:nowrap;
+}
+
+.btn-primary{
+    background:linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color:#fff;
+    box-shadow:0 8px 18px rgba(11,122,61,.25);
+}
+
+.btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 28px rgba(11,122,61,.35);
+}
+
+.btn-secondary{
+    background:white;
+    color:var(--primary);
+    border:2px solid var(--gold);
+}
+
+.btn-secondary:hover{ background:var(--gold-bg); }
+
+.step-counter{
+    color:var(--text-light);
+    font-size:13.5px;
+    font-weight:600;
+    text-align:center;
+    white-space:nowrap;
+}
+
+/* Footer */
+.site-footer{
+    max-width:900px;
+    margin:30px auto 0;
+    padding-top:24px;
+    border-top:1px solid #eee;
+    text-align:center;
+}
+
+.site-footer .footer-links{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:18px;
+    margin-bottom:14px;
+}
+
+.site-footer .footer-links a{
+    color:#666;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:600;
+}
+
+.site-footer .footer-links a:hover{ color:var(--primary); }
+
+.site-footer .copyright{ font-size:12px; color:#999; }
+
+/* Responsive */
+@media(max-width:768px){
+    body{ padding:15px; }
+    .container{ padding:22px; }
+    h1{ font-size:30px; }
+    .form-wrapper{ padding:22px; }
+    .step-title{ font-size:22px; }
+    .form-group.two-col, .form-group.three-col{ grid-template-columns:1fr; }
+    .step-indicator{ padding:14px; gap:5px; }
+    .step-dot{ width:30px; height:30px; font-size:11px; }
+    .form-navigation{ flex-wrap:wrap; }
+    .nav-slot{ flex:none; width:100%; }
+    .nav-slot.right{ justify-content:stretch; }
+    .nav-slot.right .btn{ width:100%; }
+    .step-counter{ order:-1; width:100%; margin-bottom:4px; }
+}
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Personal Financial Planner",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "url": "https://smartplanfinance.com/financial-planner",
+      "description": "Build a complete, personalized financial roadmap based on your income, expenses, goals and risk profile.",
+      "publisher": { "@type": "Organization", "name": "SmartPlan Finance" },
+      "author": { "@type": "Person", "name": "Argho Sanyal" }
+    }
+    </script>
+</head>
+
+<body>
+
+<nav class="site-nav">
+    <a href="{{ url_for('index') }}" class="brand">SmartPlanFinance</a>
+</nav>
+
+<div class="container">
+
+    <h1>🎯 Personal Financial Planner</h1>
+    <p class="subtitle">Answer a few quick questions about your income, expenses, goals and risk appetite — we'll turn it into a complete, personalized financial roadmap.</p>
+    <p class="byline">By <strong>Argho Sanyal</strong>, Founder, SmartPlanFinance</p>
+
+    <div class="wizard-container">
+
+        <div class="progress-wrapper">
+            <div class="progress-bar" id="progressBar" style="width: {{ (current_step / 8 * 100)|round(1) }}%"></div>
+        </div>
+
+        <div class="step-indicator">
+            {% for i in range(1, 9) %}
+            <div class="step-dot {% if i == current_step %}active{% elif i < current_step %}completed{% endif %}">
+                {% if i < current_step %}✓{% else %}{{ i }}{% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <form method="POST" class="form-wrapper" id="wizardForm" novalidate>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="step" id="stepInput" value="{{ current_step }}">
+            <input type="hidden" name="action" id="actionInput" value="next">
+
+            <div class="form-error-banner{% if error %} show{% endif %}" id="formError">{% if error %}⚠️ {{ error }}{% endif %}</div>
+
+            {% if current_step == 1 %}
+            <h2 class="step-title">👤 Personal Details</h2>
+            <p class="step-subtitle">Let's start with your basic information</p>
+
+            <div class="info-box">ℹ️ This helps us understand your situation and personalize every recommendation that follows.</div>
+
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" value="{{ plan_data.get('name', '') }}">
+            </div>
+
+            <div class="form-group two-col">
+                <div>
+                    <label for="age">Current Age</label>
+                    <input type="number" id="age" name="age" min="18" max="100" placeholder="25" value="{{ plan_data.get('age', '') }}">
+                </div>
+                <div>
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender">
+                        <option value="">Select gender</option>
+                        <option value="male" {% if plan_data.get('gender') == 'male' %}selected{% endif %}>Male</option>
+                        <option value="female" {% if plan_data.get('gender') == 'female' %}selected{% endif %}>Female</option>
+                        <option value="other" {% if plan_data.get('gender') == 'other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" placeholder="e.g., Mumbai, Bangalore, Delhi" value="{{ plan_data.get('city', '') }}">
+            </div>
+
+            <div class="form-group">
+                <label>Profession Type</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="prof_student" name="profession_type" value="student" {% if plan_data.get('profession_type') == 'student' %}checked{% endif %}>
+                        <label for="prof_student">Student</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="prof_fresher" name="profession_type" value="fresher" {% if plan_data.get('profession_type') == 'fresher' %}checked{% endif %}>
+                        <label for="prof_fresher">Fresher</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="prof_working" name="profession_type" value="working" {% if plan_data.get('profession_type') == 'working' %}checked{% endif %}>
+                        <label for="prof_working">Working Professional</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="prof_self" name="profession_type" value="self" {% if plan_data.get('profession_type') == 'self' %}checked{% endif %}>
+                        <label for="prof_self">Self Employed</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="prof_business" name="profession_type" value="business" {% if plan_data.get('profession_type') == 'business' %}checked{% endif %}>
+                        <label for="prof_business">Business Owner</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="prof_retired" name="profession_type" value="retired" {% if plan_data.get('profession_type') == 'retired' %}checked{% endif %}>
+                        <label for="prof_retired">Retired</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group two-col">
+                <div>
+                    <label for="experience">Years of Work Experience</label>
+                    <input type="number" id="experience" name="work_experience" min="0" max="70" placeholder="0" value="{{ plan_data.get('work_experience', '') }}">
+                </div>
+                <div>
+                    <label for="marital">Marital Status</label>
+                    <select id="marital" name="marital_status">
+                        <option value="">Select status</option>
+                        <option value="single" {% if plan_data.get('marital_status') == 'single' %}selected{% endif %}>Single</option>
+                        <option value="married" {% if plan_data.get('marital_status') == 'married' %}selected{% endif %}>Married</option>
+                        <option value="divorced" {% if plan_data.get('marital_status') == 'divorced' %}selected{% endif %}>Divorced</option>
+                        <option value="widowed" {% if plan_data.get('marital_status') == 'widowed' %}selected{% endif %}>Widowed</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group two-col">
+                <div>
+                    <label for="children">Number of Children</label>
+                    <input type="number" id="children" name="num_children" min="0" max="10" placeholder="0" value="{{ plan_data.get('num_children', 0) }}">
+                </div>
+                <div>
+                    <label for="dependents">Number of Dependents</label>
+                    <input type="number" id="dependents" name="num_dependents" min="0" max="10" placeholder="0" value="{{ plan_data.get('num_dependents', 0) }}">
+                </div>
+            </div>
+
+            {% elif current_step == 2 %}
+            <h2 class="step-title">💰 Monthly Income</h2>
+            <p class="step-subtitle">Tell us about your earnings</p>
+
+            <div class="info-box">ℹ️ Include all sources — salary, bonuses, freelance work, rental income, etc.</div>
+
+            <div class="form-group">
+                <label for="salary">Monthly Salary (₹)</label>
+                <input type="number" id="salary" name="monthly_salary" min="0" step="100" placeholder="50000" value="{{ plan_data.get('monthly_salary', '') }}">
+            </div>
+
+            <div class="form-group">
+                <label for="additional">Additional Monthly Income (₹)</label>
+                <input type="number" id="additional" name="additional_income" min="0" step="100" placeholder="0" value="{{ plan_data.get('additional_income', 0) }}">
+            </div>
+
+            <div class="form-group">
+                <label for="growth">Expected Annual Salary Growth (%)</label>
+                <input type="number" id="growth" name="annual_salary_growth" min="0" max="50" step="0.5" placeholder="5" value="{{ plan_data.get('annual_salary_growth', 0) }}">
+            </div>
+
+            {% elif current_step == 3 %}
+            <h2 class="step-title">📊 Monthly Expenses</h2>
+            <p class="step-subtitle">Break down your monthly spending</p>
+
+            <div class="info-box">ℹ️ Be honest about your expenses — this helps us understand your real savings capacity.</div>
+
+            <div class="form-group">
+                <label for="total_exp">Total Monthly Expenses (₹)</label>
+                <input type="number" id="total_exp" name="total_expenses" min="0" step="100" placeholder="25000" value="{{ plan_data.get('total_expenses', '') }}">
+            </div>
+
+            <div class="form-group three-col">
+                <div>
+                    <label for="rent">Rent (₹)</label>
+                    <input type="number" id="rent" name="rent" min="0" step="100" placeholder="0" value="{{ plan_data.get('rent', 0) }}">
+                </div>
+                <div>
+                    <label for="emi">EMIs (₹)</label>
+                    <input type="number" id="emi" name="emi" min="0" step="100" placeholder="0" value="{{ plan_data.get('emi', 0) }}">
+                </div>
+                <div>
+                    <label for="insurance">Insurance Premium (₹)</label>
+                    <input type="number" id="insurance" name="insurance_premium" min="0" step="100" placeholder="0" value="{{ plan_data.get('insurance_premium', 0) }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="other">Other Commitments (₹)</label>
+                <input type="number" id="other" name="other_commitments" min="0" step="100" placeholder="0" value="{{ plan_data.get('other_commitments', 0) }}">
+            </div>
+
+            {% elif current_step == 4 %}
+            <h2 class="step-title">📈 Current Financial Position</h2>
+            <p class="step-subtitle">Share your current assets and liabilities</p>
+
+            <div class="info-box">ℹ️ Include all investments, savings and loans — this lets us calculate your real net worth. Leave anything you don't have as 0.</div>
+
+            <h4 class="section-heading">Assets</h4>
+
+            <div class="form-group three-col">
+                <div>
+                    <label for="emergency">Emergency Fund (₹)</label>
+                    <input type="number" id="emergency" name="emergency_fund" min="0" step="100" placeholder="0" value="{{ plan_data.get('emergency_fund', 0) }}">
+                </div>
+                <div>
+                    <label for="savings">Savings Account (₹)</label>
+                    <input type="number" id="savings" name="savings" min="0" step="100" placeholder="0" value="{{ plan_data.get('savings', 0) }}">
+                </div>
+                <div>
+                    <label for="fd">Fixed Deposits (₹)</label>
+                    <input type="number" id="fd" name="fd" min="0" step="100" placeholder="0" value="{{ plan_data.get('fd', 0) }}">
+                </div>
+            </div>
+
+            <div class="form-group three-col">
+                <div>
+                    <label for="gold_amt">Gold &amp; Jewelry (₹)</label>
+                    <input type="number" id="gold_amt" name="gold" min="0" step="100" placeholder="0" value="{{ plan_data.get('gold', 0) }}">
+                </div>
+                <div>
+                    <label for="mf">Mutual Funds (₹)</label>
+                    <input type="number" id="mf" name="mutual_funds" min="0" step="100" placeholder="0" value="{{ plan_data.get('mutual_funds', 0) }}">
+                </div>
+                <div>
+                    <label for="stocks">Stocks (₹)</label>
+                    <input type="number" id="stocks" name="stocks" min="0" step="100" placeholder="0" value="{{ plan_data.get('stocks', 0) }}">
+                </div>
+            </div>
+
+            <div class="form-group three-col">
+                <div>
+                    <label for="epf">EPF Balance (₹)</label>
+                    <input type="number" id="epf" name="epf" min="0" step="100" placeholder="0" value="{{ plan_data.get('epf', 0) }}">
+                </div>
+                <div>
+                    <label for="ppf">PPF Balance (₹)</label>
+                    <input type="number" id="ppf" name="ppf" min="0" step="100" placeholder="0" value="{{ plan_data.get('ppf', 0) }}">
+                </div>
+                <div>
+                    <label for="nps">NPS Balance (₹)</label>
+                    <input type="number" id="nps" name="nps" min="0" step="100" placeholder="0" value="{{ plan_data.get('nps', 0) }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="other_inv">Other Investments (₹)</label>
+                <input type="number" id="other_inv" name="other_investments" min="0" step="100" placeholder="0" value="{{ plan_data.get('other_investments', 0) }}">
+            </div>
+
+            <h4 class="section-heading danger">Liabilities</h4>
+
+            <div class="form-group two-col">
+                <div>
+                    <label for="loans">Total Loans (₹)</label>
+                    <input type="number" id="loans" name="loans" min="0" step="100" placeholder="0" value="{{ plan_data.get('loans', 0) }}">
+                </div>
+                <div>
+                    <label for="cc">Credit Card Debt (₹)</label>
+                    <input type="number" id="cc" name="credit_card_debt" min="0" step="100" placeholder="0" value="{{ plan_data.get('credit_card_debt', 0) }}">
+                </div>
+            </div>
+
+            {% elif current_step == 5 %}
+            <h2 class="step-title">🛡️ Protection &amp; Insurance</h2>
+            <p class="step-subtitle">Do you have adequate coverage?</p>
+
+            <div class="info-box">ℹ️ Insurance is the foundation of financial security — it protects your family and assets from the unexpected.</div>
+
+            <div class="form-group">
+                <label>Health Insurance</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="health_yes" name="health_insurance" value="yes" {% if plan_data.get('health_insurance') %}checked{% endif %}>
+                        <label for="health_yes">Yes, I have coverage</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="health_no" name="health_insurance" value="no" {% if plan_data.get('health_insurance') == False %}checked{% endif %}>
+                        <label for="health_no">No, I need to get it</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Life Insurance</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="life_yes" name="life_insurance" value="yes" {% if plan_data.get('life_insurance') %}checked{% endif %}>
+                        <label for="life_yes">Yes, I have coverage</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="life_no" name="life_insurance" value="no" {% if plan_data.get('life_insurance') == False %}checked{% endif %}>
+                        <label for="life_no">No, I need to get it</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Term Insurance (Pure Risk Cover)</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="term_yes" name="term_insurance" value="yes" {% if plan_data.get('term_insurance') %}checked{% endif %}>
+                        <label for="term_yes">Yes, I have coverage</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="term_no" name="term_insurance" value="no" {% if plan_data.get('term_insurance') == False %}checked{% endif %}>
+                        <label for="term_no">No, I need to get it</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Nominee Designated</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="nom_yes" name="nominee_available" value="yes" {% if plan_data.get('nominee_available') %}checked{% endif %}>
+                        <label for="nom_yes">Yes, have nominated family</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="nom_no" name="nominee_available" value="no" {% if plan_data.get('nominee_available') == False %}checked{% endif %}>
+                        <label for="nom_no">No, need to set up</label>
+                    </div>
+                </div>
+            </div>
+
+            {% elif current_step == 6 %}
+            <h2 class="step-title">🎯 Life Goals &amp; Dreams</h2>
+            <p class="step-subtitle">What are your financial goals for the future?</p>
+
+            <div class="info-box">ℹ️ Tick the goals that matter to you and give us a rough age and budget for each — you can always refine these later.</div>
+
+            <div class="goal-item">
+                <h4>🏠 Buy a House</h4>
+                <label class="goal-toggle">
+                    <input type="checkbox" name="goal_house" value="yes" id="goal_house" {% if plan_data.get('goals', {}).get('house') %}checked{% endif %}>
+                    <span>I want to buy a house</span>
+                </label>
+                <div class="goal-inputs" id="house-inputs" style="display: {% if plan_data.get('goals', {}).get('house') %}block{% else %}none{% endif %};">
+                    <div class="form-group two-col">
+                        <div>
+                            <label for="house_age">Desired Age</label>
+                            <input type="number" id="house_age" name="goal_house_age" placeholder="30" value="{{ plan_data.get('goals', {}).get('house', {}).get('desired_age', '') }}">
+                        </div>
+                        <div>
+                            <label for="house_budget">Budget (₹)</label>
+                            <input type="number" id="house_budget" name="goal_house_budget" placeholder="5000000" value="{{ plan_data.get('goals', {}).get('house', {}).get('budget', '') }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="goal-item">
+                <h4>🚗 Buy a Car</h4>
+                <label class="goal-toggle">
+                    <input type="checkbox" name="goal_car" value="yes" id="goal_car" {% if plan_data.get('goals', {}).get('car') %}checked{% endif %}>
+                    <span>I want to buy a car</span>
+                </label>
+                <div class="goal-inputs" id="car-inputs" style="display: {% if plan_data.get('goals', {}).get('car') %}block{% else %}none{% endif %};">
+                    <div class="form-group two-col">
+                        <div>
+                            <label for="car_age">Desired Age</label>
+                            <input type="number" id="car_age" name="goal_car_age" placeholder="28" value="{{ plan_data.get('goals', {}).get('car', {}).get('desired_age', '') }}">
+                        </div>
+                        <div>
+                            <label for="car_budget">Budget (₹)</label>
+                            <input type="number" id="car_budget" name="goal_car_budget" placeholder="1000000" value="{{ plan_data.get('goals', {}).get('car', {}).get('budget', '') }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="goal-item">
+                <h4>🏍️ Buy a Bike</h4>
+                <label class="goal-toggle">
+                    <input type="checkbox" name="goal_bike" value="yes" id="goal_bike" {% if plan_data.get('goals', {}).get('bike') %}checked{% endif %}>
+                    <span>I want to buy a bike</span>
+                </label>
+                <div class="goal-inputs" id="bike-inputs" style="display: {% if plan_data.get('goals', {}).get('bike') %}block{% else %}none{% endif %};">
+                    <div class="form-group two-col">
+                        <div>
+                            <label for="bike_age">Desired Age</label>
+                            <input type="number" id="bike_age" name="goal_bike_age" placeholder="25" value="{{ plan_data.get('goals', {}).get('bike', {}).get('desired_age', '') }}">
+                        </div>
+                        <div>
+                            <label for="bike_budget">Budget (₹)</label>
+                            <input type="number" id="bike_budget" name="goal_bike_budget" placeholder="200000" value="{{ plan_data.get('goals', {}).get('bike', {}).get('budget', '') }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="goal-item">
+                <h4>💍 Marriage</h4>
+                <label class="goal-toggle">
+                    <input type="checkbox" name="goal_marriage" value="yes" id="goal_marriage" {% if plan_data.get('goals', {}).get('marriage') %}checked{% endif %}>
+                    <span>I'm planning to get married</span>
+                </label>
+                <div class="goal-inputs" id="marriage-inputs" style="display: {% if plan_data.get('goals', {}).get('marriage') %}block{% else %}none{% endif %};">
+                    <div class="form-group">
+                        <label for="marriage_age">Desired Age</label>
+                        <input type="number" id="marriage_age" name="goal_marriage_age" placeholder="28" value="{{ plan_data.get('goals', {}).get('marriage', {}).get('desired_age', '') }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="goal-item">
+                <h4>👨‍👩‍👧 Children</h4>
+                <label class="goal-toggle">
+                    <input type="checkbox" name="goal_children" value="yes" id="goal_children" {% if plan_data.get('goals', {}).get('children') %}checked{% endif %}>
+                    <span>I plan to have children</span>
+                </label>
+                <div class="goal-inputs" id="children-inputs" style="display: {% if plan_data.get('goals', {}).get('children') %}block{% else %}none{% endif %};">
+                    <div class="form-group">
+                        <label for="children_age">Desired Age for First Child</label>
+                        <input type="number" id="children_age" name="goal_children_age" placeholder="30" value="{{ plan_data.get('goals', {}).get('children', {}).get('desired_age', '') }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="goal-item">
+                <h4>✈️ Foreign Trip</h4>
+                <label class="goal-toggle">
+                    <input type="checkbox" name="goal_foreign_trip" value="yes" id="goal_foreign_trip" {% if plan_data.get('goals', {}).get('foreign_trip') %}checked{% endif %}>
+                    <span>I want to take an international trip</span>
+                </label>
+                <div class="goal-inputs" id="foreign_trip-inputs" style="display: {% if plan_data.get('goals', {}).get('foreign_trip') %}block{% else %}none{% endif %};">
+                    <div class="form-group">
+                        <label for="foreign_trip_age">Desired Age</label>
+                        <input type="number" id="foreign_trip_age" name="goal_foreign_trip_age" placeholder="32" value="{{ plan_data.get('goals', {}).get('foreign_trip', {}).get('desired_age', '') }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="goal-item">
+                <h4>🚀 Start Business</h4>
+                <label class="goal-toggle">
+                    <input type="checkbox" name="goal_business" value="yes" id="goal_business" {% if plan_data.get('goals', {}).get('business') %}checked{% endif %}>
+                    <span>I want to start my own business</span>
+                </label>
+                <div class="goal-inputs" id="business-inputs" style="display: {% if plan_data.get('goals', {}).get('business') %}block{% else %}none{% endif %};">
+                    <div class="form-group">
+                        <label for="business_age">Desired Age</label>
+                        <input type="number" id="business_age" name="goal_business_age" placeholder="35" value="{{ plan_data.get('goals', {}).get('business', {}).get('desired_age', '') }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="goal-item">
+                <h4>🎓 Higher Education</h4>
+                <label class="goal-toggle">
+                    <input type="checkbox" name="goal_education" value="yes" id="goal_education" {% if plan_data.get('goals', {}).get('higher_education') %}checked{% endif %}>
+                    <span>I want to pursue higher education</span>
+                </label>
+                <div class="goal-inputs" id="education-inputs" style="display: {% if plan_data.get('goals', {}).get('higher_education') %}block{% else %}none{% endif %};">
+                    <div class="form-group">
+                        <label for="education_age">Desired Age</label>
+                        <input type="number" id="education_age" name="goal_education_age" placeholder="26" value="{{ plan_data.get('goals', {}).get('higher_education', {}).get('desired_age', '') }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="goal-item">
+                <h4>👴 Support Parents</h4>
+                <label class="goal-toggle">
+                    <input type="checkbox" name="goal_parents" value="yes" id="goal_parents" {% if plan_data.get('goals', {}).get('support_parents') %}checked{% endif %}>
+                    <span>I want to financially support my parents</span>
+                </label>
+                <div class="goal-inputs" id="parents-inputs" style="display: {% if plan_data.get('goals', {}).get('support_parents') %}block{% else %}none{% endif %};">
+                    <div class="form-group">
+                        <label for="parents_age">Desired Age</label>
+                        <input type="number" id="parents_age" name="goal_parents_age" placeholder="40" value="{{ plan_data.get('goals', {}).get('support_parents', {}).get('desired_age', '') }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="retirement_age">Target Retirement Age</label>
+                <input type="number" id="retirement_age" name="retirement_age" min="45" max="80" placeholder="60" value="{{ plan_data.get('retirement_age', 60) }}">
+            </div>
+
+            <div class="form-group">
+                <label for="retirement_lifestyle">Desired Retirement Lifestyle</label>
+                <select id="retirement_lifestyle" name="retirement_lifestyle">
+                    <option value="modest" {% if plan_data.get('retirement_lifestyle') == 'modest' %}selected{% endif %}>Modest (₹30–50K/month)</option>
+                    <option value="comfortable" {% if plan_data.get('retirement_lifestyle', 'comfortable') == 'comfortable' %}selected{% endif %}>Comfortable (₹50–100K/month)</option>
+                    <option value="luxurious" {% if plan_data.get('retirement_lifestyle') == 'luxurious' %}selected{% endif %}>Luxurious (₹100K+/month)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="other_goals">Any Other Important Goals?</label>
+                <textarea id="other_goals" name="other_goals" placeholder="Share any other financial goals or dreams..." rows="4">{{ plan_data.get('other_goals', '') }}</textarea>
+            </div>
+
+            {% elif current_step == 7 %}
+            <h2 class="step-title">📊 Your Risk Appetite</h2>
+            <p class="step-subtitle">How comfortable are you with market volatility?</p>
+
+            <div class="info-box">ℹ️ Your risk profile determines how your investments should be allocated across asset classes.</div>
+
+            <div class="form-group">
+                <label>Risk Appetite</label>
+                <div class="radio-group" style="flex-direction: column; gap: 14px;">
+                    <div class="radio-item" style="flex:none; width:100%;">
+                        <input type="radio" id="low_risk" name="risk_appetite" value="low" {% if plan_data.get('risk_appetite') == 'low' %}checked{% endif %}>
+                        <label for="low_risk"><strong>🟢 Low Risk</strong> — Prefer stable investments, ready to sacrifice growth for safety. Suitable for those nearing retirement or with dependents.</label>
+                    </div>
+                    <div class="radio-item" style="flex:none; width:100%;">
+                        <input type="radio" id="medium_risk" name="risk_appetite" value="medium" {% if plan_data.get('risk_appetite', 'medium') == 'medium' %}checked{% endif %}>
+                        <label for="medium_risk"><strong>🟡 Medium Risk</strong> — Balanced approach, willing to accept some volatility for moderate growth. Most suitable for working professionals.</label>
+                    </div>
+                    <div class="radio-item" style="flex:none; width:100%;">
+                        <input type="radio" id="high_risk" name="risk_appetite" value="high" {% if plan_data.get('risk_appetite') == 'high' %}checked{% endif %}>
+                        <label for="high_risk"><strong>🔴 High Risk</strong> — Willing to accept significant volatility for higher growth potential. Suitable for young professionals with a long investment horizon.</label>
+                    </div>
+                </div>
+            </div>
+
+            {% elif current_step == 8 %}
+            <h2 class="step-title">✨ Ready to Generate Your Plan</h2>
+            <p class="step-subtitle">Review and generate your personalized financial roadmap</p>
+
+            <div class="success-message">✅ All your information has been saved. Click below to generate your complete financial plan.</div>
+
+            <div class="recap-card">
+                <h4>📋 What You'll Get</h4>
+                <ul>
+                    <li>✓ Financial health score and analysis</li>
+                    <li>✓ Strengths, weaknesses &amp; potential risks</li>
+                    <li>✓ Immediate financial priorities</li>
+                    <li>✓ Short, medium &amp; long-term action plans</li>
+                    <li>✓ A beautiful life timeline with milestones</li>
+                    <li>✓ SmartPlanFinance calculator recommendations</li>
+                    <li>✓ Plain-English "Why This Plan?" insights</li>
+                </ul>
+            </div>
+            {% endif %}
+
+            <div class="form-navigation">
+                <div class="nav-slot">
+                    {% if current_step > 1 %}
+                    <button type="button" class="btn btn-secondary" onclick="previousStep()">← Back</button>
+                    {% endif %}
+                </div>
+                <div class="step-counter">Step {{ current_step }} of 8</div>
+                <div class="nav-slot right">
+                    {% if current_step < 8 %}
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Next →</button>
+                    {% else %}
+                    <button type="submit" class="btn btn-primary">🎯 Generate My Plan</button>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer class="site-footer">
+    <div class="footer-links">
+        <a href="/about">About Us</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms &amp; Conditions</a>
+        <a href="/disclaimer">Disclaimer</a>
+    </div>
+    <div class="copyright">&copy; 2026 SmartPlanFinance. All rights reserved.</div>
+</footer>
+
+<script>
+const currentStep = {{ current_step }};
+
+function showError(message) {
+    const box = document.getElementById('formError');
+    box.textContent = '⚠️ ' + message;
+    box.classList.add('show');
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function clearError() {
+    const box = document.getElementById('formError');
+    box.textContent = '';
+    box.classList.remove('show');
+}
+
+function markInvalid(el) {
+    if (el) el.classList.add('input-error');
+}
+
+function clearInvalid() {
+    document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+}
+
+/**
+ * Client-side pre-check only (fast feedback). The server re-validates
+ * everything regardless — this just avoids an unnecessary round trip.
+ * Returns null if OK, or an error message string.
+ */
+function validateStep(step) {
+    clearInvalid();
+
+    if (step === 1) {
+        const name = document.getElementById('name');
+        const age = document.getElementById('age');
+        const gender = document.getElementById('gender');
+        const city = document.getElementById('city');
+        const profType = document.querySelector('input[name="profession_type"]:checked');
+        const marital = document.getElementById('marital');
+
+        if (!name.value.trim()) { markInvalid(name); return 'Please enter your name.'; }
+        if (!age.value || parseInt(age.value, 10) < 18) { markInvalid(age); return 'Please enter a valid age (18 or above).'; }
+        if (!gender.value) { markInvalid(gender); return 'Please select your gender.'; }
+        if (!city.value.trim()) { markInvalid(city); return 'Please enter your city.'; }
+        if (!profType) { return 'Please select your profession type.'; }
+        if (!marital.value) { markInvalid(marital); return 'Please select your marital status.'; }
+        return null;
+    }
+
+    if (step === 2) {
+        const salary = document.getElementById('salary');
+        if (!salary.value || parseFloat(salary.value) <= 0) { markInvalid(salary); return 'Please enter a valid monthly salary.'; }
+        return null;
+    }
+
+    if (step === 3) {
+        const totalExp = document.getElementById('total_exp');
+        if (totalExp.value === '' || parseFloat(totalExp.value) < 0) { markInvalid(totalExp); return 'Please enter your total monthly expenses.'; }
+        return null;
+    }
+
+    if (step === 4) {
+        return null; // all optional, defaults to 0
+    }
+
+    if (step === 5) {
+        const groups = ['health_insurance', 'life_insurance', 'term_insurance', 'nominee_available'];
+        const labels = {
+            health_insurance: 'health insurance',
+            life_insurance: 'life insurance',
+            term_insurance: 'term insurance',
+            nominee_available: 'nominee status'
+        };
+        for (const name of groups) {
+            if (!document.querySelector(`input[name="${name}"]:checked`)) {
+                return `Please tell us about your ${labels[name]}.`;
+            }
+        }
+        return null;
+    }
+
+    if (step === 6) {
+        const budgetGoals = ['house', 'car', 'bike'];
+        for (const g of budgetGoals) {
+            const checkbox = document.getElementById('goal_' + g);
+            if (checkbox && checkbox.checked) {
+                const ageField = document.getElementById(g + '_age');
+                const budgetField = document.getElementById(g + '_budget');
+                if (!ageField.value) { markInvalid(ageField); return `Please enter the desired age for your ${g} goal.`; }
+                if (!budgetField.value) { markInvalid(budgetField); return `Please enter a budget for your ${g} goal.`; }
+            }
+        }
+
+        const ageOnlyGoals = ['marriage', 'children', 'foreign_trip', 'business', 'education', 'parents'];
+        for (const g of ageOnlyGoals) {
+            const checkbox = document.getElementById('goal_' + g);
+            if (checkbox && checkbox.checked) {
+                const ageField = document.getElementById(g + '_age');
+                if (ageField && !ageField.value) { markInvalid(ageField); return `Please enter the desired age for your ${g.replace('_', ' ')} goal.`; }
+            }
+        }
+
+        const retirementAge = document.getElementById('retirement_age');
+        if (!retirementAge.value || parseInt(retirementAge.value, 10) < 45) {
+            markInvalid(retirementAge);
+            return 'Please enter a valid target retirement age (45 or above).';
+        }
+        return null;
+    }
+
+    if (step === 7) {
+        if (!document.querySelector('input[name="risk_appetite"]:checked')) {
+            return 'Please select your risk appetite.';
+        }
+        return null;
+    }
+
+    return null;
+}
+
+function nextStep() {
+    const error = validateStep(currentStep);
+    if (error) {
+        showError(error);
+        return;
+    }
+    clearError();
+    // IMPORTANT: leave stepInput as the CURRENT step — the backend
+    // parses this step's fields and advances internally. Do NOT
+    // increment it here.
+    document.getElementById('actionInput').value = 'next';
+    document.getElementById('stepInput').value = currentStep;
+    document.getElementById('wizardForm').submit();
+}
+
+function previousStep() {
+    clearError();
+    // IMPORTANT: leave stepInput as the CURRENT step. The backend
+    // sees action=back and renders (currentStep - 1) WITHOUT
+    // parsing/validating any fields.
+    document.getElementById('actionInput').value = 'back';
+    document.getElementById('stepInput').value = currentStep;
+    document.getElementById('wizardForm').submit();
+}
+
+// Goal checkbox toggles (Step 6 only)
+document.addEventListener('DOMContentLoaded', function () {
+    const goals = ['house', 'car', 'bike', 'marriage', 'children', 'foreign_trip', 'business', 'education', 'parents'];
+
+    goals.forEach(goal => {
+        const checkbox = document.getElementById('goal_' + goal);
+        const inputs = document.getElementById(goal + '-inputs');
+        if (checkbox && inputs) {
+            checkbox.addEventListener('change', function () {
+                inputs.style.display = this.checked ? 'block' : 'none';
+            });
+        }
+    });
+
+    document.querySelectorAll('.form-wrapper input, .form-wrapper select, .form-wrapper textarea').forEach(el => {
+        el.addEventListener('input', () => el.classList.remove('input-error'));
+        el.addEventListener('change', () => el.classList.remove('input-error'));
+    });
+
+    document.querySelector('.wizard-container').scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+
+</body>
+</html>

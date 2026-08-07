@@ -9,8 +9,17 @@ import hmac
 import hashlib
 import json
 from psycopg2.extras import RealDictCursor
+from io import BytesIO
 from datetime import datetime, timedelta
-from flask import Flask, render_template, request, redirect, session, url_for, Response
+from flask import Flask, render_template, request, flash, redirect, send_file,session, url_for, Response
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.platypus import Table, TableStyle, HRFlowable, PageBreak
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import cm
+from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from functools import wraps
 from config import COUNTRIES
 from dotenv import load_dotenv
@@ -20,6 +29,7 @@ from flask import send_file
 from pdf_generator import generate_financial_report
 from flask import send_file
 from openai import OpenAI
+from datetime import date
 import FAQ
 import logging
 from article_prompt import MASTER_ARTICLE_PROMPT
@@ -4226,6 +4236,1135 @@ def verify_payment():
 @app.route("/book-preview")
 def book_preview():
     return render_template("preview.html")
+
+# =====================================================================
+# REPLACE your existing `financial_planner` view function with this one.
+# Do NOT touch `financial_plan_results` or `download_financial_pdf` —
+# they are untouched and already correct.
+#
+# WHAT CHANGED AND WHY
+# ---------------------------------------------------------------------
+# Your old JS did: stepInput.value = currentStep + 1  (on Next)
+#                   stepInput.value = currentStep - 1  (on Back)
+# ...and then submitted the CURRENT step's form fields under that
+# wrong step number. Your backend uses `step` to decide which fields
+# to parse — so it was always parsing the WRONG step's fields, and
+# every step's real data was silently thrown away. By "Generate My
+# Plan" the session data was basically empty, which threw inside
+# financial_plan_results() and bounced you back to Step 1.
+#
+# THE FIX: the template now always submits `step` = the step CURRENTLY
+# on screen (unchanged — it never increments/decrements client-side),
+# plus a new hidden `action` field ("next" or "back"). This route:
+#   - action == "next" (default): parses+validates the fields for
+#     `step` exactly as before, saves them, then advances to step+1.
+#   - action == "back": does NOT touch/parse/validate anything —
+#     it just renders step-1 using whatever is already in the session.
+# =====================================================================
+
+@app.route('/financial-planner', methods=['GET', 'POST'])
+def financial_planner():
+    """
+    PRODUCTION-READY Personal Financial Planning Engine
+    Complete multi-step wizard with proper validation and data flow
+    """
+
+    if request.method == 'POST':
+        step = request.form.get('step', '1')
+        action = request.form.get('action', 'next')
+
+        # Initialize session data if not exists
+        if 'financial_plan' not in session:
+            session['financial_plan'] = {}
+
+        plan_data = session['financial_plan']
+
+        # -----------------------------------------------------------
+        # BACK NAVIGATION — never parse or validate fields going back.
+        # Just show the previous step with whatever is already saved.
+        # -----------------------------------------------------------
+        if action == 'back':
+            try:
+                target_step = int(step) - 1
+            except ValueError:
+                target_step = 1
+            target_step = max(1, min(8, target_step))
+            return render_template(
+                'financial_planner.html',
+                current_step=target_step,
+                plan_data=plan_data,
+                error=None
+            )
+
+        try:
+            # Step 1: Personal Details
+            if step == '1':
+                # Validation
+                name = request.form.get('name', '').strip()
+                age = request.form.get('age', '').strip()
+                gender = request.form.get('gender', '').strip()
+                city = request.form.get('city', '').strip()
+                profession_type = request.form.get('profession_type', '').strip()
+                work_experience = request.form.get('work_experience', '0').strip()
+                marital_status = request.form.get('marital_status', '').strip()
+                num_children = request.form.get('num_children', '0').strip()
+                num_dependents = request.form.get('num_dependents', '0').strip()
+
+                if not all([name, age, gender, city, profession_type, marital_status]):
+                    return render_template('financial_planner.html',
+                                         current_step=1,
+                                         plan_data=plan_data,
+                                         error="Please fill all required fields")
+
+                try:
+                    age_int = int(age)
+                    if age_int < 18 or age_int > 100:
+                        raise ValueError("Age must be between 18 and 100")
+                except ValueError:
+                    return render_template('financial_planner.html',
+                                         current_step=1,
+                                         plan_data=plan_data,
+                                         error="Please enter a valid age")
+
+                # Store data
+                plan_data['name'] = name
+                plan_data['age'] = age_int
+                plan_data['gender'] = gender
+                plan_data['city'] = city
+                plan_data['profession_type'] = profession_type
+                plan_data['work_experience'] = int(work_experience) if work_experience else 0
+                plan_data['marital_status'] = marital_status
+                plan_data['num_children'] = int(num_children) if num_children else 0
+                plan_data['num_dependents'] = int(num_dependents) if num_dependents else 0
+
+            # Step 2: Income
+            elif step == '2':
+                monthly_salary = request.form.get('monthly_salary', '0').strip()
+                additional_income = request.form.get('additional_income', '0').strip()
+                annual_salary_growth = request.form.get('annual_salary_growth', '0').strip()
+
+                try:
+                    salary_float = float(monthly_salary)
+                    if salary_float <= 0:
+                        return render_template('financial_planner.html',
+                                             current_step=2,
+                                             plan_data=plan_data,
+                                             error="Monthly salary must be greater than 0")
+                except ValueError:
+                    return render_template('financial_planner.html',
+                                         current_step=2,
+                                         plan_data=plan_data,
+                                         error="Please enter valid income numbers")
+
+                plan_data['monthly_salary'] = salary_float
+                plan_data['additional_income'] = float(additional_income) if additional_income else 0
+                plan_data['annual_salary_growth'] = float(annual_salary_growth) if annual_salary_growth else 0
+
+            # Step 3: Monthly Expenses
+            elif step == '3':
+                total_expenses = request.form.get('total_expenses', '0').strip()
+                rent = request.form.get('rent', '0').strip()
+                emi = request.form.get('emi', '0').strip()
+                insurance_premium = request.form.get('insurance_premium', '0').strip()
+                other_commitments = request.form.get('other_commitments', '0').strip()
+
+                try:
+                    total_exp_float = float(total_expenses)
+                    if total_exp_float < 0:
+                        raise ValueError("Expenses cannot be negative")
+                except ValueError:
+                    return render_template('financial_planner.html',
+                                         current_step=3,
+                                         plan_data=plan_data,
+                                         error="Please enter valid expense numbers")
+
+                plan_data['total_expenses'] = total_exp_float
+                plan_data['rent'] = float(rent) if rent else 0
+                plan_data['emi'] = float(emi) if emi else 0
+                plan_data['insurance_premium'] = float(insurance_premium) if insurance_premium else 0
+                plan_data['other_commitments'] = float(other_commitments) if other_commitments else 0
+
+            # Step 4: Current Financial Position
+            elif step == '4':
+                emergency_fund = request.form.get('emergency_fund', '0').strip()
+                savings = request.form.get('savings', '0').strip()
+                fd = request.form.get('fd', '0').strip()
+                gold = request.form.get('gold', '0').strip()
+                mutual_funds = request.form.get('mutual_funds', '0').strip()
+                stocks = request.form.get('stocks', '0').strip()
+                epf = request.form.get('epf', '0').strip()
+                ppf = request.form.get('ppf', '0').strip()
+                nps = request.form.get('nps', '0').strip()
+                other_investments = request.form.get('other_investments', '0').strip()
+                loans = request.form.get('loans', '0').strip()
+                credit_card_debt = request.form.get('credit_card_debt', '0').strip()
+
+                plan_data['emergency_fund'] = float(emergency_fund) if emergency_fund else 0
+                plan_data['savings'] = float(savings) if savings else 0
+                plan_data['fd'] = float(fd) if fd else 0
+                plan_data['gold'] = float(gold) if gold else 0
+                plan_data['mutual_funds'] = float(mutual_funds) if mutual_funds else 0
+                plan_data['stocks'] = float(stocks) if stocks else 0
+                plan_data['epf'] = float(epf) if epf else 0
+                plan_data['ppf'] = float(ppf) if ppf else 0
+                plan_data['nps'] = float(nps) if nps else 0
+                plan_data['other_investments'] = float(other_investments) if other_investments else 0
+                plan_data['loans'] = float(loans) if loans else 0
+                plan_data['credit_card_debt'] = float(credit_card_debt) if credit_card_debt else 0
+
+            # Step 5: Protection
+            elif step == '5':
+                plan_data['health_insurance'] = request.form.get('health_insurance') == 'yes'
+                plan_data['life_insurance'] = request.form.get('life_insurance') == 'yes'
+                plan_data['term_insurance'] = request.form.get('term_insurance') == 'yes'
+                plan_data['nominee_available'] = request.form.get('nominee_available') == 'yes'
+
+            # Step 6: Life Goals
+            elif step == '6':
+                plan_data['goals'] = {}
+
+                if request.form.get('goal_house') == 'yes':
+                    house_age = request.form.get('goal_house_age', '').strip()
+                    house_budget = request.form.get('goal_house_budget', '').strip()
+                    if house_age and house_budget:
+                        plan_data['goals']['house'] = {
+                            'desired_age': int(house_age),
+                            'budget': float(house_budget)
+                        }
+
+                if request.form.get('goal_car') == 'yes':
+                    car_age = request.form.get('goal_car_age', '').strip()
+                    car_budget = request.form.get('goal_car_budget', '').strip()
+                    if car_age and car_budget:
+                        plan_data['goals']['car'] = {
+                            'desired_age': int(car_age),
+                            'budget': float(car_budget)
+                        }
+
+                if request.form.get('goal_bike') == 'yes':
+                    bike_age = request.form.get('goal_bike_age', '').strip()
+                    bike_budget = request.form.get('goal_bike_budget', '').strip()
+                    if bike_age and bike_budget:
+                        plan_data['goals']['bike'] = {
+                            'desired_age': int(bike_age),
+                            'budget': float(bike_budget)
+                        }
+
+                if request.form.get('goal_marriage') == 'yes':
+                    marriage_age = request.form.get('goal_marriage_age', '').strip()
+                    if marriage_age:
+                        plan_data['goals']['marriage'] = {'desired_age': int(marriage_age)}
+
+                if request.form.get('goal_children') == 'yes':
+                    children_age = request.form.get('goal_children_age', '').strip()
+                    if children_age:
+                        plan_data['goals']['children'] = {'desired_age': int(children_age)}
+
+                if request.form.get('goal_foreign_trip') == 'yes':
+                    trip_age = request.form.get('goal_foreign_trip_age', '').strip()
+                    if trip_age:
+                        plan_data['goals']['foreign_trip'] = {'desired_age': int(trip_age)}
+
+                if request.form.get('goal_business') == 'yes':
+                    business_age = request.form.get('goal_business_age', '').strip()
+                    if business_age:
+                        plan_data['goals']['business'] = {'desired_age': int(business_age)}
+
+                if request.form.get('goal_education') == 'yes':
+                    education_age = request.form.get('goal_education_age', '').strip()
+                    if education_age:
+                        plan_data['goals']['higher_education'] = {'desired_age': int(education_age)}
+
+                if request.form.get('goal_parents') == 'yes':
+                    parents_age = request.form.get('goal_parents_age', '').strip()
+                    if parents_age:
+                        plan_data['goals']['support_parents'] = {'desired_age': int(parents_age)}
+
+                retirement_age = request.form.get('retirement_age', '60').strip()
+                retirement_lifestyle = request.form.get('retirement_lifestyle', 'comfortable').strip()
+                other_goals = request.form.get('other_goals', '').strip()
+
+                plan_data['retirement_age'] = int(retirement_age) if retirement_age else 60
+                plan_data['retirement_lifestyle'] = retirement_lifestyle
+                if other_goals:
+                    plan_data['other_goals'] = other_goals
+
+            # Step 7: Risk Profile
+            elif step == '7':
+                risk_appetite = request.form.get('risk_appetite', '').strip()
+                if not risk_appetite:
+                    return render_template('financial_planner.html',
+                                         current_step=7,
+                                         plan_data=plan_data,
+                                         error="Please select your risk appetite")
+                plan_data['risk_appetite'] = risk_appetite
+
+            # Step 8: Generate Plan
+            elif step == '8':
+                session['financial_plan'] = plan_data
+                return redirect(url_for('financial_plan_results'))
+
+            session['financial_plan'] = plan_data
+
+            # Move to next step
+            current_step_int = int(step)
+            next_step = current_step_int + 1
+
+            if next_step > 8:
+                return redirect(url_for('financial_plan_results'))
+
+            return render_template('financial_planner.html', current_step=next_step, plan_data=plan_data, error=None)
+
+        except Exception as e:
+            app.logger.error(f"Financial Planner Error: {str(e)}")
+            return render_template('financial_planner.html',
+                                 current_step=int(step),
+                                 plan_data=plan_data,
+                                 error=f"An error occurred: {str(e)}")
+
+    # GET request - start from step 1
+    return render_template('financial_planner.html', current_step=1, plan_data={}, error=None)
+# =====================================================================
+# REPLACE your existing `financial_plan_results` AND `download_financial_pdf`
+# functions with everything below (including the new `_build_financial_results`
+# helper). Do NOT touch `financial_planner` — it's already fixed and correct.
+#
+# ADD THESE IMPORTS at the top of app.py if they aren't already there:
+#
+#   import datetime
+#   from io import BytesIO
+#   from flask import send_file, flash, session, redirect, url_for, render_template
+#   from reportlab.lib.pagesizes import A4
+#   from reportlab.lib.units import cm
+#   from reportlab.lib import colors
+#   from reportlab.lib.enums import TA_CENTER, TA_LEFT
+#   from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+#   from reportlab.platypus import (
+#       SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle,
+#       HRFlowable, PageBreak
+#   )
+#
+# WHY THIS CHANGED
+# ---------------------------------------------------------------------
+# Your old download_financial_pdf() read raw session data directly and
+# only ever wrote "Name: X" / "Age: Y" — none of the score, strengths,
+# goals, retirement or roadmap calculations that financial_plan_results()
+# computes were ever used. Rather than duplicate ~300 lines of scoring
+# logic into the PDF route (and risk the two drifting apart over time),
+# the calculation engine is now ONE function, `_build_financial_results`,
+# used by both the web page and the PDF. Same numbers, everywhere.
+# =====================================================================
+
+# --------------------------------------------------------------------
+# SHARED CALCULATION ENGINE
+# --------------------------------------------------------------------
+
+def _build_financial_results(plan_data):
+    """
+    Takes the raw session plan_data collected by the wizard and returns
+    the fully computed `results` dict — score, snapshot, strengths,
+    weaknesses, risks, recommendations, priorities, goal analysis,
+    retirement plan, asset allocation and life roadmap.
+
+    Used by BOTH financial_plan_results() (web page) and
+    download_financial_pdf() (PDF report) so the two never disagree.
+    """
+
+    # --------------------------------------------------
+    # PERSONAL DETAILS
+    # --------------------------------------------------
+
+    name = plan_data.get("name", "Friend")
+    age = int(plan_data.get("age", 0))
+    profession = plan_data.get("profession_type", "Professional")
+    work_experience = int(plan_data.get("work_experience", 0))
+    marital_status = plan_data.get("marital_status", "")
+    dependents = int(plan_data.get("num_dependents", 0))
+    children = int(plan_data.get("num_children", 0))
+
+    # --------------------------------------------------
+    # INCOME
+    # --------------------------------------------------
+
+    monthly_salary = float(plan_data.get("monthly_salary", 0))
+    additional_income = float(plan_data.get("additional_income", 0))
+    annual_salary_growth = float(plan_data.get("annual_salary_growth", 8))
+
+    monthly_income = monthly_salary + additional_income
+    annual_income = monthly_income * 12
+
+    # --------------------------------------------------
+    # EXPENSES
+    # --------------------------------------------------
+
+    monthly_expense = float(plan_data.get("total_expenses", 0))
+    rent = float(plan_data.get("rent", 0))
+    emi = float(plan_data.get("emi", 0))
+    insurance_premium = float(plan_data.get("insurance_premium", 0))
+    other_commitments = float(plan_data.get("other_commitments", 0))
+
+    monthly_surplus = monthly_income - monthly_expense
+    annual_surplus = monthly_surplus * 12
+
+    # --------------------------------------------------
+    # ASSETS
+    # --------------------------------------------------
+
+    emergency_fund = float(plan_data.get("emergency_fund", 0))
+    savings = float(plan_data.get("savings", 0))
+    fd = float(plan_data.get("fd", 0))
+    gold = float(plan_data.get("gold", 0))
+    mutual_funds = float(plan_data.get("mutual_funds", 0))
+    stocks = float(plan_data.get("stocks", 0))
+    epf = float(plan_data.get("epf", 0))
+    ppf = float(plan_data.get("ppf", 0))
+    nps = float(plan_data.get("nps", 0))
+    other_investments = float(plan_data.get("other_investments", 0))
+
+    total_assets = (
+        emergency_fund + savings + fd + gold + mutual_funds +
+        stocks + epf + ppf + nps + other_investments
+    )
+
+    # --------------------------------------------------
+    # LIABILITIES
+    # --------------------------------------------------
+
+    loans = float(plan_data.get("loans", 0))
+    credit_card_debt = float(plan_data.get("credit_card_debt", 0))
+    total_liabilities = loans + credit_card_debt
+    net_worth = total_assets - total_liabilities
+
+    # --------------------------------------------------
+    # CASH FLOW METRICS
+    # --------------------------------------------------
+
+    savings_rate = (monthly_surplus / monthly_income * 100) if monthly_income > 0 else 0
+    expense_ratio = (monthly_expense / monthly_income * 100) if monthly_income > 0 else 0
+    emergency_months = (emergency_fund / monthly_expense) if monthly_expense > 0 else 0
+    debt_income_ratio = (total_liabilities / annual_income * 100) if annual_income > 0 else 0
+
+    # --------------------------------------------------
+    # ASSET ALLOCATION
+    # --------------------------------------------------
+
+    equity = mutual_funds + stocks
+    debt_assets = savings + fd + epf + ppf + nps
+    alternate_assets = gold + other_investments
+
+    if total_assets > 0:
+        equity_percent = (equity / total_assets) * 100
+        debt_percent = (debt_assets / total_assets) * 100
+        alternate_percent = (alternate_assets / total_assets) * 100
+    else:
+        equity_percent = 0
+        debt_percent = 0
+        alternate_percent = 0
+
+    # --------------------------------------------------
+    # INSURANCE & PROTECTION
+    # --------------------------------------------------
+
+    health_insurance = plan_data.get("health_insurance", False)
+    life_insurance = plan_data.get("life_insurance", False)
+    term_insurance = plan_data.get("term_insurance", False)
+    nominee_available = plan_data.get("nominee_available", False)
+
+    # --------------------------------------------------
+    # RETIREMENT DETAILS
+    # --------------------------------------------------
+
+    retirement_age = int(plan_data.get("retirement_age", 60))
+    retirement_lifestyle = plan_data.get("retirement_lifestyle", "comfortable")
+    years_to_retirement = max(0, retirement_age - age)
+
+    # --------------------------------------------------
+    # INDIVIDUAL SCORES (0-100)
+    # --------------------------------------------------
+
+    cashflow_score = 0
+    if savings_rate >= 40:
+        cashflow_score = 100
+    elif savings_rate >= 30:
+        cashflow_score = 85
+    elif savings_rate >= 20:
+        cashflow_score = 70
+    elif savings_rate >= 10:
+        cashflow_score = 50
+    elif savings_rate > 0:
+        cashflow_score = 30
+
+    protection_score = 0
+    if health_insurance:
+        protection_score += 35
+    if term_insurance:
+        protection_score += 40
+    if life_insurance:
+        protection_score += 15
+    if nominee_available:
+        protection_score += 10
+    protection_score = min(100, protection_score)
+
+    debt_score = 100
+    if debt_income_ratio > 150:
+        debt_score = 20
+    elif debt_income_ratio > 100:
+        debt_score = 40
+    elif debt_income_ratio > 75:
+        debt_score = 60
+    elif debt_income_ratio > 50:
+        debt_score = 75
+    elif debt_income_ratio > 25:
+        debt_score = 90
+
+    wealth_score = 0
+    if annual_income > 0:
+        wealth_multiple = net_worth / annual_income
+        if wealth_multiple >= 5:
+            wealth_score = 100
+        elif wealth_multiple >= 3:
+            wealth_score = 85
+        elif wealth_multiple >= 2:
+            wealth_score = 70
+        elif wealth_multiple >= 1:
+            wealth_score = 55
+        elif wealth_multiple > 0:
+            wealth_score = 35
+
+    retirement_score = 0
+    if years_to_retirement >= 25:
+        retirement_score = 90
+    elif years_to_retirement >= 15:
+        retirement_score = 75
+    elif years_to_retirement >= 10:
+        retirement_score = 60
+    elif years_to_retirement >= 5:
+        retirement_score = 40
+    else:
+        retirement_score = 25
+
+    investment_types = sum([
+        mutual_funds > 0, stocks > 0, fd > 0,
+        epf > 0, ppf > 0, nps > 0, gold > 0
+    ])
+    diversification_score = min(100, investment_types * 15)
+
+    financial_score = int(
+        cashflow_score * 0.25 +
+        protection_score * 0.20 +
+        debt_score * 0.15 +
+        wealth_score * 0.20 +
+        retirement_score * 0.10 +
+        diversification_score * 0.10
+    )
+
+    # --------------------------------------------------
+    # PERSONALIZED INSIGHTS
+    # --------------------------------------------------
+
+    strengths = []
+    weaknesses = []
+    risks = []
+    recommendations = []
+
+    if savings_rate >= 30:
+        strengths.append(f"You save {savings_rate:.1f}% of your income, which is excellent.")
+    elif savings_rate >= 20:
+        strengths.append(f"You have a healthy savings rate of {savings_rate:.1f}%.")
+    elif savings_rate >= 10:
+        weaknesses.append("Your savings rate is moderate. Aim for at least 20%.")
+    else:
+        weaknesses.append("Your savings rate is very low.")
+        risks.append("Low monthly savings can delay every future financial goal.")
+
+    if emergency_months >= 12:
+        strengths.append("Excellent emergency fund covering more than one year.")
+    elif emergency_months >= 6:
+        strengths.append("Emergency fund is financially strong.")
+    elif emergency_months >= 3:
+        recommendations.append("Increase emergency fund to six months of expenses.")
+    else:
+        weaknesses.append("Emergency fund is insufficient.")
+        risks.append("Unexpected expenses may force you to borrow money.")
+
+    if total_liabilities == 0:
+        strengths.append("Debt free. This gives tremendous financial flexibility.")
+    elif debt_income_ratio > 100:
+        weaknesses.append("Debt exceeds your annual income.")
+        risks.append("High debt burden may slow wealth creation.")
+    elif debt_income_ratio > 50:
+        recommendations.append("Prioritize reducing outstanding debt.")
+
+    if health_insurance:
+        strengths.append("Health insurance protection is available.")
+    else:
+        weaknesses.append("Health insurance is missing.")
+        risks.append("One medical emergency can significantly impact your finances.")
+
+    if dependents > 0:
+        if term_insurance:
+            strengths.append("Family is protected through term insurance.")
+        else:
+            weaknesses.append("You have dependents but no term insurance.")
+            risks.append("Family income protection is inadequate.")
+
+    if net_worth >= annual_income * 2:
+        strengths.append("Your net worth is growing strongly.")
+    elif net_worth <= 0:
+        weaknesses.append("Current net worth is zero or negative.")
+        recommendations.append("Focus on increasing assets while reducing liabilities.")
+
+    if investment_types >= 5:
+        strengths.append("Your investments are well diversified.")
+    elif investment_types >= 3:
+        recommendations.append("Diversify gradually across equity, debt and retirement products.")
+    else:
+        weaknesses.append("Investment portfolio lacks diversification.")
+
+    if years_to_retirement >= 20:
+        strengths.append("You still have sufficient time for compounding.")
+    elif years_to_retirement <= 10:
+        recommendations.append("Retirement planning should become your highest priority.")
+
+    if monthly_surplus <= 0:
+        risks.append("Your monthly expenses exceed your income.")
+        recommendations.append("Reduce expenses immediately before starting investments.")
+    elif monthly_surplus < monthly_income * 0.15:
+        recommendations.append("Increase monthly surplus to improve future wealth creation.")
+
+    # --------------------------------------------------
+    # GOAL ANALYSIS
+    # --------------------------------------------------
+
+    goals = plan_data.get("goals", {})
+    goal_analysis = []
+    inflation = 0.06
+    expected_return = 0.12
+    available_sip = max(0, monthly_surplus * 0.80)
+
+    for goal_name, goal in goals.items():
+        desired_age = int(goal.get("desired_age", age))
+        years = max(1, desired_age - age)
+        present_cost = float(goal.get("budget", 0))
+        if present_cost <= 0:
+            continue
+
+        future_cost = present_cost * ((1 + inflation) ** years)
+        monthly_rate = expected_return / 12
+        months = years * 12
+
+        if monthly_rate > 0:
+            required_sip = future_cost * monthly_rate / (((1 + monthly_rate) ** months) - 1)
+        else:
+            required_sip = future_cost / months
+
+        if available_sip >= required_sip:
+            status, status_color = "Achievable", "green"
+            message = "Based on your current surplus, this goal is achievable."
+        elif available_sip >= required_sip * 0.75:
+            status, status_color = "Needs Improvement", "orange"
+            message = "Increase your monthly investment slightly to comfortably achieve this goal."
+        else:
+            status, status_color = "At Risk", "red"
+            message = "Your current financial capacity is insufficient for this goal."
+
+        goal_analysis.append({
+            "goal": goal_name.replace("_", " ").title(),
+            "current_cost": present_cost,
+            "future_cost": future_cost,
+            "years_remaining": years,
+            "required_sip": required_sip,
+            "available_sip": available_sip,
+            "status": status,
+            "status_color": status_color,
+            "message": message
+        })
+
+    goal_analysis.sort(key=lambda x: x["years_remaining"])
+
+    # --------------------------------------------------
+    # RETIREMENT CORPUS
+    # --------------------------------------------------
+
+    retirement_expense = monthly_expense * 0.70
+    future_monthly_expense = retirement_expense * ((1 + inflation) ** years_to_retirement)
+    retirement_corpus = future_monthly_expense * 12 * 25
+
+    retirement_monthly_sip = 0
+    if years_to_retirement > 0:
+        months = years_to_retirement * 12
+        monthly_rate = expected_return / 12
+        retirement_monthly_sip = retirement_corpus * monthly_rate / (((1 + monthly_rate) ** months) - 1)
+
+    retirement_status = "On Track" if available_sip >= retirement_monthly_sip else "Needs Higher Investment"
+
+    # --------------------------------------------------
+    # TOP PRIORITIES
+    # --------------------------------------------------
+
+    priorities = []
+
+    if emergency_months < 6:
+        priorities.append({
+            "title": "Build Emergency Fund",
+            "description": f"Increase your emergency fund to at least Rs. {monthly_expense*6:,.0f}.",
+            "priority": "High"
+        })
+    if not health_insurance:
+        priorities.append({
+            "title": "Purchase Health Insurance",
+            "description": "Protect yourself against unexpected medical expenses.",
+            "priority": "Critical"
+        })
+    if dependents > 0 and not term_insurance:
+        priorities.append({
+            "title": "Purchase Term Insurance",
+            "description": f"Recommended cover: Rs. {annual_income*15:,.0f}.",
+            "priority": "Critical"
+        })
+    if savings_rate < 20:
+        priorities.append({
+            "title": "Increase Savings Rate",
+            "description": "Target saving at least 20% of your monthly income.",
+            "priority": "High"
+        })
+    if total_liabilities > 0:
+        priorities.append({
+            "title": "Reduce Debt",
+            "description": "Pay off high-interest loans before increasing investments.",
+            "priority": "High"
+        })
+    if investment_types < 4:
+        priorities.append({
+            "title": "Diversify Investments",
+            "description": "Build a balanced portfolio across Equity, Debt and Retirement products.",
+            "priority": "Medium"
+        })
+    if available_sip < retirement_monthly_sip:
+        priorities.append({
+            "title": "Increase Retirement Investment",
+            "description": f"Required monthly retirement SIP: Rs. {retirement_monthly_sip:,.0f}.",
+            "priority": "High"
+        })
+
+    # --------------------------------------------------
+    # RECOMMENDED ASSET ALLOCATION
+    # --------------------------------------------------
+
+    equity_allocation = max(30, min(80, 100 - age))
+    debt_allocation = 100 - equity_allocation
+
+    recommended_portfolio = {
+        "Equity": equity_allocation,
+        "Debt": debt_allocation,
+        "Emergency Fund": 6,
+        "Gold": 10 if age > 35 else 5
+    }
+
+    # --------------------------------------------------
+    # LIFE ROADMAP
+    # --------------------------------------------------
+
+    roadmap = [{
+        "age": age,
+        "title": "Current Position",
+        "description": "Begin disciplined financial planning."
+    }]
+
+    if emergency_months < 6:
+        roadmap.append({
+            "age": age + 1,
+            "title": "Emergency Fund Completed",
+            "description": "Maintain six months of expenses."
+        })
+
+    for item in goal_analysis:
+        roadmap.append({
+            "age": age + item["years_remaining"],
+            "title": item["goal"],
+            "description": item["status"]
+        })
+
+    roadmap.append({
+        "age": retirement_age,
+        "title": "Financial Independence",
+        "description": retirement_status
+    })
+
+    roadmap.sort(key=lambda x: x["age"])
+
+    # --------------------------------------------------
+    # OVERALL FINANCIAL STATUS
+    # --------------------------------------------------
+
+    if financial_score >= 85:
+        overall_status = "Excellent"
+    elif financial_score >= 70:
+        overall_status = "Very Good"
+    elif financial_score >= 55:
+        overall_status = "Good"
+    elif financial_score >= 40:
+        overall_status = "Needs Improvement"
+    else:
+        overall_status = "Critical"
+
+    overall_summary = (
+        f"{name}, your current financial score is {financial_score}/100. "
+        f"You save {savings_rate:.1f}% of your monthly income and currently "
+        f"have a net worth of Rs. {net_worth:,.0f}. Following the recommendations "
+        f"below can significantly improve your financial future."
+    )
+
+    # --------------------------------------------------
+    # RESULTS OBJECT
+    # --------------------------------------------------
+
+    return {
+        "name": name, "age": age, "profession": profession,
+        "work_experience": work_experience, "marital_status": marital_status,
+        "dependents": dependents, "children": children,
+
+        "monthly_income": monthly_income, "annual_income": annual_income,
+        "monthly_expense": monthly_expense, "monthly_surplus": monthly_surplus,
+        "annual_surplus": annual_surplus,
+
+        "total_assets": total_assets, "total_liabilities": total_liabilities,
+        "net_worth": net_worth,
+
+        "savings_rate": round(savings_rate, 2), "expense_ratio": round(expense_ratio, 2),
+        "emergency_months": round(emergency_months, 1),
+        "debt_income_ratio": round(debt_income_ratio, 2),
+
+        "equity_percent": round(equity_percent, 1), "debt_percent": round(debt_percent, 1),
+        "alternate_percent": round(alternate_percent, 1),
+
+        "financial_score": financial_score, "cashflow_score": cashflow_score,
+        "protection_score": protection_score, "wealth_score": wealth_score,
+        "debt_score": debt_score, "retirement_score": retirement_score,
+        "diversification_score": diversification_score,
+
+        "overall_status": overall_status, "overall_summary": overall_summary,
+
+        "health_insurance": health_insurance, "life_insurance": life_insurance,
+        "term_insurance": term_insurance, "nominee_available": nominee_available,
+
+        "retirement_age": retirement_age, "years_to_retirement": years_to_retirement,
+        "retirement_lifestyle": retirement_lifestyle, "retirement_corpus": retirement_corpus,
+        "retirement_monthly_sip": retirement_monthly_sip, "retirement_status": retirement_status,
+
+        "recommended_portfolio": recommended_portfolio,
+        "goal_analysis": goal_analysis,
+        "roadmap": roadmap,
+
+        "strengths": strengths, "weaknesses": weaknesses,
+        "risks": risks, "recommendations": recommendations, "priorities": priorities,
+
+        "plan_data": plan_data
+    }
+
+
+# --------------------------------------------------------------------
+# WEB RESULTS PAGE (unchanged behaviour — now just calls the helper)
+# --------------------------------------------------------------------
+
+@app.route('/financial-plan-results')
+def financial_plan_results():
+    """
+    SmartPlanFinance Personal Financial Planner
+    Generates a complete personalized financial roadmap.
+    """
+
+    if 'financial_plan' not in session:
+        return redirect(url_for('financial_planner'))
+
+    try:
+        plan_data = session['financial_plan']
+        results = _build_financial_results(plan_data)
+        return render_template('financial_plan_results.html', results=results)
+
+    except Exception as e:
+        app.logger.exception(f"Financial Planner Error : {e}")
+        flash("Unable to generate your financial plan. Please try again.", "danger")
+        return redirect(url_for("financial_planner"))
+
+
+# --------------------------------------------------------------------
+# PDF REPORT — now a complete, branded, multi-section roadmap
+# --------------------------------------------------------------------
+
+def _fmt_money(amount):
+    """PDF-safe currency formatting. Avoids the Rupee glyph (₹) since
+    ReportLab's default Helvetica font does not render it reliably."""
+    return "Rs. {:,.0f}".format(amount)
+
+
+@app.route('/download-financial-pdf')
+def download_financial_pdf():
+
+    if 'financial_plan' not in session:
+        return redirect(url_for('financial_planner'))
+
+    try:
+        plan_data = session['financial_plan']
+        results = _build_financial_results(plan_data)
+    except Exception as e:
+        app.logger.exception(f"PDF Generation Error : {e}")
+        flash("Unable to generate your PDF report. Please try again.", "danger")
+        return redirect(url_for('financial_planner'))
+
+    GOLD = colors.HexColor('#B99120')
+    GOLD_BG = colors.HexColor('#FFF7D6')
+    GREEN = colors.HexColor('#0B7A3D')
+    GREEN_BG = colors.HexColor('#F0FFF5')
+    ORANGE_BG = colors.HexColor('#FFF3E0')
+    RED_BG = colors.HexColor('#FFEBEE')
+    DARK = colors.HexColor('#222222')
+    GRAY = colors.HexColor('#666666')
+    BORDER = colors.HexColor('#EFE7CC')
+
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='Brand', fontName='Helvetica-Bold', fontSize=12,
+                               textColor=GREEN, spaceAfter=2))
+    styles.add(ParagraphStyle(name='ReportTitle', fontName='Helvetica-Bold', fontSize=22,
+                               textColor=GOLD, spaceAfter=4))
+    styles.add(ParagraphStyle(name='ByLine', fontName='Helvetica', fontSize=10,
+                               textColor=GRAY, spaceAfter=10))
+    styles.add(ParagraphStyle(name='SectionHeading', fontName='Helvetica-Bold', fontSize=14,
+                               textColor=GOLD, spaceBefore=16, spaceAfter=8))
+    styles.add(ParagraphStyle(name='SubHeading', fontName='Helvetica-Bold', fontSize=11,
+                               textColor=DARK, spaceBefore=8, spaceAfter=4))
+    styles.add(ParagraphStyle(name='BodyGray', fontName='Helvetica', fontSize=10,
+                               textColor=DARK, leading=15))
+    styles.add(ParagraphStyle(name='BulletGreen', fontName='Helvetica', fontSize=10,
+                               textColor=DARK, leading=14, spaceAfter=4, leftIndent=10))
+    styles.add(ParagraphStyle(name='BulletOrange', fontName='Helvetica', fontSize=10,
+                               textColor=DARK, leading=14, spaceAfter=4, leftIndent=10))
+    styles.add(ParagraphStyle(name='BulletRed', fontName='Helvetica', fontSize=10,
+                               textColor=DARK, leading=14, spaceAfter=4, leftIndent=10))
+    styles.add(ParagraphStyle(name='DisclaimerText', fontName='Helvetica-Oblique', fontSize=8.5,
+                               textColor=GRAY, leading=12))
+
+    def table_header_style(extra=None):
+        cmds = [
+            ('BACKGROUND', (0, 0), (-1, 0), GOLD),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+            ('FONTSIZE', (0, 0), (-1, -1), 9.5),
+            ('GRID', (0, 0), (-1, -1), 0.5, BORDER),
+            ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+            ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, GOLD_BG]),
+            ('TOPPADDING', (0, 0), (-1, -1), 6),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+            ('LEFTPADDING', (0, 0), (-1, -1), 8),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 8),
+        ]
+        if extra:
+            cmds.extend(extra)
+        return TableStyle(cmds)
+
+    def footer(canvas_obj, doc):
+        canvas_obj.saveState()
+        canvas_obj.setStrokeColor(BORDER)
+        canvas_obj.line(1.8 * cm, 1.3 * cm, A4[0] - 1.8 * cm, 1.3 * cm)
+        canvas_obj.setFont('Helvetica-Bold', 8)
+        canvas_obj.setFillColor(GOLD)
+        canvas_obj.drawString(1.8 * cm, 0.9 * cm, "SmartPlanFinance")
+        canvas_obj.setFont('Helvetica', 8)
+        canvas_obj.setFillColor(GRAY)
+        canvas_obj.drawRightString(A4[0] - 1.8 * cm, 0.9 * cm, f"Page {doc.page}")
+        canvas_obj.restoreState()
+
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(
+        buffer, pagesize=A4,
+        title="SmartPlanFinance Financial Roadmap",
+        topMargin=1.8 * cm, bottomMargin=2 * cm,
+        leftMargin=1.8 * cm, rightMargin=1.8 * cm
+    )
+
+    story = []
+    usable_width = A4[0] - 3.6 * cm  # page width minus left+right margins
+
+    # ---------------- HEADER ----------------
+    story.append(Paragraph("SMARTPLANFINANCE", styles['Brand']))
+    story.append(Paragraph("Your Personal Financial Roadmap", styles['ReportTitle']))
+    story.append(Paragraph(
+        f"Prepared for <b>{results['name']}</b> (Age {results['age']}) &nbsp;|&nbsp; "
+       f"Generated on {date.today().strftime('%d %B %Y')}",
+        styles['ByLine']
+    ))
+    story.append(HRFlowable(width="100%", thickness=1, color=BORDER, spaceAfter=10))
+
+    # ---------------- SCORE + SUMMARY ----------------
+    story.append(Paragraph(
+        f"Financial Health Score: <font color='#B99120'>{results['financial_score']}/100</font> "
+        f"&mdash; {results['overall_status']}",
+        styles['SectionHeading']
+    ))
+    story.append(Paragraph(results['overall_summary'], styles['BodyGray']))
+
+    score_table = Table(
+        [
+            ["Cash Flow", "Protection", "Debt", "Wealth", "Retirement", "Diversification"],
+            [
+                f"{results['cashflow_score']}/100", f"{results['protection_score']}/100",
+                f"{results['debt_score']}/100", f"{results['wealth_score']}/100",
+                f"{results['retirement_score']}/100", f"{results['diversification_score']}/100",
+            ]
+        ],
+        colWidths=[usable_width / 6.0] * 6
+    )
+    score_table.setStyle(table_header_style([
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+    ]))
+    story.append(Spacer(1, 8))
+    story.append(score_table)
+
+    # ---------------- FINANCIAL SNAPSHOT ----------------
+    story.append(Paragraph("Financial Snapshot", styles['SectionHeading']))
+    snapshot_rows = [
+        ["Metric", "Value"],
+        ["Monthly Income", _fmt_money(results['monthly_income'])],
+        ["Monthly Expenses", _fmt_money(results['monthly_expense'])],
+        ["Monthly Surplus", _fmt_money(results['monthly_surplus'])],
+        ["Net Worth", _fmt_money(results['net_worth'])],
+        ["Savings Rate", f"{results['savings_rate']}%"],
+        ["Emergency Fund Coverage", f"{results['emergency_months']} months"],
+    ]
+    snapshot_table = Table(snapshot_rows, colWidths=[usable_width * 0.55, usable_width * 0.45])
+    snapshot_table.setStyle(table_header_style([('ALIGN', (1, 0), (1, -1), 'RIGHT')]))
+    story.append(snapshot_table)
+
+    # ---------------- STRENGTHS / WEAKNESSES / RISKS ----------------
+    def bullet_block(title, items, marker, style_name, empty_text):
+        story.append(Paragraph(title, styles['SubHeading']))
+        if items:
+            for item in items:
+                story.append(Paragraph(f"{marker} {item}", styles[style_name]))
+        else:
+            story.append(Paragraph(empty_text, styles['BodyGray']))
+
+    story.append(Paragraph("Strengths, Weaknesses &amp; Risks", styles['SectionHeading']))
+    bullet_block("Financial Strengths", results['strengths'], "&#10004;", 'BulletGreen',
+                 "No major strengths identified yet. Continue improving your financial habits.")
+    bullet_block("Areas of Improvement", results['weaknesses'], "&#8226;", 'BulletOrange',
+                 "Excellent! No major weaknesses detected.")
+    bullet_block("Financial Risks", results['risks'], "&#9888;", 'BulletRed',
+                 "No immediate financial risks detected.")
+
+    # ---------------- RECOMMENDATIONS ----------------
+    story.append(Paragraph("Personalized Recommendations", styles['SectionHeading']))
+    if results['recommendations']:
+        for rec in results['recommendations']:
+            story.append(Paragraph(f"&#10003; {rec}", styles['BulletGreen']))
+    else:
+        story.append(Paragraph("Continue maintaining your current financial discipline.", styles['BodyGray']))
+
+    # ---------------- TOP PRIORITIES ----------------
+    story.append(Paragraph("Top Financial Priorities", styles['SectionHeading']))
+    if results['priorities']:
+        priority_rows = [["Priority", "Action", "Details"]]
+        for p in results['priorities']:
+            priority_rows.append([p['priority'], p['title'], p['description']])
+        priority_table = Table(priority_rows, colWidths=[usable_width * 0.15, usable_width * 0.30, usable_width * 0.55])
+        priority_table.setStyle(table_header_style())
+        story.append(priority_table)
+    else:
+        story.append(Paragraph("Great financial discipline — no immediate priorities detected.", styles['BodyGray']))
+
+    story.append(PageBreak())
+
+    # ---------------- GOAL ANALYSIS ----------------
+    story.append(Paragraph("Goal-wise SIP Analysis", styles['SectionHeading']))
+    if results['goal_analysis']:
+        goal_rows = [["Goal", "Years", "Future Cost", "Required SIP/mo", "Status"]]
+        for g in results['goal_analysis']:
+            goal_rows.append([
+                g['goal'], str(g['years_remaining']),
+                _fmt_money(g['future_cost']), _fmt_money(g['required_sip']),
+                g['status']
+            ])
+        goal_table = Table(goal_rows, colWidths=[
+            usable_width * 0.24, usable_width * 0.10, usable_width * 0.24,
+            usable_width * 0.24, usable_width * 0.18
+        ])
+        goal_table.setStyle(table_header_style([('ALIGN', (1, 0), (-1, -1), 'CENTER')]))
+        story.append(goal_table)
+        story.append(Spacer(1, 6))
+        for g in results['goal_analysis']:
+            story.append(Paragraph(f"<b>{g['goal']}:</b> {g['message']}", styles['BodyGray']))
+    else:
+        story.append(Paragraph("No goals were added. Add life goals in the planner for a personalized "
+                                "goal-by-goal investment plan.", styles['BodyGray']))
+
+    # ---------------- RETIREMENT PLANNING ----------------
+    story.append(Paragraph("Retirement Planning", styles['SectionHeading']))
+    retirement_rows = [
+        ["Metric", "Value"],
+        ["Retirement Age", str(results['retirement_age'])],
+        ["Years Remaining", str(results['years_to_retirement'])],
+        ["Estimated Corpus Required", _fmt_money(results['retirement_corpus'])],
+        ["Monthly SIP Required", _fmt_money(results['retirement_monthly_sip'])],
+        ["Status", results['retirement_status']],
+    ]
+    retirement_table = Table(retirement_rows, colWidths=[usable_width * 0.55, usable_width * 0.45])
+    retirement_table.setStyle(table_header_style([('ALIGN', (1, 0), (1, -1), 'RIGHT')]))
+    story.append(retirement_table)
+
+    # ---------------- ASSET ALLOCATION ----------------
+    story.append(Paragraph("Asset Allocation", styles['SectionHeading']))
+    story.append(Paragraph("Recommended Portfolio", styles['SubHeading']))
+    rec_rows = [["Asset Class", "Recommended %"]]
+    for asset, pct in results['recommended_portfolio'].items():
+        rec_rows.append([asset, f"{pct}%"])
+    rec_table = Table(rec_rows, colWidths=[usable_width * 0.6, usable_width * 0.4])
+    rec_table.setStyle(table_header_style([('ALIGN', (1, 0), (1, -1), 'RIGHT')]))
+    story.append(rec_table)
+
+    story.append(Paragraph("Your Current Distribution", styles['SubHeading']))
+    cur_rows = [
+        ["Asset Class", "Current %"],
+        ["Equity", f"{results['equity_percent']}%"],
+        ["Debt", f"{results['debt_percent']}%"],
+        ["Gold / Alternative", f"{results['alternate_percent']}%"],
+    ]
+    cur_table = Table(cur_rows, colWidths=[usable_width * 0.6, usable_width * 0.4])
+    cur_table.setStyle(table_header_style([('ALIGN', (1, 0), (1, -1), 'RIGHT')]))
+    story.append(cur_table)
+
+    # ---------------- LIFE ROADMAP ----------------
+    story.append(Paragraph("Your Financial Life Roadmap", styles['SectionHeading']))
+    roadmap_rows = [["Age", "Milestone", "Notes"]]
+    for item in results['roadmap']:
+        roadmap_rows.append([str(item['age']), item['title'], item['description']])
+    roadmap_table = Table(roadmap_rows, colWidths=[usable_width * 0.12, usable_width * 0.38, usable_width * 0.50])
+    roadmap_table.setStyle(table_header_style())
+    story.append(roadmap_table)
+
+    # ---------------- DISCLAIMER ----------------
+    story.append(Spacer(1, 14))
+    story.append(HRFlowable(width="100%", thickness=1, color=BORDER, spaceAfter=8))
+    story.append(Paragraph(
+        "<b>Disclaimer:</b> This financial roadmap is created for educational purposes only, based on the "
+        "information provided by you and general financial planning assumptions (6% inflation, 12% expected "
+        "equity returns). It is not personalized investment advice. Please consult a qualified financial "
+        "advisor before making important financial decisions. SmartPlanFinance does not guarantee future "
+        "returns or outcomes.",
+        styles['DisclaimerText']
+    ))
+
+    doc.build(story, onFirstPage=footer, onLaterPages=footer)
+    buffer.seek(0)
+
+    safe_name = "".join(c for c in results['name'] if c.isalnum() or c in (' ', '_')).strip().replace(' ', '_') or "User"
+
+    return send_file(
+        buffer,
+        as_attachment=True,
+        download_name=f"SmartPlanFinance_Report_{safe_name}.pdf",
+        mimetype="application/pdf"
+    )
 @app.route("/save-customer-details", methods=["POST"])
 def save_customer_details():
 
@@ -4391,7 +5530,8 @@ def download_report():
         as_attachment=True,
         download_name="SmartPlan_Finance_Report.pdf"
     )
-    
+
+
     @response.call_on_close
     def cleanup():
         try:
