@@ -3973,34 +3973,59 @@ def sitemap():
     xml = ['<?xml version="1.0" encoding="UTF-8"?>']
     xml.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
 
-    # Home page
-    xml.append("""
-    <url>
-        <loc>https://smartplanfinance.com/</loc>
-        <changefreq>daily</changefreq>
-        <priority>1.0</priority>
-    </url>
-    """)
+    # =========================
+    # PUBLIC PLATFORM PAGES
+    # =========================
 
-    # Blog listing
-    xml.append("""
-    <url>
-        <loc>https://smartplanfinance.com/articles</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
-    </url>
-    """)
+    static_urls = [
+        ("https://smartplanfinance.com/", "daily", "1.0"),
+        ("https://smartplanfinance.com/articles", "daily", "0.9"),
+        ("https://smartplanfinance.com/books", "weekly", "0.8"),
+        ("https://smartplanfinance.com/handbook", "monthly", "0.8"),
+        ("https://smartplanfinance.com/wellness", "monthly", "0.8"),
+        ("https://smartplanfinance.com/financial-planner", "monthly", "0.9"),
 
-    # Individual articles
-    for article in articles:
+        # Calculators
+        ("https://smartplanfinance.com/cagr_calculator", "monthly", "0.8"),
+        ("https://smartplanfinance.com/emi_calculator", "monthly", "0.8"),
+        ("https://smartplanfinance.com/fd_calculator", "monthly", "0.8"),
+        ("https://smartplanfinance.com/in-hand-salary-calculator", "monthly", "0.8"),
+        ("https://smartplanfinance.com/inflation_calculator", "monthly", "0.8"),
+        ("https://smartplanfinance.com/loan-eligibility-calculator", "monthly", "0.8"),
+        ("https://smartplanfinance.com/lumpsum_calculator", "monthly", "0.8"),
+        ("https://smartplanfinance.com/networth-calculator", "monthly", "0.8"),
+        ("https://smartplanfinance.com/retirement_calculator", "monthly", "0.8"),
+        ("https://smartplanfinance.com/sip-calculator", "monthly", "0.8"),
+        ("https://smartplanfinance.com/swp_calculator", "monthly", "0.8"),
+        ("https://smartplanfinance.com/tax_calculator", "monthly", "0.8"),
+        ("https://smartplanfinance.com/xirr-calculator", "monthly", "0.8"),
+    ]
+
+    for url, changefreq, priority in static_urls:
         xml.append(f"""
-        <url>
-            <loc>https://smartplanfinance.com/blog/{article['slug']}</loc>
-            <lastmod>{str(article['created_at']).split(' ')[0]}</lastmod>
-            <changefreq>monthly</changefreq>
-            <priority>0.8</priority>
-        </url>
-        """)
+    <url>
+        <loc>{url}</loc>
+        <changefreq>{changefreq}</changefreq>
+        <priority>{priority}</priority>
+    </url>
+    """)
+
+    # =========================
+    # ALL BLOG ARTICLES
+    # =========================
+
+    for article in articles:
+        slug = article["slug"]
+        created_at = str(article["created_at"]).split(" ")[0]
+
+        xml.append(f"""
+    <url>
+        <loc>https://smartplanfinance.com/blog/{slug}</loc>
+        <lastmod>{created_at}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    """)
 
     xml.append("</urlset>")
 
