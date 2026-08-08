@@ -1,7 +1,6 @@
 import re
 import os
 import uuid
-import razorpay
 import requests
 import tempfile
 import psycopg2
@@ -47,11 +46,7 @@ from stock_ai import generate_stock_analysis
 logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
-RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
-RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
-razorpay_client = razorpay.Client(
-    auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET)
-)
+
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 print("Groq Key Found:", GROQ_API_KEY is not None)
 client = OpenAI(
@@ -4113,129 +4108,319 @@ def generate_stock_advice():
         years=years,
         error=None
     )
-@app.route("/book")
-def book():
+# ============================================================================
+# BOOK METADATA & CONFIGURATION
+# ============================================================================
+# Add this section right after your imports and before the app initialization
 
-    return render_template("book.html")
-@app.route("/buy-book")
-def buy_book():
-    return "<h1>Payment page coming soon</h1>"
-@app.route("/checkout")
-def checkout():
-    return render_template("checkout.html")
-from flask import jsonify
+BOOKS_CATALOG = {
+    "book1": {
+        "id": "book1",
+        "title": "Smart Plan Finance",
+        "subtitle": "Master Your Money. Build Your Wealth.",
+        "description": "A practical guide to building wealth, managing money, and achieving financial freedom — 450+ pages covering budgeting, investing, tax planning, and retirement.",
+        "author": "Argho Sanyal",
+        "price": 29900,  # in paise for Razorpay
+        "price_display": "₹299",
+        "cover": "SmartPlanFinanceCover.png",
+        "preview_file": "SmartPlanFinance.pdf",
+        "full_file": "SmartPlanFinance.pdf",
+        "preview_pages": 50,
+        "preview_type": "limited",
+        "pages": "450+",
+    },
+    "book2": {
+        "id": "book2",
+        "title": "Smart Plan Finance — From First Salary to Financial Freedom",
+        "subtitle": "A Practical Money Guide for Young Professionals",
+        "description": "A practical money guide for young professionals from your first salary to financial freedom.",
+        "author": "Argho Sanyal",
+        "price": 9900,  # in paise for Razorpay
+        "price_display": "₹99",
+        "cover": "SmartPlanFinanceBook2.png",
+        "preview_file": "Final_SmartPlanFinance_Professional.pdf",
+        "full_file": "Final_SmartPlanFinance_Professional.pdf",
+        "preview_pages": None,  # None means full book
+        "preview_type": "full",
+        "pages": "Full Book",
+    }
+}
 
-@app.route("/create-order", methods=["POST"])
-def create_order():
+
+# ============================================================================
+# HELPER FUNCTIONS
+# ============================================================================
+
+def get_book(book_id):
+    """Safely retrieve book metadata"""
+    return BOOKS_CATALOG.get(book_id)
+
+
+def validate_book_id(book_id):
+    """Check if book_id is valid"""
+    return book_id in BOOKS_CATALOG
+
+
+def login_required(f):
+    """Decorator to check if user is logged in (optional - customize as needed)"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            return redirect(url_for('index'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def book_purchase_required(f):
+    """Decorator to check if user has purchased a book"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('book_paid'):
+            return redirect(url_for('books'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+# ============================================================================
+# PUBLIC ROUTES - BOOK PAGES
+# ============================================================================
+
+
+@app.route('/books')
+def books():
+    """Display all available books"""
+    return render_template('books.html', books=BOOKS_CATALOG)
+
+
+@app.route('/spf/book')
+def book_1():
+    """Book 1 - SmartPlanFinance purchase links"""
+    return redirect(
+        "https://amzn.in/d/01T2AhP3"
+    )
+
+
+@app.route('/spf/book2')
+def book_2():
+    """Book 2 - SmartPlanFinance: From First Salary to Financial Freedom"""
+    return redirect(
+        "https://amzn.in/d/0hWGDW2B-"
+    )
+
+@app.route('/spf/book-preview')
+def book_1_preview():
+    """Book 1 preview (first 50 pages)"""
+    return render_template('preview.html', book='book1')
+
+
+@app.route('/spf/book2-preview')
+def book_2_preview():
+    """Book 2 preview (full book)"""
+    return render_template('preview.html', book='book2')
+
+
+# ============================================================================
+# PAYMENT ROUTES - CHECKOUT & PAYMENT
+# ============================================================================
+
+
+
+
+
+
+
+
+# ============================================================================
+# INFORMATION PAGES
+# ============================================================================
+
+
+
+# ============================================================================
+# ERROR HANDLERS
+# ============================================================================
+
+@app.errorhandler(400)
+def bad_request(e):
+    """Handle 400 Bad Request"""
+    app.logger.error(f"Bad Request: {str(e)}")
+    return render_template('error.html', 
+                         error='Bad Request', 
+                         message='The request could not be understood by the server.'), 400
+
+
+@app.errorhandler(403)
+def forbidden(e):
+    """Handle 403 Forbidden"""
+    app.logger.error(f"Forbidden: {str(e)}")
+    return render_template('error.html', 
+                         error='Forbidden', 
+                         message='You do not have permission to access this resource.'), 403
+
+
+@app.errorhandler(404)
+def not_found(e):
+    """Handle 404 Not Found"""
+    return render_template('error.html', 
+                         error='Not Found', 
+                         message='The page you are looking for does not exist.'), 404
+
+
+@app.errorhandler(500)
+def internal_error(e):
+    """Handle 500 Internal Server Error"""
+    app.logger.error(f"Internal Server Error: {str(e)}")
+    return render_template('error.html', 
+                         error='Server Error', 
+                         message='An internal server error occurred. Please try again later.'), 500
+
+
+# ============================================================================
+# LOGGING & MIDDLEWARE
+# ============================================================================
+
+@app.before_request
+def log_request():
+    """Log incoming requests"""
+    app.logger.info(f"{request.method} {request.path} - {request.remote_addr}")
+
+
+@app.after_request
+def log_response(response):
+    """Log response status"""
+    app.logger.info(f"Response: {response.status_code}")
+    return response
+
+
+# ============================================================================
+# CONTEXT PROCESSORS
+# ============================================================================
+
+@app.context_processor
+def inject_books():
+    """Make books available in all templates"""
+    return dict(BOOKS_CATALOG=BOOKS_CATALOG)
+
+
+@app.context_processor
+def inject_site_config():
+    """Make site configuration available in all templates"""
+    return dict(
+        site_name='SmartPlan Finance',
+        site_url='https://smartplanfinance.com',
+        author='Argho Sanyal'
+    )
+
+
+# ============================================================================
+# COMMAND LINE INTERFACE (OPTIONAL)
+# ============================================================================
+
+@app.shell_context_processor
+def make_shell_context():
+    """Create context for Flask shell"""
+    return {
+        'db': get_db_connection,
+        'BOOKS_CATALOG': BOOKS_CATALOG,
+        'get_book': get_book,
+        'validate_book_id': validate_book_id
+    }
+
+
+# ============================================================================
+# API ENDPOINTS (OPTIONAL - FOR DASHBOARD/ANALYTICS)
+# ============================================================================
+
+@app.route('/api/sales-summary')
+def api_sales_summary():
+    """Get sales summary by book (protected endpoint)"""
     try:
-        order = razorpay_client.order.create({
-            "amount": 29900,
-            "currency": "INR",
-            "payment_capture": 1
-        })
-
-        return jsonify(order)
-
-    except Exception as e:
-        print("RAZORPAY ERROR:", e)
-        return jsonify({"error": str(e)}), 500
-
-@app.route("/verify-payment", methods=["POST"])
-@csrf.exempt
-def verify_payment():
-
-    try:
-
-        data = request.get_json()
-
-        razorpay_order_id = data["razorpay_order_id"]
-        razorpay_payment_id = data["razorpay_payment_id"]
-        razorpay_signature = data["razorpay_signature"]
-
-        generated_signature = hmac.new(
-            bytes(RAZORPAY_KEY_SECRET, "utf-8"),
-            bytes(
-                razorpay_order_id + "|" + razorpay_payment_id,
-                "utf-8"
-            ),
-            hashlib.sha256
-        ).hexdigest()
-
-        if generated_signature == razorpay_signature:
-            print("✅ Signature verification successful")
-
-
-            # Mark this session as paid
-            session["book_paid"] = True
-            print("✅ Signature verification successful")
-
-            # Save purchase to PostgreSQL
-            conn = get_db_connection()
-            cursor = conn.cursor()
-            print("✅ INSERT executed")
-
-            order_number = f"SPF-{razorpay_payment_id[-8:]}"
-            session["order_number"] = order_number
-
-            cursor.execute("""
-                INSERT INTO book_orders
-                (
-                    order_number,
-                    customer_name,
-                    customer_email,
-                    amount,
-                    currency,
-                    razorpay_order_id,
-                    razorpay_payment_id,
-                    razorpay_signature,
-                    payment_status
-                )
-
-                VALUES
-                (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """,
-            (
-                order_number,
-                session.get("customer_name"),
-                session.get("customer_email"),
-                299,
-                "INR",
-                razorpay_order_id,
-                razorpay_payment_id,
-                razorpay_signature,
-                "SUCCESS"
-            ))
-
-            conn.commit()
-            print("✅ COMMIT successful")
-            cursor.close()
-            conn.close()
-
-            return jsonify({
-                "success": True,
-                "redirect": "/payment-success"
+        # Add authentication check here if needed
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            SELECT 
+                book_id, 
+                book_name, 
+                COUNT(*) as total_sales,
+                SUM(amount) as total_revenue,
+                AVG(amount) as avg_price
+            FROM book_orders
+            WHERE payment_status = 'SUCCESS'
+            GROUP BY book_id, book_name
+        """)
+        
+        results = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        
+        summary = []
+        for row in results:
+            summary.append({
+                'book_id': row[0],
+                'book_name': row[1],
+                'total_sales': row[2],
+                'total_revenue': float(row[3]) if row[3] else 0,
+                'avg_price': float(row[4]) if row[4] else 0
             })
-
-        else:
-
-            return jsonify({
-                "success": False,
-                "message": "Invalid payment signature"
-            }), 400
-
+        
+        return jsonify(summary), 200
+    
     except Exception as e:
+        app.logger.error(f"API Error: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
-        import traceback
-        print("VERIFY ERROR:")
+
+@app.route('/api/orders/<book_id>')
+def api_orders(book_id):
+    """Get orders for a specific book"""
+    try:
+        # Add authentication check here if needed
+        if not validate_book_id(book_id):
+            return jsonify({'error': 'Invalid book ID'}), 400
+        
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            SELECT order_number, customer_name, customer_email, amount, created_at
+            FROM book_orders
+            WHERE book_id = %s AND payment_status = 'SUCCESS'
+            ORDER BY created_at DESC
+            LIMIT 100
+        """, (book_id,))
+        
+        results = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        
+        orders = []
+        for row in results:
+            orders.append({
+                'order_number': row[0],
+                'customer_name': row[1],
+                'customer_email': row[2],
+                'amount': float(row[3]),
+                'date': row[4].isoformat() if row[4] else None
+            })
+        
+        return jsonify(orders), 200
+    
+    except Exception as e:
+        app.logger.error(f"API Error: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
 
-        return jsonify({
-            "success": False,
-            "error": str(e)
-        }), 500
-@app.route("/book-preview")
-def book_preview():
-    return render_template("preview.html")
+# ============================================================================
+# APPLICATION INITIALIZATION
+# ============================================================================
+
+
+
+
+# ============================================================================
+#
 
 # =====================================================================
 # REPLACE your existing `financial_planner` view function with this one.
@@ -4261,6 +4446,8 @@ def book_preview():
 #   - action == "back": does NOT touch/parse/validate anything —
 #     it just renders step-1 using whatever is already in the session.
 # =====================================================================
+
+
 
 @app.route('/financial-planner', methods=['GET', 'POST'])
 def financial_planner():
@@ -5365,51 +5552,7 @@ def download_financial_pdf():
         download_name=f"SmartPlanFinance_Report_{safe_name}.pdf",
         mimetype="application/pdf"
     )
-@app.route("/save-customer-details", methods=["POST"])
-def save_customer_details():
 
-    try:
-
-        data = request.get_json()
-
-        session["customer_name"] = data["name"]
-        session["customer_email"] = data["email"]
-
-        return jsonify({
-            "success": True
-        })
-
-    except Exception as e:
-
-        return jsonify({
-            "success": False,
-            "error": str(e)
-        }), 500
-@app.route("/payment-success")
-def payment_success():
-
-    return render_template(
-        "payment-success.html",
-        customer_name=session.get("customer_name"),
-        order_number=session.get("order_number")
-    )
-
-@app.route("/download-book")
-def download_book():
-
-    if not session.get("book_paid"):
-
-        return "Payment required. Please purchase the book first.", 403
-
-
-    file_path = "private_books/SmartPlanFinance.pdf"
-
-
-    return send_file(
-        file_path,
-        as_attachment=True,
-        download_name="SmartPlanFinance.pdf"
-    )
 @app.route("/download-report")
 @login_required
 def download_report():

@@ -1,104 +1,787 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPlan Finance - Free Book Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<meta charset="UTF-8">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FFF8E1 0%, #f8fafc 100%);
+            color: #1f2937;
+        }
 
-<title>Book Preview</title>
+        .header {
+            background: linear-gradient(135deg, #FFFDF6 0%, #F8E9A1 40%, #D4AF37 100%);
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-<style>
+        .header h1 {
+            font-size: 32px;
+            color: #1F2937;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
 
-body{
+        .header p {
+            color: #7A5A00;
+            font-size: 16px;
+            font-weight: 500;
+        }
 
-margin:0;
+        .preview-badge {
+            display: inline-block;
+            background: #2E7D32;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
 
-background:#f4f4f4;
+        .book-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
 
-font-family:Arial,sans-serif;
+        .book-tabs button {
+            background: white;
+            color: #7A5A00;
+            border: 2px solid #D4AF37;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 13px;
+            box-shadow: none;
+            transition: all 0.25s ease;
+        }
 
-}
+        .book-tabs button.active {
+            background: linear-gradient(135deg, #B8860B, #D4AF37);
+            color: white;
+        }
 
-#viewer{
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
 
-max-width:900px;
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-margin:auto;
+        button {
+            background: linear-gradient(135deg, #B8860B, #D4AF37);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.35s ease;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(184, 134, 11, 0.3);
+        }
 
-padding:30px;
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(184, 134, 11, 0.45);
+        }
 
-}
+        button:active {
+            transform: translateY(0);
+        }
 
-canvas{
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
 
-display:block;
+        .page-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 10px 16px;
+            border-radius: 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
 
-margin:30px auto;
+        .page-info input {
+            width: 60px;
+            padding: 8px 12px;
+            border: 1px solid #D4AF37;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
 
-box-shadow:0 10px 25px rgba(0,0,0,.2);
+        .page-info input:focus {
+            outline: none;
+            border-color: #B8860B;
+            box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+        }
 
-}
+        .buy-btn {
+            background: linear-gradient(135deg, #E74C3C, #C0392B);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            font-weight: 700;
+            font-size: 15px;
+            padding: 12px 28px;
+        }
 
-</style>
+        .buy-btn:hover {
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.45);
+        }
 
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .viewer-wrapper {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            min-height: 600px;
+        }
+
+        .viewer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .page-canvas {
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .page-canvas.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #D4AF37;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            color: #666;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .footer-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .error-message {
+            display: none;
+            background: #fee;
+            color: #c33;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 4px solid #c33;
+        }
+
+        .error-message.active {
+            display: block;
+        }
+
+        .cta-banner {
+            background: linear-gradient(135deg, #E74C3C 0%, #C0392B 100%);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            border-radius: 16px;
+            margin: 40px 0;
+            box-shadow: 0 15px 50px rgba(231, 76, 60, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-banner::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .cta-banner h2 {
+            font-size: 32px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-banner p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .price-tag {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-button {
+            background: white;
+            color: #E74C3C;
+            padding: 16px 40px;
+            font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 50px;
+            transition: all 0.35s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            border: none;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+        }
+
+        .features-list {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+            font-weight: 500;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #FFF8E1, #C89B2A);
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            color: #2D3748;
+            font-weight: 500;
+        }
+
+        .footer-links {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .footer-links a {
+            color: #7A5A00;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.35s ease;
+        }
+
+        .footer-links a:hover {
+            color: #2D3748;
+        }
+
+        .zoom-controls {
+            display: flex;
+            gap: 8px;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .zoom-btn {
+            background: #f0f0f0;
+            color: #333;
+            padding: 8px 16px;
+            font-size: 12px;
+            min-width: auto;
+            box-shadow: none;
+        }
+
+        .zoom-btn:hover {
+            background: #D4AF37;
+            color: white;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        .preview-note {
+            background: #fffbea;
+            border: 2px solid #D4AF37;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: center;
+            color: #7A5A00;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .control-group {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .page-info {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-controls {
+                flex-direction: column;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 13px;
+            }
+
+            .cta-banner h2 {
+                font-size: 24px;
+            }
+
+            .price-tag {
+                font-size: 36px;
+            }
+
+            .features-list {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <div class="header">
+        <div class="preview-badge" id="badge">📘 FREE PREVIEW</div>
+        <h1 id="title">SmartPlan Finance - Free Book Preview</h1>
+        <p id="subtitle">Master Your Money. Build Your Wealth.</p>
 
-<div id="viewer"></div>
+        <!-- Book switcher: lets a visitor jump between previews without a new link -->
+        <div class="book-tabs" id="bookTabs">
+            <button type="button" data-book="book1">Smart Plan Finance</button>
+           
+        </div>
 
-<script type="module">
+        <div class="controls">
+            <button id="prevBtn">← Previous</button>
 
-import * as pdfjsLib from "/static/pdfjs/pdf.mjs";
+            <div class="page-info">
+                <span>Page</span>
+                <input type="number" id="pageInput" min="1" value="1">
+                <span>/ <span id="totalPages">0</span></span>
+            </div>
 
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-"/static/pdfjs/pdf.worker.mjs";
+            <button id="nextBtn">Next →</button>
 
-const loadingTask = pdfjsLib.getDocument({
-    url: "/static/SmartPlanFinance.pdf"
-});
+            <div class="zoom-controls">
+                <button class="zoom-btn" id="zoomOutBtn">−</button>
+                <button class="zoom-btn" id="zoomLevel">100%</button>
+                <button class="zoom-btn" id="zoomInBtn">+</button>
+            </div>
 
-const pdf = await loadingTask.promise;
+            <button class="buy-btn" id="buyBtn">🛒 Buy Full Book</button>
+        </div>
+    </div>
 
-const viewer =
-document.getElementById("viewer");
+    <div class="container">
+        <div class="error-message" id="errorMsg"></div>
 
-const maxPages =
-Math.min(pdf.numPages,50);
+        <div class="preview-note" id="previewNote">
+            ✨ You're viewing the preview of SmartPlan Finance. Purchase the complete book for full access!
+        </div>
 
-for(let i=1;i<=maxPages;i++){
+        <div class="viewer-wrapper">
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Loading preview pages...</p>
+            </div>
+            <div class="viewer-content" id="viewer"></div>
+        </div>
 
-const page =
-await pdf.getPage(i);
+        <div class="footer-controls">
+            <button id="prevBtn2">← Previous Page</button>
+            <button id="nextBtn2">Next Page →</button>
+            <button class="buy-btn" id="buyBtn2">🛒 Get Full Book</button>
+        </div>
 
-const viewport =
-page.getViewport({scale:1.4});
+        <div class="cta-banner" id="ctaBanner">
+            <h2 id="ctaTitle">Unlock the Complete Guide</h2>
+            <p id="ctaDescription">Get the full book with comprehensive coverage of all topics.</p>
 
-const canvas =
-document.createElement("canvas");
+            <div class="price-tag" id="priceTag">₹299</div>
 
-const ctx =
-canvas.getContext("2d");
+            <div class="features-list">
+                <div class="feature">✓ <span id="feature1">450+ Pages</span></div>
+                <div class="feature">✓ Lifetime Access</div>
+                <div class="feature">✓ Instant Download</div>
+                <div class="feature">✓ Secure Payment</div>
+            </div>
 
-canvas.width =
-viewport.width;
+            <p id="ctaSubtext" style="margin-top: 25px; font-size: 16px;"></p>
 
-canvas.height =
-viewport.height;
+            <button class="cta-button" id="ctaBuyBtn">🚀 Buy Full Book Now</button>
+        </div>
+    </div>
 
-viewer.appendChild(canvas);
+    <div class="footer">
+        <div class="footer-content">
+            <div>© 2026 SmartPlan Finance - Complete Financial Education</div>
+            <div style="margin-top: 15px;">
+                Master the fundamentals of budgeting, investing, tax planning, and retirement with expert guidance.
+            </div>
+            <div class="footer-links">
+                <a href="/">Home</a> •
+                <a href="/privacy">Privacy Policy</a> •
+                <a href="/terms">Terms</a> •
+                <a href="/disclaimer">Disclaimer</a>
+            </div>
+        </div>
+    </div>
 
-await page.render({
+    <script type="module">
+        import * as pdfjsLib from "/static/pdfjs/pdf.mjs";
 
-canvasContext:ctx,
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "/static/pdfjs/pdf.worker.mjs";
 
-viewport
+        let pdf = null;
+        let currentPage = 1;
+        let totalPages = 0;
+        let zoomLevel = 1;
+        let currentBook = null;
+        let maxPages = 50;
+        const ZOOM_STEP = 0.2;
 
-}).promise;
+        // Book configuration
+        const BOOKS = {
+    'book1': {
+        pdf: 'SmartPlanFinance.pdf',
+        buyUrl: 'https://amzn.in/d/01T2AhP3',  // Changed from '/spf/book'
+        },
+    'book2': {
+        pdf: 'Final_SmartPlanFinance_Professional.pdf',
+        buyUrl: 'https://amzn.in/d/0h7Nus6y',  // Changed from '/spf/book2'
+        }
+};
 
-}
+        // ---------------------------------------------------------------
+        // FIX #1: which book to open first.
+        // Flask passes the book via the Jinja variable `book` (e.g. the
+        // /spf/book2-preview route calls render_template('preview.html',
+        // book='book2')) — but that value never reached the page before,
+        // because this function only looked at the URL's ?book= query
+        // string, which those routes never set. Now the Jinja value is
+        // the fallback default, and an explicit ?book= in the URL (if
+        // present) still takes priority.
+        // ---------------------------------------------------------------
+        function getBookFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const urlBook = params.get('book');
+            if (urlBook === 'book1' || urlBook === 'book2') {
+                return urlBook;
+            }
+            const serverBook = "{{ book|default('book1') }}";
+            return (serverBook === 'book1' || serverBook === 'book2') ? serverBook : 'book1';
+        }
 
-</script>
+        function setActiveTab(bookId) {
+            document.querySelectorAll('#bookTabs button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.book === bookId);
+            });
+        }
 
+        function renderBookUI() {
+            const config = BOOKS[currentBook];
+            document.getElementById('title').textContent = config.title;
+            document.getElementById('subtitle').textContent = config.subtitle;
+            document.getElementById('badge').textContent = config.badge;
+            document.getElementById('previewNote').textContent = config.previewNote;
+            document.getElementById('ctaTitle').textContent = config.ctaTitle;
+            document.getElementById('ctaDescription').textContent = config.ctaDescription;
+            document.getElementById('priceTag').textContent = config.price;
+            document.getElementById('feature1').textContent = config.feature;
+            document.getElementById('ctaSubtext').textContent = config.ctaSubtext;
+
+            document.getElementById('buyBtn').onclick = () => { 
+    window.open(config.buyUrl, '_blank'); 
+};
+            document.getElementById('buyBtn2').onclick = () => { 
+    window.open(config.buyUrl, '_blank'); 
+};
+            document.getElementById('ctaBuyBtn').onclick = () => { window.location.href = config.buyUrl; };
+
+            setActiveTab(currentBook);
+
+            const url = new URL(window.location);
+            url.searchParams.set('book', currentBook);
+            window.history.replaceState({}, '', url);
+        }
+
+        async function switchBook(bookId) {
+            if (bookId === currentBook) return;
+            currentBook = bookId;
+            currentPage = 1;
+            zoomLevel = 1;
+            updateZoomLevel();
+            renderBookUI();
+            await initializePDF();
+        }
+
+        async function initializePDF() {
+            try {
+                showLoading(true);
+                const config = BOOKS[currentBook];
+                maxPages = config.maxPages;
+
+                const loadingTask = pdfjsLib.getDocument({
+                    url: "/static/" + config.pdf
+                });
+                pdf = await loadingTask.promise;
+
+                // Cap pages if specified
+                totalPages = maxPages ? Math.min(pdf.numPages, maxPages) : pdf.numPages;
+                document.getElementById("totalPages").textContent = totalPages;
+                currentPage = 1;
+                await renderPage(currentPage);
+                showLoading(false);
+            } catch (error) {
+                showError("Failed to load PDF. Please check if the file exists.");
+                console.error("PDF loading error:", error);
+                showLoading(false);
+            }
+        }
+
+        async function renderPage(pageNum) {
+            if (!pdf || pageNum < 1 || pageNum > totalPages) return;
+
+            try {
+                showLoading(true);
+                currentPage = pageNum;
+                document.getElementById("pageInput").value = currentPage;
+                updateButtonStates();
+
+                const viewer = document.getElementById("viewer");
+                viewer.innerHTML = "";
+
+                const page = await pdf.getPage(pageNum);
+                const viewport = page.getViewport({ scale: 1.5 * zoomLevel });
+
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+                canvas.className = "page-canvas active";
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                viewer.appendChild(canvas);
+
+                await page.render({
+                    canvasContext: ctx,
+                    viewport: viewport
+                }).promise;
+
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                showLoading(false);
+            } catch (error) {
+                showError("Error rendering page. Please try again.");
+                console.error("Render error:", error);
+                showLoading(false);
+            }
+        }
+
+        function changePage(direction) {
+            const newPage = currentPage + direction;
+            if (newPage >= 1 && newPage <= totalPages) {
+                renderPage(newPage);
+            }
+        }
+
+        function goToPage() {
+            const pageNum = parseInt(document.getElementById("pageInput").value);
+            if (pageNum >= 1 && pageNum <= totalPages) {
+                renderPage(pageNum);
+            } else {
+                alert(`Please enter a page number between 1 and ${totalPages}`);
+                document.getElementById("pageInput").value = currentPage;
+            }
+        }
+
+        function zoomIn() {
+            zoomLevel = Math.min(zoomLevel + ZOOM_STEP, 3);
+            updateZoomLevel();
+            renderPage(currentPage);
+        }
+
+        function zoomOut() {
+            zoomLevel = Math.max(zoomLevel - ZOOM_STEP, 0.5);
+            updateZoomLevel();
+            renderPage(currentPage);
+        }
+
+        function resetZoom() {
+            zoomLevel = 1;
+            updateZoomLevel();
+            renderPage(currentPage);
+        }
+
+        function updateZoomLevel() {
+            const percentage = Math.round(zoomLevel * 100);
+            document.getElementById("zoomLevel").textContent = percentage + "%";
+        }
+
+        function updateButtonStates() {
+            document.getElementById("prevBtn").disabled = currentPage === 1;
+            document.getElementById("prevBtn2").disabled = currentPage === 1;
+            document.getElementById("nextBtn").disabled = currentPage === totalPages;
+            document.getElementById("nextBtn2").disabled = currentPage === totalPages;
+        }
+
+        function showLoading(show) {
+            document.getElementById("loading").classList.toggle("active", show);
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById("errorMsg");
+            errorDiv.textContent = message;
+            errorDiv.classList.add("active");
+            setTimeout(() => errorDiv.classList.remove("active"), 5000);
+        }
+
+        // ---------------------------------------------------------------
+        // FIX #2: wire every control with addEventListener instead of
+        // relying on inline onclick="..." attributes. Inside a
+        // <script type="module">, top-level functions are module-scoped,
+        // not attached to `window` — so onclick="changePage(-1)" in the
+        // HTML could never find `changePage` and silently did nothing.
+        // (Keyboard arrows worked because that listener was already
+        // added the correct way, inside the module.)
+        // ---------------------------------------------------------------
+        document.getElementById("prevBtn").addEventListener("click", () => changePage(-1));
+        document.getElementById("nextBtn").addEventListener("click", () => changePage(1));
+        document.getElementById("prevBtn2").addEventListener("click", () => changePage(-1));
+        document.getElementById("nextBtn2").addEventListener("click", () => changePage(1));
+        document.getElementById("pageInput").addEventListener("change", goToPage);
+        document.getElementById("zoomInBtn").addEventListener("click", zoomIn);
+        document.getElementById("zoomOutBtn").addEventListener("click", zoomOut);
+        document.getElementById("zoomLevel").addEventListener("click", resetZoom);
+
+        document.querySelectorAll("#bookTabs button").forEach(btn => {
+            btn.addEventListener("click", () => switchBook(btn.dataset.book));
+        });
+
+        // Keyboard navigation
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowRight") changePage(1);
+            if (e.key === "ArrowLeft") changePage(-1);
+        });
+
+        // Initialize
+        currentBook = getBookFromUrl();
+        renderBookUI();
+        initializePDF();
+    </script>
 </body>
-
 </html>
