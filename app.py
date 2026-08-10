@@ -4030,6 +4030,46 @@ def sitemap():
     xml.append("</urlset>")
 
     return Response("\n".join(xml), mimetype="application/xml")
+@app.route("/city-wise-income-calculator", methods=["GET", "POST"])
+def city_income_calculator():
+
+    result = None
+    error = None
+
+    city = ""
+    household = ""
+    housing = ""
+    lifestyle = ""
+    children = ""
+
+    if request.method == "POST":
+
+        city = request.form.get("city", "").strip()
+        household = request.form.get("household", "").strip()
+        housing = request.form.get("housing", "").strip()
+        lifestyle = request.form.get("lifestyle", "").strip()
+        children = request.form.get("children", "").strip()
+
+        try:
+            # The calculator calculations are handled by the HTML/JavaScript.
+            # This route simply serves the calculator page.
+
+            result = True
+
+        except Exception as e:
+            print("City Income Calculator Error:", e)
+            error = "Unable to process the calculator request."
+
+    return render_template(
+        "city_income_calculator.html",
+        result=result,
+        error=error,
+        city=city,
+        household=household,
+        housing=housing,
+        lifestyle=lifestyle,
+        children=children
+    )
 @app.route("/stock-analyzer", methods=["GET", "POST"])
 def stock_analyzer():
 
