@@ -3284,6 +3284,7 @@ FOOTER
 </div>
 
 <script>
+const CSRF_TOKEN = "{{ csrf_token() }}";
 const toggle = document.getElementById("chat-toggle");
 const box = document.getElementById("chat-box");
 const close = document.getElementById("close-chat");
@@ -3313,14 +3314,14 @@ function sendMessage(){
 
     if(message === "") return;
 
-    // Show user message
-    chatBody.innerHTML += `
-        <div style="text-align:right; margin:10px 0;">
-            <div style="display:inline-block;background:#FFC107;padding:10px 15px;border-radius:15px;">
-                ${message}
-            </div>
-        </div>
-    `;
+    // Use textContent for visitor input so a chat message cannot inject HTML.
+    const userMessage = document.createElement("div");
+    userMessage.style.cssText = "text-align:right; margin:10px 0;";
+    const userBubble = document.createElement("div");
+    userBubble.style.cssText = "display:inline-block;background:#FFC107;padding:10px 15px;border-radius:15px;";
+    userBubble.textContent = message;
+    userMessage.appendChild(userBubble);
+    chatBody.appendChild(userMessage);
 
     input.value = "";
 
@@ -3336,7 +3337,8 @@ function sendMessage(){
     fetch("/chat",{
         method:"POST",
         headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            "X-CSRFToken": CSRF_TOKEN
         },
         body:JSON.stringify({
             message:message

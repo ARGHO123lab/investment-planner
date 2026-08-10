@@ -7,6 +7,10 @@ import psycopg2
 import hmac
 import hashlib
 import json
+from collections import defaultdict, deque
+from threading import Lock
+from html import escape
+from html.parser import HTMLParser
 from psycopg2.extras import RealDictCursor
 from io import BytesIO
 from datetime import datetime, timedelta
@@ -73,6 +77,63 @@ if not app.secret_key:
         "SECRET_KEY environment variable is not set. "
         "The app will not start without it for security reasons."
     )
+
+# Best-effort protection against automated use of the paid AI endpoint. This is
+# deliberately independent of the per-session free-chat allowance below, which
+# can otherwise be reset by clearing browser cookies. For multi-instance
+# deployments, replace this in-memory store with Redis or another shared cache.
+CHAT_RATE_LIMIT = 10
+CHAT_RATE_WINDOW = timedelta(minutes=10)
+_chat_attempts = defaultdict(deque)
+_chat_rate_lock = Lock()
+_ALLOWED_CHAT_TAGS = {"h4", "p", "ul", "li", "b", "strong", "em", "br"}
+
+
+class _ChatHTMLSanitizer(HTMLParser):
+    """Keep the small HTML subset used by the chat response and escape all else."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.parts = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag in _ALLOWED_CHAT_TAGS:
+            self.parts.append(f"<{tag}>")
+
+    def handle_startendtag(self, tag, attrs):
+        if tag == "br":
+            self.parts.append("<br>")
+
+    def handle_endtag(self, tag):
+        if tag in _ALLOWED_CHAT_TAGS and tag != "br":
+            self.parts.append(f"</{tag}>")
+
+    def handle_data(self, data):
+        self.parts.append(escape(data))
+
+
+def sanitize_chat_html(value):
+    sanitizer = _ChatHTMLSanitizer()
+    sanitizer.feed(value or "")
+    sanitizer.close()
+    return "".join(sanitizer.parts)
+
+
+def _chat_rate_limited(client_ip):
+    """Return True when an IP has exceeded the AI chat request limit."""
+    now = datetime.utcnow()
+    cutoff = now - CHAT_RATE_WINDOW
+
+    with _chat_rate_lock:
+        attempts = _chat_attempts[client_ip]
+        while attempts and attempts[0] <= cutoff:
+            attempts.popleft()
+
+        if len(attempts) >= CHAT_RATE_LIMIT:
+            return True
+
+        attempts.append(now)
+        return False
 
 # --- SECURITY GUARD (ADMIN AUTHENTICATION) ---
 def generate_wellness_summary(health_score, literacy_score, literacy_total, breakdown_notes):
@@ -468,9 +529,7 @@ Sitemap: https://smartplanfinance.com/sitemap.xml
     return Response(content, mimetype="text/plain")
 
 @app.route("/chat", methods=["POST"])
-@csrf.exempt
 def chat():
-
     # Get current chat count from Flask session
     chat_count = session.get("chat_count", 0)
 
@@ -484,7 +543,21 @@ def chat():
             """
         })
 
-    user_message = request.json.get("message", "")
+    payload = request.get_json(silent=True) or {}
+    user_message = str(payload.get("message", "")).strip()
+
+    if not user_message:
+        return jsonify({"reply": "<p>Please enter a financial question.</p>"}), 400
+
+    if len(user_message) > 500:
+        return jsonify({"reply": "<p>Please keep your question to 500 characters or fewer.</p>"}), 400
+
+    # request.remote_addr is intentionally used instead of a client-provided
+    # forwarding header; configure ProxyFix at deployment time if behind a proxy.
+    if _chat_rate_limited(request.remote_addr or "unknown"):
+        return jsonify({
+            "reply": "<p>Too many chat requests. Please wait a few minutes and try again.</p>"
+        }), 429
 
     prompt = f"""
 You are SmartPlan AI, the official AI assistant of SmartPlan Finance.
@@ -540,7 +613,7 @@ Question:
         session["chat_count"] = chat_count + 1
 
         return jsonify({
-            "reply": completion.choices[0].message.content
+            "reply": sanitize_chat_html(completion.choices[0].message.content)
         })
 
     except Exception as e:
@@ -4224,16 +4297,6 @@ def get_book(book_id):
 def validate_book_id(book_id):
     """Check if book_id is valid"""
     return book_id in BOOKS_CATALOG
-
-
-def login_required(f):
-    """Decorator to check if user is logged in (optional - customize as needed)"""
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'user_id' not in session:
-            return redirect(url_for('index'))
-        return f(*args, **kwargs)
-    return decorated_function
 
 
 def book_purchase_required(f):
