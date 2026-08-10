@@ -371,6 +371,42 @@
             margin: 0;
         }
 
+        .research-notice {
+            margin-top: 20px;
+        }
+
+        .research-notice ul {
+            margin: 10px 0 0;
+            padding-left: 20px;
+            color: #666;
+            font-size: 13px;
+            line-height: 22px;
+        }
+
+        .research-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .research-links a {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 12px;
+            border: 1px solid #d8b34a;
+            border-radius: 8px;
+            color: #7a5a00;
+            background: #fffdf7;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .research-links a:hover {
+            background: #f8efd9;
+        }
+
         /* Action Buttons */
         .action-buttons {
             display: flex;
@@ -565,6 +601,22 @@
             </form>
 
         </div>
+
+        <aside class="disclaimer research-notice" aria-label="Stock research notice">
+            <h5>⚠️ Use this as one research input—not a decision-maker</h5>
+            <p>
+                This tool uses Yahoo Finance data and AI-generated educational analysis, so information may occasionally be unavailable, delayed, incomplete, or inaccurate. If an analysis does not load, please retry after some time.
+            </p>
+            <ul>
+                <li>Do not rely only on this tool before buying, selling, or holding a stock.</li>
+                <li>Read our <a href="/books">books</a> and <a href="/articles">articles</a>, verify company disclosures, and consider a SEBI-registered investment adviser for personalised advice.</li>
+                <li>External resources below are independent websites; SmartPlan Finance does not endorse or control their content.</li>
+            </ul>
+            <div class="research-links">
+                <a href="https://www.screener.in/" target="_blank" rel="noopener noreferrer">Research fundamentals on Screener.in ↗</a>
+                <a href="https://in.tradingview.com/markets/stocks-india/" target="_blank" rel="noopener noreferrer">View market charts on TradingView ↗</a>
+            </div>
+        </aside>
 
         <!-- Error Alert -->
         {% if error %}

@@ -917,6 +917,188 @@ width:220px;
     }
 
 }
+
+/* =========================
+   HOMEPAGE NAVIGATION + HERO ARRANGEMENT
+   ========================= */
+.site-header {
+    position: relative;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    max-width: 1300px;
+    min-height: 88px;
+    margin: 0 auto;
+    padding: 10px 8%;
+    background: rgba(255,253,247,.94);
+}
+
+.site-brand {
+    display: block;
+    width: 235px;
+    height: 68px;
+    overflow: hidden;
+}
+
+.site-brand img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.site-nav a {
+    padding: 9px 13px;
+    border-radius: 9px;
+    color: #31513d;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .2s ease, color .2s ease;
+}
+
+.site-nav a:hover {
+    background: #f8efd9;
+    color: #8f6500;
+}
+
+.site-nav .site-nav-cta {
+    background: linear-gradient(135deg, #d4af37, #b8860b);
+    color: #183827;
+    box-shadow: 0 5px 12px rgba(184,134,11,.2);
+}
+
+.site-nav .site-nav-cta:hover {
+    background: linear-gradient(135deg, #e4c55d, #c89312);
+    color: #183827;
+}
+
+.hero {
+    min-height: auto;
+    padding-top: 52px;
+    padding-bottom: 70px;
+}
+
+.hero-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 300px;
+}
+
+.hero-highlight-card {
+    width: min(100%, 410px);
+    padding: 34px;
+    border: 1px solid rgba(212,175,55,.48);
+    border-radius: 24px;
+    color: #fff;
+    background: linear-gradient(145deg, #123c2a, #0b7a3d);
+    box-shadow: 0 24px 45px rgba(11,74,45,.22);
+}
+
+.hero-highlight-card .eyebrow {
+    margin: 0 0 10px;
+    color: #ffe59a;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.hero-highlight-card h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 29px;
+    line-height: 1.2;
+}
+
+.hero-highlight-card p:not(.eyebrow) {
+    margin: 14px 0 22px;
+    color: rgba(255,255,255,.82);
+    line-height: 1.65;
+}
+
+.hero-highlight-card a {
+    display: inline-flex;
+    padding: 12px 17px;
+    border-radius: 10px;
+    background: #f8efd9;
+    color: #165135;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.wellness-container.health-score-cta {
+    gap: 10px;
+    margin-top: 0;
+}
+
+.health-score-cta .secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 13px 18px;
+    border: 1px solid rgba(11,122,61,.34);
+    border-radius: 12px;
+    color: #fff;
+    background: linear-gradient(135deg, #0b7a3d, #17633d);
+    box-shadow: 0 9px 18px rgba(11,122,61,.18);
+}
+
+.health-score-cta .secondary-btn::before {
+    content: "♥";
+    display: grid;
+    width: 22px;
+    height: 22px;
+    place-items: center;
+    border-radius: 50%;
+    color: #165135;
+    background: #ffe59a;
+    font-size: 12px;
+}
+
+.health-score-cta .secondary-btn:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #17633d, #0b7a3d);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .site-header {
+        align-items: flex-start;
+        padding: 8px 18px 14px;
+    }
+
+    .site-brand {
+        width: 185px;
+        height: 56px;
+    }
+
+    .site-nav {
+        justify-content: flex-start;
+    }
+
+    .site-nav a {
+        padding: 7px 9px;
+        font-size: 12px;
+    }
+
+    .hero-right {
+        min-width: 0;
+    }
+}
     </style>
 <script type="application/ld+json" defer>
 {
@@ -932,6 +1114,18 @@ width:220px;
 </head>
 
 <body>
+
+<header class="site-header">
+    <a class="site-brand" href="/" aria-label="SmartPlan Finance home">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="SmartPlan Finance">
+    </a>
+    <nav class="site-nav" aria-label="Main navigation">
+        <a href="/financial-planner">Financial Plan</a>
+        <a href="/articles">Learn</a>
+        <a href="/wellness">Wellness</a>
+        <a class="site-nav-cta" href="/login">Log In</a>
+    </nav>
+</header>
 
 <!-- ==========================================
 HERO SECTION
@@ -954,7 +1148,7 @@ SmartPlan Finance helps Indians make smarter financial decisions through AI-powe
 </p>
 
 <ul class="hero-list">
-<li class="calculator-item">
+<li class="calculator-item planner-card">
 
     <a href="/login" class="calculator-link">
         📈 Personalized Investment Planner
@@ -972,53 +1166,19 @@ SmartPlan Finance helps Indians make smarter financial decisions through AI-powe
     </button>
 
 </li>
-<li class="calculator-item">
-
-    <a href="/financial-planner" class="calculator-link">
-        🧭 Personal Financial Planner – Create Your Personalized Financial Plan
-    </a>
-
-    <button
-        class="voice-btn"
-        onclick="event.stopPropagation(); speakFinance('Answer a few simple questions about your income, expenses, savings and future goals. SmartPlanFinance will generate a personalized financial plan with step-by-step recommendations to help you achieve your financial goals.');"
-        title="Listen to explanation"
-        aria-label="Listen to Personal Financial Planner explanation">
-
-        <svg viewBox="0 0 24 24">
-            <path d="M4 9v6h4l5 4V5L8 9H4z"/>
-            <path d="M16.5 8.5a5 5 0 0 1 0 7"/>
-            <path d="M19 6a8.5 8.5 0 0 1 0 12"/>
-        </svg>
-
-        <span class="voice-btn-label">Listen</span>
-
-    </button>
-
-</li>
-
-
- <li class="calculator-item">
-
-    <a href="/city-wise-income-calculator" class="calculator-link">
-    🏙️ City-wise Required Income Calculator – Find the Monthly Income You Need
-</a>
-
-<button
-    class="voice-btn"
-    onclick="event.stopPropagation(); speakFinance('The City-wise Required Income Calculator helps you estimate the monthly income you may need based on your city, lifestyle, expenses, savings goals, and financial commitments.');"
-    title="Listen to explanation"
-    aria-label="Listen to City-wise Required Income Calculator explanation">
-
-    <svg viewBox="0 0 24 24">
-        <path d="M4 9v6h4l5 4V5L8 9H4z"/>
-        <path d="M16.5 8.5a5 5 0 0 1 0 7"/>
-        <path d="M19 6a8.5 8.5 0 0 1 0 12"/>
-    </svg>
-    <span class="voice-btn-label">Listen</span>
-</button>
- </li>
-
-
+    <li class="calculator-explorer-item">
+        <details class="calculator-explorer">
+            <summary>
+                <span class="calculator-explorer-icon">✦</span>
+                <span>
+                    <strong>SmartPlanFinance — Calculates the Numbers for You</strong>
+                    <small>Explore our financial calculators</small>
+                </span>
+                <span class="calculator-explorer-arrow" aria-hidden="true">⌄</span>
+            </summary>
+            <div class="calculator-explorer-content">
+                <p>Plan, compare, and calculate with simple tools for every financial milestone.</p>
+                <ul class="calculator-explorer-list">
     <li class="calculator-item">
 
     <a href="/sip-calculator" class="calculator-link">
@@ -1281,13 +1441,17 @@ SmartPlan Finance helps Indians make smarter financial decisions through AI-powe
     </button>
 
 </li>
+                </ul>
+            </div>
+        </details>
+    </li>
 <h3 class="section-title mt-5">
     📚 Free Financial Resources
 </h3>
 
 <ul class="calculator-list">
 
-<li class="calculator-item">    
+<li class="calculator-item handbook-card">
 
     <a href="/handbook" class="calculator-link">
         📙   Financial Tools & Calculators Handbook
@@ -1318,8 +1482,8 @@ SmartPlan Finance helps Indians make smarter financial decisions through AI-powe
 
 <div class="wellness-container">
 
-    <a href="/articles" class="secondary-btn">
-        Explore Articles
+    <a href="/articles" class="secondary-btn articles-cta">
+        <span>📚</span> Explore Articles
     </a>
 
     <button
@@ -1335,10 +1499,10 @@ SmartPlan Finance helps Indians make smarter financial decisions through AI-powe
 
 </div>
 
-<div class="wellness-container">
+<div class="wellness-container health-score-cta">
 
     <a href="/wellness" class="secondary-btn">
-        Check My Financial Wellness Score →
+        Financial Health Score →
     </a>
 
     <button
@@ -1360,7 +1524,12 @@ SmartPlan Finance helps Indians make smarter financial decisions through AI-powe
 
 <div class="hero-right">
 
-<img src="{{ url_for('static', filename='images/logo.png') }}" alt="SmartPlan Finance">
+    <aside class="hero-highlight-card">
+        <p class="eyebrow">Your money, made clearer</p>
+        <h2>Build a free plan that fits your life.</h2>
+        <p>Bring your income, goals, and risk comfort together in one practical financial roadmap.</p>
+        <a href="/financial-planner">Create your free financial plan →</a>
+    </aside>
 
 </div>
 
@@ -1822,6 +1991,116 @@ h3 {
 
 .hero-list li a:hover {
     color: #9A7005;
+}
+
+.calculator-explorer-item {
+    list-style: none;
+    margin: 18px 0;
+}
+
+.calculator-explorer {
+    overflow: hidden;
+    border: 1px solid rgba(184,134,11,.58);
+    border-radius: 18px;
+    background: linear-gradient(135deg, #123c2a, #0b7a3d 58%, #17633d);
+    box-shadow: 0 14px 30px rgba(11,74,45,.2), inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+.calculator-explorer summary {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 22px;
+    color: #fff;
+    cursor: pointer;
+    list-style: none;
+}
+
+.calculator-explorer summary:hover {
+    background: linear-gradient(90deg, rgba(212,175,55,.13), transparent 65%);
+}
+
+.calculator-explorer summary::-webkit-details-marker {
+    display: none;
+}
+
+.calculator-explorer summary strong,
+.calculator-explorer summary small {
+    display: block;
+}
+
+.calculator-explorer summary strong {
+    font-size: 17px;
+    line-height: 1.35;
+}
+
+.calculator-explorer summary small {
+    margin-top: 3px;
+    color: rgba(255,255,255,.78);
+    font-size: 13px;
+}
+
+.calculator-explorer-icon {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    place-items: center;
+    border-radius: 12px;
+    border: 1px solid rgba(255,226,139,.35);
+    background: linear-gradient(135deg, #d4af37, #b8860b);
+    color: #143725;
+    font-size: 22px;
+}
+
+.calculator-explorer-arrow {
+    margin-left: auto;
+    color: #ffe59a;
+    font-size: 25px;
+    transition: transform .25s ease;
+}
+
+.calculator-explorer[open] .calculator-explorer-arrow {
+    transform: rotate(180deg);
+}
+
+.calculator-explorer-content {
+    padding: 0 16px 18px;
+    background: linear-gradient(180deg, #f8efd9 0%, #fffaf0 22%, #ffffff 100%);
+}
+
+.calculator-explorer-content > p {
+    margin: 0;
+    padding: 18px 6px 12px;
+    color: #365240;
+    font-size: 14px;
+}
+
+.calculator-explorer-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.calculator-explorer-list .calculator-item {
+    margin: 0;
+}
+
+@media (max-width: 620px) {
+    .calculator-explorer summary {
+        padding: 17px;
+    }
+
+    .calculator-explorer summary strong {
+        font-size: 15px;
+    }
+
+    .calculator-explorer-list {
+        grid-template-columns: 1fr;
+    }
 }
 
 
@@ -2676,6 +2955,285 @@ footer p {
     border-radius: 6px;
     box-shadow: 0 12px 30px rgba(0,0,0,.18);
 }
+
+/* Keep the book area useful and easy to scan instead of dominating the page. */
+.our-books-intro {
+    display: none;
+}
+
+.books-promo-section {
+    width: min(92%, 1120px);
+    margin: 42px auto;
+    padding: 42px 32px;
+    transform: none;
+    border-radius: 24px;
+}
+
+.books-section-header {
+    margin-bottom: 26px;
+}
+
+.books-section-header h2 {
+    font-size: clamp(28px, 3.5vw, 38px);
+}
+
+.books-section-header p {
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.books-section-header .books-section-subtext {
+    display: none;
+}
+
+.books-promo-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+}
+
+.book-promo-card {
+    padding: 24px;
+    border-radius: 16px;
+}
+
+.book-promo-cover {
+    width: 120px;
+    height: 170px;
+    margin-bottom: 14px;
+}
+
+.book-promo-icon {
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+
+.book-promo-card h3 {
+    font-size: 19px;
+}
+
+.book-promo-desc {
+    font-size: 14px;
+    line-height: 1.55;
+    margin-bottom: 12px;
+}
+
+.book-promo-meta {
+    margin: 12px 0;
+    padding: 12px 0;
+}
+
+.book-promo-price {
+    margin: 12px 0;
+    font-size: 24px;
+}
+
+@media (max-width: 768px) {
+    .books-promo-section {
+        width: 100%;
+        margin: 28px auto;
+        padding: 32px 18px;
+        border-radius: 0;
+    }
+}
+
+/* Shared SPF button language: one shape, one motion system, clear hierarchy. */
+.secondary-btn,
+.stock-btn,
+.book-promo-btn,
+.hero-highlight-card a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .01em;
+    text-decoration: none;
+    transition: transform .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease;
+}
+
+.stock-btn,
+.book-promo-btn-primary {
+    border: 1px solid #0b7a3d;
+    color: #fff;
+    background: linear-gradient(135deg, #0b7a3d, #17633d);
+    box-shadow: 0 8px 18px rgba(11,122,61,.2);
+}
+
+.stock-btn:hover,
+.book-promo-btn-primary:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #17633d, #075e30);
+    box-shadow: 0 12px 22px rgba(11,122,61,.28);
+    transform: translateY(-2px);
+}
+
+.hero-buttons .secondary-btn,
+.book-promo-btn-secondary {
+    border: 1px solid rgba(184,134,11,.65);
+    color: #705100;
+    background: #fffdf7;
+    box-shadow: 0 6px 15px rgba(184,134,11,.1);
+}
+
+.hero-buttons .secondary-btn:hover,
+.book-promo-btn-secondary:hover {
+    color: #705100;
+    border-color: #b8860b;
+    background: #f8efd9;
+    box-shadow: 0 10px 20px rgba(184,134,11,.17);
+    transform: translateY(-2px);
+}
+
+.health-score-cta .secondary-btn,
+.health-score-cta .secondary-btn:hover {
+    color: #fff;
+    border-color: #0b7a3d;
+    background: linear-gradient(135deg, #0b7a3d, #17633d);
+}
+
+.media-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 0 18px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
+}
+
+.media-btn-primary {
+    color: #fff;
+    background: linear-gradient(135deg, #0b7a3d, #17633d);
+    box-shadow: 0 8px 18px rgba(11,122,61,.2);
+}
+
+.media-btn-secondary {
+    border-color: rgba(184,134,11,.65);
+    color: #705100;
+    background: #fffdf7;
+}
+
+.media-btn:hover {
+    transform: translateY(-2px);
+}
+
+.media-btn-primary:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #17633d, #075e30);
+}
+
+.media-btn-secondary:hover {
+    color: #705100;
+    background: #f8efd9;
+}
+
+.secondary-btn:focus-visible,
+.stock-btn:focus-visible,
+.book-promo-btn:focus-visible,
+.hero-highlight-card a:focus-visible,
+.voice-btn:focus-visible {
+    outline: 3px solid rgba(212,175,55,.58);
+    outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+    .hero-buttons .wellness-container {
+        width: 100%;
+    }
+
+    .hero-buttons .secondary-btn {
+        flex: 1;
+    }
+}
+
+/* Highlight the three core ways to start learning and planning. */
+.planner-card {
+    border-color: rgba(11,122,61,.4);
+    background: linear-gradient(135deg, #effaf2, #fffdf7);
+    box-shadow: 0 10px 24px rgba(11,122,61,.1);
+}
+
+.planner-card::before {
+    width: 5px;
+    opacity: 1;
+    background: linear-gradient(180deg, #0b7a3d, #d4af37);
+}
+
+.planner-card .calculator-link {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #165135;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.planner-card .calculator-link::after {
+    content: "Your personal money roadmap";
+    display: block;
+    margin-top: 3px;
+    color: #5c7566;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.planner-card:hover {
+    border-color: #0b7a3d;
+    box-shadow: 0 15px 30px rgba(11,122,61,.17);
+}
+
+.handbook-card {
+    border-color: rgba(184,134,11,.38);
+    background: linear-gradient(135deg, #fff8e5, #fffdf7);
+}
+
+.handbook-card::before {
+    width: 5px;
+    opacity: 1;
+    background: linear-gradient(180deg, #d4af37, #b8860b);
+}
+
+.handbook-card .calculator-link {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    color: #705100;
+    font-weight: 700;
+}
+
+.handbook-card .calculator-link::after {
+    content: "Free guide • concepts, formulas & examples";
+    display: block;
+    margin-top: 3px;
+    color: #8a7436;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.hero-buttons .articles-cta {
+    border-color: #0b7a3d;
+    color: #fff;
+    background: linear-gradient(135deg, #0b7a3d, #17633d);
+    box-shadow: 0 8px 18px rgba(11,122,61,.18);
+}
+
+.hero-buttons .articles-cta:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #17633d, #075e30);
+    box-shadow: 0 12px 22px rgba(11,122,61,.26);
+}
 </style>
 
 <!-- =========================================================
@@ -2928,18 +3486,7 @@ alt="From First Salary to Financial Freedom book cover">
             href="https://open.spotify.com/episode/2XV2esExrKW0sb92p20Xsj"
             target="_blank"
             rel="noopener noreferrer"
-            style="
-                display:inline-block;
-                padding:13px 24px;
-                border-radius:10px;
-                background:#B8860B;
-                color:white;
-                text-decoration:none;
-                font-weight:600;
-                transition:.3s;
-            "
-            onmouseover="this.style.transform='translateY(-2px)'"
-            onmouseout="this.style.transform='translateY(0)'"
+            class="media-btn media-btn-primary"
         >
             🎧 Listen on Spotify
         </a>
@@ -2948,19 +3495,7 @@ alt="From First Salary to Financial Freedom book cover">
             href="https://www.youtube.com/watch?v=rm_nxbLWhRU&t=16s"
             target="_blank"
             rel="noopener noreferrer"
-            style="
-                display:inline-block;
-                padding:13px 24px;
-                border-radius:10px;
-                border:2px solid #B8860B;
-                background:white;
-                color:#B8860B;
-                text-decoration:none;
-                font-weight:600;
-                transition:.3s;
-            "
-            onmouseover="this.style.transform='translateY(-2px)'"
-            onmouseout="this.style.transform='translateY(0)'"
+            class="media-btn media-btn-secondary"
         >
             ▶️ Watch on YouTube
         </a>
@@ -3025,6 +3560,10 @@ AI STOCK RESEARCH SECTION
 
             <p class="stock-meta">
                 Free • AI Powered • NSE Stocks
+            </p>
+
+            <p class="stock-meta" style="max-width:330px; margin:12px auto 0; line-height:1.55;">
+                Educational research only. Always verify data and use more than one source before investing.
             </p>
 
         </div>
