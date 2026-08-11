@@ -510,6 +510,18 @@ _ARTICLE_PAGE_CACHE = {}
 _ARTICLE_PAGE_CACHE_TTL = 900  # seconds
 
 
+def invalidate_article_cache():
+    """Drop rendered article pages immediately after editorial changes."""
+    global _ARTICLES_CACHE, _ARTICLES_CACHE_TIMESTAMP
+    global _ARTICLES_HTML_CACHE, _ARTICLES_HTML_CACHE_TIMESTAMP
+
+    _ARTICLES_CACHE = None
+    _ARTICLES_CACHE_TIMESTAMP = None
+    _ARTICLES_HTML_CACHE = None
+    _ARTICLES_HTML_CACHE_TIMESTAMP = None
+    _ARTICLE_PAGE_CACHE.clear()
+
+
 def get_db_connection():
     global DB_POOL
     if DB_POOL is None:
@@ -778,6 +790,7 @@ def delete_article(article_id):
     cur.execute("DELETE FROM articles WHERE id = %s", (article_id,))
     conn.commit()
     conn.close()
+    invalidate_article_cache()
     return redirect(url_for('articles'))
 @app.route("/loan-assistance", methods=["GET", "POST"])
 def loan_assistance():
@@ -1173,6 +1186,7 @@ def edit_article(article_id):
 
         conn.commit()
         conn.close()
+        invalidate_article_cache()
 
         return redirect(
             url_for(
@@ -1250,6 +1264,7 @@ def upload_featured_image(article_id):
 
         cur.close()
         conn.close()
+        invalidate_article_cache()
 
         return redirect(
             url_for(
@@ -1435,6 +1450,7 @@ def publish():
     conn.commit()
 
     conn.close()
+    invalidate_article_cache()
 
 
     return redirect(
@@ -4534,6 +4550,11 @@ def log_request():
 
 
 def _inject_default_seo_meta(response):
+    # Article templates already include complete, page-specific SEO metadata.
+    # Skipping a full HTML scan here keeps cached article responses lightweight.
+    if request.endpoint in {"articles", "view_article"}:
+        return response
+
     if not response.content_type or 'text/html' not in response.content_type.lower():
         return response
 
@@ -4581,6 +4602,14 @@ def _inject_default_seo_meta(response):
 @app.after_request
 def log_response(response):
     response = _inject_default_seo_meta(response)
+
+    # Public article pages do not vary by visitor. Short browser caching makes
+    # repeat visits instant, while shared caches can reuse the rendered HTML.
+    if request.method == "GET" and request.endpoint in {"articles", "view_article"}:
+        response.cache_control.public = True
+        response.cache_control.max_age = 300
+        response.cache_control.s_maxage = 900
+
     app.logger.info(f"Response: {response.status_code}")
     return response
 
