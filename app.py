@@ -4,6 +4,7 @@ import uuid
 import requests
 import tempfile
 import psycopg2
+import psycopg2.pool
 import hmac
 import hashlib
 import json
@@ -13,6 +14,13 @@ from html import escape
 from html.parser import HTMLParser
 from psycopg2.extras import RealDictCursor
 from io import BytesIO
+from pathlib import Path
+
+SITE_URL = "https://smartplanfinance.com"
+DEFAULT_SEO_DESCRIPTION = (
+    "SmartPlan Finance helps you build smarter investments, save tax, and plan your financial future "
+    "with calculators, guides, and easy-to-use planning tools."
+)
 from datetime import datetime, timedelta
 from flask import Flask, render_template, request, flash, redirect, send_file,session, url_for, Response
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
@@ -49,7 +57,7 @@ from stock_analyzer import get_stock_data
 from stock_ai import generate_stock_analysis
 logging.basicConfig(level=logging.INFO)
 
-load_dotenv()
+load_dotenv(dotenv_path=Path(__file__).resolve().parent / '.env')
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 print("Groq Key Found:", GROQ_API_KEY is not None)
@@ -492,12 +500,124 @@ ADVISOR_INSIGHTS = {
     ]
 }
 
+DB_POOL = None
+_ARTICLES_CACHE = None
+_ARTICLES_CACHE_TIMESTAMP = None
+_ARTICLES_HTML_CACHE = None
+_ARTICLES_HTML_CACHE_TIMESTAMP = None
+_ARTICLES_CACHE_TTL = 900  # seconds
+_ARTICLE_PAGE_CACHE = {}
+_ARTICLE_PAGE_CACHE_TTL = 900  # seconds
+
+
 def get_db_connection():
-    conn = psycopg2.connect(
-        os.environ["DATABASE_URL"],
-        cursor_factory=RealDictCursor,  # Added the comma here             # Changed 'require' to 'prefer'
-    )
-    return conn
+    global DB_POOL
+    if DB_POOL is None:
+        DB_POOL = psycopg2.pool.ThreadedConnectionPool(
+            minconn=1,
+            maxconn=10,
+            dsn=os.environ["DATABASE_URL"],
+            cursor_factory=RealDictCursor,
+        )
+    return DB_POOL.getconn()
+
+
+def release_db_connection(conn):
+    if DB_POOL is not None and conn is not None:
+        DB_POOL.putconn(conn)
+
+
+def init_db_pool():
+    conn = get_db_connection()
+    release_db_connection(conn)
+
+
+def get_cached_articles():
+    global _ARTICLES_CACHE, _ARTICLES_CACHE_TIMESTAMP
+    now = datetime.utcnow()
+    if _ARTICLES_CACHE and _ARTICLES_CACHE_TIMESTAMP:
+        if (now - _ARTICLES_CACHE_TIMESTAMP).total_seconds() < _ARTICLES_CACHE_TTL:
+            return _ARTICLES_CACHE
+    conn = get_db_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            SELECT id, title, slug, created_at,
+                   LEFT(content, 500) AS excerpt
+            FROM articles
+            ORDER BY created_at DESC
+            LIMIT 30
+            """
+        )
+        articles = cur.fetchall()
+        _ARTICLES_CACHE = articles
+        _ARTICLES_CACHE_TIMESTAMP = now
+        return articles
+    finally:
+        release_db_connection(conn)
+
+
+def get_cached_articles_html():
+    global _ARTICLES_HTML_CACHE, _ARTICLES_HTML_CACHE_TIMESTAMP
+    now = datetime.utcnow()
+    if _ARTICLES_HTML_CACHE and _ARTICLES_HTML_CACHE_TIMESTAMP:
+        if (now - _ARTICLES_HTML_CACHE_TIMESTAMP).total_seconds() < _ARTICLES_CACHE_TTL:
+            return _ARTICLES_HTML_CACHE
+    articles = get_cached_articles()
+    html = render_template('articles.html', articles=articles)
+    _ARTICLES_HTML_CACHE = html
+    _ARTICLES_HTML_CACHE_TIMESTAMP = now
+    return html
+
+
+def get_cached_article_page(slug):
+    global _ARTICLE_PAGE_CACHE
+    now = datetime.utcnow()
+    cached = _ARTICLE_PAGE_CACHE.get(slug)
+    if cached:
+        html, timestamp = cached
+        if (now - timestamp).total_seconds() < _ARTICLE_PAGE_CACHE_TTL:
+            return html
+    conn = get_db_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            SELECT *
+            FROM articles
+            WHERE slug = %s
+            """,
+            (slug,),
+        )
+        article = cur.fetchone()
+        if article is None:
+            return None
+
+        # Use the latest articles as related suggestions instead of expensive keyword matching.
+        cur.execute(
+            """
+            SELECT id,title,slug
+            FROM articles
+            WHERE slug != %s
+            ORDER BY created_at DESC
+            LIMIT 5
+            """,
+            (slug,),
+        )
+        related_articles = cur.fetchall()
+
+        html = render_template(
+            'view_article.html',
+            article=article,
+            related_articles=related_articles,
+            is_admin=False,
+        )
+        _ARTICLE_PAGE_CACHE[slug] = (html, now)
+        return html
+    finally:
+        release_db_connection(conn)
+
 
 def extract_currency_symbol(country_name):
     country_data = COUNTRIES.get(country_name, '₹')
@@ -506,10 +626,38 @@ def extract_currency_symbol(country_name):
     return country_data
 
 # NOTE: init_db logic is not needed as PostgreSQL schema is pre-managed in production
-def init_db():
-    pass 
+def warm_up_article_cache():
+    with app.app_context():
+        try:
+            with app.test_request_context('/articles'):
+                get_cached_articles_html()
 
-init_db()
+            conn = get_db_connection()
+            try:
+                cur = conn.cursor()
+                cur.execute(
+                    """
+                    SELECT slug
+                    FROM articles
+                    ORDER BY created_at DESC
+                    """
+                )
+                rows = cur.fetchall()
+                logging.info(f"Article warm-up: preloading {len(rows)} article pages")
+                for row in rows:
+                    slug = row.get("slug")
+                    if slug:
+                        with app.test_request_context(f"/blog/{slug}"):
+                            get_cached_article_page(slug)
+            finally:
+                release_db_connection(conn)
+        except Exception:
+            logging.exception("Articles warm-up failed")
+
+
+def init_db():
+    init_db_pool()
+    warm_up_article_cache()
 
 @app.route('/')
 def index():
@@ -3734,42 +3882,14 @@ def admin():
     )
 @app.route('/articles')
 def articles():
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM articles ORDER BY created_at DESC")
-    articles = cur.fetchall()
-    conn.close()
-    return render_template('articles.html', articles=articles)
+    return get_cached_articles_html()
 
 @app.route('/blog/<slug>')
 def view_article(slug):
-
-    conn = get_db_connection()
-    cur = conn.cursor()
-
-
-    # Current article
-    cur.execute(
-        """
-        SELECT *
-        FROM articles
-        WHERE slug = %s
-        """,
-        (slug,)
-    )
-
-    article = cur.fetchone()
-
-
-    if article is None:
-        conn.close()
+    html = get_cached_article_page(slug)
+    if html is None:
         return "Article not found", 404
-
-
-
-    # -----------------------------------
-    # Find related articles
-    # -----------------------------------
+    return html
 
     current_text = (
         article["title"]
@@ -4413,9 +4533,54 @@ def log_request():
     app.logger.info(f"{request.method} {request.path} - {request.remote_addr}")
 
 
+def _inject_default_seo_meta(response):
+    if not response.content_type or 'text/html' not in response.content_type.lower():
+        return response
+
+    try:
+        html = response.get_data(as_text=True)
+    except Exception:
+        return response
+
+    if '<head' not in html.lower() or '</head>' not in html.lower():
+        return response
+
+    insert_pos = html.lower().rfind('</head>')
+    if insert_pos == -1:
+        return response
+
+    tags = []
+    if 'rel="canonical"' not in html and "rel='canonical'" not in html:
+        tags.append(f'<link rel="canonical" href="{SITE_URL}{request.path}" />')
+    if 'name="description"' not in html and "name='description'" not in html:
+        tags.append(f'<meta name="description" content="{DEFAULT_SEO_DESCRIPTION}" />')
+    if 'property="og:title"' not in html and "property='og:title'" not in html:
+        page_title = ''
+        start = html.lower().find('<title>')
+        end = html.lower().find('</title>')
+        if start != -1 and end != -1:
+            page_title = html[start + 7:end].strip()
+        tags.append(f'<meta property="og:title" content="{page_title or "SmartPlan Finance"}" />')
+    if 'property="og:description"' not in html and "property='og:description'" not in html:
+        tags.append(f'<meta property="og:description" content="{DEFAULT_SEO_DESCRIPTION}" />')
+    if 'property="og:url"' not in html and "property='og:url'" not in html:
+        tags.append(f'<meta property="og:url" content="{SITE_URL}{request.path}" />')
+    if 'property="og:image"' not in html and "property='og:image'" not in html:
+        tags.append(f'<meta property="og:image" content="{SITE_URL}/static/images/logo.png" />')
+    if 'name="twitter:card"' not in html and "name='twitter:card'" not in html:
+        tags.append('<meta name="twitter:card" content="summary_large_image" />')
+    if 'name="robots"' not in html and "name='robots'" not in html:
+        tags.append('<meta name="robots" content="index, follow" />')
+
+    if tags:
+        html = html[:insert_pos] + '\n' + '\n'.join(tags) + '\n' + html[insert_pos:]
+        response.set_data(html)
+    return response
+
+
 @app.after_request
 def log_response(response):
-    """Log response status"""
+    response = _inject_default_seo_meta(response)
     app.logger.info(f"Response: {response.status_code}")
     return response
 
@@ -5811,6 +5976,10 @@ def download_report():
             pass
 
     return response
+
+# Warm-up article caches after all routes are registered.
+init_db()
+
 if __name__ == "__main__":
     app.run(
         host="127.0.0.1",

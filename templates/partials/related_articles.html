@@ -1,37 +1,16 @@
 <div class="related-section">
 
-    <h2 style="
-        color:#B8860B;
-        margin-top:50px;
-        border-left:6px solid #FFC107;
-        padding-left:15px;
-    ">
-        Recommended Articles
-    </h2>
+    <h2>Recommended Articles</h2>
 
 
     {% if related_articles %}
 
         {% for item in related_articles %}
 
-        <div style="
-            background:#FFFDF7;
-            border-radius:15px;
-            padding:20px;
-            margin:15px 0;
-            border:1px solid #eee;
-        ">
+        <div class="related-card">
 
-            <a href="{{ url_for('view_article', slug=item.slug) }}"
-               style="
-               text-decoration:none;
-               color:#222;
-               font-size:18px;
-               font-weight:600;
-               ">
-
+            <a href="/blog/{{ item.slug }}" class="related-link">
                 {{ item.title }}
-
             </a>
 
         </div>

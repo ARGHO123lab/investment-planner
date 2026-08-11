@@ -2,88 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
-
-<link rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
-
-<link rel="apple-touch-icon"
-      href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
-
-<link rel="manifest"
-      href="{{ url_for('static', filename='icons/site.webmanifest') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ article.title }} | SmartPlan Finance</title>
-    <meta name="description"
-      content="{{ article.content | striptags | truncate(160, True, '...') }}">
+    <meta name="description" content="{{ article.content | striptags | truncate(160, True, '...') }}">
+    <meta name="author" content="SmartPlan Finance Editorial Team">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="{{ article.title }} | SmartPlan Finance">
+    <meta property="og:description" content="{{ article.content | striptags | truncate(160, True, '...') }}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="https://smartplanfinance.com/static/images/logo.png">
+    <meta property="article:published_time" content="{{ article.created_at.strftime('%Y-%m-%dT%H:%M:%S') if article.created_at else '' }}">
+    <meta property="article:modified_time" content="{{ article.updated_at.strftime('%Y-%m-%dT%H:%M:%S') if article.updated_at else article.created_at.strftime('%Y-%m-%dT%H:%M:%S') }}">
+    <meta property="article:section" content="Personal Finance">
+    <link rel="canonical" href="{{ request.url }}">
 
-<link rel="canonical" href="{{ request.url }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}">
 
-<meta property="og:title" content="{{ article.title }} | SmartPlan Finance">
-<meta property="og:description"
-      content="{{ article.content | striptags | truncate(160, True, '...') }}">
-<meta property="og:type" content="article">
-<meta property="og:url" content="{{ request.url }}">
-<meta property="og:image" content="https://smartplanfinance.com/static/images/logo.png">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { margin: 0; background: #FFFDF7; font-family: 'Poppins', sans-serif; }
-        .article-wrapper { max-width: 900px; margin: 50px auto; padding: 0 20px; }
-        .article-card { background: white; padding: 50px; border-radius: 24px; box-shadow: 0 18px 40px rgba(0,0,0,.08); }
-        .article-title { font-size: 42px; line-height: 1.35; color: #222; margin-bottom: 20px; }
-        .article-meta { color: #888; margin-bottom: 35px; font-size: 15px; }
-        
-        /* Premium Content Styles */
-        .article-content { font-size: 18px; line-height: 2; color: #444; }
-        .article-content h2 { color: #B8860B !important; border-left: 6px solid #FFC107 !important; padding-left: 18px; font-size: 34px; margin-top: 45px; margin-bottom: 20px; }
-        .article-content h2::after { content: ""; display: block; width: 90px; height: 4px; background: #FFC107; margin-top: 12px; }
-        
-        /* Restoring Premium CTA Box */
-        .cta { margin-top: 60px; background: #FFF8E1; border-radius: 18px; padding: 35px; text-align: center; }
-        .cta h2 { color: #B8860B; margin-bottom: 15px; }
-        .cta a { display: inline-block; background: #FFC107; color: #222; text-decoration: none; padding: 14px 28px; border-radius: 12px; font-weight: 600; }
-        
-        /* Restoring Bottom Meta */
-        .bottom { margin-top: 45px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-        .back-btn { color: #B8860B; text-decoration: none; font-weight: 600; }
-        
-        @media(max-width:768px) { .article-card { padding: 25px; } .article-title { font-size: 30px; } }
-        .voice-btn{
-    background:#efe809c8;
-    color:hsl(240, 5%, 4%);
-    border:none;
-    border-radius:25px;
-    padding:10px 18px;
-    font-size:14px;
-    font-weight:600;
-    cursor:pointer;
-    transition:.25s;
-}
-
-.voice-btn:hover{
-    background:hwb(50 15% 8%);
-    color:rgb(3, 0, 0);
-}
-    
-    </style>
     <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"Article",
   "headline":"{{ article.title }}",
   "datePublished":"{{ article.created_at.strftime('%Y-%m-%d') if article.created_at else '' }}",
-"dateModified":"{{ article.updated_at.strftime('%Y-%m-%d') if article.updated_at else article.created_at.strftime('%Y-%m-%d') }}",
+  "dateModified":"{{ article.updated_at.strftime('%Y-%m-%d') if article.updated_at else article.created_at.strftime('%Y-%m-%d') }}",
   "author":{
       "@type":"Organization",
       "name":"SmartPlan Finance Editorial Team",
       "url":"https://smartplanfinance.com"
-},
+  },
   "publisher":{
       "@type":"Organization",
       "name":"SmartPlan Finance",
@@ -92,45 +43,44 @@
           "url":"https://smartplanfinance.com/static/images/logo.png"
       }
   },
- "mainEntityOfPage":"{{ request.url }}",
-"image":"https://smartplanfinance.com/static/images/logo.png",
-"wordCount":"{{ article.content | striptags | wordcount }}"
+  "mainEntityOfPage":"{{ request.url }}",
+  "image":"https://smartplanfinance.com/static/images/logo.png",
+  "wordCount":"{{ article.content | striptags | wordcount }}"
 }
 </script>
-<script type="application/ld+json">
+    <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"FAQPage",
   "mainEntity":[
     {
       "@type":"Question",
-      "name":"How can I start investing with SmartPlan Finance?",
+      "name":"How can I choose the right investment strategy for my income?",
       "acceptedAnswer":{
         "@type":"Answer",
-        "text":"You can explore our SIP Calculator, EMI Calculator, Financial Goal Planner and investment guides to begin planning your financial future."
-      }
-    },
-
-    {
-      "@type":"Question",
-      "name":"Is SmartPlan Finance free to use?",
-      "acceptedAnswer":{
-        "@type":"Answer",
-        "text":"Yes. Our financial calculators and educational articles are completely free for everyone."
+        "text":"Begin by setting clear financial goals, reviewing your monthly budget, and choosing investments that match your risk comfort and timeline. Our calculators and articles help you compare SIPs, retirement plans, and tax-saving strategies."
       }
     },
     {
       "@type":"Question",
-      "name":"Which calculator should I use first?",
+      "name":"Can I use SmartPlan Finance for long-term retirement planning?",
       "acceptedAnswer":{
         "@type":"Answer",
-        "text":"Most beginners start with the SIP Calculator and Financial Goal Planner to estimate how much they need to invest every month."
+        "text":"Yes. The platform offers retirement and goal-planning tools, plus articles on savings, taxes, and mutual funds to help you build a long-term plan."
+      }
+    },
+    {
+      "@type":"Question",
+      "name":"Is the content on SmartPlan Finance updated regularly?",
+      "acceptedAnswer":{
+        "@type":"Answer",
+        "text":"We publish practical finance guides, calculators, and planning articles with the latest personal finance ideas so users can make better money decisions."
       }
     }
   ]
 }
 </script>
-<script type="application/ld+json">
+    <script type="application/ld+json">
 {
  "@context":"https://schema.org",
  "@type":"BreadcrumbList",
@@ -159,197 +109,65 @@
 </head>
 <body>
 
-<div class="article-wrapper">
-    <div class="article-card">
-        <!-- Tag -->
-        <div style="margin-bottom:25px;">
-            <span style="display:inline-flex; align-items:center; gap:8px; padding:10px 18px; background:#FFF3CD; border:1px solid #F6D365; border-radius:50px; font-weight:700; color:#B8860B; font-size:15px;">
-                📚 SmartPlan Finance
-            </span>
+<main class="article-wrapper">
+    <article class="article-card">
+        <header class="article-header">
+            <div class="tag-container">
+                <span class="tag-badge">📚 SmartPlan Finance</span>
+            </div>
+            <h1 class="article-title">{{ article.title }}</h1>
+            {% if is_admin %}
+            <div class="admin-actions">
+                <a href="{{ url_for('upload_featured_image', article_id=article.id) }}" class="admin-link admin-link-image">🖼 Change Featured Image</a>
+                <a href="{{ url_for('edit_article', article_id=article.id) }}" class="admin-link admin-link-edit">✏️ Edit Article</a>
+            </div>
+            {% endif %}
+            <div class="article-meta">📅 Published on {{ article.created_at.strftime('%d %B %Y') }}</div>
+            <p class="article-intro">{{ article.content | striptags | truncate(220, True, '...') }}</p>
+        </header>
+
+        {% if article.featured_image %}
+        <div class="featured-image">
+            <img src="{{ article.featured_image }}" alt="{{ article.title }}" loading="lazy">
         </div>
-
-        <h1 class="article-title">{{ article.title }}</h1>
-       <!-- {% if article.featured_image %}
-<div style="margin:30px 0;">
-    <img
-        src="{{ article.featured_image }}"
-        alt="{{ article.title }}"
-        width="1200"
-  height="500"
-  loading="lazy"
-
-        style="
-            width:100%;
-            max-height:500px;
-            object-fit:cover;
-            border-radius:18px;
-            box-shadow:0 8px 24px rgba(0,0,0,.12);
-        ">
-</div>
-{% endif %}-->
-        {% if is_admin %}
-<div style="margin:20px 0; display:flex; gap:12px; flex-wrap:wrap;">
-
-    <a href="{{ url_for('upload_featured_image', article_id=article.id) }}"
-       style="
-            background:#0d6efd;
-            color:white;
-            padding:12px 20px;
-            border-radius:8px;
-            text-decoration:none;
-            font-weight:600;">
-        🖼 Change Featured Image
-    </a>
-
-    <a href="{{ url_for('edit_article', article_id=article.id) }}"
-       style="
-            background:#198754;
-            color:white;
-            padding:12px 20px;
-            border-radius:8px;
-            text-decoration:none;
-            font-weight:600;">
-        ✏️ Edit Article
-    </a>
-
-</div>
-{% endif %}
-        <div class="article-meta">📅 Published on {{ article.created_at.strftime('%d %B %Y') }}</div>
-        <hr style="margin-bottom:35px; border: 0; border-top: 1px solid #eee;">
-        <div style="margin-bottom:30px; display:flex; gap:10px; align-items:center;">
-<!--
-    <button
-        class="voice-btn"
-        onclick="readArticle()">
-
-        🔊 Listen to this article
-
-    </button>
-
-    <button
-        class="voice-btn"
-        onclick="speechSynthesis.pause()">
-
-        ⏸ Pause
-
-    </button>
-
-    <button
-        class="voice-btn"
-        onclick="speechSynthesis.resume()">
-
-        ▶ Resume
-
-    </button>
-
-    <button
-        class="voice-btn"
-        onclick="speechSynthesis.cancel()">
-
-        ⏹ Stop
-
-    </button>
--->
-</div>
+        {% endif %}
 
         <div class="article-content" id="article-content">
             {{ article.content | safe }}
-            <div class="author-box">
-
-    <h4>About the Author</h4>
-
-    <p>
-        <strong>SmartPlan Finance Editorial Team</strong>
-    </p>
-
-    <p>
-        SmartPlan Finance Editorial Team creates educational content
-        related to personal finance, investment planning, SIPs,
-        mutual funds, retirement planning, taxation and wealth creation.
-    </p>
-
-    <p>
-        Our content is designed for educational purposes only and does not
-        constitute financial advice. Readers should evaluate their financial
-        goals and consult qualified professionals before making investment decisions.
-    </p>
-
-</div>
-{% include 'partials/related_articles.html' %}
-    {% include 'partials/faq_section.html' %}
-            <!-- Premium CTA Section -->
-            <div class="cta">
-                <h2>Ready to Build Your Financial Future?</h2>
-                <p>Generate your personalised investment report in less than 2 minutes using SmartPlan Finance.</p>
-                <a href="{{ url_for('login') }}">📊 Generate My Free Financial Report</a>
-            </div>
-
         </div>
 
-        <!-- Premium Bottom Section -->
+        <section class="author-box">
+            <h4>About the Author</h4>
+            <p><strong>SmartPlan Finance Editorial Team</strong></p>
+            <p>SmartPlan Finance creates educational content on personal finance, investment planning, SIPs, mutual funds, retirement planning, taxation, and wealth creation.</p>
+            <p>Our content is designed for educational purposes only and does not constitute financial advice. Readers should evaluate their goals and consult qualified professionals before making investment decisions.</p>
+            <p>Contact us: <a href="mailto:contact@smartplanfinance.com">contact@smartplanfinance.com</a></p>
+        </section>
+
+        {% include 'partials/related_articles.html' %}
+        {% include 'partials/faq_section.html' %}
+
+        <div class="cta">
+            <h2>Ready to Build Your Financial Future?</h2>
+            <p>Generate your personalised investment report in less than 2 minutes using SmartPlan Finance.</p>
+            <a href="{{ url_for('login') }}">📊 Generate My Free Financial Report</a>
+        </div>
+
         <div class="bottom">
             <a href="{{ url_for('articles') }}" class="back-btn">← Back to Articles</a>
             <div class="share">Share this article 🔗</div>
         </div>
-    </div>
-</div>
-<script>
+    </article>
 
-let financeVoice = null;
-
-function loadFinanceVoice() {
-
-    const voices = speechSynthesis.getVoices();
-
-    financeVoice =
-        voices.find(v => v.name.includes("Google") && v.lang.startsWith("en")) ||
-        voices.find(v => v.lang.startsWith("en-IN")) ||
-        voices.find(v => v.lang.startsWith("en-US")) ||
-        voices[0];
-
-}
-
-speechSynthesis.onvoiceschanged = loadFinanceVoice;
-loadFinanceVoice();
-
-function speakFinance(text){
-
-    speechSynthesis.cancel();
-
-    const speech = new SpeechSynthesisUtterance(text);
-
-    speech.voice = financeVoice;
-    speech.rate = 1;
-    speech.pitch = 1;
-    speech.volume = 1;
-
-    speechSynthesis.speak(speech);
-
-}
-
-</script>
-<script>
-
-let articleSpeech;
-
-function readArticle(){
-
-    speechSynthesis.cancel();
-
-    const article =
-        document.getElementById("article-content").innerText;
-
-    const speech = new SpeechSynthesisUtterance(article);
-
-    speech.rate = 1;
-    speech.pitch = 1;
-    speech.volume = 1;
-
-    speechSynthesis.speak(speech);
-
-}
-
-</script>
+    <footer class="page-footer">
+        <div class="footer-links">
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+            <a href="{{ url_for('terms') }}">Terms</a>
+        </div>
+        <p>© 2026 SmartPlan Finance. All Rights Reserved.</p>
+    </footer>
+</main>
 
 </body>
 </html>

@@ -1,8 +1,19 @@
-<div class="cta" style="margin-top:50px; background:#F9F9F9; border:1px solid #eee;">
-    <h2 style="color:#B8860B;">Frequently Asked Questions</h2>
-    <p>Get answers to common financial planning, investment, and tax queries.</p>
-    <a href="{{ url_for('generate_faq') }}" 
-   style="background:#B8860B; color:white; padding:12px 24px; border-radius:10px; text-decoration:none; font-weight:600;">
-   📖 Generate & Download Financial Planning FAQ (PDF)
-</a>
-</div>
+<section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+        <h3>How do I choose the best investment strategy for my goals?</h3>
+        <p>Start with your time horizon, risk tolerance, and savings target. Use our calculators to compare SIP plans, retirement savings, and tax-saving options before you invest.</p>
+    </div>
+    <div class="faq-item">
+        <h3>Can I rely on SmartPlan Finance for long-term retirement planning?</h3>
+        <p>Yes. We provide planning tools, goal-based calculators, and educational articles to help you estimate how much you need to save and how to build a retirement corpus.</p>
+    </div>
+    <div class="faq-item">
+        <h3>Is this website free to use?</h3>
+        <p>Absolutely. Our calculators, articles, and planning tools are free for users, designed to make financial planning easier and more transparent.</p>
+    </div>
+    <div class="faq-cta">
+        <p>Want the full FAQ in a downloadable format? Generate it now and keep practical finance guidance on your device.</p>
+        <a href="{{ url_for('generate_faq') }}" class="faq-button">📖 Download Financial Planning FAQ</a>
+    </div>
+</section>

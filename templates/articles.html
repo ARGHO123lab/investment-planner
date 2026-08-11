@@ -1,279 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<link rel="canonical" href="https://smartplanfinance.com/articles">
-<meta property="og:title" content="Financial Insights | SmartPlan Finance">
-<meta property="og:description" content="Explore personal finance articles, investment guides, retirement planning, taxation tips, and wealth-building strategies from SmartPlan Finance.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://smartplanfinance.com/articles">
-<meta property="og:image" content="https://smartplanfinance.com/static/images/logo.png">
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <link rel="canonical" href="https://smartplanfinance.com/articles">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Explore personal finance articles, investment guides, retirement planning, taxation tips, and wealth-building strategies from SmartPlan Finance.">
+    <meta name="author" content="SmartPlan Finance Editorial Team">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Financial Insights | SmartPlan Finance">
+    <meta property="og:description" content="Explore personal finance articles, investment guides, retirement planning, taxation tips, and wealth-building strategies from SmartPlan Finance.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://smartplanfinance.com/articles">
+    <meta property="og:image" content="https://smartplanfinance.com/static/images/logo.png">
+    <meta property="og:site_name" content="SmartPlan Finance">
+    <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
-
-<link rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
-
-<link rel="apple-touch-icon"
-      href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
-
-<link rel="manifest"
-      href="{{ url_for('static', filename='icons/site.webmanifest') }}">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Financial Insights | SmartPlan Finance</title>
-<meta name="description"
-      content="Explore personal finance articles, investment guides, mutual fund insights, retirement planning, taxation tips, and wealth-building strategies from SmartPlan Finance.">
-
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/style.css') }}">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-body{
-    margin:0;
-    background:#FFFDF7;
-    font-family:'Poppins',sans-serif;
-}
-
-.hero{
-    background:linear-gradient(135deg,#FFF8E1,#FFFDF7);
-    padding:70px 10%;
-    text-align:center;
-}
-
-.hero h1{
-    color:#B8860B;
-    font-size:48px;
-    margin-bottom:15px;
-}
-
-.hero p{
-    color:#666;
-    font-size:20px;
-    max-width:750px;
-    margin:auto;
-    line-height:34px;
-}
-
-.container{
-    max-width:1200px;
-    margin:60px auto;
-    padding:0 25px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
-    gap:30px;
-}
-
-.card{
-    background:white;
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 15px 35px rgba(0,0,0,.08);
-    transition:.35s;
-}
-
-.card:hover{
-    transform:translateY(-8px);
-}
-.card-image{
-    width:100%;
-    height:220px;
-    overflow:hidden;
-}
-
-.card-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-    transition:.35s;
-}
-
-.card:hover .card-image img{
-    transform:scale(1.05);
-}
-.card-content{
-    padding:28px;
-}
-
-.badge{
-    display:inline-block;
-    background:#B8860B;
-    color:white;
-    padding:6px 14px;
-    border-radius:30px;
-    font-size:13px;
-    margin-bottom:18px;
-}
-
-.card h2{
-    margin:0;
-    line-height:34px;
-    font-size:24px;
-}
-
-.card h2 a{
-    color:#333;
-    text-decoration:none;
-}
-
-.card h2 a:hover{
-    color:#B8860B;
-}
-
-.date{
-    color:#888;
-    margin-top:18px;
-    font-size:14px;
-}
-
-.read{
-    display:inline-block;
-    margin-top:22px;
-    background:#B8860B;
-    color:white;
-    text-decoration:none;
-    padding:12px 20px;
-    border-radius:10px;
-    font-weight:600;
-    transition:.3s;
-}
-
-.read:hover{
-    background:#9C6B00;
-}
-
-@media(max-width:768px){
-
-.hero{
-    padding:50px 25px;
-}
-
-.hero h1{
-    font-size:34px;
-}
-
-.hero p{
-    font-size:17px;
-    line-height:30px;
-}
-
-.container{
-    padding:20px;
-    margin-top:30px;
-}
-
-.grid{
-    grid-template-columns:1fr;
-}
-
-.card-content{
-    padding:22px;
-}
-
-.card h2{
-    font-size:22px;
-    line-height:32px;
-}
-
-}
-.excerpt{
-    color:#666;
-    font-size:15px;
-    line-height:1.7;
-    margin:15px 0;
-}
-</style>
-
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/articles.css') }}">
 </head>
 
 <body>
+<header class="hero">
+    <h1>📚 Financial Insights & Articles</h1>
+    <p>Explore personal finance articles, investment guides, retirement planning, taxation tips, and wealth-building strategies from SmartPlan Finance.</p>
+</header>
 
-<section class="hero">
+<main class="container">
+    <section class="overview" aria-labelledby="overview-title">
+        <p id="overview-title" class="overview-text">We publish original and practical finance articles that help readers build savings, invest wisely, reduce tax, and plan for retirement.</p>
+    </section>
 
-<h1>📚 Financial Insights & Articles</h1>
+    <section class="article-grid" aria-labelledby="articles-title">
+        <h2 id="articles-title" class="visually-hidden">Latest Articles</h2>
+        <div class="grid">
+            {% for article in articles %}
+            <article class="card">
+                <div class="card-content">
+                    <div class="badge">SmartPlan Finance</div>
+                    <h3>
+                        <a href="{{ url_for('view_article', slug=article.slug) }}">{{ article.title }}</a>
+                    </h3>
+                    <p class="excerpt">{{ article.excerpt | striptags | truncate(180, True, '...') }}</p>
+                    <div class="date">📅 {{ article.created_at.strftime('%d %B %Y') }}</div>
+                    <a href="{{ url_for('view_article', slug=article.slug) }}" class="read">Read Article →</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
 
-<p>
-
-Explore personal finance articles, investment guides, mutual fund insights, retirement planning, taxation tips, and wealth-building strategies from SmartPlan Finance.
-
-</p>
-
-</section>
-
-<div class="container">
-
-<div class="grid">
-
-{% for article in articles %}
-
-<div class="card">
-    
-    <!--
-{% if article.featured_image %}
-<div class="card-image">
-    <img
-        src="{{ article.featured_image }}"
-        alt="{{ article.title }}" width="800" height="600" loading="lazy">
-</div>
-{% endif %}
--->
-
-
-<div class="card-content">
-
-<div class="badge">
-
-SmartPlan Finance
-
-</div>
-
-<h2>
-
-<a href="{{ url_for('view_article', slug=article.slug) }}">
-
-{{ article.title }}
-
-</a>
-
-</h2>
-<p style="color:#666;line-height:28px;margin-top:15px;">
-    {{ article.content | striptags | truncate(180, True, '...') }}
-</p>
-<div class="date">
-
-📅 {{ article.created_at.strftime('%d %B %Y') }}
-
-</div>
-
-<a href="{{ url_for('view_article', slug=article.slug) }}" class="read">
-
-Read Article →
-
-</a>
-
-</div>
-
-</div>
-
-{% endfor %}
-
-</div>
-
-</div>
-
+    <section class="page-footer">
+        <div class="footer-links">
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+            <a href="{{ url_for('terms') }}">Terms</a>
+        </div>
+        <p>© 2026 SmartPlan Finance. All Rights Reserved.</p>
+    </section>
+</main>
 </body>
-
 </html>

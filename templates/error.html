@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | SmartPlan Finance</title>
+    <meta name="description" content="The page you are looking for at SmartPlan Finance cannot be found. Visit our calculators, articles, and tools to plan your finances." />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href="https://smartplanfinance.com/" />
+    <meta property="og:title" content="Page Not Found | SmartPlan Finance" />
+    <meta property="og:description" content="The page you are looking for at SmartPlan Finance cannot be found. Check out our financial calculators, articles, and planning tools." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://smartplanfinance.com/" />
+    <meta property="og:image" content="https://smartplanfinance.com/static/images/logo.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="error-page">
+        <section class="error-card">
+            <h1>Oops!</h1>
+            <p>The page you are looking for could not be found.</p>
+            <a href="{{ url_for('index') }}" class="btn">Back to Home</a>
+        </section>
+    </main>
+</body>
+</html>
