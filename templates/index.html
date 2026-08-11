@@ -4,13 +4,6 @@
 <head>
 
     <meta charset="UTF-8">
-<!-- Paste AdSense code here -->
- <!--Modified code for adsense-->
-<script async
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
-    crossorigin="anonymous"
-    defer>
-</script>
 <link rel="icon" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}" sizes="32x32">
 
 <link rel="icon" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}" sizes="16x16">
@@ -25,7 +18,7 @@
 
     <title>SmartPlan Finance |  Stock Research & Analysis, Fincial Calculators, Investment Planner & Personal Finance Guide</title>
 
-    <meta name="description" content="Plan your investments intelligently with SmartPlan Finance. Generate personalized investment plans, calculate SIP returns and build your financial future.">
+    <meta name="description" content="SmartPlan Finance offers practical personal-finance guides, investment planning tools, SIP calculators, tax calculators, and wealth-building resources for Indians.">
     <link rel="canonical" href="https://smartplanfinance.com/">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -40,12 +33,6 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PFM7XZ5E3P');
-</script>
-
-<!-- Google AdSense -->
-<script async
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
-    crossorigin="anonymous">
 </script>
 
     <style>
@@ -1100,6 +1087,78 @@ width:220px;
         min-width: 0;
     }
 }
+
+/* Direct reading links sit under the free-plan card in the hero. */
+.hero-right { flex-direction: column; }
+
+.home-article-links {
+    width: min(100%, 410px);
+    margin-top: 18px;
+    padding: 22px;
+    border: 1px solid rgba(11, 122, 61, .2);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, .8);
+    box-shadow: 0 12px 28px rgba(22, 81, 53, .09);
+}
+
+.home-article-links-heading span {
+    color: #0b7a3d;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.home-article-links-heading h2 {
+    margin: 5px 0 4px;
+    color: #183827;
+    font-size: 21px;
+    line-height: 1.25;
+}
+
+.home-article-links-heading p {
+    margin: 0 0 15px;
+    color: #64736a;
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.home-article-list {
+    display: grid;
+    gap: 7px;
+}
+
+.home-article-list a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid #e5ece2;
+    border-radius: 10px;
+    color: #31513d;
+    background: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.35;
+    text-decoration: none;
+    transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.home-article-list a span { color: #b8860b; font-size: 16px; }
+.home-article-list a:hover {
+    border-color: #b6cfb9;
+    background: #f4faf4;
+    transform: translateX(3px);
+}
+.home-article-list a:focus-visible {
+    outline: 3px solid rgba(212, 175, 55, .55);
+    outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+    .home-article-links { width: 100%; margin-top: 14px; text-align: left; }
+}
     </style>
 <script type="application/ld+json" defer>
 {
@@ -1531,6 +1590,26 @@ SmartPlan Finance helps Indians make smarter financial decisions through AI-powe
         <p>Bring your income, goals, and risk comfort together in one practical financial roadmap.</p>
         <a href="/financial-planner">Create your free financial plan →</a>
     </aside>
+
+    <section class="home-article-links" aria-labelledby="home-articles-title">
+        <div class="home-article-links-heading">
+            <span>✦ Practical money guides</span>
+            <h2 id="home-articles-title">Read what matters next</h2>
+            <p>Simple guides for your salary, savings, protection, tax, and investing decisions.</p>
+        </div>
+        <div class="home-article-list">
+            <a href="https://smartplanfinance.com/blog/how-much-salary-do-you-need-to-live-comfortably-in-kolkata-complete-2026-guide">Living comfortably in Kolkata <span>→</span></a>
+            <a href="https://smartplanfinance.com/blog/the-50-000-to-2-lakh-salary-blueprint-a-month-by-month-wealth-system-for-indian-salaried-professionals-2026">₹50,000 to ₹2 lakh salary blueprint <span>→</span></a>
+            <a href="https://smartplanfinance.com/blog/the-financial-pressure-trap-why-a-1-lakh-salary-still-feels-like-you-re-living-paycheck-to-paycheck">Why ₹1 lakh can feel like paycheck to paycheck <span>→</span></a>
+            <a href="https://smartplanfinance.com/blog/financial-planning-for-your-first-job-the-complete-beginner-s-checklist-2026-guide">First-job financial planning checklist <span>→</span></a>
+            <a href="https://smartplanfinance.com/blog/how-to-build-a-1-crore-investment-portfolio-in-india-2026-the-complete-wealth-creation-roadmap">Build a ₹1 crore investment portfolio <span>→</span></a>
+            <a href="https://smartplanfinance.com/blog/income-tax-slabs-2026-new-regime-vs-old-regime-which-saves-you-more-money">2026 tax: new regime vs old regime <span>→</span></a>
+            <a href="https://smartplanfinance.com/blog/why-an-emergency-fund-is-your-most-important-investment">Why an emergency fund comes first <span>→</span></a>
+            <a href="https://smartplanfinance.com/blog/term-insurance-vs-health-insurance-the-2026-guide-to-protecting-your-wealth-before-you-invest">Term insurance vs health insurance <span>→</span></a>
+            <a href="https://smartplanfinance.com/blog/should-you-buy-a-house-or-invest-first-a-complete-financial-guide-2026">Buy a house or invest first? <span>→</span></a>
+            <a href="https://smartplanfinance.com/blog/how-to-achieve-financial-freedom-before-40-complete-2026-guide">Financial freedom before 40 <span>→</span></a>
+        </div>
+    </section>
 
 </div>
 

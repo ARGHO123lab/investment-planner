@@ -669,7 +669,7 @@ def warm_up_article_cache():
 
 def init_db():
     init_db_pool()
-    warm_up_article_cache()
+    #warm_up_article_cache()
 
 @app.route('/')
 def index():
