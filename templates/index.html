@@ -26,6 +26,7 @@
     <title>SmartPlan Finance |  Stock Research & Analysis, Fincial Calculators, Investment Planner & Personal Finance Guide</title>
 
     <meta name="description" content="Plan your investments intelligently with SmartPlan Finance. Generate personalized investment plans, calculate SIP returns and build your financial future.">
+    <link rel="canonical" href="https://smartplanfinance.com/">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
@@ -1121,7 +1122,7 @@ width:220px;
     </a>
     <nav class="site-nav" aria-label="Main navigation">
         <a href="/financial-planner">Financial Plan</a>
-        <a href="/articles">Learn</a>
+        <a href="{{ url_for('articles') }}">Learn</a>
         <a href="/wellness">Wellness</a>
         <a class="site-nav-cta" href="/login">Log In</a>
     </nav>
@@ -1482,7 +1483,7 @@ SmartPlan Finance helps Indians make smarter financial decisions through AI-powe
 
 <div class="wellness-container">
 
-    <a href="/articles" class="secondary-btn articles-cta">
+    <a href="{{ url_for('articles') }}" class="secondary-btn articles-cta">
         <span>📚</span> Explore Articles
     </a>
 
@@ -3681,7 +3682,7 @@ FOOTER
 
         <p><a href="/" style="color:white;text-decoration:none;">🏠 Home</a></p>
 
-        <p><a href="/articles" style="color:white;text-decoration:none;">📰 Articles</a></p>
+<p><a href="{{ url_for('articles') }}" style="color:white;text-decoration:none;">📰 Articles</a></p>
 
         <p><a href="/privacy" style="color:white;text-decoration:none;">🔒 Privacy Policy</a></p>
 
