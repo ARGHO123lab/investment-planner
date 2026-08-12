@@ -524,6 +524,7 @@ def invalidate_article_cache():
 
 def get_db_connection():
     global DB_POOL
+
     if DB_POOL is None:
         DB_POOL = psycopg2.pool.ThreadedConnectionPool(
             minconn=1,
@@ -531,12 +532,48 @@ def get_db_connection():
             dsn=os.environ["DATABASE_URL"],
             cursor_factory=RealDictCursor,
         )
-    return DB_POOL.getconn()
+
+    conn = DB_POOL.getconn()
+
+    # Neon/PostgreSQL may close an idle SSL connection while
+    # the connection is still present in the local pool.
+    # Validate the connection before returning it.
+    try:
+        if conn.closed:
+            DB_POOL.putconn(conn, close=True)
+            conn = DB_POOL.getconn()
+        else:
+            with conn.cursor() as cur:
+                cur.execute("SELECT 1")
+    except (psycopg2.OperationalError, psycopg2.InterfaceError):
+        try:
+            DB_POOL.putconn(conn, close=True)
+        except Exception:
+            pass
+
+        conn = DB_POOL.getconn()
+
+        # Make sure the replacement connection is actually usable.
+        with conn.cursor() as cur:
+            cur.execute("SELECT 1")
+
+    return conn
 
 
 def release_db_connection(conn):
     if DB_POOL is not None and conn is not None:
-        DB_POOL.putconn(conn)
+        try:
+            # Clear any unfinished transaction before returning
+            # the connection to the pool.
+            if conn.status != psycopg2.extensions.STATUS_READY:
+                conn.rollback()
+
+            DB_POOL.putconn(conn)
+        except Exception:
+            try:
+                DB_POOL.putconn(conn, close=True)
+            except Exception:
+                pass
 
 
 def init_db_pool():
@@ -572,14 +609,19 @@ def get_cached_articles():
 
 def get_cached_articles_html():
     global _ARTICLES_HTML_CACHE, _ARTICLES_HTML_CACHE_TIMESTAMP
+
     now = datetime.utcnow()
+
     if _ARTICLES_HTML_CACHE and _ARTICLES_HTML_CACHE_TIMESTAMP:
         if (now - _ARTICLES_HTML_CACHE_TIMESTAMP).total_seconds() < _ARTICLES_CACHE_TTL:
             return _ARTICLES_HTML_CACHE
+
     articles = get_cached_articles()
     html = render_template('articles.html', articles=articles)
+
     _ARTICLES_HTML_CACHE = html
     _ARTICLES_HTML_CACHE_TIMESTAMP = now
+
     return html
 
 
