@@ -1256,6 +1256,162 @@ width:220px;
     background: #2e7d32;
     border-color: #2e7d32;
 }
+/* =========================================================
+   MISSION & VISION
+   ========================================================= */
+
+.mission-vision-section {
+    max-width: 1100px;
+    margin: 70px auto 60px;
+    padding: 0 20px;
+}
+
+.mission-vision-header {
+    max-width: 760px;
+    margin: 0 auto 38px;
+    text-align: center;
+}
+
+.mission-vision-header .section-eyebrow {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #0b6b3a;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.mission-vision-header h2 {
+    margin: 0 0 14px;
+    color: #14231c;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.mission-vision-header p {
+    margin: 0;
+    color: #5d6a64;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.mission-vision-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.mission-vision-card {
+    position: relative;
+    padding: 32px;
+    background: #ffffff;
+    border: 1px solid #dfe7e2;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(26, 54, 40, 0.05);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.mission-vision-card:hover {
+    transform: translateY(-3px);
+    border-color: #c8d9cf;
+    box-shadow: 0 14px 32px rgba(26, 54, 40, 0.08);
+}
+
+.mission-vision-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    background: #edf7f0;
+    font-size: 1.35rem;
+}
+
+.mission-vision-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #0b6b3a;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
+
+.mission-vision-card h3 {
+    margin: 0 0 16px;
+    color: #14231c;
+    font-size: 1.45rem;
+    line-height: 1.3;
+}
+
+.mission-vision-card p {
+    margin: 0 0 16px;
+    color: #425048;
+    font-size: 0.98rem;
+    line-height: 1.75;
+}
+
+.mission-vision-card p:last-child {
+    margin-bottom: 0;
+}
+
+.mission-vision-closing {
+    margin-top: 22px !important;
+    padding-top: 18px;
+    border-top: 1px solid #dfe7e2;
+    color: #0b6b3a !important;
+    font-size: 1rem !important;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .mission-vision-section {
+        margin: 50px auto 45px;
+        padding: 0 16px;
+    }
+
+    .mission-vision-header {
+        margin-bottom: 28px;
+    }
+
+    .mission-vision-header h2 {
+        font-size: 1.8rem;
+    }
+
+    .mission-vision-header p {
+        font-size: 0.98rem;
+    }
+
+    .mission-vision-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .mission-vision-card {
+        padding: 25px 22px;
+        border-radius: 14px;
+    }
+
+    .mission-vision-card h3 {
+        font-size: 1.3rem;
+    }
+
+    .mission-vision-card p {
+        font-size: 0.96rem;
+        line-height: 1.7;
+    }
+}
 @media (max-width: 768px) {
     .home-article-links { width: 100%; margin-top: 14px; text-align: left; }
 }
@@ -1605,6 +1761,111 @@ SmartPlan Finance helps Indians make smarter financial decisions through persona
             </div>
         </details>
     </li>
+<!-- MISSION & VISION -->
+<section class="mission-vision-section" aria-labelledby="mission-vision-title">
+
+    <div class="mission-vision-header">
+        <span class="section-eyebrow">OUR PURPOSE</span>
+
+        <h2 id="mission-vision-title">
+            Helping Indians Build Wealth With Clarity and Confidence
+        </h2>
+
+        <p>
+            SmartPlan Finance was created with a simple belief:
+            managing money should not feel complicated.
+        </p>
+    </div>
+
+    <div class="mission-vision-grid">
+
+        <!-- Mission -->
+        <article class="mission-vision-card">
+            <div class="mission-vision-icon" aria-hidden="true">
+                🎯
+            </div>
+
+            <span class="mission-vision-label">OUR MISSION</span>
+
+            <h3>
+                Make Better Financial Decisions Easier
+            </h3>
+
+            <p>
+                Our mission is to make personal finance simple, practical,
+                and accessible for everyday Indians. Financial decisions
+                often involve complicated terminology, uncertain outcomes,
+                and information spread across many different sources.
+                SmartPlan Finance brings these ideas together in one place
+                so people can understand their options before making
+                important financial decisions.
+            </p>
+
+            <p>
+                We create practical calculators, financial planning tools,
+                educational articles, and simple explanations covering
+                investing, saving, retirement, taxation, loans, insurance,
+                and wealth building. Instead of simply telling people
+                what to do, our goal is to help them understand the numbers,
+                compare possibilities, and make decisions that fit their
+                own financial goals.
+            </p>
+
+            <p>
+                Whether someone is starting their first SIP, building an
+                emergency fund, planning for retirement, evaluating a loan,
+                or working toward their first ₹1 crore, SmartPlan Finance
+                aims to provide useful tools and understandable financial
+                education at every stage of the journey.
+            </p>
+        </article>
+
+
+        <!-- Vision -->
+        <article class="mission-vision-card">
+            <div class="mission-vision-icon" aria-hidden="true">
+                🌱
+            </div>
+
+            <span class="mission-vision-label">OUR VISION</span>
+
+            <h3>
+                A Financially Confident India
+            </h3>
+
+            <p>
+                Our vision is to build a trusted financial education platform
+                that helps millions of Indians become more confident about
+                managing their money and planning their future.
+            </p>
+
+            <p>
+                We believe financial progress is not about finding a single
+                perfect investment or becoming wealthy overnight. It is about
+                developing good financial habits, understanding risk,
+                investing consistently, protecting what you build, and
+                making informed decisions over time.
+            </p>
+
+            <p>
+                SmartPlan Finance aims to combine technology, calculators,
+                financial education, and practical planning tools to make
+                these concepts easier to use in real life. Our long-term
+                vision is to help people move from financial uncertainty to
+                financial clarity — one decision, one calculation, and one
+                goal at a time.
+            </p>
+
+            <p class="mission-vision-closing">
+                <strong>
+                    Plan smarter. Invest with purpose. Build your future.
+                </strong>
+            </p>
+        </article>
+
+    </div>
+
+</section>
 <ul class="calculator-list">
 
     <!-- City-Wise Monthly Income Calculator -->

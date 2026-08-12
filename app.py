@@ -4316,6 +4316,7 @@ def sitemap():
         ("https://smartplanfinance.com/swp_calculator", "monthly", "0.8"),
         ("https://smartplanfinance.com/tax_calculator", "monthly", "0.8"),
         ("https://smartplanfinance.com/xirr-calculator", "monthly", "0.8"),
+        ("https://smartplanfinance.com/city-wise-income-calculator", "monthly", "0.8"),
     ]
 
     for url, changefreq, priority in static_urls:
