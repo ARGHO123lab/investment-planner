@@ -4,239 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ article.title }} | SmartPlan Finance</title>
-    <meta name="description" content="{{ article.content | striptags | truncate(160, True, '...') }}">
+    <meta name="description" content="{{ article.meta_description or (article.content | striptags | truncate(160, True, '...')) }}">
     <meta name="author" content="SmartPlan Finance Editorial Team">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="{{ article.title }} | SmartPlan Finance">
-    <meta property="og:description" content="{{ article.content | striptags | truncate(160, True, '...') }}">
+    <meta property="og:description" content="{{ article.meta_description or (article.content | striptags | truncate(160, True, '...')) }}">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="{{ request.url }}">
-    <meta property="og:image" content="https://smartplanfinance.com/static/images/logo.png">
+    <meta property="og:url" content="{{ url_for('view_article', slug=article.slug, _external=True) }}">
+    <meta property="og:image" content="{{ article.featured_image if article.featured_image and article.featured_image != '/static/images/logo.png' else 'https://smartplanfinance.com/static/images/logo.png' }}">
     <meta property="article:published_time" content="{{ article.created_at.strftime('%Y-%m-%dT%H:%M:%S') if article.created_at else '' }}">
-    <meta property="article:modified_time" content="{{ article.updated_at.strftime('%Y-%m-%dT%H:%M:%S') if article.updated_at else article.created_at.strftime('%Y-%m-%dT%H:%M:%S') }}">
-    <meta property="article:section" content="Personal Finance">
-    <link rel="canonical" href="{{ request.url }}">
-
+    <meta property="article:modified_time" content="{{ (article.updated_at or article.created_at).strftime('%Y-%m-%dT%H:%M:%S') if (article.updated_at or article.created_at) else '' }}">
+    <link rel="canonical" href="{{ url_for('view_article', slug=article.slug, _external=True) }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}">
-
-    <!-- Critical CSS Only - Inline -->
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { font-size: 16px; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #333; background: #fff; line-height: 1.6; }
-        
-        .article-wrapper { max-width: 900px; margin: 0 auto; padding: 20px; }
-        .article-card { background: #fff; }
-        .article-header { margin-bottom: 30px; }
-        .tag-badge { display: inline-block; background: #f0f0f0; color: #333; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; margin-bottom: 12px; }
-        .article-title { font-size: 2.5rem; line-height: 1.2; margin: 16px 0; color: #222; font-weight: 700; }
-        .article-meta { color: #666; font-size: 14px; margin: 12px 0; }
-        .article-intro { font-size: 18px; color: #666; margin: 16px 0; line-height: 1.6; }
-        
-        .featured-image { margin: 30px 0; border-radius: 8px; overflow: hidden; max-width: 100%; }
-        .featured-image img { width: 100%; height: auto; display: block; }
-        
-        .article-content { margin: 40px 0; font-size: 16px; line-height: 1.8; }
-        .article-content h2 { font-size: 1.8rem; margin: 30px 0 15px 0; color: #222; }
-        .article-content h3 { font-size: 1.4rem; margin: 20px 0 10px 0; color: #333; }
-        .article-content p { margin-bottom: 16px; }
-        .article-content ul, .article-content ol { margin: 16px 0 16px 20px; }
-        .article-content li { margin-bottom: 8px; }
-        
-        .author-box { background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 40px 0; }
-        .author-box h4 { margin-bottom: 10px; color: #222; }
-        .author-box p { margin: 8px 0; color: #666; }
-        
-        /* IMPROVED CTA SECTION */
-        .cta { 
-            background: linear-gradient(135deg, #055a2a, #0b4620); 
-            color: #ffffff; 
-            padding: 40px 30px; 
-            border-radius: 8px; 
-            text-align: center; 
-            margin: 40px 0;
-            box-shadow: 0 4px 15px rgba(5, 90, 42, 0.2);
-        }
-        .cta h2 { 
-            color: #ffffff; 
-            margin-bottom: 15px; 
-            font-size: 1.8rem;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-        }
-        .cta p { 
-            margin-bottom: 20px; 
-            font-size: 16px;
-            color: #ffffff;
-            font-weight: 500;
-            line-height: 1.6;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .cta a { 
-            display: inline-block; 
-            background: #ffffff; 
-            color: #055a2a; 
-            padding: 14px 32px; 
-            border-radius: 6px; 
-            text-decoration: none; 
-            font-weight: 700;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
-        }
-        .cta a:hover { 
-            background: #f0f0f0; 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(255, 255, 255, 0.3);
-        }
-        /* END IMPROVED CTA SECTION */
-        
-        .bottom { display: flex; justify-content: space-between; align-items: center; margin: 30px 0; padding: 20px 0; border-top: 1px solid #eee; }
-        .back-btn { color: #0b7a3d; text-decoration: none; font-weight: 600; }
-        .share { color: #666; }
-        
-        .page-footer { text-align: center; padding: 20px; color: #999; font-size: 14px; border-top: 1px solid #eee; margin-top: 40px; }
-        .footer-links { margin: 10px 0; }
-        .footer-links a { color: #0b7a3d; text-decoration: none; margin: 0 10px; }
-        
-        /* Deferred sections - hidden initially */
-        .related-articles, .faq-section, .page-footer { display: none; }
-        .related-articles.loaded, .faq-section.loaded, .page-footer.loaded { display: block; }
-        
-        @media (max-width: 768px) {
-            .article-title { font-size: 1.8rem; }
-            .article-content h2 { font-size: 1.4rem; }
-            .bottom { flex-direction: column; gap: 15px; }
-            .cta { padding: 30px 20px; }
-            .cta h2 { font-size: 1.4rem; }
-            .cta p { font-size: 15px; }
-            .cta a { padding: 12px 28px; font-size: 15px; }
-        }
-    </style>
-
-    <script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"Article",
-  "headline":"{{ article.title }}",
-  "datePublished":"{{ article.created_at.strftime('%Y-%m-%d') if article.created_at else '' }}",
-  "dateModified":"{{ article.updated_at.strftime('%Y-%m-%d') if article.updated_at else article.created_at.strftime('%Y-%m-%d') }}",
-  "author":{"@type":"Organization","name":"SmartPlan Finance Editorial Team","url":"https://smartplanfinance.com"},
-  "publisher":{"@type":"Organization","name":"SmartPlan Finance","logo":{"@type":"ImageObject","url":"https://smartplanfinance.com/static/images/logo.png"}},
-  "mainEntityOfPage":"{{ request.url }}",
-  "image":"https://smartplanfinance.com/static/images/logo.png",
-  "wordCount":"{{ article.content | striptags | wordcount }}"
-}
-</script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}">
+    <script type="application/ld+json">{
+      "@context":"https://schema.org", "@type":"Article",
+      "headline": {{ article.title | tojson }},
+      "description": {{ (article.meta_description or (article.content | striptags | truncate(160, True, '...'))) | tojson }},
+      "datePublished":"{{ article.created_at.strftime('%Y-%m-%d') if article.created_at else '' }}",
+      "dateModified":"{{ (article.updated_at or article.created_at).strftime('%Y-%m-%d') if (article.updated_at or article.created_at) else '' }}",
+      "author":{"@type":"Organization","name":"SmartPlan Finance Editorial Team","url":"https://smartplanfinance.com/about"},
+      "publisher":{"@type":"Organization","name":"SmartPlan Finance","logo":{"@type":"ImageObject","url":"https://smartplanfinance.com/static/images/logo.png"}},
+      "mainEntityOfPage":"{{ url_for('view_article', slug=article.slug, _external=True) }}",
+      "image": {{ (article.featured_image if article.featured_image and article.featured_image != '/static/images/logo.png' else 'https://smartplanfinance.com/static/images/logo.png') | tojson }},
+      "wordCount": {{ article.content | striptags | wordcount }}
+    }</script>
 </head>
-
 <body>
 <main class="article-wrapper">
+    <nav class="article-breadcrumb" aria-label="Breadcrumb"><a href="{{ url_for('articles') }}">Articles</a><span aria-hidden="true">/</span><span>{{ article.title }}</span></nav>
     <article class="article-card">
         <header class="article-header">
-            <div class="tag-container">
-                <span class="tag-badge">📚 SmartPlan Finance</span>
-            </div>
+            <span class="tag-badge">SmartPlan Finance · Personal Finance</span>
             <h1 class="article-title">{{ article.title }}</h1>
-            {% if is_admin %}
-            <div class="admin-actions" style="margin: 15px 0;">
-                <a href="{{ url_for('upload_featured_image', article_id=article.id) }}" style="color: #0b7a3d; text-decoration: none; margin-right: 15px;">🖼 Change Featured Image</a>
-                <a href="{{ url_for('edit_article', article_id=article.id) }}" style="color: #0b7a3d; text-decoration: none;">✏️ Edit Article</a>
+            <div class="article-meta">
+                <span>Published {{ article.created_at.strftime('%d %B %Y') if article.created_at else 'recently' }}</span>
+                <span aria-hidden="true">·</span><span>{{ article.reading_minutes }} min read</span>
+                {% if article.updated_at and article.created_at and article.updated_at.date() != article.created_at.date() %}<span aria-hidden="true">·</span><span>Updated {{ article.updated_at.strftime('%d %B %Y') }}</span>{% endif %}
             </div>
-            {% endif %}
-            <div class="article-meta">📅 Published on {{ article.created_at.strftime('%d %B %Y') }}</div>
-            <p class="article-intro">{{ article.content | striptags | truncate(220, True, '...') }}</p>
+            <p class="article-intro">{{ article.meta_description or (article.content | striptags | truncate(240, True, '...')) }}</p>
+            {% if is_admin %}<p class="admin-actions"><a href="{{ url_for('upload_featured_image', article_id=article.id) }}">Change featured image</a><a href="{{ url_for('edit_article', article_id=article.id) }}">Edit article</a></p>{% endif %}
         </header>
 
-        {% if article.featured_image %}
-        <div class="featured-image">
-            {% if article.featured_image == '/static/images/logo.png' %}
-            <img src="{{ url_for('static', filename='images/logo.webp') }}" alt="{{ article.title }}" width="1408" height="768" fetchpriority="high">
-            {% else %}
-            <img src="{{ article.featured_image }}" alt="{{ article.title }}" width="1200" height="675" fetchpriority="high">
-            {% endif %}
-        </div>
+        {% if article.featured_image and article.featured_image != '/static/images/logo.png' %}
+        <figure class="featured-image"><img src="{{ article.featured_image }}" alt="{{ article.title }}" width="1200" height="675" fetchpriority="high" onerror="this.closest('figure').remove()"></figure>
         {% endif %}
 
-        <div class="article-content" id="article-content">
-            {{ article.content | safe }}
-        </div>
+        <div class="article-content" id="article-content">{{ article.content | safe }}</div>
 
-        <section class="author-box">
-            <h4>About the Author</h4>
-            <p><strong>SmartPlan Finance Editorial Team</strong></p>
-            <p>SmartPlan Finance creates educational content on personal finance, investment planning, SIPs, mutual funds, retirement planning, taxation, and wealth creation.</p>
-            <p>Our content is designed for educational purposes only and does not constitute financial advice. Readers should evaluate their goals and consult qualified professionals before making investment decisions.</p>
-            <p>Contact us: <a href="mailto:contact@smartplanfinance.com" style="color: #0b7a3d;">contact@smartplanfinance.com</a></p>
+        <aside class="education-notice" aria-label="Educational disclaimer"><strong>Educational purpose only.</strong> This article is general information, not personalised investment, tax, or legal advice. Consider your circumstances and consult a qualified professional before acting.</aside>
+
+        <section class="author-box" aria-labelledby="author-title">
+            <h2 id="author-title">About SmartPlan Finance</h2>
+            <p>Our editorial team creates practical, India-focused education on budgeting, investing, tax planning, retirement, and financial decision-making.</p>
+            <p>Questions or corrections? <a href="mailto:contact@smartplanfinance.com">Contact the editorial team</a>.</p>
         </section>
 
-        <!-- Deferred: Related Articles -->
-        <section class="related-articles" id="related-section">
-            <h3 style="margin: 30px 0 20px 0;">Related Articles</h3>
-            <ul style="list-style: none; padding: 0;">
-                {% for related in related_articles %}
-                <li style="margin-bottom: 12px;">
-                    <a href="/blog/{{ related.slug }}" style="color: #0b7a3d; text-decoration: none; font-weight: 500;">{{ related.title }}</a>
-                </li>
-                {% endfor %}
-            </ul>
+        {% if related_articles %}
+        <section class="related-articles" aria-labelledby="related-title">
+            <h2 id="related-title">Continue learning</h2>
+            <ul>{% for related in related_articles %}<li><a href="{{ url_for('view_article', slug=related.slug) }}">{{ related.title }}</a></li>{% endfor %}</ul>
         </section>
+        {% endif %}
 
-        <!-- Deferred: FAQ -->
-        <section class="faq-section" id="faq-section">
-            <h3 style="margin: 30px 0 20px 0;">Frequently Asked Questions</h3>
-            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
-                <p style="color: #666;">Have questions? Visit our <a href="{{ url_for('articles') }}" style="color: #0b7a3d;">articles library</a> for more insights.</p>
-            </div>
-        </section>
-
-        <div class="cta">
-            <a href="{{ url_for('login') }}">📊 Generate My Free Financial Report</a>
-        </div>
-
-        <div class="bottom">
-            <a href="{{ url_for('articles') }}" class="back-btn">← Back to Articles</a>
-            <div class="share">Share this article 🔗</div>
-        </div>
+        <section class="cta" aria-labelledby="tools-title"><h2 id="tools-title">Put your plan into action</h2><p>Use our free calculators to turn these ideas into numbers that fit your goals.</p><a href="{{ url_for('login') }}">Create my financial plan</a></section>
+        <div class="bottom"><a href="{{ url_for('articles') }}" class="back-btn">← Back to all articles</a></div>
     </article>
-
-    <footer class="page-footer" id="page-footer">
-        <div class="footer-links">
-            <a href="{{ url_for('about') }}">About</a>
-            <a href="{{ url_for('privacy') }}">Privacy Policy</a>
-            <a href="{{ url_for('terms') }}">Terms</a>
-        </div>
-        <p>© 2026 SmartPlan Finance. All Rights Reserved.</p>
-    </footer>
+    <footer class="page-footer"><div class="footer-links"><a href="{{ url_for('about') }}">About</a><a href="{{ url_for('privacy') }}">Privacy Policy</a><a href="{{ url_for('terms') }}">Terms</a><a href="{{ url_for('disclaimer') }}">Disclaimer</a></div><p>© 2026 SmartPlan Finance. All rights reserved.</p></footer>
 </main>
-
-<!-- Deferred content loading with Intersection Observer -->
-<script>
-    // Load related articles and footer when user scrolls near them
-    document.addEventListener('DOMContentLoaded', function() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('loaded');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { rootMargin: '100px' });
-
-        const relatedSection = document.getElementById('related-section');
-        const faqSection = document.getElementById('faq-section');
-        const footer = document.getElementById('page-footer');
-
-        if (relatedSection) observer.observe(relatedSection);
-        if (faqSection) observer.observe(faqSection);
-        if (footer) observer.observe(footer);
-    });
-</script>
-
-<!-- Non-critical stylesheet loaded async -->
-<link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}" media="print" onload="this.media='all'">
 </body>
 </html>

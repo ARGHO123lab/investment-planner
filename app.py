@@ -619,6 +619,27 @@ def get_cached_article_page(slug):
         )
         related_articles = cur.fetchall()
 
+        # A number of older generated posts contain image tags whose source no
+        # longer exists.  Browsers reserve the image's declared dimensions even
+        # when it fails to load, leaving a large blank area in the article.
+        # Featured images are managed separately, so do not render inline
+        # generated images until they have been reviewed and uploaded.
+        article["content"] = re.sub(
+            r"<\s*(?:figure|picture)\b[^>]*>.*?<\s*/\s*(?:figure|picture)\s*>",
+            "",
+            article.get("content") or "",
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+        article["content"] = re.sub(
+            r"<\s*img\b[^>]*?/?>",
+            "",
+            article["content"],
+            flags=re.IGNORECASE,
+        )
+        plain_content = re.sub(r"<[^>]+>", " ", article["content"])
+        word_count = len(re.findall(r"\b[\w₹]+\b", plain_content))
+        article["reading_minutes"] = max(1, round(word_count / 220))
+
         html = render_template(
             'view_article.html',
             article=article,
