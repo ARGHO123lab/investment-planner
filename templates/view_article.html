@@ -50,11 +50,49 @@
         .author-box h4 { margin-bottom: 10px; color: #222; }
         .author-box p { margin: 8px 0; color: #666; }
         
-        .cta { background: linear-gradient(135deg, #0b7a3d, #17633d); color: white; padding: 30px; border-radius: 8px; text-align: center; margin: 40px 0; }
-        .cta h2 { color: white; margin-bottom: 10px; }
-        .cta p { margin-bottom: 15px; font-size: 16px; }
-        .cta a { display: inline-block; background: #fff; color: #0b7a3d; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
-        .cta a:hover { background: #f0f0f0; }
+        /* IMPROVED CTA SECTION */
+        .cta { 
+            background: linear-gradient(135deg, #055a2a, #0b4620); 
+            color: #ffffff; 
+            padding: 40px 30px; 
+            border-radius: 8px; 
+            text-align: center; 
+            margin: 40px 0;
+            box-shadow: 0 4px 15px rgba(5, 90, 42, 0.2);
+        }
+        .cta h2 { 
+            color: #ffffff; 
+            margin-bottom: 15px; 
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+        .cta p { 
+            margin-bottom: 20px; 
+            font-size: 16px;
+            color: #ffffff;
+            font-weight: 500;
+            line-height: 1.6;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .cta a { 
+            display: inline-block; 
+            background: #ffffff; 
+            color: #055a2a; 
+            padding: 14px 32px; 
+            border-radius: 6px; 
+            text-decoration: none; 
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+        .cta a:hover { 
+            background: #f0f0f0; 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 255, 255, 0.3);
+        }
+        /* END IMPROVED CTA SECTION */
         
         .bottom { display: flex; justify-content: space-between; align-items: center; margin: 30px 0; padding: 20px 0; border-top: 1px solid #eee; }
         .back-btn { color: #0b7a3d; text-decoration: none; font-weight: 600; }
@@ -72,6 +110,10 @@
             .article-title { font-size: 1.8rem; }
             .article-content h2 { font-size: 1.4rem; }
             .bottom { flex-direction: column; gap: 15px; }
+            .cta { padding: 30px 20px; }
+            .cta h2 { font-size: 1.4rem; }
+            .cta p { font-size: 15px; }
+            .cta a { padding: 12px 28px; font-size: 15px; }
         }
     </style>
 
