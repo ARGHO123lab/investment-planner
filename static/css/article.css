@@ -17,6 +17,45 @@ body { margin:0; background:var(--canvas); color:var(--ink); font-family:-apple-
 .article-content table { display:block; max-width:100%; overflow-x:auto; border-collapse:collapse; margin:24px 0; } .article-content th,.article-content td { border:1px solid var(--line); padding:10px 12px; text-align:left; } .article-content th { background:#edf6f0; }
 .article-content img { display:none !important; } /* legacy generated image markup is removed server-side; this protects cached/static variants */
 .education-notice { margin:34px 0; padding:18px 20px; border-left:4px solid var(--green); background:#edf7f0; color:#31443a; font-size:.95rem; }
+.article-sources {
+    margin: 34px 0;
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fbfcfb;
+}
+
+.article-sources h2 {
+    margin: 0 0 14px;
+    color: #13271d;
+    font-size: 1.3rem;
+    line-height: 1.3;
+}
+
+.article-sources ul {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.article-sources li {
+    margin: 9px 0;
+    padding-left: 2px;
+}
+
+.article-sources a {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.article-sources a:hover {
+    text-decoration: underline;
+}
+
+.article-sources .source-type {
+    color: var(--muted);
+    font-size: .88rem;
+    margin-left: 4px;
+}
 .author-box,.related-articles { margin:34px 0; padding:24px; border:1px solid var(--line); border-radius:12px; background:#fbfcfb; } .author-box h2,.related-articles h2,.cta h2 { margin:0 0 10px; font-size:1.3rem; } .author-box p { margin:8px 0; }
 .related-articles ul { margin:12px 0 0; padding-left:1.2rem; } .related-articles li { margin:10px 0; } .related-articles a { font-weight:600; }
 .cta { margin:38px 0 0; padding:30px; border-radius:12px; background:var(--green-dark); color:#fff; } .cta h2,.cta p { color:#fff; } .cta p { margin:0 0 18px; } .cta a { display:inline-block; padding:11px 18px; border-radius:7px; background:#fff; color:var(--green-dark); font-weight:700; text-decoration:none; }

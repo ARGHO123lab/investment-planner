@@ -660,6 +660,9 @@ def get_cached_article_page(slug):
     try:
         cur = conn.cursor(cursor_factory=RealDictCursor)
 
+        # ---------------------------------------------------------
+        # Get the article
+        # ---------------------------------------------------------
         cur.execute(
             """
             SELECT *
@@ -674,6 +677,30 @@ def get_cached_article_page(slug):
         if article is None:
             return None
 
+        print("ARTICLE:", article["title"])
+        print(
+            "META DESCRIPTION:",
+            repr(article["meta_description"])
+        )
+
+        # ---------------------------------------------------------
+        # Get official sources for this article
+        # ---------------------------------------------------------
+        cur.execute(
+            """
+            SELECT id, title, url, source_type
+            FROM article_sources
+            WHERE article_id = %s
+            ORDER BY display_order ASC, id ASC
+            """,
+            (article["id"],)
+        )
+
+        article_sources = cur.fetchall()
+
+        # ---------------------------------------------------------
+        # Get related articles
+        # ---------------------------------------------------------
         cur.execute(
             """
             SELECT id, title, slug
@@ -687,14 +714,20 @@ def get_cached_article_page(slug):
 
         related_articles = cur.fetchall()
 
+        # ---------------------------------------------------------
+        # Render article page
+        # ---------------------------------------------------------
         html = render_template(
             "view_article.html",
             article=article,
             related_articles=related_articles,
+            article_sources=article_sources,
             is_admin=False,
         )
 
-        # Store the template modification time with the cached HTML.
+        # ---------------------------------------------------------
+        # Store rendered HTML in cache
+        # ---------------------------------------------------------
         _ARTICLE_PAGE_CACHE[slug] = (
             html,
             now,

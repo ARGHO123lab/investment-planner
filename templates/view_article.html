@@ -216,7 +216,47 @@
             tax, or legal advice. Consider your circumstances and consult a
             qualified professional before acting.
         </aside>
+        
+{% if article_sources %}
 
+<section
+    class="article-sources"
+    aria-labelledby="sources-title"
+>
+
+    <h2 id="sources-title">
+        Official Sources
+    </h2>
+
+    <ul>
+
+        {% for source in article_sources %}
+
+        <li>
+
+            <a
+                href="{{ source.url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                {{ source.title }}
+            </a>
+
+            {% if source.source_type %}
+                <span class="source-type">
+                    ({{ source.source_type }})
+                </span>
+            {% endif %}
+
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+</section>
+
+{% endif %}
 
         <!-- AUTHOR SECTION -->
 
