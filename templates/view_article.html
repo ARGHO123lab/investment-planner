@@ -3,74 +3,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{{ article.title }} | SmartPlan Finance</title>
-    <meta name="description" content="{{ article.meta_description or (article.content | striptags | truncate(160, True, '...')) }}">
-    <meta name="author" content="SmartPlan Finance Editorial Team">
+
+    <meta
+        name="description"
+        content="{{ article.meta_description or (article.content | striptags | truncate(160, True, '...')) }}"
+    >
+
+    <meta name="author" content="Argho Sanyal">
     <meta name="robots" content="index, follow">
+
     <meta property="og:title" content="{{ article.title }} | SmartPlan Finance">
-    <meta property="og:description" content="{{ article.meta_description or (article.content | striptags | truncate(160, True, '...')) }}">
+    <meta
+        property="og:description"
+        content="{{ article.meta_description or (article.content | striptags | truncate(160, True, '...')) }}"
+    >
     <meta property="og:type" content="article">
-    <meta property="og:url" content="{{ url_for('view_article', slug=article.slug, _external=True) }}">
-    <meta property="og:image" content="{{ article.featured_image if article.featured_image and article.featured_image != '/static/images/logo.png' else 'https://smartplanfinance.com/static/images/logo.png' }}">
-    <meta property="article:published_time" content="{{ article.created_at.strftime('%Y-%m-%dT%H:%M:%S') if article.created_at else '' }}">
-    <meta property="article:modified_time" content="{{ (article.updated_at or article.created_at).strftime('%Y-%m-%dT%H:%M:%S') if (article.updated_at or article.created_at) else '' }}">
-    <link rel="canonical" href="{{ url_for('view_article', slug=article.slug, _external=True) }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}">
-    <script type="application/ld+json">{
-      "@context":"https://schema.org", "@type":"Article",
-      "headline": {{ article.title | tojson }},
-      "description": {{ (article.meta_description or (article.content | striptags | truncate(160, True, '...'))) | tojson }},
-      "datePublished":"{{ article.created_at.strftime('%Y-%m-%d') if article.created_at else '' }}",
-      "dateModified":"{{ (article.updated_at or article.created_at).strftime('%Y-%m-%d') if (article.updated_at or article.created_at) else '' }}",
-      "author":{"@type":"Organization","name":"SmartPlan Finance Editorial Team","url":"https://smartplanfinance.com/about"},
-      "publisher":{"@type":"Organization","name":"SmartPlan Finance","logo":{"@type":"ImageObject","url":"https://smartplanfinance.com/static/images/logo.png"}},
-      "mainEntityOfPage":"{{ url_for('view_article', slug=article.slug, _external=True) }}",
-      "image": {{ (article.featured_image if article.featured_image and article.featured_image != '/static/images/logo.png' else 'https://smartplanfinance.com/static/images/logo.png') | tojson }},
-      "wordCount": {{ article.content | striptags | wordcount }}
-    }</script>
+    <meta
+        property="og:url"
+        content="{{ url_for('view_article', slug=article.slug, _external=True) }}"
+    >
+
+    <meta
+        property="og:image"
+        content="{{ article.featured_image if article.featured_image and article.featured_image != '/static/images/logo.png' else 'https://smartplanfinance.com/static/images/logo.png' }}"
+    >
+
+    <meta
+        property="article:published_time"
+        content="{{ article.created_at.strftime('%Y-%m-%dT%H:%M:%S') if article.created_at else '' }}"
+    >
+
+    <meta
+        property="article:modified_time"
+        content="{{ (article.updated_at or article.created_at).strftime('%Y-%m-%dT%H:%M:%S') if (article.updated_at or article.created_at) else '' }}"
+    >
+
+    <link
+        rel="canonical"
+        href="{{ url_for('view_article', slug=article.slug, _external=True) }}"
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="{{ url_for('static', filename='icons/favicon-32x32.png') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/article.css') }}"
+    >
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+
+        "headline": {{ article.title | tojson }},
+
+        "description": {{
+            (article.meta_description or
+            (article.content | striptags | truncate(160, True, '...')))
+            | tojson
+        }},
+
+        "datePublished":
+            "{{ article.created_at.strftime('%Y-%m-%d') if article.created_at else '' }}",
+
+        "dateModified":
+            "{{ (article.updated_at or article.created_at).strftime('%Y-%m-%d')
+                if (article.updated_at or article.created_at) else '' }}",
+
+        "author": {
+            "@type": "Person",
+            "name": "Argho Sanyal",
+            "url": "https://smartplanfinance.com/about"
+        },
+
+        "publisher": {
+            "@type": "Organization",
+            "name": "SmartPlan Finance",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://smartplanfinance.com/static/images/logo.png"
+            }
+        },
+
+        "mainEntityOfPage": {{
+            url_for('view_article', slug=article.slug, _external=True) | tojson
+        }},
+
+        "image": {{
+            (
+                article.featured_image
+                if article.featured_image
+                and article.featured_image != '/static/images/logo.png'
+                else 'https://smartplanfinance.com/static/images/logo.png'
+            ) | tojson
+        }},
+
+        "wordCount": {{ article.content | striptags | wordcount }}
+    }
+    </script>
 </head>
+
 <body>
+
 <main class="article-wrapper">
-    <nav class="article-breadcrumb" aria-label="Breadcrumb"><a href="{{ url_for('articles') }}">Articles</a><span aria-hidden="true">/</span><span>{{ article.title }}</span></nav>
+
+    <nav class="article-breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ url_for('articles') }}">Articles</a>
+        <span aria-hidden="true">/</span>
+        <span>{{ article.title }}</span>
+    </nav>
+
+
     <article class="article-card">
+
         <header class="article-header">
-            <span class="tag-badge">SmartPlan Finance · Personal Finance</span>
-            <h1 class="article-title">{{ article.title }}</h1>
+
+            <span class="tag-badge">
+                SmartPlan Finance · Personal Finance
+            </span>
+
+            <h1 class="article-title">
+                {{ article.title }}
+            </h1>
+
             <div class="article-meta">
-                <span>Published {{ article.created_at.strftime('%d %B %Y') if article.created_at else 'recently' }}</span>
-                <span aria-hidden="true">·</span><span>{{ article.reading_minutes }} min read</span>
-                {% if article.updated_at and article.created_at and article.updated_at.date() != article.created_at.date() %}<span aria-hidden="true">·</span><span>Updated {{ article.updated_at.strftime('%d %B %Y') }}</span>{% endif %}
+
+                <span>
+                    Published
+                    {{ article.created_at.strftime('%d %B %Y')
+                       if article.created_at else 'recently' }}
+                </span>
+
+                <span aria-hidden="true">·</span>
+
+                <span>
+                    {{ article.reading_minutes }} min read
+                </span>
+
+                {% if article.updated_at
+                      and article.created_at
+                      and article.updated_at.date() != article.created_at.date() %}
+
+                    <span aria-hidden="true">·</span>
+
+                    <span>
+                        Updated {{ article.updated_at.strftime('%d %B %Y') }}
+                    </span>
+
+                {% endif %}
+
             </div>
-            <p class="article-intro">{{ article.meta_description or (article.content | striptags | truncate(240, True, '...')) }}</p>
-            {% if is_admin %}<p class="admin-actions"><a href="{{ url_for('upload_featured_image', article_id=article.id) }}">Change featured image</a><a href="{{ url_for('edit_article', article_id=article.id) }}">Edit article</a></p>{% endif %}
+
+            <p class="article-intro">
+                {{ article.meta_description
+                   or (article.content | striptags | truncate(240, True, '...')) }}
+            </p>
+
+
+            {% if is_admin %}
+                <p class="admin-actions">
+                    <a href="{{ url_for('upload_featured_image', article_id=article.id) }}">
+                        Change featured image
+                    </a>
+
+                    <a href="{{ url_for('edit_article', article_id=article.id) }}">
+                        Edit article
+                    </a>
+                </p>
+            {% endif %}
+
         </header>
 
-        {% if article.featured_image and article.featured_image != '/static/images/logo.png' %}
-        <figure class="featured-image"><img src="{{ article.featured_image }}" alt="{{ article.title }}" width="1200" height="675" fetchpriority="high" onerror="this.closest('figure').remove()"></figure>
+
+        {% if article.featured_image
+              and article.featured_image != '/static/images/logo.png' %}
+
+            <figure class="featured-image">
+
+                <img
+                    src="{{ article.featured_image }}"
+                    alt="{{ article.title }}"
+                    width="1200"
+                    height="675"
+                    fetchpriority="high"
+                    decoding="async"
+                    onerror="this.closest('figure').remove()"
+                >
+
+            </figure>
+
         {% endif %}
 
-        <div class="article-content" id="article-content">{{ article.content | safe }}</div>
 
-        <aside class="education-notice" aria-label="Educational disclaimer"><strong>Educational purpose only.</strong> This article is general information, not personalised investment, tax, or legal advice. Consider your circumstances and consult a qualified professional before acting.</aside>
+        <div class="article-content" id="article-content">
+            {{ article.content | safe }}
+        </div>
 
-        <section class="author-box" aria-labelledby="author-title">
-            <h2 id="author-title">About SmartPlan Finance</h2>
-            <p>Our editorial team creates practical, India-focused education on budgeting, investing, tax planning, retirement, and financial decision-making.</p>
-            <p>Questions or corrections? <a href="mailto:contact@smartplanfinance.com">Contact the editorial team</a>.</p>
+
+        <aside
+            class="education-notice"
+            aria-label="Educational disclaimer"
+        >
+            <strong>Educational purpose only.</strong>
+            This article is general information, not personalised investment,
+            tax, or legal advice. Consider your circumstances and consult a
+            qualified professional before acting.
+        </aside>
+
+
+        <!-- AUTHOR SECTION -->
+
+        <section
+            class="author-box"
+            aria-labelledby="author-title"
+        >
+
+            <div class="author-content">
+
+                <div
+                    class="author-avatar"
+                    aria-hidden="true"
+                >
+                    👤
+                </div>
+
+
+                <div class="author-details">
+
+                    <p class="author-label">
+                        ABOUT THE AUTHOR
+                    </p>
+
+                    <h2 id="author-title">
+                        Argho Sanyal
+                    </h2>
+
+                    <p class="author-role">
+                        Personal Finance & Wealth-Building Educator
+                    </p>
+
+                    <p>
+                        Argho Sanyal is the founder of SmartPlan Finance,
+                        with experience in personal finance, investing,
+                        wealth-building strategies, and financial planning
+                        education. For the past five years, he has focused
+                        on practical financial strategies that help individuals
+                        make better decisions about saving, investing, and
+                        building long-term wealth.
+                    </p>
+
+                    <p>
+                        Through SmartPlan Finance, he focuses on making
+                        personal finance easier to understand by turning
+                        complex financial concepts into practical guidance,
+                        calculators, and actionable strategies for everyday
+                        investors.
+                    </p>
+
+                    <p class="author-focus">
+                        <strong>Areas of focus:</strong>
+                        Personal Finance · Investing · Wealth Building ·
+                        Financial Planning · Long-Term Investment Strategies
+                    </p>
+
+                </div>
+
+            </div>
+
         </section>
+
 
         {% if related_articles %}
-        <section class="related-articles" aria-labelledby="related-title">
-            <h2 id="related-title">Continue learning</h2>
-            <ul>{% for related in related_articles %}<li><a href="{{ url_for('view_article', slug=related.slug) }}">{{ related.title }}</a></li>{% endfor %}</ul>
+
+        <section
+            class="related-articles"
+            aria-labelledby="related-title"
+        >
+
+            <h2 id="related-title">
+                Continue learning
+            </h2>
+
+            <ul>
+
+                {% for related in related_articles %}
+
+                <li>
+                    <a href="{{ url_for('view_article', slug=related.slug) }}">
+                        {{ related.title }}
+                    </a>
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
         </section>
+
         {% endif %}
 
-        <section class="cta" aria-labelledby="tools-title"><h2 id="tools-title">Put your plan into action</h2><p>Use our free calculators to turn these ideas into numbers that fit your goals.</p><a href="{{ url_for('login') }}">Create my financial plan</a></section>
-        <div class="bottom"><a href="{{ url_for('articles') }}" class="back-btn">← Back to all articles</a></div>
+
+        <section
+            class="cta"
+            aria-labelledby="tools-title"
+        >
+
+            <h2 id="tools-title">
+                Put your plan into action
+            </h2>
+
+            <p>
+                Use our free calculators to turn these ideas into numbers
+                that fit your goals.
+            </p>
+
+            <a href="{{ url_for('login') }}">
+                Create my financial plan
+            </a>
+
+        </section>
+
+
+        <div class="bottom">
+
+            <a
+                href="{{ url_for('articles') }}"
+                class="back-btn"
+            >
+                ← Back to all articles
+            </a>
+
+        </div>
+
     </article>
-    <footer class="page-footer"><div class="footer-links"><a href="{{ url_for('about') }}">About</a><a href="{{ url_for('privacy') }}">Privacy Policy</a><a href="{{ url_for('terms') }}">Terms</a><a href="{{ url_for('disclaimer') }}">Disclaimer</a></div><p>© 2026 SmartPlan Finance. All rights reserved.</p></footer>
+
+
+    <footer class="page-footer">
+
+        <div class="footer-links">
+
+            <a href="{{ url_for('about') }}">
+                About
+            </a>
+
+            <a href="{{ url_for('privacy') }}">
+                Privacy Policy
+            </a>
+
+            <a href="{{ url_for('terms') }}">
+                Terms
+            </a>
+
+            <a href="{{ url_for('disclaimer') }}">
+                Disclaimer
+            </a>
+
+        </div>
+
+        <p>
+            © 2026 SmartPlan Finance. All rights reserved.
+        </p>
+
+    </footer>
+
 </main>
+
 </body>
 </html>

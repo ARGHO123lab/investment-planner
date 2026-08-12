@@ -1155,7 +1155,107 @@ width:220px;
     outline: 3px solid rgba(212, 175, 55, .55);
     outline-offset: 2px;
 }
+/* =========================================================
+   CITY-WISE MONTHLY INCOME CALCULATOR
+   SmartPlanFinance Green + Premium Gold
+   ========================================================= */
 
+.city-income-card {
+    position: relative;
+    overflow: hidden;
+
+    background: linear-gradient(
+        135deg,
+        #f4f9e9 0%,
+        #fffdf3 55%,
+        #fff8d9 100%
+    );
+
+    border: 1px solid rgba(212, 175, 55, 0.55);
+    border-left: 5px solid #2e7d32;
+
+    box-shadow:
+        0 6px 18px rgba(46, 125, 50, 0.10),
+        0 2px 8px rgba(212, 175, 55, 0.12);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+
+/* Premium gold accent line */
+.city-income-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+
+    background: linear-gradient(
+        90deg,
+        #2e7d32,
+        #7fae3b,
+        #d4af37,
+        #f2c94c
+    );
+}
+
+
+/* Subtle decorative glow */
+.city-income-card::after {
+    content: "";
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    right: -45px;
+    top: -45px;
+
+    background: rgba(212, 175, 55, 0.13);
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+
+.city-income-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #d4af37;
+
+    box-shadow:
+        0 10px 25px rgba(46, 125, 50, 0.15),
+        0 4px 12px rgba(212, 175, 55, 0.18);
+}
+
+
+/* Calculator text */
+.city-income-card .calculator-link {
+    color: #245b28;
+    font-weight: 700;
+}
+
+
+/* Keep the link premium on hover */
+.city-income-card .calculator-link:hover {
+    color: #9a7610;
+}
+
+
+/* Voice button */
+.city-income-card .voice-btn {
+    color: #2e7d32;
+    border-color: rgba(46, 125, 50, 0.30);
+}
+
+
+.city-income-card .voice-btn:hover {
+    color: #ffffff;
+    background: #2e7d32;
+    border-color: #2e7d32;
+}
 @media (max-width: 768px) {
     .home-article-links { width: 100%; margin-top: 14px; text-align: left; }
 }
@@ -1505,6 +1605,65 @@ SmartPlan Finance helps Indians make smarter financial decisions through AI-powe
             </div>
         </details>
     </li>
+<ul class="calculator-list">
+
+    <!-- City-Wise Monthly Income Calculator -->
+    <li class="calculator-item city-income-card">
+        <a href="/city-wise-income-calculator" class="calculator-link">
+            🏙️ City-Wise Monthly Income Calculator
+        </a>
+
+        <button
+            class="voice-btn"
+            onclick="event.stopPropagation(); speakFinance('Use the City-Wise Monthly Income Calculator to estimate how much monthly income you need to live comfortably in different Indian cities based on housing, family, education, transport, lifestyle, and financial responsibilities.');"
+            title="Listen to explanation"
+            aria-label="Listen to City-Wise Monthly Income Calculator explanation">
+
+            <svg viewBox="0 0 24 24">
+                <path d="M4 9v6h4l5 4V5L8 9H4z"/>
+                <path d="M16.5 8.5a5 5 0 0 1 0 7"/>
+                <path d="M19 6a8.5 8.5 0 0 1 0 12"/>
+            </svg>
+
+            <span class="voice-btn-label">
+                Listen
+            </span>
+        </button>
+    </li>
+
+
+    <h3 class="section-title mt-5">
+        📚 Free Financial Resources
+    </h3>
+
+
+    <li class="calculator-item handbook-card">
+
+        <a href="/handbook" class="calculator-link">
+            📙 Financial Tools & Calculators Handbook
+        </a>
+
+        <button
+            class="voice-btn"
+            onclick="event.stopPropagation(); speakFinance('Download the free Financial Tools and Calculators Handbook. Learn the concepts, formulas, and practical applications behind SIP, EMI, Retirement Planning, Fixed Deposits, Tax Planning, XIRR, and many other financial tools.');"
+            title="Listen to explanation"
+            aria-label="Listen to Handbook explanation">
+
+            <svg viewBox="0 0 24 24">
+                <path d="M4 9v6h4l5 4V5L8 9H4z"/>
+                <path d="M16.5 8.5a5 5 0 0 1 0 7"/>
+                <path d="M19 6a8.5 8.5 0 0 1 0 12"/>
+            </svg>
+
+            <span class="voice-btn-label">
+                Listen
+            </span>
+        </button>
+
+    </li>
+
+</ul>
+
 <h3 class="section-title mt-5">
     📚 Free Financial Resources
 </h3>

@@ -627,72 +627,84 @@ def get_cached_articles_html():
 
 def get_cached_article_page(slug):
     global _ARTICLE_PAGE_CACHE
+
     now = datetime.utcnow()
-    cached = _ARTICLE_PAGE_CACHE.get(slug)
-    if cached:
-        html, timestamp = cached
-        if (now - timestamp).total_seconds() < _ARTICLE_PAGE_CACHE_TTL:
-            return html
-    conn = get_db_connection()
+
+    # Check when the article template was last modified.
+    template_path = os.path.join(
+        app.template_folder,
+        "view_article.html"
+    )
+
     try:
-        cur = conn.cursor()
+        template_mtime = os.path.getmtime(template_path)
+    except OSError:
+        template_mtime = 0
+
+    cached = _ARTICLE_PAGE_CACHE.get(slug)
+
+    if cached:
+        html, timestamp, cached_template_mtime = cached
+
+        # Use cached HTML only if:
+        # 1. Cache is still within TTL
+        # 2. view_article.html has not changed
+        if (
+            (now - timestamp).total_seconds() < _ARTICLE_PAGE_CACHE_TTL
+            and cached_template_mtime == template_mtime
+        ):
+            return html
+
+    conn = get_db_connection()
+
+    try:
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+
         cur.execute(
             """
             SELECT *
             FROM articles
             WHERE slug = %s
             """,
-            (slug,),
+            (slug,)
         )
+
         article = cur.fetchone()
+
         if article is None:
             return None
 
-        # Use the latest articles as related suggestions instead of expensive keyword matching.
         cur.execute(
             """
-            SELECT id,title,slug
+            SELECT id, title, slug
             FROM articles
-            WHERE slug != %s
+            WHERE id != %s
             ORDER BY created_at DESC
             LIMIT 5
             """,
-            (slug,),
+            (article["id"],)
         )
+
         related_articles = cur.fetchall()
 
-        # A number of older generated posts contain image tags whose source no
-        # longer exists.  Browsers reserve the image's declared dimensions even
-        # when it fails to load, leaving a large blank area in the article.
-        # Featured images are managed separately, so do not render inline
-        # generated images until they have been reviewed and uploaded.
-        article["content"] = re.sub(
-            r"<\s*(?:figure|picture)\b[^>]*>.*?<\s*/\s*(?:figure|picture)\s*>",
-            "",
-            article.get("content") or "",
-            flags=re.IGNORECASE | re.DOTALL,
-        )
-        article["content"] = re.sub(
-            r"<\s*img\b[^>]*?/?>",
-            "",
-            article["content"],
-            flags=re.IGNORECASE,
-        )
-        plain_content = re.sub(r"<[^>]+>", " ", article["content"])
-        word_count = len(re.findall(r"\b[\w₹]+\b", plain_content))
-        article["reading_minutes"] = max(1, round(word_count / 220))
-
         html = render_template(
-            'view_article.html',
+            "view_article.html",
             article=article,
             related_articles=related_articles,
             is_admin=False,
         )
-        _ARTICLE_PAGE_CACHE[slug] = (html, now)
+
+        # Store the template modification time with the cached HTML.
+        _ARTICLE_PAGE_CACHE[slug] = (
+            html,
+            now,
+            template_mtime
+        )
+
         return html
+
     finally:
         release_db_connection(conn)
-
 
 def extract_currency_symbol(country_name):
     country_data = COUNTRIES.get(country_name, '₹')
@@ -4669,9 +4681,10 @@ def log_response(response):
     # Public article pages do not vary by visitor. Short browser caching makes
     # repeat visits instant, while shared caches can reuse the rendered HTML.
     if request.method == "GET" and request.endpoint in {"articles", "view_article"}:
-        response.cache_control.public = True
-        response.cache_control.max_age = 300
-        response.cache_control.s_maxage = 900
+
+        response.cache_control.no_cache = True
+    response.cache_control.no_store = True
+    response.cache_control.must_revalidate = True
 
     app.logger.info(f"Response: {response.status_code}")
     return response
