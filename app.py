@@ -628,27 +628,26 @@ def get_cached_articles_html():
 def get_cached_article_page(slug):
     global _ARTICLE_PAGE_CACHE
 
+    is_admin = session.get("is_admin", False)
+    auth = request.authorization
+    if auth and check_auth(auth.username, auth.password):
+        is_admin = True
+    print("ARTICLE ADMIN:", is_admin)
+
     now = datetime.utcnow()
 
-    # Check when the article template was last modified.
-    template_path = os.path.join(
-        app.template_folder,
-        "view_article.html"
-    )
+    template_path = os.path.join(app.template_folder, "view_article.html")
 
     try:
         template_mtime = os.path.getmtime(template_path)
     except OSError:
         template_mtime = 0
 
-    cached = _ARTICLE_PAGE_CACHE.get(slug)
+    cache_key = f"{slug}:{'admin' if is_admin else 'user'}"
+    cached = _ARTICLE_PAGE_CACHE.get(cache_key)
 
     if cached:
         html, timestamp, cached_template_mtime = cached
-
-        # Use cached HTML only if:
-        # 1. Cache is still within TTL
-        # 2. view_article.html has not changed
         if (
             (now - timestamp).total_seconds() < _ARTICLE_PAGE_CACHE_TTL
             and cached_template_mtime == template_mtime
@@ -660,78 +659,45 @@ def get_cached_article_page(slug):
     try:
         cur = conn.cursor(cursor_factory=RealDictCursor)
 
-        # ---------------------------------------------------------
-        # Get the article
-        # ---------------------------------------------------------
-        cur.execute(
-            """
+        cur.execute("""
             SELECT *
             FROM articles
             WHERE slug = %s
-            """,
-            (slug,)
-        )
-
+        """, (slug,))
         article = cur.fetchone()
 
         if article is None:
             return None
 
-        print("ARTICLE:", article["title"])
-        print(
-            "META DESCRIPTION:",
-            repr(article["meta_description"])
-        )
-
-        # ---------------------------------------------------------
-        # Get official sources for this article
-        # ---------------------------------------------------------
-        cur.execute(
-            """
+        cur.execute("""
             SELECT id, title, url, source_type
             FROM article_sources
             WHERE article_id = %s
             ORDER BY display_order ASC, id ASC
-            """,
-            (article["id"],)
-        )
-
+        """, (article["id"],))
         article_sources = cur.fetchall()
 
-        # ---------------------------------------------------------
-        # Get related articles
-        # ---------------------------------------------------------
-        cur.execute(
-            """
+        cur.execute("""
             SELECT id, title, slug
             FROM articles
             WHERE id != %s
             ORDER BY created_at DESC
             LIMIT 5
-            """,
-            (article["id"],)
-        )
-
+        """, (article["id"],))
         related_articles = cur.fetchall()
 
-        # ---------------------------------------------------------
-        # Render article page
-        # ---------------------------------------------------------
         html = render_template(
             "view_article.html",
             article=article,
             related_articles=related_articles,
             article_sources=article_sources,
-            is_admin=False,
+            is_admin=is_admin,
         )
 
-        # ---------------------------------------------------------
-        # Store rendered HTML in cache
-        # ---------------------------------------------------------
-        _ARTICLE_PAGE_CACHE[slug] = (
+        _ARTICLE_PAGE_CACHE[cache_key] = (
             html,
             now,
-            template_mtime
+            template_mtime,
         )
 
         return html
@@ -3860,6 +3826,13 @@ def in_hand_salary_calculator():
 @app.route("/handbook")
 def handbook():
     return render_template("handbook.html")
+
+@app.route('/admin-login')
+@requires_auth
+def admin_login():
+    session["is_admin"] = True
+    return redirect(url_for("articles"))
+
 @app.route('/admin')
 @requires_auth
 def admin():
