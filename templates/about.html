@@ -2,248 +2,845 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
-    <link rel="icon"
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        About SmartPlan Finance | Personal Finance Education & Tools
+    </title>
+
+    <meta
+        name="description"
+        content="Learn about SmartPlan Finance, a personal finance education platform offering practical financial articles, calculators, planning tools, and educational resources for everyday Indians."
+    >
+
+    <meta
+        name="author"
+        content="Argho Sanyal"
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <link
+        rel="canonical"
+        href="{{ url_for('about', _external=True) }}"
+    >
+
+
+    <!-- FAVICON -->
+
+    <link
+        rel="icon"
         type="image/png"
         sizes="32x32"
-        href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+        href="{{ url_for('static', filename='icons/favicon-32x32.png') }}"
+    >
 
-    <link rel="icon"
+    <link
+        rel="icon"
         type="image/png"
         sizes="16x16"
-        href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+        href="{{ url_for('static', filename='icons/favicon-16x16.png') }}"
+    >
 
-    <link rel="apple-touch-icon"
-        href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+    <link
+        rel="apple-touch-icon"
+        href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}"
+    >
 
-    <link rel="manifest"
-        href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+    <link
+        rel="manifest"
+        href="{{ url_for('static', filename='icons/site.webmanifest') }}"
+    >
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>About Us | SmartPlan Finance</title>
+    <!-- OPEN GRAPH -->
 
-    <meta name="description"
-        content="Learn about SmartPlan Finance, India's AI-powered personal finance platform helping users build wealth through financial education, calculators, and intelligent financial planning.">
+    <meta
+        property="og:title"
+        content="About SmartPlan Finance | Personal Finance Education & Tools"
+    >
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta
+        property="og:description"
+        content="Learn about SmartPlan Finance, its founder, financial education approach, calculators, planning tools, and commitment to practical personal finance education."
+    >
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <meta
+        property="og:url"
+        content="{{ url_for('about', _external=True) }}"
+    >
+
+    <meta
+        property="og:image"
+        content="https://smartplanfinance.com/static/images/logo.png"
+    >
+
+
+    <!-- SITE CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+
+    <!-- PAGE-SPECIFIC STYLES -->
 
     <style>
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
             margin: 0;
-            padding: 40px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: auto;
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, .08);
-        }
-
-        h1 {
-            color: #0b4da2;
-        }
-
-        h2 {
+            padding: 0;
+            background: #f7f5ef;
             color: #333;
-            margin-top: 30px;
+            font-family: Arial, sans-serif;
         }
 
-        p,
-        li {
-            line-height: 1.8;
+
+        .about-container {
+            max-width: 920px;
+            margin: 40px auto;
+            padding: 42px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+        }
+
+
+        .about-container h1 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 2.2rem;
+            line-height: 1.25;
+        }
+
+
+        .about-container h2 {
+            margin-top: 38px;
+            margin-bottom: 14px;
+            color: #333;
+            font-size: 1.45rem;
+            line-height: 1.35;
+        }
+
+
+        .about-container p,
+        .about-container li {
             color: #444;
+            font-size: 1rem;
+            line-height: 1.8;
         }
 
-        ul {
-            padding-left: 22px;
+
+        .about-container ul {
+            padding-left: 24px;
         }
 
-        .important {
-            background: #fff8e6;
-            border-left: 6px solid #ff9800;
-            padding: 20px;
-            margin: 30px 0;
+
+        .about-container li {
+            margin-bottom: 8px;
+        }
+
+
+        .brand-highlight {
+            color: #B8860B;
+        }
+
+
+        .mission-box {
+            margin: 28px 0;
+            padding: 24px;
+            background: #fffaf0;
+            border-left: 5px solid #D4AF37;
             border-radius: 8px;
         }
 
-        a {
-            color: #0b4da2;
+
+        .mission-box strong {
+            color: #333;
+        }
+
+
+        .education-notice {
+            margin: 32px 0;
+            padding: 24px;
+            background: #fffaf0;
+            border-left: 5px solid #D4AF37;
+            border-radius: 8px;
+        }
+
+
+        .education-notice strong {
+            color: #333;
+        }
+
+
+        .founder-box {
+            margin-top: 28px;
+            padding: 28px;
+            background: #faf9f5;
+            border: 1px solid #e8e2d3;
+            border-radius: 12px;
+        }
+
+
+        .founder-name {
+            margin-bottom: 4px;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+
+        .founder-role {
+            margin-top: 0;
+            color: #806B48;
+            font-weight: 600;
+        }
+
+
+        .commitment-box {
+            margin-top: 24px;
+            padding: 22px;
+            background: #faf9f5;
+            border-radius: 10px;
+        }
+
+
+        .connect-box {
+            margin-top: 30px;
+        }
+
+
+        .about-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+
+        .about-links a {
+            color: #806B48;
+            font-weight: 600;
             text-decoration: none;
         }
 
-        a:hover {
+
+        .about-links a:hover {
             text-decoration: underline;
         }
 
-        footer {
-            margin-top: 40px;
+
+        .about-container a {
+            color: #806B48;
+        }
+
+
+        .about-container a:hover {
+            text-decoration: underline;
+        }
+
+
+        .page-footer {
+            margin-top: 42px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e5e5;
             text-align: center;
             color: #777;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
         }
+
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+
+        .footer-links a {
+            color: #806B48;
+            text-decoration: none;
+        }
+
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+
+        @media (max-width: 700px) {
+
+            .about-container {
+                margin: 20px 12px;
+                padding: 26px 20px;
+                border-radius: 10px;
+            }
+
+
+            .about-container h1 {
+                font-size: 1.8rem;
+            }
+
+
+            .about-container h2 {
+                font-size: 1.3rem;
+            }
+
+
+            .about-container p,
+            .about-container li {
+                font-size: 0.97rem;
+            }
+
+        }
+
     </style>
+
+
+    <!-- ORGANIZATION / WEBSITE STRUCTURED DATA -->
+
+    <script type="application/ld+json">
+
+    {
+        "@context": "https://schema.org",
+
+        "@type": "Organization",
+
+        "name": "SmartPlan Finance",
+
+        "url": "https://smartplanfinance.com",
+
+        "logo": "https://smartplanfinance.com/static/images/logo.png",
+
+        "founder": {
+            "@type": "Person",
+            "name": "Argho Sanyal",
+            "url": "https://smartplanfinance.com/about"
+        }
+    }
+
+    </script>
 
 </head>
 
+
 <body>
 
-    <div class="container">
 
-        <h1>About SmartPlan Finance</h1>
+<main class="about-container">
+
+
+    <!-- ==========================================
+         PAGE HEADER
+         ========================================== -->
+
+    <header>
+
+        <h1>
+            About <span class="brand-highlight">SmartPlan Finance</span>
+        </h1>
 
         <p>
-            <strong>SmartPlan Finance</strong> is India's AI-powered personal finance platform designed to help
-            individuals make smarter financial decisions through intelligent planning, practical financial education,
-            and easy-to-use investment calculators.
+            <strong>SmartPlan Finance</strong> is a personal finance
+            education platform designed to help everyday Indians
+            understand money, investing, financial planning, and
+            long-term wealth building through practical educational
+            content and easy-to-use financial tools.
         </p>
 
         <p>
-            We believe that everyone deserves access to high-quality financial knowledge regardless of their income,
-            experience, or background. Our platform combines educational content, AI-powered financial reports, and
-            smart calculators to simplify complex financial decisions.
+            We believe financial knowledge should be understandable,
+            practical, and accessible regardless of someone's income,
+            experience, or stage of life.
         </p>
 
-        <h2>Our Mission</h2>
+    </header>
 
-        <p>
-            Our mission is simple:
-        </p>
 
-        <p>
-            <strong>
-                To empower every individual with the knowledge, tools, and confidence needed to achieve long-term
-                financial success.
-            </strong>
-        </p>
+    <!-- ==========================================
+         MISSION
+         ========================================== -->
 
-        <p>
-            Whether you're beginning your investment journey, planning for retirement, saving taxes, purchasing your
-            first home, or working toward financial freedom, SmartPlan Finance is here to guide you every step of the
-            way.
-        </p>
+    <section>
 
-        <h2>What We Offer</h2>
+        <h2>
+            Our Mission
+        </h2>
 
-        <ul>
-    <li>Comprehensive personal finance articles and educational guides</li>
-    <li>AI-powered financial planning reports</li>
-    <li>AI-powered stock research and analysis</li>
-    <li>Personalized Investment Planner</li>
-    <li>SIP Calculator</li>
-    <li>Financial Goal Planner</li>
-    <li>Income Tax Calculator (Old vs New Regime)</li>
-    <li>Loan EMI Calculator and Loan Eligibility Calculator</li>
-    <li>Retirement Planning Calculator</li>
-    <li>Fixed Deposit (FD) Calculator</li>
-    <li>SWP (Systematic Withdrawal Plan) Calculator</li>
-    <li>Lumpsum Investment Calculator</li>
-    <li>CAGR Calculator</li>
-    <li>Inflation Calculator</li>
-    <li>Net Worth Calculator</li>
-    <li>XIRR Calculator</li>
-    <li>In-Hand Salary Calculator</li>
-    <li>Financial Wellness Score assessment</li>
-    <li>Mutual fund education and long-term investing resources</li>
-    <li>Investment comparisons, financial planning checklists, and practical money management strategies</li>
-</ul>
-
-        <h2>Why SmartPlan Finance?</h2>
-
-        <p>
-            Unlike many financial websites that only provide investment news or product recommendations, SmartPlan
-            Finance focuses on helping users understand personal finance through practical education supported by
-            intelligent calculators and AI-powered insights.
-        </p>
-
-        <p>
-            Every article published on our platform is written with the goal of making financial concepts simple,
-            practical, and actionable for everyday investors.
-        </p>
-
-        <h2>Who Can Benefit?</h2>
-
-        <ul>
-            <li>Students</li>
-            <li>First-job professionals</li>
-            <li>Salaried employees</li>
-            <li>Mutual fund investors</li>
-            <li>Stock market beginners</li>
-            <li>Families planning their finances</li>
-            <li>Individuals preparing for retirement</li>
-            <li>Anyone looking to improve their financial literacy</li>
-        </ul>
-
-        <div class="important">
-
-            <strong>Educational Purpose</strong>
+        <div class="mission-box">
 
             <p>
-                SmartPlan Finance is an educational platform.
-                All content published on this website is intended solely for informational and educational purposes.
-                Nothing on this website should be considered financial, investment, tax, legal, or professional advice.
-                Users are encouraged to consult qualified financial professionals before making investment or financial
-                decisions.
+                <strong>
+                    Our mission is to make personal finance easier
+                    to understand and help people make more informed
+                    long-term financial decisions.
+                </strong>
             </p>
 
         </div>
 
-<h2>About the Founder</h2>
+        <p>
+            Whether someone is starting their first investment,
+            building an emergency fund, planning for retirement,
+            comparing financial scenarios, or simply trying to
+            understand their money better, SmartPlan Finance aims
+            to provide practical educational resources to support
+            that journey.
+        </p>
 
-<p>
-    <strong>SmartPlan Finance</strong> was founded by <strong>Argho Sanyal</strong>,
-    a <strong>Software Engineer</strong> with a strong passion for personal finance,
-    investing, and financial education.
-</p>
+    </section>
 
-<p>
-    After realizing that many people struggle to make informed financial decisions
-    due to the complexity of financial products and investment concepts, Argho created
-    SmartPlan Finance to simplify personal finance for everyday Indians.
-</p>
 
-<p>
-    Through practical articles, intelligent calculators, AI-powered financial tools,
-    and educational resources, the platform aims to help users build wealth, plan for
-    retirement, save taxes, and make informed long-term financial decisions with confidence.
-</p>
-        <h2>Our Commitment</h2>
+    <!-- ==========================================
+         WHAT WE OFFER
+         ========================================== -->
+
+    <section>
+
+        <h2>
+            What We Offer
+        </h2>
+
+        <ul>
+
+            <li>
+                Personal finance articles and educational guides
+            </li>
+
+            <li>
+                AI-assisted financial planning tools and reports
+            </li>
+
+            <li>
+                AI-assisted stock research and educational analysis
+            </li>
+
+            <li>
+                Personal Financial Planner
+            </li>
+
+            <li>
+                SIP Calculator
+            </li>
+
+            <li>
+                Financial Goal Planner
+            </li>
+
+            <li>
+                Income Tax Calculator — Old vs New Regime
+            </li>
+
+            <li>
+                Loan EMI Calculator
+            </li>
+
+            <li>
+                Loan Eligibility Calculator
+            </li>
+
+            <li>
+                Retirement Planning Calculator
+            </li>
+
+            <li>
+                Fixed Deposit (FD) Calculator
+            </li>
+
+            <li>
+                SWP Calculator
+            </li>
+
+            <li>
+                Lumpsum Investment Calculator
+            </li>
+
+            <li>
+                CAGR Calculator
+            </li>
+
+            <li>
+                Inflation Calculator
+            </li>
+
+            <li>
+                Net Worth Calculator
+            </li>
+
+            <li>
+                XIRR Calculator
+            </li>
+
+            <li>
+                In-Hand Salary Calculator
+            </li>
+
+            <li>
+                Financial Wellness Score assessment
+            </li>
+
+            <li>
+                Mutual fund education and long-term investing resources
+            </li>
+
+            <li>
+                Investment comparisons, financial planning checklists,
+                and practical money-management resources
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- ==========================================
+         WHY SMARTPLAN FINANCE
+         ========================================== -->
+
+    <section>
+
+        <h2>
+            Why SmartPlan Finance?
+        </h2>
 
         <p>
-            We are committed to publishing accurate, practical, and regularly updated financial content based on
-            publicly available information and widely accepted financial principles. We continuously improve our
-            calculators, articles, and AI-powered tools to help users make informed financial decisions.
-        </p>
- <p>
-            Follow <strong>SmartPlan Finance</strong> on Facebook and LinkedIn for the latest financial tips,
-            investment guides, retirement planning strategies, and educational content.
-        </p>
-
-        <h2>Connect With Us</h2>
-
-        <p>
-            📧 <strong>General Queries:</strong> contact@smartplanfinance.com
+            SmartPlan Finance focuses on financial education rather
+            than simply presenting financial products or market news.
+            The platform combines educational articles, calculators,
+            planning tools, and technology-assisted insights to help
+            readers understand financial concepts and explore
+            different scenarios.
         </p>
 
         <p>
-            📧 <strong>Support:</strong> support@smartplanfinance.com
+            Our goal is to explain financial topics in simple,
+            practical language while providing tools that can help
+            users translate concepts into numbers relevant to their
+            own goals.
         </p>
 
-       
-        <footer>
+    </section>
 
-            © 2026 SmartPlan Finance. All Rights Reserved.
 
-        </footer>
+    <!-- ==========================================
+         WHO CAN BENEFIT
+         ========================================== -->
 
-    </div>
+    <section>
+
+        <h2>
+            Who Can Benefit?
+        </h2>
+
+        <ul>
+
+            <li>
+                Students learning personal finance
+            </li>
+
+            <li>
+                First-job professionals
+            </li>
+
+            <li>
+                Salaried employees
+            </li>
+
+            <li>
+                Mutual fund investors
+            </li>
+
+            <li>
+                Stock market beginners
+            </li>
+
+            <li>
+                Families planning their finances
+            </li>
+
+            <li>
+                Individuals preparing for retirement
+            </li>
+
+            <li>
+                Anyone looking to improve their financial literacy
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- ==========================================
+         FOUNDER
+         ========================================== -->
+
+    <section>
+
+        <h2>
+            About the Founder
+        </h2>
+
+        <div class="founder-box">
+
+            <p class="founder-name">
+                Argho Sanyal
+            </p>
+
+            <p class="founder-role">
+                Founder · Personal Finance Educator
+            </p>
+
+            <p>
+                SmartPlan Finance was founded by
+                <strong>Argho Sanyal</strong>, a software professional
+                with a background in technology and quality assurance
+                and a strong interest in personal finance, investing,
+                and financial education.
+            </p>
+
+            <p>
+                SmartPlan Finance was created with the goal of making
+                financial concepts easier to understand for everyday
+                readers. The platform brings together practical
+                educational articles, financial calculators, planning
+                tools, and technology-assisted resources in one place.
+            </p>
+
+            <p>
+                Argho's work through SmartPlan Finance focuses on
+                explaining personal finance concepts, investing
+                principles, budgeting, financial planning,
+                retirement planning, and long-term wealth-building
+                concepts in an accessible way.
+            </p>
+
+            <p>
+                SmartPlan Finance does not provide personalised
+                financial advice. Its content and tools are intended
+                to help readers learn, explore scenarios, and make
+                more informed decisions.
+            </p>
+
+            <p>
+                <a href="{{ url_for('about') }}">
+                    Learn more about SmartPlan Finance →
+                </a>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         EDITORIAL COMMITMENT
+         ========================================== -->
+
+    <section>
+
+        <h2>
+            Our Commitment to Financial Education
+        </h2>
+
+        <div class="commitment-box">
+
+            <p>
+                We aim to publish financial information that is
+                practical, understandable, and responsibly presented.
+            </p>
+
+            <p>
+                Where appropriate, articles may reference publicly
+                available information from government departments,
+                regulators, financial institutions, and other
+                authoritative sources.
+            </p>
+
+            <p>
+                Financial information, tax rules, interest rates,
+                regulations, and market conditions can change.
+                We therefore encourage readers to verify important
+                information against current official sources before
+                making financial decisions.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         EDUCATIONAL DISCLAIMER
+         ========================================== -->
+
+    <aside
+        class="education-notice"
+        aria-label="Financial education disclaimer"
+    >
+
+        <strong>
+            Educational Purpose Only
+        </strong>
+
+        <p>
+            SmartPlan Finance provides general financial education
+            and information. Content on this website is not
+            personalised investment, financial, tax, legal, or
+            accounting advice.
+        </p>
+
+        <p>
+            We do not know an individual user's complete financial
+            circumstances, including income, expenses, debts,
+            financial goals, investment horizon, tax position,
+            or risk tolerance.
+        </p>
+
+        <p>
+            Calculators, examples, projections, and AI-assisted
+            outputs are provided for educational and illustrative
+            purposes and may not reflect an individual's actual
+            financial circumstances.
+        </p>
+
+        <p>
+            Before making an investment, tax, loan, insurance, or
+            other financial decision, consider whether it is
+            appropriate for your circumstances and, where
+            appropriate, consult a qualified professional.
+        </p>
+
+    </aside>
+
+
+    <!-- ==========================================
+         CONNECT
+         ========================================== -->
+
+    <section class="connect-box">
+
+        <h2>
+            Connect With Us
+        </h2>
+
+        <p>
+            For general questions, feedback, or support, you can
+            contact SmartPlan Finance using the email addresses
+            below.
+        </p>
+
+        <p>
+            📧
+            <strong>General Queries:</strong>
+            contact@smartplanfinance.com
+        </p>
+
+        <p>
+            📧
+            <strong>Support:</strong>
+            support@smartplanfinance.com
+        </p>
+
+        <p>
+            You can also follow SmartPlan Finance on Facebook and
+            LinkedIn for financial education, investing concepts,
+            retirement planning resources, and practical money
+            management content.
+        </p>
+
+    </section>
+
+
+    <!-- ==========================================
+         IMPORTANT SITE LINKS
+         ========================================== -->
+
+    <nav
+        class="about-links"
+        aria-label="Important website pages"
+    >
+
+        <a href="{{ url_for('articles') }}">
+            Articles
+        </a>
+
+        <a href="{{ url_for('privacy') }}">
+            Privacy Policy
+        </a>
+
+        <a href="{{ url_for('terms') }}">
+            Terms
+        </a>
+
+        <a href="{{ url_for('disclaimer') }}">
+            Disclaimer
+        </a>
+
+        <a href="{{ url_for('affiliate_policy') }}">
+            Affiliate Disclosure
+        </a>
+
+    </nav>
+
+
+    <!-- ==========================================
+         FOOTER
+         ========================================== -->
+
+    <footer class="page-footer">
+
+        <div class="footer-links">
+
+            <a href="{{ url_for('about') }}">
+                About
+            </a>
+
+            <a href="{{ url_for('privacy') }}">
+                Privacy Policy
+            </a>
+
+            <a href="{{ url_for('terms') }}">
+                Terms
+            </a>
+
+            <a href="{{ url_for('disclaimer') }}">
+                Disclaimer
+            </a>
+
+            <a href="{{ url_for('affiliate_policy') }}">
+                Affiliate Disclosure
+            </a>
+
+        </div>
+
+        <p>
+            © 2026 SmartPlan Finance.
+            All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+</main>
 
 </body>
 
