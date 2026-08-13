@@ -26,17 +26,18 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1150px;
             margin: 35px auto;
             background: #ffffff;
             padding: 35px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,.08);
         }
 
         h1 {
             color: #B8860B;
-            margin: 0 0 30px;
+            margin: 0 0 25px;
+            font-size: 28px;
         }
 
         label {
@@ -48,11 +49,11 @@
 
         input[type="text"] {
             width: 100%;
-            padding: 13px 14px;
-            border: 1px solid #d8d8d8;
+            padding: 13px 15px;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            font-size: 16px;
             font-family: Poppins, sans-serif;
+            font-size: 15px;
             outline: none;
         }
 
@@ -60,193 +61,186 @@
             border-color: #B8860B;
         }
 
+        /*
+         * EDITOR
+         */
 
-        /* =========================================================
-           EDITOR TOOLBAR
-           ========================================================= */
-
-        .editor-toolbar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            padding: 10px;
-            margin-top: 5px;
-            background: #fafafa;
+        .editor-wrapper {
+            margin-top: 8px;
             border: 1px solid #d8d8d8;
-            border-bottom: none;
-            border-radius: 8px 8px 0 0;
-            position: sticky;
-            top: 0;
-            z-index: 20;
+            border-radius: 10px;
+            background: #fff;
+            overflow: hidden;
         }
 
-        .editor-toolbar button,
-        .editor-toolbar select {
-            height: 36px;
-            min-width: 36px;
-            padding: 0 10px;
-            border: 1px solid #d5d5d5;
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 10px;
+            background: #fafafa;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .toolbar button {
+            border: 1px solid #d4d4d4;
             background: #ffffff;
+            color: #222;
             border-radius: 6px;
+            padding: 7px 11px;
             cursor: pointer;
             font-family: Poppins, sans-serif;
             font-size: 14px;
         }
 
-        .editor-toolbar button:hover,
-        .editor-toolbar select:hover {
+        .toolbar button:hover {
             background: #f0f0f0;
         }
 
-        .editor-toolbar button.active {
-            background: #eeeeee;
+        .toolbar button.active {
+            background: #e8e8e8;
+        }
+
+        .toolbar .chart-button {
+            background: #fff8e1;
             border-color: #B8860B;
+            color: #8a6500;
+            font-weight: 600;
         }
 
-        .toolbar-separator {
-            width: 1px;
-            height: 30px;
-            background: #ddd;
-            margin: 3px 4px;
+        .toolbar .chart-button:hover {
+            background: #fff1bd;
         }
 
+        /*
+         * ACTUAL EDITABLE AREA
+         */
 
-        /* =========================================================
-           VISUAL ARTICLE EDITOR
-           ========================================================= */
-
-        #article-editor {
-            width: 100%;
-            min-height: 800px;
-            padding: 30px;
-            border: 1px solid #d8d8d8;
-            border-radius: 0 0 8px 8px;
-            background: #ffffff;
+        #editor {
+            min-height: 700px;
+            padding: 25px;
+            outline: none;
             font-family: Arial, sans-serif;
             font-size: 17px;
             line-height: 1.75;
-            outline: none;
             overflow-wrap: break-word;
         }
 
-        #article-editor:focus {
-            border-color: #B8860B;
-            box-shadow: inset 0 0 0 1px #B8860B;
+        #editor:focus {
+            outline: none;
         }
 
-        #article-editor h1 {
-            color: #222;
-            font-size: 32px;
-            margin: 30px 0 15px;
+        #editor h1,
+        #editor h2,
+        #editor h3,
+        #editor h4 {
+            line-height: 1.3;
+            margin-top: 28px;
+            margin-bottom: 14px;
         }
 
-        #article-editor h2 {
-            color: #222;
-            font-size: 27px;
-            margin: 30px 0 15px;
+        #editor p {
+            margin: 0 0 16px;
         }
 
-        #article-editor h3 {
-            color: #222;
-            font-size: 23px;
-            margin: 25px 0 12px;
-        }
-
-        #article-editor h4 {
-            font-size: 20px;
-            margin: 20px 0 10px;
-        }
-
-        #article-editor p {
-            margin: 0 0 18px;
-        }
-
-        #article-editor ul,
-        #article-editor ol {
-            margin-bottom: 20px;
+        #editor ul,
+        #editor ol {
+            margin-bottom: 18px;
             padding-left: 30px;
         }
 
-        #article-editor blockquote {
-            margin: 20px 0;
-            padding: 15px 20px;
-            border-left: 4px solid #B8860B;
-            background: #fafafa;
-        }
-
-        #article-editor table {
+        #editor table {
             width: 100%;
             border-collapse: collapse;
-            margin: 25px 0;
+            margin: 20px 0;
         }
 
-        #article-editor th,
-        #article-editor td {
+        #editor th,
+        #editor td {
             border: 1px solid #ccc;
             padding: 10px;
             text-align: left;
         }
 
-        #article-editor th {
+        #editor th {
             font-weight: 600;
             background: #f5f5f5;
         }
 
-        #article-editor a {
-            color: #8B6508;
-            text-decoration: underline;
-        }
+        /*
+         * ARTICLE IMAGES / CHARTS
+         */
 
-        #article-editor img {
+        #editor img {
             max-width: 100%;
             height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 6px;
         }
 
+        #editor img:hover {
+            outline: 2px solid rgba(184, 134, 11, .35);
+        }
 
-        /* =========================================================
-           STATUS
-           ========================================================= */
+        /*
+         * STATUS
+         */
 
         .editor-status {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 8px;
+            padding: 8px 14px;
             font-size: 13px;
-            color: #777;
+            color: #666;
+            background: #fafafa;
+            border-top: 1px solid #eee;
         }
 
-        .save-status {
-            font-weight: 500;
+        .editor-status.uploading {
+            color: #8a6500;
         }
 
+        .editor-status.success {
+            color: #198754;
+        }
 
-        /* =========================================================
-           BUTTONS
-           ========================================================= */
+        .editor-status.error {
+            color: #b02a37;
+        }
+
+        /*
+         * BUTTONS
+         */
 
         .actions {
             margin-top: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
         .btn {
             background: #198754;
-            color: #ffffff;
+            color: white;
             border: none;
-            padding: 14px 30px;
+            padding: 13px 28px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
             font-family: Poppins, sans-serif;
+            font-size: 16px;
+            font-weight: 500;
         }
 
         .btn:hover {
             background: #157347;
         }
 
+        .btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
         .back {
-            display: inline-block;
-            margin-left: 15px;
             color: #B8860B;
             text-decoration: none;
             font-weight: 600;
@@ -256,41 +250,33 @@
             text-decoration: underline;
         }
 
+        /*
+         * IMAGE UPLOAD INPUT
+         */
 
-        /* =========================================================
-           MOBILE
-           ========================================================= */
+        #chart-upload {
+            display: none;
+        }
 
-        @media (max-width: 768px) {
+        /*
+         * SMALL HELP TEXT
+         */
 
-            .container {
-                margin: 10px;
-                padding: 20px;
-            }
-
-            #article-editor {
-                padding: 20px;
-                font-size: 16px;
-            }
-
-            .editor-toolbar {
-                position: relative;
-            }
-
+        .editor-help {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #777;
         }
 
     </style>
 
 </head>
 
-
 <body>
-
 
 <div class="container">
 
     <h1>✏️ Edit Article</h1>
-
 
     <form
         method="POST"
@@ -303,10 +289,11 @@
             value="{{ csrf_token() }}"
         >
 
-
-        <!-- =====================================================
-             TITLE
-             ===================================================== -->
+        <input
+            type="hidden"
+            name="content"
+            id="content"
+        >
 
         <label for="title">
             Article Title
@@ -320,11 +307,6 @@
             required
         >
 
-
-        <!-- =====================================================
-             META DESCRIPTION
-             ===================================================== -->
-
         <label for="meta_description">
             Meta Description
         </label>
@@ -333,208 +315,147 @@
             type="text"
             id="meta_description"
             name="meta_description"
-            value="{{ article.meta_description or '' }}"
+            value="{{ article.meta_description }}"
         >
-
-
-        <!-- =====================================================
-             ARTICLE CONTENT
-             ===================================================== -->
 
         <label>
             Article Content
         </label>
 
+        <div class="editor-wrapper">
 
-        <!-- TOOLBAR -->
+            <div class="toolbar">
 
-        <div
-            class="editor-toolbar"
-            id="editor-toolbar"
-        >
+                <button
+                    type="button"
+                    onclick="formatText('bold')"
+                    title="Bold"
+                >
+                    <strong>B</strong>
+                </button>
 
-            <button
-                type="button"
-                data-command="bold"
-                title="Bold"
-            >
-                <strong>B</strong>
-            </button>
+                <button
+                    type="button"
+                    onclick="formatText('italic')"
+                    title="Italic"
+                >
+                    <em>I</em>
+                </button>
 
-            <button
-                type="button"
-                data-command="italic"
-                title="Italic"
-            >
-                <em>I</em>
-            </button>
+                <button
+                    type="button"
+                    onclick="formatText('underline')"
+                    title="Underline"
+                >
+                    <u>U</u>
+                </button>
 
-            <button
-                type="button"
-                data-command="underline"
-                title="Underline"
-            >
-                <u>U</u>
-            </button>
+                <button
+                    type="button"
+                    onclick="formatBlock('h2')"
+                >
+                    H2
+                </button>
 
+                <button
+                    type="button"
+                    onclick="formatBlock('h3')"
+                >
+                    H3
+                </button>
 
-            <span class="toolbar-separator"></span>
-
-
-            <select
-                id="format-block"
-                title="Text format"
-            >
-
-                <option value="p">
+                <button
+                    type="button"
+                    onclick="formatBlock('p')"
+                >
                     Paragraph
-                </option>
+                </button>
 
-                <option value="h2">
-                    Heading 2
-                </option>
+                <button
+                    type="button"
+                    onclick="formatText('insertUnorderedList')"
+                >
+                    • List
+                </button>
 
-                <option value="h3">
-                    Heading 3
-                </option>
+                <button
+                    type="button"
+                    onclick="formatText('insertOrderedList')"
+                >
+                    1. List
+                </button>
 
-                <option value="h4">
-                    Heading 4
-                </option>
+                <button
+                    type="button"
+                    onclick="formatText('justifyLeft')"
+                >
+                    Left
+                </button>
 
-                <option value="blockquote">
-                    Quote
-                </option>
+                <button
+                    type="button"
+                    onclick="formatText('justifyCenter')"
+                >
+                    Center
+                </button>
 
-            </select>
+                <button
+                    type="button"
+                    onclick="insertLink()"
+                >
+                    🔗 Link
+                </button>
 
+                <button
+                    type="button"
+                    onclick="clearFormatting()"
+                >
+                    Clear
+                </button>
 
-            <span class="toolbar-separator"></span>
+                <button
+                    type="button"
+                    class="chart-button"
+                    onclick="document.getElementById('chart-upload').click()"
+                >
+                    📊 Add Chart
+                </button>
 
+            </div>
 
-            <button
-                type="button"
-                data-command="insertUnorderedList"
-                title="Bullet List"
+            <div
+                id="editor"
+                contenteditable="true"
+                spellcheck="true"
+            >{{ article.content | safe }}</div>
+
+            <div
+                id="editor-status"
+                class="editor-status"
             >
-                • List
-            </button>
-
-            <button
-                type="button"
-                data-command="insertOrderedList"
-                title="Numbered List"
-            >
-                1. List
-            </button>
-
-
-            <span class="toolbar-separator"></span>
-
-
-            <button
-                type="button"
-                data-command="justifyLeft"
-                title="Align Left"
-            >
-                Left
-            </button>
-
-            <button
-                type="button"
-                data-command="justifyCenter"
-                title="Align Center"
-            >
-                Center
-            </button>
-
-
-            <span class="toolbar-separator"></span>
-
-
-            <button
-                type="button"
-                id="link-button"
-                title="Insert Link"
-            >
-                🔗 Link
-            </button>
-
-
-            <button
-                type="button"
-                data-command="removeFormat"
-                title="Remove Formatting"
-            >
-                Clear
-            </button>
-
-
-            <span class="toolbar-separator"></span>
-
-
-            <!-- RESERVED FOR FUTURE CHART SYSTEM -->
-
-            <button
-                type="button"
-                id="add-chart-button"
-                title="Add Chart"
-            >
-                📊 Add Chart
-            </button>
+                Ready — you can type, copy/paste text, or paste chart images directly here.
+            </div>
 
         </div>
 
-
-        <!-- =====================================================
-             VISUAL EDITOR
-             ===================================================== -->
-
-        <div
-            id="article-editor"
-            contenteditable="true"
-            spellcheck="true"
-            role="textbox"
-            aria-multiline="true"
-        >{{ article.content | safe }}</div>
-
-
-        <!-- =====================================================
-             HIDDEN FIELD SENT TO FLASK
-             ===================================================== -->
-
-        <textarea
-            id="content"
-            name="content"
-            style="display:none;"
-        ></textarea>
-
-
-        <div class="editor-status">
-
-            <span>
-                Visual article editor
-            </span>
-
-            <span
-                id="save-status"
-                class="save-status"
-            >
-                Ready
-            </span>
-
+        <div class="editor-help">
+            💡 To add a chart: copy the chart image and press
+            <strong>⌘ + V</strong> on Mac or
+            <strong>Ctrl + V</strong> on Windows.
         </div>
 
-
-        <!-- =====================================================
-             ACTIONS
-             ===================================================== -->
+        <input
+            type="file"
+            id="chart-upload"
+            accept="image/png,image/jpeg,image/jpg,image/webp,image/gif"
+        >
 
         <div class="actions">
 
             <button
-                class="btn"
                 type="submit"
+                class="btn"
+                id="save-button"
             >
                 💾 Save Changes
             </button>
@@ -555,237 +476,424 @@
 
 <script>
 
-document.addEventListener("DOMContentLoaded", function () {
+const editor = document.getElementById("editor");
+const form = document.getElementById("article-form");
+const hiddenContent = document.getElementById("content");
+const statusBox = document.getElementById("editor-status");
+const chartUpload = document.getElementById("chart-upload");
+const saveButton = document.getElementById("save-button");
 
-    const editor = document.getElementById("article-editor");
-    const hiddenContent = document.getElementById("content");
-    const form = document.getElementById("article-form");
-    const saveStatus = document.getElementById("save-status");
+const uploadUrl = "{{ url_for('upload_article_image') }}";
+const csrfToken = "{{ csrf_token() }}";
 
 
-    /* =========================================================
-       KEEP CURSOR POSITION / FOCUS
-       ========================================================= */
+/* =========================================================
+   BASIC FORMATTING
+   ========================================================= */
 
-    function focusEditor() {
-        editor.focus();
+function formatText(command) {
+
+    editor.focus();
+
+    document.execCommand(
+        command,
+        false,
+        null
+    );
+
+}
+
+
+function formatBlock(tag) {
+
+    editor.focus();
+
+    document.execCommand(
+        "formatBlock",
+        false,
+        tag
+    );
+
+}
+
+
+function clearFormatting() {
+
+    editor.focus();
+
+    document.execCommand(
+        "removeFormat",
+        false,
+        null
+    );
+
+}
+
+
+/* =========================================================
+   INSERT LINK
+   ========================================================= */
+
+function insertLink() {
+
+    editor.focus();
+
+    const url = prompt(
+        "Enter the URL:"
+    );
+
+    if (!url) {
+        return;
     }
 
+    document.execCommand(
+        "createLink",
+        false,
+        url
+    );
 
-    /* =========================================================
-       TOOLBAR COMMANDS
-       ========================================================= */
-
-    document
-        .querySelectorAll("[data-command]")
-        .forEach(function (button) {
-
-            button.addEventListener("mousedown", function (event) {
-
-                event.preventDefault();
-
-                focusEditor();
-
-                const command = button.dataset.command;
-
-                document.execCommand(
-                    command,
-                    false,
-                    null
-                );
-
-                updateStatus("Editing...");
-
-            });
-
-        });
+}
 
 
-    /* =========================================================
-       HEADINGS / FORMAT
-       ========================================================= */
+/* =========================================================
+   STATUS
+   ========================================================= */
 
-    const formatBlock =
-        document.getElementById("format-block");
+function setStatus(message, type = "") {
 
-    formatBlock.addEventListener("change", function () {
+    statusBox.textContent = message;
 
-        focusEditor();
+    statusBox.className =
+        "editor-status " + type;
 
-        document.execCommand(
-            "formatBlock",
-            false,
-            this.value
+}
+
+
+/* =========================================================
+   IMAGE UPLOAD
+   ========================================================= */
+
+async function uploadImage(file) {
+
+    if (!file || !file.type.startsWith("image/")) {
+        return;
+    }
+
+    setStatus(
+        "Uploading chart image...",
+        "uploading"
+    );
+
+    try {
+
+        const formData = new FormData();
+
+        formData.append(
+            "file",
+            file,
+            file.name || "chart.png"
         );
 
-        updateStatus("Editing...");
+        formData.append(
+            "csrf_token",
+            csrfToken
+        );
 
-    });
-
-
-    /* =========================================================
-       LINK
-       ========================================================= */
-
-    document
-        .getElementById("link-button")
-        .addEventListener("mousedown", function (event) {
-
-            event.preventDefault();
-
-            focusEditor();
-
-            const url = prompt(
-                "Enter the URL:"
-            );
-
-            if (!url) {
-                return;
+        const response = await fetch(
+            uploadUrl,
+            {
+                method: "POST",
+                body: formData,
+                credentials: "same-origin"
             }
+        );
 
-            document.execCommand(
-                "createLink",
-                false,
-                url
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+
+            throw new Error(
+                data.error || "Image upload failed"
             );
-
-            updateStatus("Editing...");
-
-        });
-
-
-    /* =========================================================
-       CHART BUTTON
-       ========================================================= */
-
-    document
-        .getElementById("add-chart-button")
-        .addEventListener("click", function () {
-
-            alert(
-                "Chart insertion will be added here next."
-            );
-
-        });
-
-
-    /* =========================================================
-       NATIVE COPY / PASTE
-       ========================================================= */
-
-    /*
-     * We intentionally DO NOT override the browser's
-     * normal copy/paste behaviour.
-     *
-     * This means:
-     *
-     * Ctrl+C
-     * Ctrl+V
-     * Right-click → Copy
-     * Right-click → Paste
-     *
-     * all use the browser's native clipboard system.
-     *
-     * HTML formatting from AI/Word/etc. can therefore
-     * remain available to the visual editor.
-     */
-
-
-    /* =========================================================
-       ARTICLE CHANGE DETECTION
-       ========================================================= */
-
-    editor.addEventListener("input", function () {
-
-        updateStatus("Unsaved changes");
-
-    });
-
-
-    editor.addEventListener("paste", function () {
-
-        setTimeout(function () {
-
-            updateStatus("Unsaved changes");
-
-        }, 50);
-
-    });
-
-
-    /* =========================================================
-       SAVE STATUS
-       ========================================================= */
-
-    function updateStatus(message) {
-
-        saveStatus.textContent = message;
-
-    }
-
-
-    /* =========================================================
-       BEFORE FORM SUBMISSION
-       ========================================================= */
-
-    form.addEventListener("submit", function () {
-
-        /*
-         * Take the visual editor HTML and put it into
-         * the hidden textarea.
-         *
-         * Flask continues receiving:
-         *
-         * request.form.get("content")
-         *
-         * exactly as before.
-         */
-
-        hiddenContent.value =
-            editor.innerHTML;
-
-        saveStatus.textContent =
-            "Saving...";
-
-    });
-
-
-    /* =========================================================
-       KEYBOARD SHORTCUTS
-       ========================================================= */
-
-    editor.addEventListener("keydown", function (event) {
-
-        /*
-         * Ctrl/Cmd + S
-         *
-         * Save the article.
-         */
-
-        if (
-            (event.ctrlKey || event.metaKey) &&
-            event.key.toLowerCase() === "s"
-        ) {
-
-            event.preventDefault();
-
-            form.requestSubmit();
 
         }
 
-    });
+        insertImageAtCursor(
+            data.url
+        );
+
+        setStatus(
+            "Chart added successfully.",
+            "success"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Chart upload error:",
+            error
+        );
+
+        setStatus(
+            "Could not upload chart: " + error.message,
+            "error"
+        );
+
+    }
+
+}
 
 
-    /* =========================================================
-       INITIAL STATUS
-       ========================================================= */
+/* =========================================================
+   INSERT IMAGE AT CURRENT CURSOR
+   ========================================================= */
 
-    updateStatus("Ready");
+function insertImageAtCursor(imageUrl) {
 
-});
+    editor.focus();
+
+    const img = document.createElement("img");
+
+    img.src = imageUrl;
+
+    img.alt = "SmartPlan Finance chart";
+
+    img.loading = "lazy";
+
+    const selection =
+        window.getSelection();
+
+    if (
+        selection &&
+        selection.rangeCount > 0 &&
+        editor.contains(selection.anchorNode)
+    ) {
+
+        const range =
+            selection.getRangeAt(0);
+
+        range.deleteContents();
+
+        range.insertNode(img);
+
+        range.setStartAfter(img);
+
+        range.collapse(true);
+
+        selection.removeAllRanges();
+
+        selection.addRange(range);
+
+    } else {
+
+        editor.appendChild(img);
+
+    }
+
+}
+
+
+/* =========================================================
+   PASTE HANDLER
+   ========================================================= */
+
+editor.addEventListener(
+    "paste",
+    async function(event) {
+
+        const clipboard =
+            event.clipboardData;
+
+        if (!clipboard) {
+            return;
+        }
+
+        /*
+         * FIRST:
+         * Check whether clipboard contains an image.
+         */
+
+        const items =
+            Array.from(clipboard.items || []);
+
+        const imageItem =
+            items.find(
+                item =>
+                    item.kind === "file" &&
+                    item.type.startsWith("image/")
+            );
+
+        if (imageItem) {
+
+            /*
+             * Stop the browser from inserting
+             * a broken/base64/temporary image.
+             */
+
+            event.preventDefault();
+
+            const file =
+                imageItem.getAsFile();
+
+            if (file) {
+
+                await uploadImage(file);
+
+            }
+
+            return;
+
+        }
+
+
+        /*
+         * OTHERWISE:
+         * Paste text only.
+         *
+         * This prevents pasted website formatting,
+         * HTML, fonts, colors, etc.
+         */
+
+        event.preventDefault();
+
+        const text =
+            clipboard.getData("text/plain");
+
+        if (!text) {
+            return;
+        }
+
+        editor.focus();
+
+        document.execCommand(
+            "insertText",
+            false,
+            text
+        );
+
+    }
+);
+
+
+/* =========================================================
+   DRAG & DROP IMAGE
+   ========================================================= */
+
+editor.addEventListener(
+    "dragover",
+    function(event) {
+
+        event.preventDefault();
+
+    }
+);
+
+
+editor.addEventListener(
+    "drop",
+    async function(event) {
+
+        event.preventDefault();
+
+        const files =
+            Array.from(
+                event.dataTransfer.files || []
+            );
+
+        const imageFile =
+            files.find(
+                file =>
+                    file.type.startsWith("image/")
+            );
+
+        if (imageFile) {
+
+            await uploadImage(
+                imageFile
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   MANUAL CHART UPLOAD BUTTON
+   ========================================================= */
+
+chartUpload.addEventListener(
+    "change",
+    async function() {
+
+        const file =
+            this.files[0];
+
+        if (file) {
+
+            await uploadImage(file);
+
+        }
+
+        this.value = "";
+
+    }
+);
+
+
+/* =========================================================
+   SAVE ARTICLE
+   ========================================================= */
+
+form.addEventListener(
+    "submit",
+    function(event) {
+
+        /*
+         * Copy the visual editor HTML
+         * into the hidden textarea/input.
+         */
+
+        hiddenContent.value =
+            editor.innerHTML.trim();
+
+        if (!hiddenContent.value) {
+
+            event.preventDefault();
+
+            alert(
+                "Article content cannot be empty."
+            );
+
+            return false;
+
+        }
+
+        saveButton.disabled = true;
+
+        saveButton.textContent =
+            "Saving...";
+
+    }
+);
+
+
+/* =========================================================
+   EDITOR STATUS
+   ========================================================= */
+
+editor.addEventListener(
+    "input",
+    function() {
+
+        setStatus(
+            "Unsaved changes."
+        );
+
+    }
+);
 
 </script>
-
 
 </body>
 </html>

@@ -1461,6 +1461,64 @@ def upload_featured_image(article_id):
         article=article,
         article_id=article_id
     )
+@app.route("/admin/upload-article-image", methods=["POST"])
+@requires_auth
+def upload_article_image():
+
+    if "file" not in request.files:
+        return {"error": "No image file received"}, 400
+
+    file = request.files["file"]
+
+    if not file or not file.filename:
+        return {"error": "Invalid image"}, 400
+
+    allowed_types = {
+        "image/png",
+        "image/jpeg",
+        "image/jpg",
+        "image/webp",
+        "image/gif"
+    }
+
+    if file.mimetype not in allowed_types:
+        return {"error": "Unsupported image type"}, 400
+
+    # Create article image directory
+    upload_dir = os.path.join(
+        app.static_folder,
+        "uploads",
+        "articles"
+    )
+
+    os.makedirs(upload_dir, exist_ok=True)
+
+    # Generate a unique filename
+    extension = os.path.splitext(file.filename)[1].lower()
+
+    if extension not in [".png", ".jpg", ".jpeg", ".webp", ".gif"]:
+        extension = ".png"
+
+    filename = f"article_{uuid.uuid4().hex}{extension}"
+
+    filepath = os.path.join(
+        upload_dir,
+        filename
+    )
+
+    # Save image
+    file.save(filepath)
+
+    # URL that will be stored inside article HTML
+    image_url = url_for(
+        "static",
+        filename=f"uploads/articles/{filename}"
+    )
+
+    return {
+        "success": True,
+        "url": image_url
+    }, 200
 @app.route('/publish', methods=['GET', 'POST'])
 @requires_auth
 def publish():
