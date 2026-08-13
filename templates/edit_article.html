@@ -1,898 +1,550 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Edit Article | SmartPlan Finance</title>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-        rel="stylesheet"
-    >
-
+    <title>Edit Article | SmartPlan Finance Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
-
-        * {
-            box-sizing: border-box;
+        .edit-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
         }
 
-        body {
-            margin: 0;
-            background: #f5f5f5;
-            font-family: Poppins, sans-serif;
-            color: #222;
+        .form-group {
+            margin-bottom: 25px;
         }
 
-        .container {
-            max-width: 1150px;
-            margin: 35px auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,.08);
-        }
-
-        h1 {
-            color: #B8860B;
-            margin: 0 0 25px;
-            font-size: 28px;
-        }
-
-        label {
+        .form-group label {
             display: block;
-            margin-top: 20px;
             margin-bottom: 8px;
             font-weight: 600;
+            color: #333;
         }
 
-        input[type="text"] {
+        .form-group input[type="text"],
+        .form-group textarea {
             width: 100%;
-            padding: 13px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-family: Poppins, sans-serif;
-            font-size: 15px;
-            outline: none;
-        }
-
-        input[type="text"]:focus {
-            border-color: #B8860B;
-        }
-
-        /*
-         * EDITOR
-         */
-
-        .editor-wrapper {
-            margin-top: 8px;
-            border: 1px solid #d8d8d8;
-            border-radius: 10px;
-            background: #fff;
-            overflow: hidden;
-        }
-
-        .toolbar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
             padding: 10px;
-            background: #fafafa;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .toolbar button {
-            border: 1px solid #d4d4d4;
-            background: #ffffff;
-            color: #222;
-            border-radius: 6px;
-            padding: 7px 11px;
-            cursor: pointer;
-            font-family: Poppins, sans-serif;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
             font-size: 14px;
         }
 
-        .toolbar button:hover {
-            background: #f0f0f0;
-        }
-
-        .toolbar button.active {
-            background: #e8e8e8;
-        }
-
-        .toolbar .chart-button {
-            background: #fff8e1;
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus {
+            outline: none;
             border-color: #B8860B;
-            color: #8a6500;
-            font-weight: 600;
+            box-shadow: 0 0 5px rgba(184, 134, 11, 0.3);
         }
 
-        .toolbar .chart-button:hover {
-            background: #fff1bd;
+        /* EDITOR WITH DRAG-DROP */
+        .editor-wrapper {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
         }
 
-        /*
-         * ACTUAL EDITABLE AREA
-         */
-
-        #editor {
-            min-height: 700px;
-            padding: 25px;
-            outline: none;
-            font-family: Arial, sans-serif;
-            font-size: 17px;
-            line-height: 1.75;
-            overflow-wrap: break-word;
-        }
-
-        #editor:focus {
-            outline: none;
-        }
-
-        #editor h1,
-        #editor h2,
-        #editor h3,
-        #editor h4 {
-            line-height: 1.3;
-            margin-top: 28px;
-            margin-bottom: 14px;
-        }
-
-        #editor p {
-            margin: 0 0 16px;
-        }
-
-        #editor ul,
-        #editor ol {
-            margin-bottom: 18px;
-            padding-left: 30px;
-        }
-
-        #editor table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        #editor th,
-        #editor td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-        }
-
-        #editor th {
-            font-weight: 600;
+        .editor-toolbar {
             background: #f5f5f5;
-        }
-
-        /*
-         * ARTICLE IMAGES / CHARTS
-         */
-
-        #editor img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 20px auto;
-            border-radius: 6px;
-        }
-
-        #editor img:hover {
-            outline: 2px solid rgba(184, 134, 11, .35);
-        }
-
-        /*
-         * STATUS
-         */
-
-        .editor-status {
-            padding: 8px 14px;
-            font-size: 13px;
-            color: #666;
-            background: #fafafa;
-            border-top: 1px solid #eee;
-        }
-
-        .editor-status.uploading {
-            color: #8a6500;
-        }
-
-        .editor-status.success {
-            color: #198754;
-        }
-
-        .editor-status.error {
-            color: #b02a37;
-        }
-
-        /*
-         * BUTTONS
-         */
-
-        .actions {
-            margin-top: 25px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
             display: flex;
+            gap: 10px;
             align-items: center;
-            gap: 15px;
             flex-wrap: wrap;
         }
 
-        .btn {
-            background: #198754;
-            color: white;
-            border: none;
-            padding: 13px 28px;
-            border-radius: 8px;
+        .editor-toolbar button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
             cursor: pointer;
-            font-family: Poppins, sans-serif;
-            font-size: 16px;
-            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s;
         }
 
-        .btn:hover {
-            background: #157347;
+        .editor-toolbar button:hover {
+            background: #FFC107;
+            border-color: #B8860B;
         }
 
-        .btn:disabled {
-            background: #999;
-            cursor: not-allowed;
-        }
-
-        .back {
-            color: #B8860B;
-            text-decoration: none;
+        #imageUploadBtn {
+            background: #FFC107;
+            color: #333;
             font-weight: 600;
+            border-color: #B8860B;
         }
 
-        .back:hover {
-            text-decoration: underline;
+        #imageUploadBtn:hover {
+            background: #B8860B;
+            color: white;
         }
 
-        /*
-         * IMAGE UPLOAD INPUT
-         */
+        .editor-content {
+            min-height: 500px;
+            padding: 20px;
+            overflow-y: auto;
+            background: white;
+            border: none;
+            font-size: 16px;
+            line-height: 1.6;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
 
-        #chart-upload {
+        .editor-content:focus {
+            outline: none;
+        }
+
+        /* DRAG-DROP OVERLAY */
+        .editor-content.drag-over {
+            background-color: #FFF8E1;
+            border: 2px dashed #FFC107;
+        }
+
+        /* IMAGE PREVIEW IN EDITOR */
+        .editor-content img {
+            max-width: 100%;
+            height: auto;
+            margin: 15px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .editor-content img:hover {
+            transform: scale(1.02);
+        }
+
+        /* HIDDEN FILE INPUT */
+        #imageFileInput {
             display: none;
         }
 
-        /*
-         * SMALL HELP TEXT
-         */
-
-        .editor-help {
-            margin-top: 8px;
-            font-size: 13px;
-            color: #777;
+        /* UPLOAD PROGRESS */
+        .upload-progress {
+            margin-top: 10px;
+            display: none;
         }
 
-    </style>
+        .upload-progress.active {
+            display: block;
+        }
 
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFC107, #B8860B);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        /* ERROR & SUCCESS MESSAGES */
+        .upload-status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .upload-status.show {
+            display: block;
+        }
+
+        .upload-status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .upload-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* ACTION BUTTONS */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .button-group button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .save-btn {
+            background: #FFC107;
+            color: #333;
+            flex: 1;
+        }
+
+        .save-btn:hover {
+            background: #B8860B;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(184, 134, 11, 0.3);
+        }
+
+        .cancel-btn {
+            background: #e0e0e0;
+            color: #333;
+            flex: 1;
+        }
+
+        .cancel-btn:hover {
+            background: #bdbdbd;
+        }
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+            .edit-container {
+                margin: 20px;
+                padding: 15px;
+            }
+
+            .editor-toolbar {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .editor-toolbar button {
+                width: 100%;
+            }
+
+            .editor-content {
+                min-height: 300px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+        /* LOADING STATE */
+        .save-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .save-btn:disabled::after {
+            content: " Saving...";
+        }
+    </style>
 </head>
 
 <body>
-
-<div class="container">
-
+<div class="edit-container">
     <h1>✏️ Edit Article</h1>
+    
+    <form id="editForm" method="POST">
+        {{ csrf_token() }}
 
-    <form
-        method="POST"
-        id="article-form"
-    >
+        <!-- TITLE -->
+        <div class="form-group">
+            <label for="title">Article Title *</label>
+            <input type="text" id="title" name="title" value="{{ article.title }}" required>
+        </div>
 
-        <input
-            type="hidden"
-            name="csrf_token"
-            value="{{ csrf_token() }}"
-        >
+        <!-- SLUG -->
+        <div class="form-group">
+            <label for="slug">Article Slug (URL) *</label>
+            <input type="text" id="slug" name="slug" value="{{ article.slug }}" required>
+        </div>
 
-        <input
-            type="hidden"
-            name="content"
-            id="content"
-        >
+        <!-- EXCERPT -->
+        <div class="form-group">
+            <label for="excerpt">Excerpt (Short Description) *</label>
+            <textarea id="excerpt" name="excerpt" rows="3" required>{{ article.excerpt }}</textarea>
+        </div>
 
-        <label for="title">
-            Article Title
-        </label>
+        <!-- CONTENT EDITOR WITH DRAG-DROP -->
+        <div class="form-group">
+            <label>Article Content *</label>
+            
+            <!-- TOOLBAR -->
+            <div class="editor-wrapper">
+                <div class="editor-toolbar">
+                    <button type="button" id="imageUploadBtn" title="Click or drag images here">
+                        📷 Upload Image
+                    </button>
+                    <button type="button" id="boldBtn" title="Bold">
+                        <strong>B</strong>
+                    </button>
+                    <button type="button" id="italicBtn" title="Italic">
+                        <em>I</em>
+                    </button>
+                    <button type="button" id="h2Btn" title="Heading 2">
+                        H2
+                    </button>
+                    <button type="button" id="h3Btn" title="Heading 3">
+                        H3
+                    </button>
+                </div>
 
-        <input
-            type="text"
-            id="title"
-            name="title"
-            value="{{ article.title }}"
-            required
-        >
-
-        <label for="meta_description">
-            Meta Description
-        </label>
-
-        <input
-            type="text"
-            id="meta_description"
-            name="meta_description"
-            value="{{ article.meta_description }}"
-        >
-
-        <label>
-            Article Content
-        </label>
-
-        <div class="editor-wrapper">
-
-            <div class="toolbar">
-
-                <button
-                    type="button"
-                    onclick="formatText('bold')"
-                    title="Bold"
+                <!-- EDITOR CONTENT AREA (DRAG-DROP ZONE) -->
+                <div 
+                    id="editor" 
+                    class="editor-content" 
+                    contenteditable="true" 
+                    placeholder="Click here or paste content... Drag & drop images here too!"
+                    data-initial="true"
                 >
-                    <strong>B</strong>
-                </button>
-
-                <button
-                    type="button"
-                    onclick="formatText('italic')"
-                    title="Italic"
-                >
-                    <em>I</em>
-                </button>
-
-                <button
-                    type="button"
-                    onclick="formatText('underline')"
-                    title="Underline"
-                >
-                    <u>U</u>
-                </button>
-
-                <button
-                    type="button"
-                    onclick="formatBlock('h2')"
-                >
-                    H2
-                </button>
-
-                <button
-                    type="button"
-                    onclick="formatBlock('h3')"
-                >
-                    H3
-                </button>
-
-                <button
-                    type="button"
-                    onclick="formatBlock('p')"
-                >
-                    Paragraph
-                </button>
-
-                <button
-                    type="button"
-                    onclick="formatText('insertUnorderedList')"
-                >
-                    • List
-                </button>
-
-                <button
-                    type="button"
-                    onclick="formatText('insertOrderedList')"
-                >
-                    1. List
-                </button>
-
-                <button
-                    type="button"
-                    onclick="formatText('justifyLeft')"
-                >
-                    Left
-                </button>
-
-                <button
-                    type="button"
-                    onclick="formatText('justifyCenter')"
-                >
-                    Center
-                </button>
-
-                <button
-                    type="button"
-                    onclick="insertLink()"
-                >
-                    🔗 Link
-                </button>
-
-                <button
-                    type="button"
-                    onclick="clearFormatting()"
-                >
-                    Clear
-                </button>
-
-                <button
-                    type="button"
-                    class="chart-button"
-                    onclick="document.getElementById('chart-upload').click()"
-                >
-                    📊 Add Chart
-                </button>
-
+                    {{ article.content | safe }}
+                </div>
             </div>
 
-            <div
-                id="editor"
-                contenteditable="true"
-                spellcheck="true"
-            >{{ article.content | safe }}</div>
-
-            <div
-                id="editor-status"
-                class="editor-status"
-            >
-                Ready — you can type, copy/paste text, or paste chart images directly here.
+            <!-- UPLOAD PROGRESS -->
+            <div class="upload-progress" id="uploadProgress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
             </div>
 
+            <!-- UPLOAD STATUS MESSAGES -->
+            <div class="upload-status" id="uploadStatus"></div>
         </div>
 
-        <div class="editor-help">
-            💡 To add a chart: copy the chart image and press
-            <strong>⌘ + V</strong> on Mac or
-            <strong>Ctrl + V</strong> on Windows.
+        <!-- HIDDEN FILE INPUT -->
+        <input type="file" id="imageFileInput" accept="image/*" multiple>
+        
+        <!-- HIDDEN CONTENT FIELD (FOR FORM SUBMISSION) -->
+        <input type="hidden" id="content" name="content" value="">
+
+        <!-- ACTION BUTTONS -->
+        <div class="button-group">
+            <button type="submit" class="save-btn">💾 Save Changes</button>
+            <button type="button" class="cancel-btn" onclick="window.history.back()">❌ Cancel</button>
         </div>
-
-        <input
-            type="file"
-            id="chart-upload"
-            accept="image/png,image/jpeg,image/jpg,image/webp,image/gif"
-        >
-
-        <div class="actions">
-
-            <button
-                type="submit"
-                class="btn"
-                id="save-button"
-            >
-                💾 Save Changes
-            </button>
-
-            <a
-                class="back"
-                href="{{ url_for('view_article', slug=article.slug) }}"
-            >
-                ← Back to Article
-            </a>
-
-        </div>
-
     </form>
-
 </div>
 
-
+<!-- SCRIPT -->
 <script>
+const editor = document.getElementById('editor');
+const editForm = document.getElementById('editForm');
+const imageUploadBtn = document.getElementById('imageUploadBtn');
+const imageFileInput = document.getElementById('imageFileInput');
+const uploadProgress = document.getElementById('uploadProgress');
+const progressFill = document.getElementById('progressFill');
+const uploadStatus = document.getElementById('uploadStatus');
+const contentField = document.getElementById('content');
 
-const editor = document.getElementById("editor");
-const form = document.getElementById("article-form");
-const hiddenContent = document.getElementById("content");
-const statusBox = document.getElementById("editor-status");
-const chartUpload = document.getElementById("chart-upload");
-const saveButton = document.getElementById("save-button");
+// ==========================================
+// IMAGE UPLOAD BUTTON CLICK
+// ==========================================
+imageUploadBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    imageFileInput.click();
+});
 
-const uploadUrl = "{{ url_for('upload_article_image') }}";
-const csrfToken = "{{ csrf_token() }}";
-
-
-/* =========================================================
-   BASIC FORMATTING
-   ========================================================= */
-
-function formatText(command) {
-
-    editor.focus();
-
-    document.execCommand(
-        command,
-        false,
-        null
-    );
-
-}
-
-
-function formatBlock(tag) {
-
-    editor.focus();
-
-    document.execCommand(
-        "formatBlock",
-        false,
-        tag
-    );
-
-}
-
-
-function clearFormatting() {
-
-    editor.focus();
-
-    document.execCommand(
-        "removeFormat",
-        false,
-        null
-    );
-
-}
-
-
-/* =========================================================
-   INSERT LINK
-   ========================================================= */
-
-function insertLink() {
-
-    editor.focus();
-
-    const url = prompt(
-        "Enter the URL:"
-    );
-
-    if (!url) {
-        return;
+// ==========================================
+// FILE INPUT CHANGE (USER SELECTS FILES)
+// ==========================================
+imageFileInput.addEventListener('change', (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
+        uploadImages(files);
     }
+});
 
-    document.execCommand(
-        "createLink",
-        false,
-        url
-    );
+// ==========================================
+// DRAG AND DROP
+// ==========================================
+editor.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    editor.classList.add('drag-over');
+});
 
+editor.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    editor.classList.remove('drag-over');
+});
+
+editor.addEventListener('drop', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    editor.classList.remove('drag-over');
+    
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+    if (files.length > 0) {
+        uploadImages(files);
+    }
+});
+
+// ==========================================
+// UPLOAD IMAGES
+// ==========================================
+async function uploadImages(files) {
+    for (const file of files) {
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            showStatus(`❌ ${file.name} is too large (max 5MB)`, 'error');
+            continue;
+        }
+
+        // Validate file type
+        if (!['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(file.type)) {
+            showStatus(`❌ ${file.name} is not a supported image format`, 'error');
+            continue;
+        }
+
+        // Upload file
+        await uploadImage(file);
+    }
 }
-
-
-/* =========================================================
-   STATUS
-   ========================================================= */
-
-function setStatus(message, type = "") {
-
-    statusBox.textContent = message;
-
-    statusBox.className =
-        "editor-status " + type;
-
-}
-
-
-/* =========================================================
-   IMAGE UPLOAD
-   ========================================================= */
 
 async function uploadImage(file) {
+    const formData = new FormData();
+    formData.append('file', file);
 
-    if (!file || !file.type.startsWith("image/")) {
+    uploadProgress.classList.add('active');
+    progressFill.style.width = '0%';
+
+    try {
+        const xhr = new XMLHttpRequest();
+
+        // Track upload progress
+        xhr.upload.addEventListener('progress', (e) => {
+            if (e.lengthComputable) {
+                const percentComplete = (e.loaded / e.total) * 100;
+                progressFill.style.width = percentComplete + '%';
+            }
+        });
+
+        // Handle upload completion
+        xhr.addEventListener('load', () => {
+            uploadProgress.classList.remove('active');
+
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    // Insert image into editor
+                    const img = document.createElement('img');
+                    img.src = response.url;
+                    img.alt = 'SmartPlan Finance chart';
+                    img.style.maxWidth = '100%';
+                    img.style.height = 'auto';
+                    img.style.margin = '15px 0';
+                    img.style.borderRadius = '5px';
+                    
+                    editor.appendChild(img);
+                    editor.appendChild(document.createElement('p'));
+                    
+                    showStatus(`✅ ${file.name} uploaded successfully`, 'success');
+                } else {
+                    showStatus(`❌ Upload failed: ${response.error}`, 'error');
+                }
+            } else {
+                showStatus(`❌ Upload error: ${xhr.statusText}`, 'error');
+            }
+        });
+
+        // Handle errors
+        xhr.addEventListener('error', () => {
+            uploadProgress.classList.remove('active');
+            showStatus(`❌ Network error while uploading ${file.name}`, 'error');
+        });
+
+        // Send request
+        xhr.open('POST', '/admin/upload-article-image');
+        xhr.send(formData);
+
+    } catch (error) {
+        uploadProgress.classList.remove('active');
+        showStatus(`❌ Error: ${error.message}`, 'error');
+    }
+}
+
+// ==========================================
+// SHOW STATUS MESSAGE
+// ==========================================
+function showStatus(message, type) {
+    uploadStatus.textContent = message;
+    uploadStatus.className = `upload-status show ${type}`;
+    
+    setTimeout(() => {
+        uploadStatus.classList.remove('show');
+    }, 4000);
+}
+
+// ==========================================
+// TEXT FORMATTING BUTTONS
+// ==========================================
+document.getElementById('boldBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.execCommand('bold');
+    editor.focus();
+});
+
+document.getElementById('italicBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.execCommand('italic');
+    editor.focus();
+});
+
+document.getElementById('h2Btn').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.execCommand('formatBlock', false, '<h2>');
+    editor.focus();
+});
+
+document.getElementById('h3Btn').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.execCommand('formatBlock', false, '<h3>');
+    editor.focus();
+});
+
+// ==========================================
+// FORM SUBMISSION
+// ==========================================
+editForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Copy editor content to hidden field
+    contentField.value = editor.innerHTML.trim();
+    
+    if (!contentField.value) {
+        alert('Please add some content to the article');
         return;
     }
 
-    setStatus(
-        "Uploading chart image...",
-        "uploading"
-    );
+    // Submit form
+    editForm.submit();
+});
 
-    try {
-
-        const formData = new FormData();
-
-        formData.append(
-            "file",
-            file,
-            file.name || "chart.png"
-        );
-
-        formData.append(
-            "csrf_token",
-            csrfToken
-        );
-
-        const response = await fetch(
-            uploadUrl,
-            {
-                method: "POST",
-                body: formData,
-                credentials: "same-origin"
-            }
-        );
-
-        const data = await response.json();
-
-        if (!response.ok || !data.success) {
-
-            throw new Error(
-                data.error || "Image upload failed"
-            );
-
-        }
-
-        insertImageAtCursor(
-            data.url
-        );
-
-        setStatus(
-            "Chart added successfully.",
-            "success"
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Chart upload error:",
-            error
-        );
-
-        setStatus(
-            "Could not upload chart: " + error.message,
-            "error"
-        );
-
-    }
-
+// ==========================================
+// CLEAR FILE INPUT AFTER UPLOAD
+// ==========================================
+function resetFileInput() {
+    imageFileInput.value = '';
 }
 
-
-/* =========================================================
-   INSERT IMAGE AT CURRENT CURSOR
-   ========================================================= */
-
-function insertImageAtCursor(imageUrl) {
-
-    editor.focus();
-
-    const img = document.createElement("img");
-
-    img.src = imageUrl;
-
-    img.alt = "SmartPlan Finance chart";
-
-    img.loading = "lazy";
-
-    const selection =
-        window.getSelection();
-
-    if (
-        selection &&
-        selection.rangeCount > 0 &&
-        editor.contains(selection.anchorNode)
-    ) {
-
-        const range =
-            selection.getRangeAt(0);
-
-        range.deleteContents();
-
-        range.insertNode(img);
-
-        range.setStartAfter(img);
-
-        range.collapse(true);
-
-        selection.removeAllRanges();
-
-        selection.addRange(range);
-
-    } else {
-
-        editor.appendChild(img);
-
-    }
-
-}
-
-
-/* =========================================================
-   PASTE HANDLER
-   ========================================================= */
-
-editor.addEventListener(
-    "paste",
-    async function(event) {
-
-        const clipboard =
-            event.clipboardData;
-
-        if (!clipboard) {
-            return;
-        }
-
-        /*
-         * FIRST:
-         * Check whether clipboard contains an image.
-         */
-
-        const items =
-            Array.from(clipboard.items || []);
-
-        const imageItem =
-            items.find(
-                item =>
-                    item.kind === "file" &&
-                    item.type.startsWith("image/")
-            );
-
-        if (imageItem) {
-
-            /*
-             * Stop the browser from inserting
-             * a broken/base64/temporary image.
-             */
-
-            event.preventDefault();
-
-            const file =
-                imageItem.getAsFile();
-
-            if (file) {
-
-                await uploadImage(file);
-
-            }
-
-            return;
-
-        }
-
-
-        /*
-         * OTHERWISE:
-         * Paste text only.
-         *
-         * This prevents pasted website formatting,
-         * HTML, fonts, colors, etc.
-         */
-
-        event.preventDefault();
-
-        const text =
-            clipboard.getData("text/plain");
-
-        if (!text) {
-            return;
-        }
-
-        editor.focus();
-
-        document.execCommand(
-            "insertText",
-            false,
-            text
-        );
-
-    }
-);
-
-
-/* =========================================================
-   DRAG & DROP IMAGE
-   ========================================================= */
-
-editor.addEventListener(
-    "dragover",
-    function(event) {
-
-        event.preventDefault();
-
-    }
-);
-
-
-editor.addEventListener(
-    "drop",
-    async function(event) {
-
-        event.preventDefault();
-
-        const files =
-            Array.from(
-                event.dataTransfer.files || []
-            );
-
-        const imageFile =
-            files.find(
-                file =>
-                    file.type.startsWith("image/")
-            );
-
-        if (imageFile) {
-
-            await uploadImage(
-                imageFile
-            );
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   MANUAL CHART UPLOAD BUTTON
-   ========================================================= */
-
-chartUpload.addEventListener(
-    "change",
-    async function() {
-
-        const file =
-            this.files[0];
-
-        if (file) {
-
-            await uploadImage(file);
-
-        }
-
-        this.value = "";
-
-    }
-);
-
-
-/* =========================================================
-   SAVE ARTICLE
-   ========================================================= */
-
-form.addEventListener(
-    "submit",
-    function(event) {
-
-        /*
-         * Copy the visual editor HTML
-         * into the hidden textarea/input.
-         */
-
-        hiddenContent.value =
-            editor.innerHTML.trim();
-
-        if (!hiddenContent.value) {
-
-            event.preventDefault();
-
-            alert(
-                "Article content cannot be empty."
-            );
-
-            return false;
-
-        }
-
-        saveButton.disabled = true;
-
-        saveButton.textContent =
-            "Saving...";
-
-    }
-);
-
-
-/* =========================================================
-   EDITOR STATUS
-   ========================================================= */
-
-editor.addEventListener(
-    "input",
-    function() {
-
-        setStatus(
-            "Unsaved changes."
-        );
-
-    }
-);
-
+// Reset after each upload completes
+document.addEventListener('upload-complete', resetFileInput);
 </script>
 
 </body>

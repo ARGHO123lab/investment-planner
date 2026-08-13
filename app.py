@@ -1466,66 +1466,176 @@ def upload_featured_image(article_id):
         article=article,
         article_id=article_id
     )
+ 
+# ============================================================================
+# 1. UPLOAD ARTICLE IMAGE ROUTE
+# ============================================================================
+ 
 @app.route("/admin/upload-article-image", methods=["POST"])
 @requires_auth
 def upload_article_image():
-
-    if "file" not in request.files:
-        return {"error": "No image file received"}, 400
-
-    file = request.files["file"]
-
-    if not file or not file.filename:
-        return {"error": "Invalid image"}, 400
-
-    allowed_types = {
-        "image/png",
-        "image/jpeg",
-        "image/jpg",
-        "image/webp",
-        "image/gif"
-    }
-
-    if file.mimetype not in allowed_types:
-        return {"error": "Unsupported image type"}, 400
-
-    # Generate a unique filename
-    extension = os.path.splitext(file.filename)[1].lower()
-
-    if extension not in [".png", ".jpg", ".jpeg", ".webp", ".gif"]:
-        extension = ".png"
-
-    filename = f"article_{uuid.uuid4().hex}{extension}"
-
-    filepath = os.path.join(
-        app.config["UPLOAD_FOLDER"],
-        filename
-    )
-
-    # Save image
-    file.save(filepath)
-
-    # URL that will be stored inside article HTML
-    image_url = url_for(
-        "static",
-        filename=f"uploads/articles/{filename}"
-    )
-
-    return {
-        "success": True,
-        "url": image_url
-    }, 200
-#ok
-@app.route('/static/uploads/articles/<filename>')
+    """
+    Handle image uploads for articles.
+    Returns: JSON with image URL for insertion into editor
+    """
+    try:
+        # Check if file exists in request
+        if "file" not in request.files:
+            return {"error": "No image file received"}, 400
+ 
+        file = request.files["file"]
+ 
+        if not file or not file.filename:
+            return {"error": "Invalid image"}, 400
+ 
+        # Validate file type
+        allowed_types = {
+            "image/png",
+            "image/jpeg",
+            "image/jpg",
+            "image/webp",
+            "image/gif"
+        }
+ 
+        if file.mimetype not in allowed_types:
+            return {"error": "Unsupported image type. Use PNG, JPG, WEBP, or GIF."}, 400
+ 
+        # Validate file size (max 5MB)
+        file.seek(0, os.SEEK_END)
+        file_size = file.tell()
+        file.seek(0)
+        
+        if file_size > 5 * 1024 * 1024:  # 5MB
+            return {"error": "File too large. Maximum 5MB allowed."}, 400
+ 
+        # Generate secure filename
+        extension = os.path.splitext(secure_filename(file.filename))[1].lower()
+ 
+        if extension not in [".png", ".jpg", ".jpeg", ".webp", ".gif"]:
+            extension = ".png"
+ 
+        # Create unique filename
+        filename = f"article_{uuid.uuid4().hex}{extension}"
+ 
+        # Ensure upload folder exists
+        upload_dir = app.config.get("UPLOAD_FOLDER", "static/uploads/articles")
+        if not os.path.exists(upload_dir):
+            os.makedirs(upload_dir, exist_ok=True)
+ 
+        # Save file to disk
+        filepath = os.path.join(upload_dir, filename)
+        
+        try:
+            file.save(filepath)
+            
+            # Verify file was saved
+            if not os.path.exists(filepath):
+                raise Exception("File save failed")
+ 
+            app.logger.info(f"Image uploaded: {filename} ({file_size} bytes)")
+ 
+        except Exception as e:
+            app.logger.error(f"File save error: {str(e)}")
+            return {"error": f"Failed to save image: {str(e)}"}, 500
+ 
+        # Return URL that will be used in HTML
+        # Using /article-image/ route instead of /static/ to avoid conflicts
+        image_url = f"/article-image/{filename}"
+ 
+        return {
+            "success": True,
+            "url": image_url,
+            "filename": filename
+        }, 200
+ 
+    except Exception as e:
+        app.logger.error(f"Upload error: {str(e)}")
+        return {"error": f"Server error: {str(e)}"}, 500
+ 
+ 
+# ============================================================================
+# 2. SERVE ARTICLE IMAGE ROUTE (CUSTOM ROUTE, NOT /static/)
+# ============================================================================
+ 
+@app.route('/article-image/<filename>')
 def serve_article_image(filename):
-    """Serve article images"""
-    from flask import send_from_directory
-    return send_from_directory(
-        os.path.join(app.root_path, 'static', 'uploads', 'articles'),
-        filename,
-        cache_timeout=86400  # Cache for 1 day
+    """
+    Serve uploaded article images.
+    Uses custom /article-image/ path to avoid Flask static handler conflicts.
+    """
+    try:
+        # Security: Only allow image files with expected naming
+        if not filename.startswith('article_') or filename.count('.') != 1:
+            return "Invalid request", 403
+ 
+        # Get safe filename
+        safe_filename = secure_filename(filename)
+        
+        # Build full path
+        upload_dir = app.config.get("UPLOAD_FOLDER", "static/uploads/articles")
+        filepath = os.path.join(upload_dir, safe_filename)
+ 
+        # Verify file exists
+        if not os.path.exists(filepath):
+            app.logger.warning(f"Image not found: {filename}")
+            return "Image not found", 404
+ 
+        # Return file with proper caching headers
+        return send_from_directory(
+            os.path.dirname(filepath),
+            os.path.basename(filepath),
+            mimetype='image/png',
+            cache_timeout=86400  # Cache for 1 day
+        )
+ 
+    except Exception as e:
+        app.logger.error(f"Image serving error: {str(e)}")
+        return "Server error", 500
+ 
+ 
+# ============================================================================
+# 3. DELETE ARTICLE IMAGE ROUTE (OPTIONAL - FOR ADMIN)
+# ============================================================================
+ 
+
+# ============================================================================
+# DEBUGGING: LIST UPLOADED IMAGES (OPTIONAL)
+# ============================================================================
+ 
+@app.route('/admin/images-list', methods=['GET'])
+@requires_auth
+def list_uploaded_images():
+    """
+    List all uploaded images (for debugging).
+    Only accessible to admins.
+    """
+    try:
+        upload_dir = app.config.get("UPLOAD_FOLDER", "static/uploads/articles")
+        
+        if not os.path.exists(upload_dir):
+            return {"images": [], "total": 0}
+ 
+        images = [
+            {
+                "filename": f,
+                "size": os.path.getsize(os.path.join(upload_dir, f)),
+                "url": f"/article-image/{f}"
+            }
+            for f in os.listdir(upload_dir)
+            if f.startswith('article_')
+        ]
+ 
+        return {
+            "images": images,
+            "total": len(images),
+            "folder": upload_dir
+        }
+ 
+    except Exception as e:
+        app.logger.error(f"Error listing images: {str(e)}")
+        return {"error": str(e)}, 500
+
     
-    )
 @app.route('/publish', methods=['GET', 'POST'])
 @requires_auth
 def publish():
