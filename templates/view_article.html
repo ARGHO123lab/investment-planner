@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,11 +16,14 @@
     <meta name="robots" content="index, follow">
 
     <meta property="og:title" content="{{ article.title }} | SmartPlan Finance">
+
     <meta
         property="og:description"
         content="{{ article.meta_description or (article.content | striptags | truncate(160, True, '...')) }}"
     >
+
     <meta property="og:type" content="article">
+
     <meta
         property="og:url"
         content="{{ url_for('view_article', slug=article.slug, _external=True) }}"
@@ -167,8 +171,26 @@
             </p>
 
 
+            <!-- AFFILIATE DISCLOSURE -->
+
+            <div
+                class="affiliate-disclosure"
+                role="note"
+                aria-label="Affiliate disclosure"
+            >
+                <strong>Affiliate Disclosure:</strong>
+                Some links on SmartPlan Finance may be affiliate or referral
+                links. If you use one of these links and become a customer,
+                we may earn a commission at no additional cost to you.
+                These relationships help support the operation of the website
+                and its free educational resources.
+            </div>
+
+
             {% if is_admin %}
+
                 <p class="admin-actions">
+
                     <a href="{{ url_for('upload_featured_image', article_id=article.id) }}">
                         Change featured image
                     </a>
@@ -176,7 +198,9 @@
                     <a href="{{ url_for('edit_article', article_id=article.id) }}">
                         Edit article
                     </a>
+
                 </p>
+
             {% endif %}
 
         </header>
@@ -203,90 +227,124 @@
 
 
         <div class="article-content" id="article-content">
+
             {{ article.content | safe }}
+
         </div>
 
+
+        <!-- FINANCIAL EDUCATION DISCLAIMER -->
 
         <aside
             class="education-notice"
-            aria-label="Educational disclaimer"
+            aria-label="Financial education disclaimer"
         >
-            <strong>Educational purpose only.</strong>
-            This article is general information, not personalised investment,
-            tax, or legal advice. Consider your circumstances and consult a
-            qualified professional before acting.
+
+            <strong>Important: Educational Information Only</strong>
+
+            <p>
+                SmartPlan Finance provides general financial education and
+                information. The content on this website is not personalised
+                investment, financial, tax, legal, or accounting advice.
+            </p>
+
+            <p>
+                We do not know your complete financial situation, including
+                your income, expenses, debts, goals, investment horizon,
+                tax position, or risk tolerance. Examples and calculations
+                shown on this website are for educational purposes and may
+                not reflect your individual circumstances.
+            </p>
+
+            <p>
+                Before making an investment, tax, loan, insurance, or other
+                financial decision, consider whether it is appropriate for
+                your circumstances and, where appropriate, consult a
+                qualified professional.
+            </p>
+
         </aside>
-        
-{% if article_sources %}
 
-<section
-    class="article-sources"
-    aria-labelledby="sources-title"
->
 
-    <h2 id="sources-title">
-        Official Sources
-    </h2>
+        {% if article_sources %}
 
-    <ul>
-
-        {% for source in article_sources %}
-
-        <li>
-
-            <a
-                href="{{ source.url }}"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                {{ source.title }}
-            </a>
-
-            {% if source.source_type %}
-                <span class="source-type">
-                    ({{ source.source_type }})
-                </span>
-            {% endif %}
-
-        </li>
-
-        {% endfor %}
-
-    </ul>
-
-</section>
-
-{% endif %}
-<section class="faq-guide" aria-labelledby="faq-guide-title">
-
-    <div class="faq-guide-content">
-
-        <div class="faq-guide-label">
-            SMARTPLAN FINANCE RESOURCE
-        </div>
-
-        <h2 id="faq-guide-title">
-            SmartPlan Finance FAQ Guide
-        </h2>
-
-        <p>
-            Have questions about budgeting, saving, investing, SIPs,
-            mutual funds, retirement planning, taxes, debt, and
-            building long-term wealth?
-        </p>
-
-        <a
-            href="{{ url_for('static', filename='books/financial_guide.pdf') }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="faq-guide-button"
+        <section
+            class="article-sources"
+            aria-labelledby="sources-title"
         >
-            Read the Complete FAQ Guide →
-        </a>
 
-    </div>
+            <h2 id="sources-title">
+                Official Sources
+            </h2>
 
-</section>
+            <ul>
+
+                {% for source in article_sources %}
+
+                <li>
+
+                    <a
+                        href="{{ source.url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        {{ source.title }}
+                    </a>
+
+                    {% if source.source_type %}
+
+                        <span class="source-type">
+                            ({{ source.source_type }})
+                        </span>
+
+                    {% endif %}
+
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+        </section>
+
+        {% endif %}
+
+
+        <section
+            class="faq-guide"
+            aria-labelledby="faq-guide-title"
+        >
+
+            <div class="faq-guide-content">
+
+                <div class="faq-guide-label">
+                    SMARTPLAN FINANCE RESOURCE
+                </div>
+
+                <h2 id="faq-guide-title">
+                    SmartPlan Finance FAQ Guide
+                </h2>
+
+                <p>
+                    Have questions about budgeting, saving, investing, SIPs,
+                    mutual funds, retirement planning, taxes, debt, and
+                    building long-term wealth?
+                </p>
+
+                <a
+                    href="{{ url_for('static', filename='books/financial_guide.pdf') }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="faq-guide-button"
+                >
+                    Read the Complete FAQ Guide →
+                </a>
+
+            </div>
+
+        </section>
+
+
         <!-- AUTHOR SECTION -->
 
         <section
@@ -311,35 +369,57 @@
                     </p>
 
                     <h2 id="author-title">
-                        Argho Sanyal
+                        <a
+                            href="{{ url_for('about') }}"
+                            class="author-name-link"
+                        >
+                            Argho Sanyal
+                        </a>
                     </h2>
 
                     <p class="author-role">
-                        Personal Finance & Wealth-Building Educator
+                        Founder · Personal Finance Educator
                     </p>
 
                     <p>
-                        Argho Sanyal is the founder of SmartPlan Finance,
-                        with experience in personal finance, investing,
-                        wealth-building strategies, and financial planning
-                        education. For the past five years, he has focused
-                        on practical financial strategies that help individuals
-                        make better decisions about saving, investing, and
-                        building long-term wealth.
+                        Argho Sanyal is the founder of SmartPlan Finance.
+                        His work focuses on making personal finance easier
+                        to understand through practical educational content,
+                        financial calculators, and long-term planning tools.
                     </p>
 
                     <p>
-                        Through SmartPlan Finance, he focuses on making
-                        personal finance easier to understand by turning
-                        complex financial concepts into practical guidance,
-                        calculators, and actionable strategies for everyday
-                        investors.
+                        His professional background includes experience in
+                        technology and quality assurance, while his work
+                        through SmartPlan Finance focuses on personal finance
+                        education, investing concepts, wealth-building
+                        principles, budgeting, and financial planning.
+                    </p>
+
+                    <p>
+                        SmartPlan Finance is designed to help everyday readers
+                        understand financial concepts, compare options,
+                        explore scenarios, and make more informed decisions.
+                        The platform does not provide personalised financial
+                        advice.
                     </p>
 
                     <p class="author-focus">
+
                         <strong>Areas of focus:</strong>
+
                         Personal Finance · Investing · Wealth Building ·
-                        Financial Planning · Long-Term Investment Strategies
+                        Financial Planning · SIPs · Retirement Planning ·
+                        Financial Education
+
+                    </p>
+
+                    <p class="author-profile-link">
+
+                        <a href="{{ url_for('about') }}">
+                            Learn more about the author and SmartPlan Finance →
+                        </a>
+
                     </p>
 
                 </div>
@@ -365,9 +445,13 @@
                 {% for related in related_articles %}
 
                 <li>
-                    <a href="{{ url_for('view_article', slug=related.slug) }}">
+
+                    <a
+                        href="{{ url_for('view_article', slug=related.slug) }}"
+                    >
                         {{ related.title }}
                     </a>
+
                 </li>
 
                 {% endfor %}
@@ -434,6 +518,10 @@
                 Disclaimer
             </a>
 
+            <a href="/affiliate-policy">
+                Affiliate Disclosure
+            </a>
+
         </div>
 
         <p>
@@ -443,6 +531,8 @@
     </footer>
 
 </main>
+
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -507,10 +597,12 @@ document.addEventListener("DOMContentLoaded", function () {
             visual.innerHTML = `
                 <div class="spf-pie"
                      style="background: conic-gradient(${gradient});">
+
                     <div class="spf-pie-hole">
                         <strong>${formatCurrency(total)}</strong>
                         <span>Total</span>
                     </div>
+
                 </div>
             `;
 
@@ -525,19 +617,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 row.className = "spf-chart-legend-item";
 
                 row.innerHTML = `
-                    <span class="spf-chart-dot"
-                          style="background:${[
-                              "#D4AF37",
-                              "#B8860B",
-                              "#A67C52",
-                              "#8F6B3E",
-                              "#C5A24A",
-                              "#96763F",
-                              "#B59B62",
-                              "#806B48",
-                              "#A8946A",
-                              "#E0C36E"
-                          ][index % 10]}"></span>
+                    <span
+                        class="spf-chart-dot"
+                        style="background:${[
+                            "#D4AF37",
+                            "#B8860B",
+                            "#A67C52",
+                            "#8F6B3E",
+                            "#C5A24A",
+                            "#96763F",
+                            "#B59B62",
+                            "#806B48",
+                            "#A8946A",
+                            "#E0C36E"
+                        ][index % 10]}"
+                    ></span>
 
                     <span class="spf-chart-label">
                         ${escapeHTML(item.label)}
@@ -579,6 +673,7 @@ function escapeHTML(value) {
 
 }
 </script>
-</body>
 
+</body>
 </html>
+```
