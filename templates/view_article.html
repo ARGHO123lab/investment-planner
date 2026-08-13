@@ -57,37 +57,6 @@
         href="{{ url_for('static', filename='css/article.css') }}"
     >
 
-    <!-- ===================================================================
-         IMAGE STYLING FOR ARTICLE CONTENT
-         This CSS ensures images pasted/uploaded into articles display properly
-         =================================================================== -->
-    <style>
-        /* IMAGE STYLING IN ARTICLE CONTENT */
-        .article-content img {
-            max-width: 100%;
-            height: auto;
-            margin: 25px 0;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            display: block;
-            object-fit: contain;
-            transition: transform 0.2s ease;
-        }
-
-        /* HOVER EFFECT FOR IMAGES */
-        .article-content img:hover {
-            transform: scale(1.02);
-        }
-
-        /* RESPONSIVE IMAGES ON MOBILE */
-        @media (max-width: 768px) {
-            .article-content img {
-                margin: 20px 0;
-                border-radius: 6px;
-            }
-        }
-    </style>
-
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
