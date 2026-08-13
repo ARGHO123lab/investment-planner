@@ -1,28 +1,52 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ article.title }} | SmartPlan Finance</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ article.title }} | SmartPlan Finance
+    </title>
+
 
     <meta
         name="description"
         content="{{ article.meta_description or (article.content | striptags | truncate(160, True, '...')) }}"
     >
 
-    <meta name="author" content="Argho Sanyal">
-    <meta name="robots" content="index, follow">
+    <meta
+        name="author"
+        content="Argho Sanyal"
+    >
 
-    <meta property="og:title" content="{{ article.title }} | SmartPlan Finance">
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+
+    <!-- Open Graph -->
+
+    <meta
+        property="og:title"
+        content="{{ article.title }} | SmartPlan Finance"
+    >
 
     <meta
         property="og:description"
         content="{{ article.meta_description or (article.content | striptags | truncate(160, True, '...')) }}"
     >
 
-    <meta property="og:type" content="article">
+    <meta
+        property="og:type"
+        content="article"
+    >
 
     <meta
         property="og:url"
@@ -31,23 +55,41 @@
 
     <meta
         property="og:image"
-        content="{{ article.featured_image if article.featured_image and article.featured_image != '/static/images/logo.png' else 'https://smartplanfinance.com/static/images/logo.png' }}"
+        content="{{
+            article.featured_image
+            if article.featured_image
+            and article.featured_image != '/static/images/logo.png'
+            else 'https://smartplanfinance.com/static/images/logo.png'
+        }}"
     >
+
 
     <meta
         property="article:published_time"
-        content="{{ article.created_at.strftime('%Y-%m-%dT%H:%M:%S') if article.created_at else '' }}"
+        content="{{
+            article.created_at.strftime('%Y-%m-%dT%H:%M:%S')
+            if article.created_at else ''
+        }}"
     >
 
     <meta
         property="article:modified_time"
-        content="{{ (article.updated_at or article.created_at).strftime('%Y-%m-%dT%H:%M:%S') if (article.updated_at or article.created_at) else '' }}"
+        content="{{
+            (article.updated_at or article.created_at).strftime('%Y-%m-%dT%H:%M:%S')
+            if (article.updated_at or article.created_at) else ''
+        }}"
     >
+
+
+    <!-- Canonical -->
 
     <link
         rel="canonical"
         href="{{ url_for('view_article', slug=article.slug, _external=True) }}"
     >
+
+
+    <!-- Favicon -->
 
     <link
         rel="icon"
@@ -56,48 +98,78 @@
         href="{{ url_for('static', filename='icons/favicon-32x32.png') }}"
     >
 
+
+    <!-- Article CSS -->
+
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/article.css') }}"
     >
 
+
+    <!-- Article Structured Data -->
+
     <script type="application/ld+json">
+
     {
         "@context": "https://schema.org",
+
         "@type": "Article",
 
         "headline": {{ article.title | tojson }},
 
         "description": {{
-            (article.meta_description or
-            (article.content | striptags | truncate(160, True, '...')))
-            | tojson
+            (
+                article.meta_description
+                or
+                (article.content | striptags | truncate(160, True, '...'))
+            ) | tojson
         }},
 
         "datePublished":
-            "{{ article.created_at.strftime('%Y-%m-%d') if article.created_at else '' }}",
+            "{{ article.created_at.strftime('%Y-%m-%d')
+               if article.created_at else '' }}",
 
         "dateModified":
-            "{{ (article.updated_at or article.created_at).strftime('%Y-%m-%d')
-                if (article.updated_at or article.created_at) else '' }}",
+            "{{
+                (article.updated_at or article.created_at).strftime('%Y-%m-%d')
+                if (article.updated_at or article.created_at)
+                else ''
+            }}",
 
         "author": {
+
             "@type": "Person",
+
             "name": "Argho Sanyal",
+
             "url": "https://smartplanfinance.com/about"
+
         },
 
         "publisher": {
+
             "@type": "Organization",
+
             "name": "SmartPlan Finance",
+
             "logo": {
+
                 "@type": "ImageObject",
-                "url": "https://smartplanfinance.com/static/images/logo.png"
+
+                "url":
+                    "https://smartplanfinance.com/static/images/logo.png"
+
             }
+
         },
 
         "mainEntityOfPage": {{
-            url_for('view_article', slug=article.slug, _external=True) | tojson
+            url_for(
+                'view_article',
+                slug=article.slug,
+                _external=True
+            ) | tojson
         }},
 
         "image": {{
@@ -105,575 +177,1147 @@
                 article.featured_image
                 if article.featured_image
                 and article.featured_image != '/static/images/logo.png'
-                else 'https://smartplanfinance.com/static/images/logo.png'
+                else
+                'https://smartplanfinance.com/static/images/logo.png'
             ) | tojson
         }},
 
-        "wordCount": {{ article.content | striptags | wordcount }}
+        "wordCount":
+            {{ article.content | striptags | wordcount }}
+
     }
+
     </script>
+
 </head>
+
 
 <body>
 
+
 <main class="article-wrapper">
 
-    <nav class="article-breadcrumb" aria-label="Breadcrumb">
-        <a href="{{ url_for('articles') }}">Articles</a>
-        <span aria-hidden="true">/</span>
-        <span>{{ article.title }}</span>
+
+    <!-- ==========================================
+         BREADCRUMB
+         ========================================== -->
+
+    <nav
+        class="article-breadcrumb"
+        aria-label="Breadcrumb"
+    >
+
+        <a href="{{ url_for('articles') }}">
+            Articles
+        </a>
+
+        <span aria-hidden="true">
+            /
+        </span>
+
+        <span>
+            {{ article.title }}
+        </span>
+
     </nav>
 
 
+
+    <!-- ==========================================
+         ARTICLE
+         ========================================== -->
+
     <article class="article-card">
+
+
+        <!-- ==========================================
+             ARTICLE HEADER
+             ========================================== -->
 
         <header class="article-header">
 
+
             <span class="tag-badge">
+
                 SmartPlan Finance · Personal Finance
+
             </span>
 
+
             <h1 class="article-title">
+
                 {{ article.title }}
+
             </h1>
+
 
             <div class="article-meta">
 
+
                 <span>
+
                     Published
-                    {{ article.created_at.strftime('%d %B %Y')
-                       if article.created_at else 'recently' }}
+
+                    {{
+                        article.created_at.strftime('%d %B %Y')
+                        if article.created_at
+                        else 'recently'
+                    }}
+
                 </span>
 
-                <span aria-hidden="true">·</span>
+
+                <span aria-hidden="true">
+                    ·
+                </span>
+
 
                 <span>
-                    {{ article.reading_minutes }} min read
+
+                    {{ article.reading_minutes }}
+                    min read
+
                 </span>
+
 
                 {% if article.updated_at
                       and article.created_at
-                      and article.updated_at.date() != article.created_at.date() %}
+                      and article.updated_at.date()
+                      != article.created_at.date() %}
 
-                    <span aria-hidden="true">·</span>
+
+                    <span aria-hidden="true">
+                        ·
+                    </span>
+
 
                     <span>
-                        Updated {{ article.updated_at.strftime('%d %B %Y') }}
+
+                        Updated
+
+                        {{
+                            article.updated_at.strftime('%d %B %Y')
+                        }}
+
                     </span>
+
 
                 {% endif %}
 
+
             </div>
 
+
             <p class="article-intro">
-                {{ article.meta_description
-                   or (article.content | striptags | truncate(240, True, '...')) }}
+
+                {{
+                    article.meta_description
+                    or
+                    (
+                        article.content
+                        | striptags
+                        | truncate(240, True, '...')
+                    )
+                }}
+
             </p>
 
 
-            <!-- AFFILIATE DISCLOSURE -->
+
+            <!-- ==========================================
+                 AFFILIATE DISCLOSURE
+                 ========================================== -->
 
             <div
                 class="affiliate-disclosure"
                 role="note"
                 aria-label="Affiliate disclosure"
             >
-                <strong>Affiliate Disclosure:</strong>
-                Some links on SmartPlan Finance may be affiliate or referral
-                links. If you use one of these links and become a customer,
-                we may earn a commission at no additional cost to you.
-                These relationships help support the operation of the website
-                and its free educational resources.
+
+                <strong>
+                    Affiliate Disclosure:
+                </strong>
+
+                Some links on SmartPlan Finance may be
+                affiliate or referral links. If you use one
+                of these links and become a customer, we may
+                earn a commission at no additional cost to you.
+
+                These relationships help support the operation
+                of the website and its free educational resources.
+
             </div>
 
+
+
+            <!-- ==========================================
+                 ADMIN ACTIONS
+                 ========================================== -->
 
             {% if is_admin %}
 
                 <p class="admin-actions">
 
-                    <a href="{{ url_for('upload_featured_image', article_id=article.id) }}">
+
+                    <a
+                        href="{{
+                            url_for(
+                                'upload_featured_image',
+                                article_id=article.id
+                            )
+                        }}"
+                    >
+
                         Change featured image
+
                     </a>
 
-                    <a href="{{ url_for('edit_article', article_id=article.id) }}">
+
+                    <a
+                        href="{{
+                            url_for(
+                                'edit_article',
+                                article_id=article.id
+                            )
+                        }}"
+                    >
+
                         Edit article
+
                     </a>
+
 
                 </p>
 
             {% endif %}
 
+
         </header>
 
 
+
+        <!-- ==========================================
+             FEATURED IMAGE
+             ========================================== -->
+
         {% if article.featured_image
-              and article.featured_image != '/static/images/logo.png' %}
+              and article.featured_image
+              != '/static/images/logo.png' %}
+
 
             <figure class="featured-image">
 
+
                 <img
+
                     src="{{ article.featured_image }}"
+
                     alt="{{ article.title }}"
+
                     width="1200"
+
                     height="675"
+
                     fetchpriority="high"
+
                     decoding="async"
-                    onerror="this.closest('figure').remove()"
+
+                    onerror="
+                        this.closest('figure').remove()
+                    "
+
                 >
 
+
             </figure>
+
 
         {% endif %}
 
 
-        <div class="article-content" id="article-content">
+
+        <!-- ==========================================
+             ARTICLE CONTENT
+             ========================================== -->
+
+        <div
+            class="article-content"
+            id="article-content"
+        >
 
             {{ article.content | safe }}
 
         </div>
 
 
-        <!-- FINANCIAL EDUCATION DISCLAIMER -->
+
+        <!-- ==========================================
+             FINANCIAL EDUCATION DISCLAIMER
+             ========================================== -->
 
         <aside
             class="education-notice"
             aria-label="Financial education disclaimer"
         >
 
-            <strong>Important: Educational Information Only</strong>
+
+            <strong>
+                Important: Educational Information Only
+            </strong>
+
 
             <p>
-                SmartPlan Finance provides general financial education and
-                information. The content on this website is not personalised
-                investment, financial, tax, legal, or accounting advice.
+
+                SmartPlan Finance provides general financial
+                education and information. The content on this
+                website is not personalised investment,
+                financial, tax, legal, or accounting advice.
+
             </p>
 
-            <p>
-                We do not know your complete financial situation, including
-                your income, expenses, debts, goals, investment horizon,
-                tax position, or risk tolerance. Examples and calculations
-                shown on this website are for educational purposes and may
-                not reflect your individual circumstances.
-            </p>
 
             <p>
-                Before making an investment, tax, loan, insurance, or other
-                financial decision, consider whether it is appropriate for
-                your circumstances and, where appropriate, consult a
-                qualified professional.
+
+                We do not know your complete financial situation,
+                including your income, expenses, debts, goals,
+                investment horizon, tax position, or risk tolerance.
+
+                Examples and calculations shown on this website
+                are for educational purposes and may not reflect
+                your individual circumstances.
+
             </p>
+
+
+            <p>
+
+                Before making an investment, tax, loan, insurance,
+                or other financial decision, consider whether it
+                is appropriate for your circumstances and, where
+                appropriate, consult a qualified professional.
+
+            </p>
+
 
         </aside>
 
 
+
+        <!-- ==========================================
+             OFFICIAL SOURCES
+             ========================================== -->
+
         {% if article_sources %}
+
 
         <section
             class="article-sources"
             aria-labelledby="sources-title"
         >
 
+
             <h2 id="sources-title">
+
                 Official Sources
+
             </h2>
+
 
             <ul>
 
+
                 {% for source in article_sources %}
 
+
                 <li>
+
 
                     <a
                         href="{{ source.url }}"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
+
                         {{ source.title }}
+
                     </a>
+
 
                     {% if source.source_type %}
 
                         <span class="source-type">
+
                             ({{ source.source_type }})
+
                         </span>
 
                     {% endif %}
 
+
                 </li>
+
 
                 {% endfor %}
 
+
             </ul>
+
 
         </section>
 
+
         {% endif %}
 
+
+
+        <!-- ==========================================
+             SMARTPLAN FINANCE FAQ GUIDE
+             ========================================== -->
 
         <section
             class="faq-guide"
             aria-labelledby="faq-guide-title"
         >
 
+
             <div class="faq-guide-content">
 
+
                 <div class="faq-guide-label">
+
                     SMARTPLAN FINANCE RESOURCE
+
                 </div>
 
+
                 <h2 id="faq-guide-title">
+
                     SmartPlan Finance FAQ Guide
+
                 </h2>
 
+
                 <p>
-                    Have questions about budgeting, saving, investing, SIPs,
-                    mutual funds, retirement planning, taxes, debt, and
-                    building long-term wealth?
+
+                    Have questions about budgeting, saving,
+                    investing, SIPs, mutual funds, retirement
+                    planning, taxes, debt, and building
+                    long-term wealth?
+
                 </p>
 
+
                 <a
-                    href="{{ url_for('static', filename='books/financial_guide.pdf') }}"
+                    href="{{
+                        url_for(
+                            'static',
+                            filename='books/financial_guide.pdf'
+                        )
+                    }}"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="faq-guide-button"
                 >
+
                     Read the Complete FAQ Guide →
+
                 </a>
 
+
             </div>
+
 
         </section>
 
 
-        <!-- AUTHOR SECTION -->
+
+        <!-- ==========================================
+             AUTHOR SECTION
+             ========================================== -->
 
         <section
             class="author-box"
             aria-labelledby="author-title"
         >
 
+
             <div class="author-content">
+
 
                 <div
                     class="author-avatar"
                     aria-hidden="true"
                 >
+
                     👤
+
                 </div>
+
 
 
                 <div class="author-details">
 
+
                     <p class="author-label">
+
                         ABOUT THE AUTHOR
+
                     </p>
 
+
                     <h2 id="author-title">
+
+
                         <a
                             href="{{ url_for('about') }}"
                             class="author-name-link"
                         >
+
                             Argho Sanyal
+
                         </a>
+
+
                     </h2>
 
+
                     <p class="author-role">
+
                         Founder · Personal Finance Educator
+
                     </p>
 
+
                     <p>
+
                         Argho Sanyal is the founder of SmartPlan Finance.
                         His work focuses on making personal finance easier
                         to understand through practical educational content,
                         financial calculators, and long-term planning tools.
+
                     </p>
 
+
                     <p>
-                        His professional background includes experience in
-                        technology and quality assurance, while his work
+
+                        His professional background includes experience
+                        in technology and quality assurance, while his work
                         through SmartPlan Finance focuses on personal finance
                         education, investing concepts, wealth-building
                         principles, budgeting, and financial planning.
+
                     </p>
 
+
                     <p>
-                        SmartPlan Finance is designed to help everyday readers
-                        understand financial concepts, compare options,
-                        explore scenarios, and make more informed decisions.
-                        The platform does not provide personalised financial
-                        advice.
+
+                        SmartPlan Finance is designed to help everyday
+                        readers understand financial concepts, compare
+                        options, explore scenarios, and make more informed
+                        decisions.
+
+                        The platform does not provide personalised
+                        financial advice.
+
                     </p>
+
 
                     <p class="author-focus">
 
-                        <strong>Areas of focus:</strong>
+
+                        <strong>
+                            Areas of focus:
+                        </strong>
+
 
                         Personal Finance · Investing · Wealth Building ·
                         Financial Planning · SIPs · Retirement Planning ·
                         Financial Education
 
+
                     </p>
+
 
                     <p class="author-profile-link">
 
+
                         <a href="{{ url_for('about') }}">
-                            Learn more about the author and SmartPlan Finance →
+
+                            Learn more about the author
+                            and SmartPlan Finance →
+
                         </a>
+
 
                     </p>
 
+
                 </div>
 
+
             </div>
+
 
         </section>
 
 
+
+        <!-- ==========================================
+             RELATED ARTICLES
+             ========================================== -->
+
         {% if related_articles %}
+
 
         <section
             class="related-articles"
             aria-labelledby="related-title"
         >
 
+
             <h2 id="related-title">
+
                 Continue learning
+
             </h2>
+
 
             <ul>
 
+
                 {% for related in related_articles %}
+
 
                 <li>
 
+
                     <a
-                        href="{{ url_for('view_article', slug=related.slug) }}"
+                        href="{{
+                            url_for(
+                                'view_article',
+                                slug=related.slug
+                            )
+                        }}"
                     >
+
                         {{ related.title }}
+
                     </a>
+
 
                 </li>
 
+
                 {% endfor %}
+
 
             </ul>
 
+
         </section>
+
 
         {% endif %}
 
+
+
+        <!-- ==========================================
+             CTA
+             ========================================== -->
 
         <section
             class="cta"
             aria-labelledby="tools-title"
         >
 
+
             <h2 id="tools-title">
+
                 Put your plan into action
+
             </h2>
 
+
             <p>
-                Use our free calculators to turn these ideas into numbers
-                that fit your goals.
+
+                Use our free calculators to turn these ideas
+                into numbers that fit your goals.
+
             </p>
 
+
             <a href="{{ url_for('login') }}">
+
                 Create my financial plan
+
             </a>
+
 
         </section>
 
 
+
+        <!-- ==========================================
+             BACK TO ARTICLES
+             ========================================== -->
+
         <div class="bottom">
+
 
             <a
                 href="{{ url_for('articles') }}"
                 class="back-btn"
             >
+
                 ← Back to all articles
+
             </a>
 
+
         </div>
+
 
     </article>
 
 
+
+    <!-- ==========================================
+         ARTICLE FOOTER
+         ========================================== -->
+
     <footer class="page-footer">
+
 
         <div class="footer-links">
 
+
             <a href="{{ url_for('about') }}">
+
                 About
+
             </a>
+
 
             <a href="{{ url_for('privacy') }}">
+
                 Privacy Policy
+
             </a>
+
 
             <a href="{{ url_for('terms') }}">
+
                 Terms
+
             </a>
+
 
             <a href="{{ url_for('disclaimer') }}">
+
                 Disclaimer
+
             </a>
 
-            <a href="/affiliate-policy">
+
+            <a href="{{ url_for('affiliate_policy') }}">
+
                 Affiliate Disclosure
+
             </a>
+
 
         </div>
 
+
         <p>
-            © 2026 SmartPlan Finance. All rights reserved.
+
+            © 2026 SmartPlan Finance.
+            All rights reserved.
+
         </p>
 
+
     </footer>
+
 
 </main>
 
 
+
+<!-- ==========================================
+     PIE CHART JAVASCRIPT
+     ========================================== -->
+
 <script>
-document.addEventListener("DOMContentLoaded", function () {
 
-    const charts = document.querySelectorAll(".spf-chart");
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    charts.forEach(function (chart) {
 
-        const type = chart.dataset.chartType;
-        const data = JSON.parse(chart.dataset.chartData);
+        const charts =
+            document.querySelectorAll(".spf-chart");
 
-        const visual = chart.querySelector(".spf-chart-visual");
-        const legend = chart.querySelector(".spf-chart-legend");
 
-        if (!data.length) {
-            return;
-        }
+        charts.forEach(function (chart) {
 
-        if (type === "pie") {
 
-            const total = data.reduce(function (sum, item) {
-                return sum + item.value;
-            }, 0);
+            const type =
+                chart.dataset.chartType;
 
-            let currentAngle = 0;
 
-            const segments = data.map(function (item) {
+            let data;
 
-                const start = currentAngle;
 
-                const angle = (item.value / total) * 360;
+            try {
 
-                currentAngle += angle;
+                data =
+                    JSON.parse(
+                        chart.dataset.chartData
+                    );
 
-                return {
-                    label: item.label,
-                    value: item.value,
-                    start: start,
-                    end: currentAngle
-                };
+            } catch (error) {
 
-            });
+                console.error(
+                    "Invalid chart data:",
+                    error
+                );
 
-            const gradient = segments.map(function (segment, index) {
+                return;
+
+            }
+
+
+            const visual =
+                chart.querySelector(
+                    ".spf-chart-visual"
+                );
+
+
+            const legend =
+                chart.querySelector(
+                    ".spf-chart-legend"
+                );
+
+
+            if (
+                !data ||
+                !data.length ||
+                !visual ||
+                !legend
+            ) {
+
+                return;
+
+            }
+
+
+
+            if (type === "pie") {
+
+
+                const total =
+                    data.reduce(
+                        function (sum, item) {
+
+                            return (
+                                sum +
+                                Number(item.value || 0)
+                            );
+
+                        },
+                        0
+                    );
+
+
+                if (total <= 0) {
+
+                    return;
+
+                }
+
+
+                let currentAngle = 0;
+
+
+                const segments =
+                    data.map(function (item) {
+
+
+                        const value =
+                            Number(
+                                item.value || 0
+                            );
+
+
+                        const start =
+                            currentAngle;
+
+
+                        const angle =
+                            (
+                                value /
+                                total
+                            ) * 360;
+
+
+                        currentAngle += angle;
+
+
+                        return {
+
+                            label:
+                                item.label,
+
+                            value:
+                                value,
+
+                            start:
+                                start,
+
+                            end:
+                                currentAngle
+
+                        };
+
+
+                    });
+
+
 
                 const colors = [
+
                     "#D4AF37",
+
                     "#B8860B",
+
                     "#A67C52",
+
                     "#8F6B3E",
+
                     "#C5A24A",
+
                     "#96763F",
+
                     "#B59B62",
+
                     "#806B48",
+
                     "#A8946A",
+
                     "#E0C36E"
+
                 ];
 
-                return `${colors[index % colors.length]} ${segment.start}deg ${segment.end}deg`;
 
-            }).join(", ");
 
-            visual.innerHTML = `
-                <div class="spf-pie"
-                     style="background: conic-gradient(${gradient});">
+                const gradient =
+                    segments.map(
+                        function (
+                            segment,
+                            index
+                        ) {
 
-                    <div class="spf-pie-hole">
-                        <strong>${formatCurrency(total)}</strong>
-                        <span>Total</span>
+
+                            return (
+
+                                colors[
+                                    index %
+                                    colors.length
+                                ]
+
+                                +
+
+                                " "
+
+                                +
+
+                                segment.start
+
+                                +
+
+                                "deg "
+
+                                +
+
+                                segment.end
+
+                                +
+
+                                "deg"
+
+                            );
+
+
+                        }
+                    ).join(", ");
+
+
+
+                visual.innerHTML = `
+
+                    <div
+                        class="spf-pie"
+                        style="
+                            background:
+                            conic-gradient(
+                                ${gradient}
+                            );
+                        "
+                    >
+
+                        <div class="spf-pie-hole">
+
+                            <strong>
+                                ${formatCurrency(total)}
+                            </strong>
+
+                            <span>
+                                Total
+                            </span>
+
+                        </div>
+
                     </div>
 
-                </div>
-            `;
-
-            segments.forEach(function (item, index) {
-
-                const percentage = total
-                    ? ((item.value / total) * 100).toFixed(1)
-                    : "0";
-
-                const row = document.createElement("div");
-
-                row.className = "spf-chart-legend-item";
-
-                row.innerHTML = `
-                    <span
-                        class="spf-chart-dot"
-                        style="background:${[
-                            "#D4AF37",
-                            "#B8860B",
-                            "#A67C52",
-                            "#8F6B3E",
-                            "#C5A24A",
-                            "#96763F",
-                            "#B59B62",
-                            "#806B48",
-                            "#A8946A",
-                            "#E0C36E"
-                        ][index % 10]}"
-                    ></span>
-
-                    <span class="spf-chart-label">
-                        ${escapeHTML(item.label)}
-                    </span>
-
-                    <strong>
-                        ${formatCurrency(item.value)}
-                        (${percentage}%)
-                    </strong>
                 `;
 
-                legend.appendChild(row);
 
-            });
 
-        }
+                segments.forEach(
+                    function (
+                        item,
+                        index
+                    ) {
 
-    });
 
-});
+                        const percentage =
+                            total
+                            ? (
+                                (
+                                    item.value /
+                                    total
+                                ) * 100
+                            ).toFixed(1)
+                            : "0";
 
+
+                        const row =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        row.className =
+                            "spf-chart-legend-item";
+
+
+                        row.innerHTML = `
+
+                            <span
+                                class="spf-chart-dot"
+                                style="
+                                    background:
+                                    ${
+                                        colors[
+                                            index %
+                                            colors.length
+                                        ]
+                                    };
+                                "
+                            ></span>
+
+
+                            <span
+                                class="spf-chart-label"
+                            >
+
+                                ${escapeHTML(
+                                    item.label
+                                )}
+
+                            </span>
+
+
+                            <strong>
+
+                                ${formatCurrency(
+                                    item.value
+                                )}
+
+                                (${percentage}%)
+
+                            </strong>
+
+                        `;
+
+
+                        legend.appendChild(
+                            row
+                        );
+
+
+                    }
+                );
+
+
+            }
+
+
+        });
+
+
+    }
+);
+
+
+
+/* ==========================================
+   Currency Formatting
+   ========================================== */
 
 function formatCurrency(value) {
 
-    return "₹" + Number(value).toLocaleString("en-IN", {
-        maximumFractionDigits: 0
-    });
+
+    return (
+
+        "₹" +
+
+        Number(value).toLocaleString(
+            "en-IN",
+            {
+                maximumFractionDigits: 0
+            }
+        )
+
+    );
 
 }
 
 
+
+/* ==========================================
+   HTML Escaping
+   ========================================== */
+
 function escapeHTML(value) {
 
-    const div = document.createElement("div");
 
-    div.textContent = value;
+    const div =
+        document.createElement("div");
+
+
+    div.textContent =
+        value;
+
 
     return div.innerHTML;
 
 }
+
 </script>
 
+
 </body>
+
 </html>
-```
