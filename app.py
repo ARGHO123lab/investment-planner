@@ -4514,79 +4514,89 @@ def ads_txt():
 
 @app.route("/sitemap.xml")
 def sitemap():
-    conn = get_db_connection()
-    cursor = conn.cursor()
+    conn = None
 
-    cursor.execute("""
-        SELECT slug, created_at
-        FROM articles
-        ORDER BY created_at DESC
-    """)
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
 
-    articles = cursor.fetchall()
-    conn.close()
+        cursor.execute("""
+            SELECT slug, created_at
+            FROM articles
+            ORDER BY created_at DESC
+        """)
 
-    xml = ['<?xml version="1.0" encoding="UTF-8"?>']
-    xml.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
+        articles = cursor.fetchall()
+        cursor.close()
 
-    # =========================
-    # PUBLIC PLATFORM PAGES
-    # =========================
+        xml = ['<?xml version="1.0" encoding="UTF-8"?>']
+        xml.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
 
-    static_urls = [
-        ("https://smartplanfinance.com/", "daily", "1.0"),
-        ("https://smartplanfinance.com/articles", "daily", "0.9"),
-        ("https://smartplanfinance.com/books", "weekly", "0.8"),
-        ("https://smartplanfinance.com/handbook", "monthly", "0.8"),
-        ("https://smartplanfinance.com/wellness", "monthly", "0.8"),
-        ("https://smartplanfinance.com/financial-planner", "monthly", "0.9"),
+        # =========================
+        # PUBLIC PLATFORM PAGES
+        # =========================
 
-        # Calculators
-        ("https://smartplanfinance.com/cagr_calculator", "monthly", "0.8"),
-        ("https://smartplanfinance.com/emi_calculator", "monthly", "0.8"),
-        ("https://smartplanfinance.com/fd_calculator", "monthly", "0.8"),
-        ("https://smartplanfinance.com/in-hand-salary-calculator", "monthly", "0.8"),
-        ("https://smartplanfinance.com/inflation_calculator", "monthly", "0.8"),
-        ("https://smartplanfinance.com/loan-eligibility-calculator", "monthly", "0.8"),
-        ("https://smartplanfinance.com/lumpsum_calculator", "monthly", "0.8"),
-        ("https://smartplanfinance.com/networth-calculator", "monthly", "0.8"),
-        ("https://smartplanfinance.com/retirement_calculator", "monthly", "0.8"),
-        ("https://smartplanfinance.com/sip-calculator", "monthly", "0.8"),
-        ("https://smartplanfinance.com/swp_calculator", "monthly", "0.8"),
-        ("https://smartplanfinance.com/tax_calculator", "monthly", "0.8"),
-        ("https://smartplanfinance.com/xirr-calculator", "monthly", "0.8"),
-        ("https://smartplanfinance.com/city-wise-income-calculator", "monthly", "0.8"),
-    ]
+        static_urls = [
+            ("https://smartplanfinance.com/", "daily", "1.0"),
+            ("https://smartplanfinance.com/articles", "daily", "0.9"),
+            ("https://smartplanfinance.com/books", "weekly", "0.8"),
+            ("https://smartplanfinance.com/handbook", "monthly", "0.8"),
+            ("https://smartplanfinance.com/wellness", "monthly", "0.8"),
+            ("https://smartplanfinance.com/financial-planner", "monthly", "0.9"),
 
-    for url, changefreq, priority in static_urls:
-        xml.append(f"""
-    <url>
-        <loc>{url}</loc>
-        <changefreq>{changefreq}</changefreq>
-        <priority>{priority}</priority>
-    </url>
-    """)
+            # Calculators
+            ("https://smartplanfinance.com/cagr_calculator", "monthly", "0.8"),
+            ("https://smartplanfinance.com/emi_calculator", "monthly", "0.8"),
+            ("https://smartplanfinance.com/fd_calculator", "monthly", "0.8"),
+            ("https://smartplanfinance.com/in-hand-salary-calculator", "monthly", "0.8"),
+            ("https://smartplanfinance.com/inflation_calculator", "monthly", "0.8"),
+            ("https://smartplanfinance.com/loan-eligibility-calculator", "monthly", "0.8"),
+            ("https://smartplanfinance.com/lumpsum_calculator", "monthly", "0.8"),
+            ("https://smartplanfinance.com/networth-calculator", "monthly", "0.8"),
+            ("https://smartplanfinance.com/retirement_calculator", "monthly", "0.8"),
+            ("https://smartplanfinance.com/sip-calculator", "monthly", "0.8"),
+            ("https://smartplanfinance.com/swp_calculator", "monthly", "0.8"),
+            ("https://smartplanfinance.com/tax_calculator", "monthly", "0.8"),
+            ("https://smartplanfinance.com/xirr-calculator", "monthly", "0.8"),
+            ("https://smartplanfinance.com/city-wise-income-calculator", "monthly", "0.8"),
+        ]
 
-    # =========================
-    # ALL BLOG ARTICLES
-    # =========================
+        for url, changefreq, priority in static_urls:
+            xml.append(f"""
+        <url>
+            <loc>{url}</loc>
+            <changefreq>{changefreq}</changefreq>
+            <priority>{priority}</priority>
+        </url>
+        """)
 
-    for article in articles:
-        slug = article["slug"]
-        created_at = str(article["created_at"]).split(" ")[0]
+        # =========================
+        # ALL BLOG ARTICLES
+        # =========================
 
-        xml.append(f"""
-    <url>
-        <loc>https://smartplanfinance.com/blog/{slug}</loc>
-        <lastmod>{created_at}</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    """)
+        for article in articles:
+            slug = article["slug"]
+            created_at = str(article["created_at"]).split(" ")[0]
 
-    xml.append("</urlset>")
+            xml.append(f"""
+        <url>
+            <loc>https://smartplanfinance.com/blog/{slug}</loc>
+            <lastmod>{created_at}</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>0.8</priority>
+        </url>
+        """)
 
-    return Response("\n".join(xml), mimetype="application/xml")
+        xml.append("</urlset>")
+
+        return Response(
+            "\n".join(xml),
+            mimetype="application/xml"
+        )
+
+    finally:
+        if conn is not None:
+            DB_POOL.putconn(conn)
 @app.route("/city-wise-income-calculator", methods=["GET", "POST"])
 def city_income_calculator():
 
