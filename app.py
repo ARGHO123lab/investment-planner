@@ -1489,15 +1489,6 @@ def upload_article_image():
     if file.mimetype not in allowed_types:
         return {"error": "Unsupported image type"}, 400
 
-    # Create article image directory
-    upload_dir = os.path.join(
-        app.static_folder,
-        "uploads",
-        "articles"
-    )
-
-    os.makedirs(upload_dir, exist_ok=True)
-
     # Generate a unique filename
     extension = os.path.splitext(file.filename)[1].lower()
 
@@ -1507,7 +1498,7 @@ def upload_article_image():
     filename = f"article_{uuid.uuid4().hex}{extension}"
 
     filepath = os.path.join(
-        upload_dir,
+        app.config["UPLOAD_FOLDER"],
         filename
     )
 
