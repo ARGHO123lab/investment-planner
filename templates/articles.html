@@ -1,67 +1,473 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Financial Insights & Investment Guides | SmartPlan Finance</title>
-    <link rel="canonical" href="https://smartplanfinance.com/articles">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <meta name="description" content="Explore personal finance articles, investment guides, retirement planning, taxation tips, and wealth-building strategies from SmartPlan Finance.">
-    <meta name="author" content="SmartPlan Finance Editorial Team">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Financial Insights | SmartPlan Finance">
-    <meta property="og:description" content="Explore personal finance articles, investment guides, retirement planning, taxation tips, and wealth-building strategies from SmartPlan Finance.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://smartplanfinance.com/articles">
-    <meta property="og:image" content="https://smartplanfinance.com/static/images/logo.png">
-    <meta property="og:site_name" content="SmartPlan Finance">
-    <meta name="twitter:card" content="summary_large_image">
 
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/articles.css') }}">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Financial Insights & Investment Guides | SmartPlan Finance
+    </title>
+
+    <meta
+        name="description"
+        content="Explore personal finance articles, investment guides, retirement planning, taxation tips, budgeting strategies, and wealth-building insights from SmartPlan Finance."
+    >
+
+    <meta
+        name="author"
+        content="SmartPlan Finance"
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <link
+        rel="canonical"
+        href="https://smartplanfinance.com/articles"
+    >
+
+
+    <!-- ==========================================
+         OPEN GRAPH
+         ========================================== -->
+
+    <meta
+        property="og:title"
+        content="Financial Insights & Investment Guides | SmartPlan Finance"
+    >
+
+    <meta
+        property="og:description"
+        content="Explore personal finance articles, investment guides, retirement planning, taxation tips, budgeting strategies, and wealth-building insights from SmartPlan Finance."
+    >
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <meta
+        property="og:url"
+        content="https://smartplanfinance.com/articles"
+    >
+
+    <meta
+        property="og:site_name"
+        content="SmartPlan Finance"
+    >
+
+    <meta
+        property="og:image"
+        content="https://smartplanfinance.com/static/images/logo.png"
+    >
+
+
+    <!-- ==========================================
+         TWITTER / SOCIAL
+         ========================================== -->
+
+    <meta
+        name="twitter:card"
+        content="summary_large_image"
+    >
+
+    <meta
+        name="twitter:title"
+        content="Financial Insights & Investment Guides | SmartPlan Finance"
+    >
+
+    <meta
+        name="twitter:description"
+        content="Practical personal finance articles, investment guides, retirement planning, taxation tips, and wealth-building strategies."
+    >
+
+    <meta
+        name="twitter:image"
+        content="https://smartplanfinance.com/static/images/logo.png"
+    >
+
+
+    <!-- ==========================================
+         FAVICON
+         ========================================== -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="{{ url_for('static', filename='icons/favicon-32x32.png') }}"
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="{{ url_for('static', filename='icons/favicon-16x16.png') }}"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}"
+    >
+
+    <link
+        rel="manifest"
+        href="{{ url_for('static', filename='icons/site.webmanifest') }}"
+    >
+
+
+    <!-- ==========================================
+         CSS
+         ========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/articles.css') }}"
+    >
+
+
+    <!-- ==========================================
+         COLLECTION PAGE STRUCTURED DATA
+         ========================================== -->
+
+    <script type="application/ld+json">
+
+    {
+        "@context": "https://schema.org",
+
+        "@type": "CollectionPage",
+
+        "name": "Financial Insights & Investment Guides | SmartPlan Finance",
+
+        "description": "Explore personal finance articles, investment guides, retirement planning, taxation tips, budgeting strategies, and wealth-building insights from SmartPlan Finance.",
+
+        "url": "https://smartplanfinance.com/articles",
+
+        "publisher": {
+            "@type": "Organization",
+            "name": "SmartPlan Finance",
+            "url": "https://smartplanfinance.com/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://smartplanfinance.com/static/images/logo.png"
+            }
+        }
+    }
+
+    </script>
+
 </head>
 
+
 <body>
+
+
+<!-- ==========================================
+     PAGE HEADER
+     ========================================== -->
+
 <header class="hero">
-    <h1>📚 Financial Insights & Articles</h1>
-    <p>Explore personal finance articles, investment guides, retirement planning, taxation tips, and wealth-building strategies from SmartPlan Finance.</p>
+
+    <div class="hero-content">
+
+        <p class="hero-label">
+            SMARTPLAN FINANCE
+        </p>
+
+        <h1>
+            Financial Insights & Articles
+        </h1>
+
+        <p>
+            Explore personal finance articles, investment guides,
+            retirement planning, taxation tips, budgeting strategies,
+            and wealth-building insights designed for everyday readers.
+        </p>
+
+    </div>
+
 </header>
 
+
+
+<!-- ==========================================
+     MAIN CONTENT
+     ========================================== -->
+
 <main class="container">
-    <section class="overview" aria-labelledby="overview-title">
-        <p id="overview-title" class="overview-text">We publish original and practical finance articles that help readers build savings, invest wisely, reduce tax, and plan for retirement.</p>
+
+
+    <!-- ==========================================
+         INTRODUCTION
+         ========================================== -->
+
+    <section
+        class="overview"
+        aria-labelledby="overview-title"
+    >
+
+        <h2
+            id="overview-title"
+            class="visually-hidden"
+        >
+            SmartPlan Finance Articles
+        </h2>
+
+        <p class="overview-text">
+
+            SmartPlan Finance publishes practical financial education
+            covering saving, investing, SIPs, mutual funds, taxes,
+            loans, retirement planning, financial independence,
+            and long-term wealth building.
+
+        </p>
+
+        <p class="overview-text">
+
+            Our goal is to make financial concepts easier to understand
+            so readers can explore financial decisions with greater
+            knowledge and confidence.
+
+        </p>
+
     </section>
 
-    <section class="article-grid" aria-labelledby="articles-title">
-        <h2 id="articles-title" class="visually-hidden">Latest Articles</h2>
+
+
+    <!-- ==========================================
+         ARTICLE COLLECTION
+         ========================================== -->
+
+    <section
+        class="article-grid"
+        aria-labelledby="articles-title"
+    >
+
+        <h2 id="articles-title">
+
+            Latest Financial Articles
+
+        </h2>
+
+
+        {% if articles %}
+
         <div class="grid">
+
             {% for article in articles %}
-            <article class="card">
+
+            <article
+                class="card"
+                itemscope
+                itemtype="https://schema.org/Article"
+            >
+
                 <div class="card-content">
-                    <div class="badge">SmartPlan Finance</div>
-                    <h3>
-                        <a href="{{ url_for('view_article', slug=article.slug) }}">{{ article.title }}</a>
+
+
+                    <div class="badge">
+
+                        SmartPlan Finance
+
+                    </div>
+
+
+                    <h3 itemprop="headline">
+
+                        <a
+                            href="{{ url_for('view_article', slug=article.slug) }}"
+                            itemprop="url"
+                        >
+
+                            {{ article.title }}
+
+                        </a>
+
                     </h3>
-                    <p class="excerpt">{{ article.excerpt | striptags | truncate(180, True, '...') }}</p>
-                    <div class="date">📅 {{ article.created_at.strftime('%d %B %Y') }}</div>
-                    <a href="{{ url_for('view_article', slug=article.slug) }}" class="read">Read Article →</a>
+
+
+                    {% if article.excerpt %}
+
+                    <p
+                        class="excerpt"
+                        itemprop="description"
+                    >
+
+                        {{
+                            article.excerpt
+                            | striptags
+                            | truncate(180, True, '...')
+                        }}
+
+                    </p>
+
+                    {% endif %}
+
+
+                    {% if article.created_at %}
+
+                    <div
+                        class="date"
+                        itemprop="datePublished"
+                        content="{{ article.created_at.strftime('%Y-%m-%d') }}"
+                    >
+
+                        Published
+                        {{ article.created_at.strftime('%d %B %Y') }}
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <a
+                        href="{{ url_for('view_article', slug=article.slug) }}"
+                        class="read"
+                        aria-label="Read {{ article.title }}"
+                    >
+
+                        Read Article →
+
+                    </a>
+
+
                 </div>
+
             </article>
+
             {% endfor %}
+
         </div>
+
+
+        {% else %}
+
+        <div class="no-articles">
+
+            <h3>
+                Articles are coming soon.
+            </h3>
+
+            <p>
+                We're preparing practical financial education
+                and investing resources for SmartPlan Finance readers.
+            </p>
+
+        </div>
+
+        {% endif %}
+
     </section>
 
-    <section class="page-footer">
-        <div class="footer-links">
-            <a href="{{ url_for('about') }}">About</a>
-            <a href="{{ url_for('privacy') }}">Privacy Policy</a>
-            <a href="{{ url_for('terms') }}">Terms</a>
-        </div>
-        <p>© 2026 SmartPlan Finance. All Rights Reserved.</p>
+
+
+    <!-- ==========================================
+         FINANCIAL EDUCATION NOTICE
+         ========================================== -->
+
+    <section
+        class="education-notice"
+        aria-labelledby="education-title"
+    >
+
+        <h2 id="education-title">
+
+            Financial Education
+
+        </h2>
+
+        <p>
+
+            SmartPlan Finance articles are provided for general
+            educational and informational purposes. They are not
+            personalised financial, investment, tax, legal, or
+            accounting advice.
+
+        </p>
+
+        <p>
+
+            Financial decisions should be based on your individual
+            circumstances, goals, risk tolerance, and financial
+            situation. Consider consulting a qualified professional
+            where appropriate.
+
+        </p>
+
     </section>
+
+
+
+    <!-- ==========================================
+         FOOTER
+         ========================================== -->
+
+    <footer class="page-footer">
+
+
+        <div class="footer-links">
+
+
+            <a href="{{ url_for('about') }}">
+
+                About
+
+            </a>
+
+
+            <a href="{{ url_for('privacy') }}">
+
+                Privacy Policy
+
+            </a>
+
+
+            <a href="{{ url_for('terms') }}">
+
+                Terms
+
+            </a>
+
+
+            <a href="{{ url_for('disclaimer') }}">
+
+                Disclaimer
+
+            </a>
+
+
+            <a href="{{ url_for('affiliate_policy') }}">
+
+                Affiliate Disclosure
+
+            </a>
+
+
+        </div>
+
+
+        <p>
+
+            © 2026 SmartPlan Finance.
+            All Rights Reserved.
+
+        </p>
+
+
+    </footer>
+
+
 </main>
+
+
 </body>
+
 </html>
