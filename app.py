@@ -1515,6 +1515,17 @@ def upload_article_image():
         "success": True,
         "url": image_url
     }, 200
+#ok
+@app.route('/static/uploads/articles/<filename>')
+def serve_article_image(filename):
+    """Serve article images"""
+    from flask import send_from_directory
+    return send_from_directory(
+        os.path.join(app.root_path, 'static', 'uploads', 'articles'),
+        filename,
+        cache_timeout=86400  # Cache for 1 day
+    
+    )
 @app.route('/publish', methods=['GET', 'POST'])
 @requires_auth
 def publish():
