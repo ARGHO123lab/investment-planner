@@ -259,7 +259,7 @@
     <h1>✏️ Edit Article</h1>
     
     <form id="editForm" method="POST">
-        {{ csrf_token() }}
+       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <!-- TITLE -->
         <div class="form-group">
