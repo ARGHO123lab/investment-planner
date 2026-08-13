@@ -1,4 +1,5 @@
 import re
+import html
 import os
 import uuid
 import requests
@@ -312,6 +313,96 @@ def generate_metadata(title, content):
         "excerpt": text[:250],
         "reading_time": max(1, len(text.split()) // 200)
     }
+def render_spf_charts(content):
+    """
+    Converts SmartPlan Finance chart blocks into rendered HTML.
+    Supports multiple charts in the same article.
+    """
+
+    if not content:
+        return content
+
+    pattern = re.compile(
+        r'\{\{SPF_CHART\s+'
+        r'type="([^"]+)"\s+'
+        r'title="([^"]*)"\s+'
+        r'data=\'(\[.*?\])\''
+        r'\s*\}\}',
+        re.DOTALL
+    )
+
+    def replace_chart(match):
+
+        chart_type = match.group(1).strip().lower()
+        title = match.group(2).strip()
+        data_raw = match.group(3)
+
+        # Only allow supported chart types
+        if chart_type not in ("pie", "bar", "line"):
+            return match.group(0)
+
+        try:
+            data = json.loads(data_raw)
+        except json.JSONDecodeError:
+            return match.group(0)
+
+        if not isinstance(data, list) or not data:
+            return match.group(0)
+
+        # Basic validation
+        valid_data = []
+
+        for item in data:
+
+            if not isinstance(item, dict):
+                continue
+
+            label = item.get("label")
+            value = item.get("value")
+
+            if label is None or value is None:
+                continue
+
+            try:
+                value = float(value)
+            except (TypeError, ValueError):
+                continue
+
+            valid_data.append({
+                "label": str(label),
+                "value": value
+            })
+
+        if not valid_data:
+            return match.group(0)
+
+        chart_json = json.dumps(
+            valid_data,
+            ensure_ascii=False
+        )
+
+        return f'''
+<div class="spf-chart"
+     data-chart-type="{html.escape(chart_type)}"
+     data-chart-title="{html.escape(title)}"
+     data-chart-data='{html.escape(chart_json, quote=True)}'>
+
+    <div class="spf-chart-header">
+        <h2>{html.escape(title)}</h2>
+    </div>
+
+    <div class="spf-chart-container">
+
+        <div class="spf-chart-visual"></div>
+
+        <div class="spf-chart-legend"></div>
+
+    </div>
+
+</div>
+'''
+
+    return pattern.sub(replace_chart, content)
 def extract_article_data(ai_response):
 
     import re
@@ -685,7 +776,7 @@ def get_cached_article_page(slug):
             LIMIT 5
         """, (article["id"],))
         related_articles = cur.fetchall()
-
+        article["content"] = render_spf_charts(article["content"])
         html = render_template(
             "view_article.html",
             article=article,

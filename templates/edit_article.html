@@ -7,86 +7,275 @@
 
     <title>Edit Article | SmartPlan Finance</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
 
-        body{
-            margin:0;
-            background:#f5f5f5;
-            font-family:Poppins,sans-serif;
+        * {
+            box-sizing: border-box;
         }
 
-        .container{
-
-            max-width:1100px;
-            margin:40px auto;
-            background:white;
-            padding:40px;
-            border-radius:15px;
-            box-shadow:0 10px 30px rgba(0,0,0,.08);
-
+        body {
+            margin: 0;
+            background: #f5f5f5;
+            font-family: Poppins, sans-serif;
+            color: #222;
         }
 
-        h1{
-
-            color:#B8860B;
-            margin-bottom:30px;
-
+        .container {
+            max-width: 1200px;
+            margin: 35px auto;
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
 
-        label{
-
-            display:block;
-            margin-top:20px;
-            margin-bottom:8px;
-            font-weight:600;
-
+        h1 {
+            color: #B8860B;
+            margin: 0 0 30px;
         }
 
-        input[type=text]{
-
-            width:100%;
-            padding:12px;
-            border:1px solid #ddd;
-            border-radius:8px;
-            font-size:16px;
-
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-weight: 600;
         }
 
-        textarea{
-
-            width:100%;
-            height:700px;
-
+        input[type="text"] {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #d8d8d8;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: Poppins, sans-serif;
+            outline: none;
         }
 
-        .btn{
-
-            margin-top:30px;
-            background:#198754;
-            color:white;
-            border:none;
-            padding:14px 30px;
-            border-radius:8px;
-            cursor:pointer;
-            font-size:16px;
-
+        input[type="text"]:focus {
+            border-color: #B8860B;
         }
 
-        .btn:hover{
 
-            background:#157347;
+        /* =========================================================
+           EDITOR TOOLBAR
+           ========================================================= */
 
+        .editor-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 10px;
+            margin-top: 5px;
+            background: #fafafa;
+            border: 1px solid #d8d8d8;
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 20;
         }
 
-        .back{
+        .editor-toolbar button,
+        .editor-toolbar select {
+            height: 36px;
+            min-width: 36px;
+            padding: 0 10px;
+            border: 1px solid #d5d5d5;
+            background: #ffffff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: Poppins, sans-serif;
+            font-size: 14px;
+        }
 
-            display:inline-block;
-            margin-left:15px;
-            color:#B8860B;
-            text-decoration:none;
-            font-weight:600;
+        .editor-toolbar button:hover,
+        .editor-toolbar select:hover {
+            background: #f0f0f0;
+        }
+
+        .editor-toolbar button.active {
+            background: #eeeeee;
+            border-color: #B8860B;
+        }
+
+        .toolbar-separator {
+            width: 1px;
+            height: 30px;
+            background: #ddd;
+            margin: 3px 4px;
+        }
+
+
+        /* =========================================================
+           VISUAL ARTICLE EDITOR
+           ========================================================= */
+
+        #article-editor {
+            width: 100%;
+            min-height: 800px;
+            padding: 30px;
+            border: 1px solid #d8d8d8;
+            border-radius: 0 0 8px 8px;
+            background: #ffffff;
+            font-family: Arial, sans-serif;
+            font-size: 17px;
+            line-height: 1.75;
+            outline: none;
+            overflow-wrap: break-word;
+        }
+
+        #article-editor:focus {
+            border-color: #B8860B;
+            box-shadow: inset 0 0 0 1px #B8860B;
+        }
+
+        #article-editor h1 {
+            color: #222;
+            font-size: 32px;
+            margin: 30px 0 15px;
+        }
+
+        #article-editor h2 {
+            color: #222;
+            font-size: 27px;
+            margin: 30px 0 15px;
+        }
+
+        #article-editor h3 {
+            color: #222;
+            font-size: 23px;
+            margin: 25px 0 12px;
+        }
+
+        #article-editor h4 {
+            font-size: 20px;
+            margin: 20px 0 10px;
+        }
+
+        #article-editor p {
+            margin: 0 0 18px;
+        }
+
+        #article-editor ul,
+        #article-editor ol {
+            margin-bottom: 20px;
+            padding-left: 30px;
+        }
+
+        #article-editor blockquote {
+            margin: 20px 0;
+            padding: 15px 20px;
+            border-left: 4px solid #B8860B;
+            background: #fafafa;
+        }
+
+        #article-editor table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+        }
+
+        #article-editor th,
+        #article-editor td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        #article-editor th {
+            font-weight: 600;
+            background: #f5f5f5;
+        }
+
+        #article-editor a {
+            color: #8B6508;
+            text-decoration: underline;
+        }
+
+        #article-editor img {
+            max-width: 100%;
+            height: auto;
+        }
+
+
+        /* =========================================================
+           STATUS
+           ========================================================= */
+
+        .editor-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        .save-status {
+            font-weight: 500;
+        }
+
+
+        /* =========================================================
+           BUTTONS
+           ========================================================= */
+
+        .actions {
+            margin-top: 25px;
+        }
+
+        .btn {
+            background: #198754;
+            color: #ffffff;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: Poppins, sans-serif;
+        }
+
+        .btn:hover {
+            background: #157347;
+        }
+
+        .back {
+            display: inline-block;
+            margin-left: 15px;
+            color: #B8860B;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =========================================================
+           MOBILE
+           ========================================================= */
+
+        @media (max-width: 768px) {
+
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+
+            #article-editor {
+                padding: 20px;
+                font-size: 16px;
+            }
+
+            .editor-toolbar {
+                position: relative;
+            }
 
         }
 
@@ -94,68 +283,509 @@
 
 </head>
 
+
 <body>
+
 
 <div class="container">
 
     <h1>✏️ Edit Article</h1>
 
-    <form method="POST">
 
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <form
+        method="POST"
+        id="article-form"
+    >
 
-        <label>Article Title</label>
+        <input
+            type="hidden"
+            name="csrf_token"
+            value="{{ csrf_token() }}"
+        >
+
+
+        <!-- =====================================================
+             TITLE
+             ===================================================== -->
+
+        <label for="title">
+            Article Title
+        </label>
 
         <input
             type="text"
+            id="title"
             name="title"
             value="{{ article.title }}"
             required
         >
 
-        <label>Meta Description</label>
+
+        <!-- =====================================================
+             META DESCRIPTION
+             ===================================================== -->
+
+        <label for="meta_description">
+            Meta Description
+        </label>
 
         <input
             type="text"
+            id="meta_description"
             name="meta_description"
-            value="{{ article.meta_description }}"
+            value="{{ article.meta_description or '' }}"
         >
 
-        <label>Article Content</label>
+
+        <!-- =====================================================
+             ARTICLE CONTENT
+             ===================================================== -->
+
+        <label>
+            Article Content
+        </label>
+
+
+        <!-- TOOLBAR -->
+
+        <div
+            class="editor-toolbar"
+            id="editor-toolbar"
+        >
+
+            <button
+                type="button"
+                data-command="bold"
+                title="Bold"
+            >
+                <strong>B</strong>
+            </button>
+
+            <button
+                type="button"
+                data-command="italic"
+                title="Italic"
+            >
+                <em>I</em>
+            </button>
+
+            <button
+                type="button"
+                data-command="underline"
+                title="Underline"
+            >
+                <u>U</u>
+            </button>
+
+
+            <span class="toolbar-separator"></span>
+
+
+            <select
+                id="format-block"
+                title="Text format"
+            >
+
+                <option value="p">
+                    Paragraph
+                </option>
+
+                <option value="h2">
+                    Heading 2
+                </option>
+
+                <option value="h3">
+                    Heading 3
+                </option>
+
+                <option value="h4">
+                    Heading 4
+                </option>
+
+                <option value="blockquote">
+                    Quote
+                </option>
+
+            </select>
+
+
+            <span class="toolbar-separator"></span>
+
+
+            <button
+                type="button"
+                data-command="insertUnorderedList"
+                title="Bullet List"
+            >
+                • List
+            </button>
+
+            <button
+                type="button"
+                data-command="insertOrderedList"
+                title="Numbered List"
+            >
+                1. List
+            </button>
+
+
+            <span class="toolbar-separator"></span>
+
+
+            <button
+                type="button"
+                data-command="justifyLeft"
+                title="Align Left"
+            >
+                Left
+            </button>
+
+            <button
+                type="button"
+                data-command="justifyCenter"
+                title="Align Center"
+            >
+                Center
+            </button>
+
+
+            <span class="toolbar-separator"></span>
+
+
+            <button
+                type="button"
+                id="link-button"
+                title="Insert Link"
+            >
+                🔗 Link
+            </button>
+
+
+            <button
+                type="button"
+                data-command="removeFormat"
+                title="Remove Formatting"
+            >
+                Clear
+            </button>
+
+
+            <span class="toolbar-separator"></span>
+
+
+            <!-- RESERVED FOR FUTURE CHART SYSTEM -->
+
+            <button
+                type="button"
+                id="add-chart-button"
+                title="Add Chart"
+            >
+                📊 Add Chart
+            </button>
+
+        </div>
+
+
+        <!-- =====================================================
+             VISUAL EDITOR
+             ===================================================== -->
+
+        <div
+            id="article-editor"
+            contenteditable="true"
+            spellcheck="true"
+            role="textbox"
+            aria-multiline="true"
+        >{{ article.content | safe }}</div>
+
+
+        <!-- =====================================================
+             HIDDEN FIELD SENT TO FLASK
+             ===================================================== -->
 
         <textarea
             id="content"
-            name="content">{{ article.content }}</textarea>
+            name="content"
+            style="display:none;"
+        ></textarea>
 
-        <button class="btn" type="submit">
 
-            💾 Save Changes
+        <div class="editor-status">
 
-        </button>
+            <span>
+                Visual article editor
+            </span>
 
-        <a
-            class="back"
-            href="{{ url_for('view_article', slug=article.slug) }}">
+            <span
+                id="save-status"
+                class="save-status"
+            >
+                Ready
+            </span>
 
-            ← Back to Article
+        </div>
 
-        </a>
+
+        <!-- =====================================================
+             ACTIONS
+             ===================================================== -->
+
+        <div class="actions">
+
+            <button
+                class="btn"
+                type="submit"
+            >
+                💾 Save Changes
+            </button>
+
+            <a
+                class="back"
+                href="{{ url_for('view_article', slug=article.slug) }}"
+            >
+                ← Back to Article
+            </a>
+
+        </div>
 
     </form>
 
 </div>
 
-<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 
 <script>
 
-CKEDITOR.replace("content",{
+document.addEventListener("DOMContentLoaded", function () {
 
-    height:650
+    const editor = document.getElementById("article-editor");
+    const hiddenContent = document.getElementById("content");
+    const form = document.getElementById("article-form");
+    const saveStatus = document.getElementById("save-status");
+
+
+    /* =========================================================
+       KEEP CURSOR POSITION / FOCUS
+       ========================================================= */
+
+    function focusEditor() {
+        editor.focus();
+    }
+
+
+    /* =========================================================
+       TOOLBAR COMMANDS
+       ========================================================= */
+
+    document
+        .querySelectorAll("[data-command]")
+        .forEach(function (button) {
+
+            button.addEventListener("mousedown", function (event) {
+
+                event.preventDefault();
+
+                focusEditor();
+
+                const command = button.dataset.command;
+
+                document.execCommand(
+                    command,
+                    false,
+                    null
+                );
+
+                updateStatus("Editing...");
+
+            });
+
+        });
+
+
+    /* =========================================================
+       HEADINGS / FORMAT
+       ========================================================= */
+
+    const formatBlock =
+        document.getElementById("format-block");
+
+    formatBlock.addEventListener("change", function () {
+
+        focusEditor();
+
+        document.execCommand(
+            "formatBlock",
+            false,
+            this.value
+        );
+
+        updateStatus("Editing...");
+
+    });
+
+
+    /* =========================================================
+       LINK
+       ========================================================= */
+
+    document
+        .getElementById("link-button")
+        .addEventListener("mousedown", function (event) {
+
+            event.preventDefault();
+
+            focusEditor();
+
+            const url = prompt(
+                "Enter the URL:"
+            );
+
+            if (!url) {
+                return;
+            }
+
+            document.execCommand(
+                "createLink",
+                false,
+                url
+            );
+
+            updateStatus("Editing...");
+
+        });
+
+
+    /* =========================================================
+       CHART BUTTON
+       ========================================================= */
+
+    document
+        .getElementById("add-chart-button")
+        .addEventListener("click", function () {
+
+            alert(
+                "Chart insertion will be added here next."
+            );
+
+        });
+
+
+    /* =========================================================
+       NATIVE COPY / PASTE
+       ========================================================= */
+
+    /*
+     * We intentionally DO NOT override the browser's
+     * normal copy/paste behaviour.
+     *
+     * This means:
+     *
+     * Ctrl+C
+     * Ctrl+V
+     * Right-click → Copy
+     * Right-click → Paste
+     *
+     * all use the browser's native clipboard system.
+     *
+     * HTML formatting from AI/Word/etc. can therefore
+     * remain available to the visual editor.
+     */
+
+
+    /* =========================================================
+       ARTICLE CHANGE DETECTION
+       ========================================================= */
+
+    editor.addEventListener("input", function () {
+
+        updateStatus("Unsaved changes");
+
+    });
+
+
+    editor.addEventListener("paste", function () {
+
+        setTimeout(function () {
+
+            updateStatus("Unsaved changes");
+
+        }, 50);
+
+    });
+
+
+    /* =========================================================
+       SAVE STATUS
+       ========================================================= */
+
+    function updateStatus(message) {
+
+        saveStatus.textContent = message;
+
+    }
+
+
+    /* =========================================================
+       BEFORE FORM SUBMISSION
+       ========================================================= */
+
+    form.addEventListener("submit", function () {
+
+        /*
+         * Take the visual editor HTML and put it into
+         * the hidden textarea.
+         *
+         * Flask continues receiving:
+         *
+         * request.form.get("content")
+         *
+         * exactly as before.
+         */
+
+        hiddenContent.value =
+            editor.innerHTML;
+
+        saveStatus.textContent =
+            "Saving...";
+
+    });
+
+
+    /* =========================================================
+       KEYBOARD SHORTCUTS
+       ========================================================= */
+
+    editor.addEventListener("keydown", function (event) {
+
+        /*
+         * Ctrl/Cmd + S
+         *
+         * Save the article.
+         */
+
+        if (
+            (event.ctrlKey || event.metaKey) &&
+            event.key.toLowerCase() === "s"
+        ) {
+
+            event.preventDefault();
+
+            form.requestSubmit();
+
+        }
+
+    });
+
+
+    /* =========================================================
+       INITIAL STATUS
+       ========================================================= */
+
+    updateStatus("Ready");
 
 });
 
 </script>
+
 
 </body>
 </html>
