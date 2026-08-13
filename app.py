@@ -734,17 +734,6 @@ def get_cached_article_page(slug):
     except OSError:
         template_mtime = 0
 
-    cache_key = f"{slug}:{'admin' if is_admin else 'user'}"
-    cached = _ARTICLE_PAGE_CACHE.get(cache_key)
-
-    if cached:
-        html, timestamp, cached_template_mtime = cached
-        if (
-            (now - timestamp).total_seconds() < _ARTICLE_PAGE_CACHE_TTL
-            and cached_template_mtime == template_mtime
-        ):
-            return html
-
     conn = get_db_connection()
 
     try:
@@ -759,6 +748,19 @@ def get_cached_article_page(slug):
 
         if article is None:
             return None
+
+        cache_key = f"{slug}:{'admin' if is_admin else 'user'}"
+        cached = _ARTICLE_PAGE_CACHE.get(cache_key)
+
+        if cached:
+            html, timestamp, cached_template_mtime, cached_updated_at = cached
+
+            if (
+                (now - timestamp).total_seconds() < _ARTICLE_PAGE_CACHE_TTL
+                and cached_template_mtime == template_mtime
+                and cached_updated_at == article["updated_at"]
+            ):
+                return html
 
         cur.execute("""
             SELECT id, title, url, source_type
@@ -776,7 +778,9 @@ def get_cached_article_page(slug):
             LIMIT 5
         """, (article["id"],))
         related_articles = cur.fetchall()
+
         article["content"] = render_spf_charts(article["content"])
+
         html = render_template(
             "view_article.html",
             article=article,
@@ -789,6 +793,7 @@ def get_cached_article_page(slug):
             html,
             now,
             template_mtime,
+            article["updated_at"],
         )
 
         return html
