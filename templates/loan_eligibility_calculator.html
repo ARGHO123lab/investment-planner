@@ -133,10 +133,28 @@
 
         {
           "@type": "Question",
+          "name": "How is loan eligibility calculated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A simplified loan eligibility assessment can consider income, existing monthly obligations, proposed EMI, repayment tenure and credit profile. Lenders may use different affordability measures, income definitions and underwriting policies."
+          }
+        },
+
+        {
+          "@type": "Question",
+          "name": "What is FOIR?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "FOIR, or Fixed Obligations to Income Ratio, compares fixed monthly financial obligations with income. Some lenders may use an affordability range around 40% to 50%, but the applicable threshold and calculation method can vary by lender, borrower and loan product."
+          }
+        },
+
+        {
+          "@type": "Question",
           "name": "Does a credit score affect loan eligibility?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Credit history and credit score may influence how lenders assess a loan application. However, lenders generally consider several factors rather than relying on one score alone."
+            "text": "Credit history and credit score may influence how lenders assess a loan application. This calculator uses credit-score bands as one educational planning input, but lenders generally consider several factors rather than relying on one score alone."
           }
         },
 
@@ -146,15 +164,6 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "No. This calculator provides an educational estimate only. A lender makes the actual eligibility and approval decision after reviewing the applicant's financial information, documentation and applicable lending criteria."
-          }
-        },
-
-        {
-          "@type": "Question",
-          "name": "What is debt-to-income ratio?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Debt-to-income ratio compares debt obligations with income. It can help illustrate repayment pressure, although lenders may use different definitions, calculations and assessment methods."
           }
         },
 
@@ -399,6 +408,54 @@
             color: #B8860B;
             text-decoration: none;
             font-weight: 600;
+        }
+
+
+        /* CALCULATION LOGIC */
+
+        .logic-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.05);
+            border-left: 5px solid #B8860B;
+        }
+
+        .logic-card h2 {
+            color: #B8860B;
+            font-size: 24px;
+            margin-bottom: 15px;
+            line-height: 1.35;
+        }
+
+        .logic-card h3 {
+            color: #444;
+            margin: 22px 0 8px;
+            font-size: 18px;
+        }
+
+        .logic-card p {
+            color: #555;
+            margin-bottom: 14px;
+        }
+
+        .logic-card ul {
+            margin-left: 22px;
+            color: #555;
+        }
+
+        .logic-card li {
+            margin-bottom: 10px;
+        }
+
+        .logic-note {
+            background: #FFF8E1;
+            border-radius: 10px;
+            padding: 18px;
+            margin-top: 18px;
+            color: #555;
+            font-size: 13px;
         }
 
 
@@ -686,6 +743,11 @@
             color: #444;
         }
 
+        .legal-disclaimer {
+            display: block;
+            margin-bottom: 12px;
+        }
+
 
         /* FOOTER */
 
@@ -771,7 +833,8 @@
             }
 
             .form-card,
-            .card {
+            .card,
+            .logic-card {
                 padding: 22px;
             }
 
@@ -1143,6 +1206,224 @@
 
 
     <!-- =========================================================
+         CORE LOGIC FRAMEWORK
+    ========================================================== -->
+
+    <section class="logic-card">
+
+        <h2>
+            How is Your Loan Eligibility Calculated?
+        </h2>
+
+        <p>
+            This calculator uses a simplified educational framework to
+            illustrate how income, existing obligations, proposed loan
+            repayment, tenure and credit profile can interact when
+            assessing borrowing capacity.
+        </p>
+
+        <h3>
+            1. Income and Monthly Repayment Capacity
+        </h3>
+
+        <p>
+            The calculator converts annual income into a monthly income
+            figure and considers the financial obligations entered by the
+            user. A higher income can generally provide greater repayment
+            capacity, while existing obligations can reduce the amount
+            available for a new loan.
+        </p>
+
+        <h3>
+            2. Existing EMIs and Proposed EMI
+        </h3>
+
+        <p>
+            Existing loan EMIs are considered alongside the estimated EMI
+            for the proposed loan. This helps illustrate how a new
+            borrowing commitment could affect the user's overall monthly
+            debt burden.
+        </p>
+
+        <h3>
+            3. FOIR and Affordability
+        </h3>
+
+        <p>
+            Lenders may use affordability measures such as the Fixed
+            Obligations to Income Ratio, commonly called FOIR, when
+            assessing repayment capacity. In simplified terms, FOIR
+            compares fixed monthly financial obligations with monthly
+            income.
+        </p>
+
+        <p>
+            A commonly referenced planning range is around 40% to 50%,
+            meaning some lenders may restrict combined monthly fixed
+            obligations and EMIs from becoming disproportionately high
+            relative to income. However, this is not a universal banking
+            rule. Actual thresholds, income definitions and calculation
+            methods can vary by lender, borrower profile and loan product.
+        </p>
+
+        <div class="formula-box">
+
+            Simplified FOIR =
+            Fixed Monthly Financial Obligations ÷ Monthly Income × 100
+
+        </div>
+
+        <h3>
+            4. Loan Amount and Tenure
+        </h3>
+
+        <p>
+            The requested loan amount and selected tenure influence the
+            estimated EMI. A longer tenure can lower the scheduled
+            monthly EMI, but it may increase the total interest paid over
+            the life of the loan.
+        </p>
+
+        <h3>
+            5. Credit Profile
+        </h3>
+
+        <p>
+            Credit score is included as an additional planning variable.
+            The calculator uses broad credit-score bands to illustrate
+            how a stronger or weaker credit profile can affect the
+            planning assessment.
+        </p>
+
+        <div class="logic-note">
+
+            <strong>Important:</strong>
+            This is a simplified scenario model created by
+            SmartPlanFinance. It is not a copy of a bank's or NBFC's
+            underwriting algorithm and does not reproduce the proprietary
+            decision-making process of any lender.
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         CREDIT SCORE FRAMEWORK
+    ========================================================== -->
+
+    <section class="card">
+
+        <h2>
+            How This Calculator Uses Credit Score
+        </h2>
+
+        <p>
+            Credit score is treated as one input rather than a standalone
+            approval rule. The calculator uses broad score bands for
+            educational scenario modelling.
+        </p>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Credit Score Band
+                        </th>
+
+                        <th>
+                            Planning Interpretation
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            Below 650
+                        </td>
+
+                        <td>
+                            The planning assessment is down-regulated
+                            because a lower score may indicate a weaker
+                            credit profile. Actual lender decisions can
+                            differ.
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            650–699
+                        </td>
+
+                        <td>
+                            The calculator treats this as a moderate
+                            credit-profile range and does not assume
+                            premium borrowing terms.
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            700–749
+                        </td>
+
+                        <td>
+                            The calculator treats this as a relatively
+                            stronger credit-profile range for planning
+                            purposes.
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            750+
+                        </td>
+
+                        <td>
+                            The calculator treats this as a stronger
+                            credit-profile range and may use it when
+                            modelling more favourable planning
+                            assumptions, including access to potentially
+                            better interest-rate brackets.
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <p>
+            These bands are calculator assumptions for educational
+            scenario modelling. They should not be interpreted as
+            universal bank thresholds, guaranteed interest rates or
+            guaranteed approval conditions. Lenders can assess the full
+            credit report, repayment history, income, existing
+            liabilities and other information.
+        </p>
+
+    </section>
+
+
+    <!-- =========================================================
          RESULTS
     ========================================================== -->
 
@@ -1167,16 +1448,17 @@
 
             <div class="assessment-label">
 
-                Planning indicator:
-                {{ result.approval_probability }}%
+                Estimated Planning Score:
+                {{ result.approval_probability }}/100
 
             </div>
 
             <p class="assessment-note">
 
-                This percentage is a calculator-generated planning
-                indicator. It is not a lender approval probability,
-                credit score or guarantee of loan approval.
+                This score is generated from SmartPlanFinance's
+                educational planning assumptions. It is not a statistical
+                probability of loan approval, credit score or guarantee
+                of lending.
 
             </p>
 
@@ -2012,30 +2294,46 @@
 
     <div class="disclaimer">
 
-        <strong>Important Disclaimer:</strong>
+        <strong class="legal-disclaimer">
+            Disclaimer: This calculator functions purely as an educational
+            scenario-modeling utility. It does not constitute a formal
+            pre-approval, credit offer, or financial advisory service.
+            Final lending terms remain strictly at the discretion of
+            individual partner banks and NBFC regulations.
+        </strong>
 
-        The SmartPlanFinance Loan Eligibility Calculator is provided
-        solely for educational and financial-planning purposes. Its
-        results are estimates based on the information and assumptions
-        entered by the user.
+        <p>
+            The SmartPlanFinance Loan Eligibility Calculator is provided
+            solely for educational and financial-planning purposes. Its
+            results are estimates based on the information and assumptions
+            entered by the user.
+        </p>
 
-        Actual loan eligibility, interest rates, loan amounts, EMI,
-        approval decisions and applicable charges may differ from the
-        results shown here.
+        <p>
+            Actual loan eligibility, interest rates, loan amounts, EMI,
+            approval decisions and applicable charges may differ from the
+            results shown here.
+        </p>
 
-        Lenders may consider additional information including income
-        verification, employment or business stability, credit history,
-        existing liabilities, property or asset valuation,
-        documentation, internal policies and other underwriting
-        factors.
+        <p>
+            Lenders may consider additional information including income
+            verification, employment or business stability, credit
+            history, existing liabilities, property or asset valuation,
+            documentation, internal policies and other underwriting
+            factors.
+        </p>
 
-        SmartPlanFinance does not guarantee loan approval, eligibility,
-        interest rates or borrowing capacity and does not provide
-        personalised financial, investment, tax or legal advice.
+        <p>
+            SmartPlanFinance does not guarantee loan approval, eligibility,
+            interest rates or borrowing capacity and does not provide
+            personalised financial, investment, tax or legal advice.
+        </p>
 
-        Please review the terms provided by the relevant lender before
-        making a borrowing decision and consider obtaining professional
-        advice where appropriate.
+        <p>
+            Please review the terms provided by the relevant lender before
+            making a borrowing decision and consider obtaining
+            professional advice where appropriate.
+        </p>
 
     </div>
 
