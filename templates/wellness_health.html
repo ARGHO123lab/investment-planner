@@ -2,84 +2,1156 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+
+    <link rel="manifest"
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Financial Wellness Check | SmartPlan Finance</title>
-    <meta name="description" content="Check your Financial Wellness Score - a free health check covering your savings, emergency fund, and financial literacy.">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description"
+          content="Use the free SmartPlan Finance Financial Wellness Check to review savings, expenses, emergency funds and debt, then understand areas that may need attention.">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
 
     <style>
-        body{
-            margin:0; min-height:100vh; font-family:'Poppins',sans-serif;
-            background:linear-gradient(135deg,#FFFDF7,#FFF6DD);
-            display:flex; justify-content:center; align-items:center; padding:25px;
+
+        * {
+            box-sizing: border-box;
         }
-        .card{
-            background:white; width:100%; max-width:560px; padding:45px;
-            border-radius:24px; box-shadow:0 18px 45px rgba(0,0,0,.08); box-sizing:border-box;
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #FFFDF7;
+            color: #333;
+            line-height: 1.7;
         }
-        .progress{ text-align:center; color:#B8860B; font-weight:600; margin-bottom:10px; }
-        h2{ text-align:center; margin-bottom:8px; color:#333; }
-        .subtitle{ text-align:center; color:#666; margin-bottom:30px; line-height:26px; font-size:15px; }
-        label{ display:block; font-weight:600; margin:18px 0 8px; }
-        input{
-            width:100%; padding:14px; border-radius:12px; border:1px solid #ddd;
-            font-size:16px; box-sizing:border-box;
+
+        .page-wrapper {
+            width: 100%;
         }
-        input:focus{ outline:none; border-color:#B8860B; box-shadow:0 0 10px rgba(184,134,11,.15); }
-        button{
-            margin-top:28px; width:100%; padding:16px; border:none; border-radius:12px;
-            background:#B8860B; color:white; font-size:18px; font-weight:600;
-            cursor:pointer; transition:.3s;
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            background: linear-gradient(135deg, #FFFDF7, #FFF6DD);
+            padding: 55px 20px 45px;
         }
-        button:hover{ background:#9F7600; }
-        .hint{ font-size:13px; color:#999; margin-top:4px; }
+
+        .hero-container {
+            max-width: 1150px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 560px;
+            gap: 55px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 46px;
+            line-height: 1.2;
+            color: #B8860B;
+            margin: 0 0 20px;
+        }
+
+        .hero-text h2 {
+            font-size: 25px;
+            line-height: 1.4;
+            color: #333;
+            margin: 0 0 20px;
+        }
+
+        .hero-text p {
+            font-size: 17px;
+            color: #666;
+            margin-bottom: 18px;
+        }
+
+        .hero-points {
+            margin: 25px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .hero-points li {
+            margin-bottom: 12px;
+            font-size: 16px;
+            color: #444;
+        }
+
+        .hero-points li::before {
+            content: "✓";
+            color: #B8860B;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        /* =========================
+           CALCULATOR CARD
+        ========================= */
+
+        .calculator-card {
+            background: white;
+            padding: 42px;
+            border-radius: 24px;
+            box-shadow: 0 18px 45px rgba(0,0,0,.08);
+        }
+
+        .progress {
+            text-align: center;
+            color: #B8860B;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .calculator-card h2 {
+            text-align: center;
+            margin: 0 0 8px;
+            color: #333;
+            font-size: 25px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 26px;
+            font-size: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin: 18px 0 8px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            background: #fff;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #B8860B;
+            box-shadow: 0 0 10px rgba(184,134,11,.15);
+        }
+
+        button {
+            margin-top: 28px;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: #B8860B;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        button:hover {
+            background: #9F7600;
+        }
+
+        .hint {
+            font-size: 13px;
+            color: #888;
+            margin: 5px 0 0;
+        }
+
+        .privacy-note {
+            margin-top: 24px;
+            padding: 15px;
+            background: #FFF8E1;
+            border-left: 4px solid #B8860B;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+            max-width: 1050px;
+            margin: auto;
+            padding: 55px 20px;
+        }
+
+        .section {
+            background: white;
+            padding: 38px;
+            border-radius: 20px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.05);
+        }
+
+        .section h2 {
+            color: #B8860B;
+            margin-top: 0;
+            margin-bottom: 18px;
+            font-size: 28px;
+        }
+
+        .section h3 {
+            color: #444;
+            margin-top: 28px;
+            margin-bottom: 10px;
+            font-size: 21px;
+        }
+
+        .section p {
+            color: #555;
+            font-size: 16px;
+        }
+
+        .section ul {
+            color: #555;
+            padding-left: 22px;
+        }
+
+        .section li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background: #FFF8E1;
+            border-left: 5px solid #B8860B;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 22px 0;
+        }
+
+        .formula {
+            background: #FAFAFA;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            color: #444;
+            margin: 20px 0;
+        }
+
+        /* =========================
+           SCORE TABLE
+        ========================= */
+
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .score-table th {
+            background: #FFC107;
+            color: #333;
+            padding: 13px;
+            text-align: left;
+        }
+
+        .score-table td {
+            padding: 13px;
+            border-bottom: 1px solid #eee;
+            color: #555;
+        }
+
+        /* =========================
+           ABOUT
+        ========================= */
+
+        .about-box {
+            background: linear-gradient(135deg, #FFFDF7, #FFF8E1);
+            border: 1px solid #F0DEAA;
+        }
+
+        .about-box h2 {
+            color: #B8860B;
+        }
+
+        /* =========================
+           DISCLAIMER
+        ========================= */
+
+        .disclaimer {
+            background: #F8F8F8;
+            border-left: 5px solid #999;
+            padding: 22px;
+            border-radius: 12px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #2F2A20;
+            color: white;
+            padding: 40px 20px;
+            margin-top: 20px;
+        }
+
+        .footer-container {
+            max-width: 1050px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 35px;
+        }
+
+        footer h3 {
+            color: #D4AF37;
+            margin-top: 0;
+        }
+
+        footer p {
+            color: #ddd;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #D4AF37;
+        }
+
+        .footer-links p {
+            margin: 8px 0;
+        }
+
+        .copyright {
+            max-width: 1050px;
+            margin: 30px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,.15);
+            text-align: center;
+            color: #bbb;
+            font-size: 13px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media(max-width: 900px) {
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .hero-text {
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 36px;
+            }
+
+            .hero-points {
+                text-align: left;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .calculator-card {
+                padding: 30px;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 600px) {
+
+            .hero {
+                padding: 35px 15px;
+            }
+
+            .hero-text h1 {
+                font-size: 31px;
+            }
+
+            .hero-text h2 {
+                font-size: 21px;
+            }
+
+            .content {
+                padding: 35px 15px;
+            }
+
+            .section {
+                padding: 25px 20px;
+            }
+
+            .section h2 {
+                font-size: 24px;
+            }
+
+            .calculator-card {
+                padding: 24px;
+            }
+
+            .score-table {
+                font-size: 13px;
+            }
+        }
+
     </style>
+
 </head>
 
 <body>
 
-<div class="card">
+<div class="page-wrapper">
 
-    <div class="progress">Step 1 of 2 — Financial Health Check</div>
-    <h2>💰 Quick Financial Snapshot</h2>
-    <p class="subtitle">
-        Answer 5 quick questions to see your Financial Health Score. No login required, no data saved to your name.
-    </p>
+    <!-- =========================
+         HERO + CALCULATOR
+    ========================= -->
 
-    <form method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <section class="hero">
 
-        <label>Monthly Income (₹)</label>
-        <input type="number" name="income" placeholder="e.g. 50000" required min="0" step="any">
+        <div class="hero-container">
 
-        <label>Monthly Expenses (₹)</label>
-        <input type="number" name="expense" placeholder="e.g. 30000" required min="0" step="any">
+            <div class="hero-text">
 
-        <label>Monthly Savings (₹)</label>
-        <input type="number" name="savings" placeholder="e.g. 15000" required min="0" step="any">
-        <p class="hint">Income minus expenses, or however much you actually save each month</p>
+                <h1>Financial Wellness Check</h1>
 
-        <label>Current Emergency Fund (₹)</label>
-        <input type="number" name="emergency_fund" placeholder="e.g. 100000" required min="0" step="any">
-        <p class="hint">Total money set aside for emergencies (savings account, liquid FD, etc.)</p>
+                <h2>
+                    Understand the strength of your finances before
+                    making your next money decision.
+                </h2>
 
-        <label>Total Outstanding Debt (₹)</label>
-        <input type="number" name="debt" placeholder="e.g. 0" required min="0" step="any">
-        <p class="hint">Loans, credit card dues, etc. Enter 0 if none.</p>
+                <p>
+                    Your income is only one part of your financial health.
+                    Savings, monthly expenses, emergency reserves and debt
+                    all influence how prepared you are for unexpected events
+                    and future financial goals.
+                </p>
 
-        <button type="submit">Continue to Quiz →</button>
+                <p>
+                    The SmartPlan Finance Financial Wellness Check gives you
+                    a structured starting point for reviewing these areas.
+                    You answer a few questions, complete a short financial
+                    quiz and receive a financial wellness assessment based
+                    on the information you provide.
+                </p>
 
-    </form>
+                <ul class="hero-points">
+
+                    <li>Review your monthly income and expenses</li>
+
+                    <li>Understand your savings position</li>
+
+                    <li>Check the strength of your emergency fund</li>
+
+                    <li>Consider your outstanding debt</li>
+
+                    <li>Identify areas that may need attention</li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- CALCULATOR -->
+
+            <div class="calculator-card">
+
+                <div class="progress">
+                    Step 1 of 2 — Financial Health Check
+                </div>
+
+                <h2>💰 Quick Financial Snapshot</h2>
+
+                <p class="subtitle">
+
+                    Answer a few questions about your current financial
+                    position. Your answers are used to prepare the next
+                    stage of the wellness assessment.
+
+                </p>
+
+                <form method="POST">
+
+                    <input type="hidden"
+                           name="csrf_token"
+                           value="{{ csrf_token() }}">
+
+                    <label>Monthly Income (₹)</label>
+
+                    <input
+                        type="number"
+                        name="income"
+                        placeholder="e.g. 50000"
+                        required
+                        min="0"
+                        step="any">
+
+                    <label>Monthly Expenses (₹)</label>
+
+                    <input
+                        type="number"
+                        name="expense"
+                        placeholder="e.g. 30000"
+                        required
+                        min="0"
+                        step="any">
+
+                    <label>Monthly Savings (₹)</label>
+
+                    <input
+                        type="number"
+                        name="savings"
+                        placeholder="e.g. 15000"
+                        required
+                        min="0"
+                        step="any">
+
+                    <p class="hint">
+                        Enter the amount you actually save each month.
+                        This does not have to equal income minus expenses
+                        if your budgeting method is different.
+                    </p>
+
+                    <label>Current Emergency Fund (₹)</label>
+
+                    <input
+                        type="number"
+                        name="emergency_fund"
+                        placeholder="e.g. 100000"
+                        required
+                        min="0"
+                        step="any">
+
+                    <p class="hint">
+                        Include money intentionally kept available for
+                        unexpected expenses, such as a savings account
+                        or other readily accessible reserve.
+                    </p>
+
+                    <label>Total Outstanding Debt (₹)</label>
+
+                    <input
+                        type="number"
+                        name="debt"
+                        placeholder="e.g. 0"
+                        required
+                        min="0"
+                        step="any">
+
+                    <p class="hint">
+                        Include outstanding loans, credit-card balances
+                        and other significant debt obligations.
+                    </p>
+
+                    <button type="submit">
+                        Continue to Quiz →
+                    </button>
+
+                </form>
+
+                <div class="privacy-note">
+
+                    <strong>🔒 Privacy & Educational Use</strong><br>
+
+                    This assessment is designed as an educational financial
+                    wellness tool. Enter only information you are comfortable
+                    providing. The results are intended to help you think
+                    about your financial position and are not a substitute
+                    for personalised financial, tax or investment advice.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         EDUCATIONAL CONTENT
+    ========================= -->
+
+    <main class="content">
+
+
+        <section class="section">
+
+            <h2>What Is a Financial Wellness Check?</h2>
+
+            <p>
+                Financial wellness is broader than simply earning a high
+                salary. Someone with a high income can still experience
+                financial stress if expenses are high, savings are low,
+                emergency reserves are inadequate or debt payments consume
+                a large part of monthly cash flow.
+            </p>
+
+            <p>
+                On the other hand, someone with a more modest income may have
+                a stronger financial foundation if they consistently save,
+                maintain an appropriate emergency reserve, manage debt and
+                plan for future goals.
+            </p>
+
+            <p>
+                The purpose of this SmartPlan Finance assessment is therefore
+                not to judge your income. It is to provide a structured way
+                to examine several basic financial-health indicators together.
+            </p>
+
+            <div class="highlight">
+
+                <strong>
+                    Important:
+                </strong>
+
+                A Financial Wellness Score is an educational indicator,
+                not a measure of your personal worth, investment skill or
+                guaranteed financial future.
+
+            </div>
+
+        </section>
+
+
+        <section class="section">
+
+            <h2>What Does This Assessment Look At?</h2>
+
+            <h3>1. Monthly Income</h3>
+
+            <p>
+                Income provides the starting point for your household cash
+                flow. The assessment uses the income amount you provide to
+                put your expenses, savings and debt into context.
+            </p>
+
+            <p>
+                Income alone, however, does not determine financial health.
+                The relationship between income and spending is often more
+                informative than the income number by itself.
+            </p>
+
+
+            <h3>2. Monthly Expenses</h3>
+
+            <p>
+                Your monthly expenses show how much of your available income
+                is being consumed by regular spending. Housing, food,
+                transportation, education, insurance, family responsibilities,
+                subscriptions and discretionary spending can all contribute
+                to monthly outflows.
+            </p>
+
+            <p>
+                Understanding your expense level can help identify how much
+                flexibility you have to save, invest or deal with an unexpected
+                financial event.
+            </p>
+
+
+            <h3>3. Monthly Savings</h3>
+
+            <p>
+                Consistent savings create capacity for future goals and
+                provide a buffer between your regular income and unexpected
+                expenses.
+            </p>
+
+            <p>
+                The amount you save is more useful when considered alongside
+                your income and expenses. A savings amount that appears large
+                in isolation may represent a small percentage of income,
+                while a smaller absolute amount can represent strong saving
+                behaviour for someone with lower income.
+            </p>
+
+
+            <h3>4. Emergency Fund</h3>
+
+            <p>
+                An emergency fund is money set aside for unexpected and
+                necessary expenses. Examples can include temporary loss of
+                income, urgent repairs, medical or family expenses and other
+                situations that are difficult to predict.
+            </p>
+
+            <p>
+                The appropriate emergency reserve varies between households.
+                A person with stable employment and low fixed obligations may
+                have different needs from someone supporting a family or
+                working with irregular income.
+            </p>
+
+
+            <h3>5. Outstanding Debt</h3>
+
+            <p>
+                Debt can be useful when it finances an important long-term
+                goal, but repayment obligations reduce future cash-flow
+                flexibility.
+            </p>
+
+            <p>
+                This assessment therefore considers the amount of outstanding
+                debt as one component of the broader financial picture. The
+                number alone does not determine whether debt is good or bad;
+                interest rates, repayment schedules, income stability and the
+                purpose of the borrowing also matter.
+            </p>
+
+        </section>
+
+
+        <section class="section">
+
+            <h2>How the Financial Wellness Assessment Works</h2>
+
+            <p>
+                The first stage collects five basic financial inputs:
+                monthly income, monthly expenses, monthly savings, emergency
+                fund and outstanding debt.
+            </p>
+
+            <p>
+                After submitting these figures, you continue to a short quiz.
+                The additional questions help the assessment consider broader
+                financial behaviours and preparedness rather than relying
+                exclusively on one number.
+            </p>
+
+            <p>
+                The resulting assessment is designed to highlight areas that
+                may deserve attention. It should be viewed as a starting point
+                for financial planning rather than as a formal financial
+                diagnosis.
+            </p>
+
+            <div class="formula">
+
+                Financial Wellness =
+                Cash-Flow Strength + Savings Capacity +
+                Emergency Preparedness + Debt Position +
+                Financial Behaviours
+
+            </div>
+
+            <p>
+                This is a conceptual framework rather than a universal
+                mathematical standard. Different households have different
+                financial priorities, obligations and risk profiles.
+            </p>
+
+        </section>
+
+
+        <section class="section">
+
+            <h2>Understanding Your Financial Position</h2>
+
+            <p>
+                A useful financial review looks at relationships between
+                numbers rather than focusing on a single result.
+            </p>
+
+            <table class="score-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Area</th>
+                        <th>What to Think About</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Income</td>
+                        <td>
+                            Is your income stable enough to support your
+                            essential expenses and financial goals?
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Expenses</td>
+                        <td>
+                            Which expenses are essential, flexible or
+                            discretionary?
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Savings</td>
+                        <td>
+                            Are you consistently setting aside money for
+                            short- and long-term goals?
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Emergency Fund</td>
+                        <td>
+                            Could your available reserve help cover an
+                            unexpected financial disruption?
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Debt</td>
+                        <td>
+                            Are repayment obligations limiting your ability
+                            to save or invest?
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <section class="section">
+
+            <h2>Why Financial Wellness Matters</h2>
+
+            <p>
+                Financial planning is not only about investing. Before
+                focusing on long-term returns, many households benefit from
+                understanding their cash flow, managing expensive debt and
+                creating an appropriate emergency reserve.
+            </p>
+
+            <p>
+                A stronger financial foundation can provide greater flexibility
+                when circumstances change. It can also make it easier to
+                approach long-term goals such as buying a home, funding
+                education, building investments or preparing for retirement.
+            </p>
+
+            <p>
+                The objective is not to achieve a perfect score. Financial
+                circumstances change throughout life. A new job, marriage,
+                children, a home loan, a career break or changing family
+                responsibilities can all affect the numbers.
+            </p>
+
+            <p>
+                The most useful outcome is identifying the areas you can
+                improve and then taking practical steps over time.
+            </p>
+
+        </section>
+
+
+        <section class="section">
+
+            <h2>What You Can Do After the Assessment</h2>
+
+            <p>
+                If your results indicate that an area needs attention, avoid
+                trying to change everything simultaneously. Financial
+                improvement is usually more sustainable when it is approached
+                step by step.
+            </p>
+
+            <ul>
+
+                <li>
+                    Review your monthly spending and identify unnecessary
+                    recurring expenses.
+                </li>
+
+                <li>
+                    Build or strengthen an emergency reserve appropriate for
+                    your household circumstances.
+                </li>
+
+                <li>
+                    Prioritise expensive debt and understand its interest
+                    cost.
+                </li>
+
+                <li>
+                    Establish a regular savings habit before increasing
+                    investment risk.
+                </li>
+
+                <li>
+                    Define specific financial goals and their time horizons.
+                </li>
+
+                <li>
+                    Review your financial position periodically rather than
+                    relying on a single assessment.
+                </li>
+
+            </ul>
+
+        </section>
+
+
+        <section class="section">
+
+            <h2>Financial Wellness Is Not the Same as Investment Performance</h2>
+
+            <p>
+                A portfolio can generate a strong return while the investor
+                still has poor short-term financial resilience. Similarly,
+                a person may have a healthy emergency reserve and manageable
+                debt while choosing relatively conservative investments.
+            </p>
+
+            <p>
+                This distinction matters because financial planning should
+                consider both protection and growth. Emergency savings,
+                insurance, debt management, cash-flow planning and long-term
+                investments can each serve different purposes.
+            </p>
+
+            <p>
+                SmartPlan Finance therefore treats financial wellness as a
+                broader planning concept rather than simply measuring how
+                much someone invests.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             ABOUT SMARTPLAN FINANCE
+        ========================= -->
+
+        <section class="section about-box">
+
+            <h2>About SmartPlan Finance</h2>
+
+            <p>
+                <strong>SmartPlan Finance</strong> is a personal-finance
+                education and financial-planning platform designed to make
+                common money concepts easier to understand and apply.
+            </p>
+
+            <p>
+                The platform provides educational calculators, financial
+                planning tools, articles and practical frameworks covering
+                areas such as saving, investing, budgeting, loans, retirement,
+                taxation and financial independence.
+            </p>
+
+            <p>
+                Our calculators are designed to help users explore financial
+                scenarios using their own inputs. Results are estimates based
+                on the assumptions and information entered by the user and
+                should not be interpreted as guaranteed financial outcomes.
+            </p>
+
+            <p>
+                SmartPlan Finance aims to combine practical financial
+                education with transparent calculation methods so that users
+                can better understand the numbers behind their financial
+                decisions.
+            </p>
+
+            <p>
+                Learn more about the platform and its purpose on our
+                <a href="/about"
+                   style="color:#B8860B;font-weight:600;">
+                    About Us
+                </a>
+                page.
+            </p>
+
+            <p>
+                You can also learn about the person responsible for building
+                the platform on the
+                <a href="{{ url_for('about_author') }}"
+                   style="color:#B8860B;font-weight:600;">
+                    About the Author & Founder
+                </a>
+                page.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             DISCLAIMER
+        ========================= -->
+
+        <section class="section">
+
+            <h2>Important Disclaimer</h2>
+
+            <div class="disclaimer">
+
+                <strong>Educational purpose only:</strong>
+
+                This Financial Wellness Check is an educational tool intended
+                to help users organise and think about their financial
+                situation. It does not provide personalised investment,
+                financial, tax, legal or lending advice.
+
+                <br><br>
+
+                The assessment uses the information entered by the user.
+                Results may not reflect every aspect of an individual's
+                financial circumstances and should not be treated as a
+                guarantee of financial health or future financial outcomes.
+
+                <br><br>
+
+                Investment returns, inflation, taxation, loan terms and other
+                financial conditions can change. Users should independently
+                verify important financial decisions and consider consulting
+                an appropriately qualified professional when necessary.
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        <div class="footer-container">
+
+            <div>
+
+                <h3>SmartPlan Finance</h3>
+
+                <p>
+                    Practical financial education, calculators and planning
+                    tools designed to help you understand your money and make
+                    more informed financial decisions.
+                </p>
+
+                <p>
+                    Our tools are educational and use assumptions supplied by
+                    the user. Results are estimates and are not guaranteed
+                    financial outcomes.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h3>About</h3>
+
+                <p>
+                    <a href="/about">
+                        ℹ About SmartPlan Finance
+                    </a>
+                </p>
+
+                <p>
+                    <a href="{{ url_for('about_author') }}">
+                        👨‍💼 About the Author & Founder
+                    </a>
+                </p>
+
+                <p>
+                    <a href="{{ url_for('articles') }}">
+                        📰 Financial Articles
+                    </a>
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h3>Policies</h3>
+
+                <p>
+                    <a href="/privacy">
+                        🔒 Privacy Policy
+                    </a>
+                </p>
+
+                <p>
+                    <a href="/terms">
+                        📄 Terms & Conditions
+                    </a>
+                </p>
+
+                <p>
+                    <a href="/disclaimer">
+                        ⚠ Financial Disclaimer
+                    </a>
+                </p>
+
+                <p>
+                    <a href="/affiliate-policy">
+                        💰 Affiliate Disclosure
+                    </a>
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+
+            © 2026 SmartPlan Finance. All rights reserved.
+
+        </div>
+
+    </footer>
 
 </div>
 
 </body>
+
 </html>

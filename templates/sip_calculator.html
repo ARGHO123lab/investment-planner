@@ -2,649 +2,1637 @@
 <html lang="en">
 
 <head>
-    <link rel="canonical" href="https://smartplanfinance.com/sip-calculator">
 
-<meta name="description"
-content="Calculate SIP returns online with SmartPlan Finance SIP Calculator. Estimate your future wealth, investment growth, and compounding benefits by entering monthly investment, expected returns, and time period.">
-
-<meta property="og:title" content="SIP Calculator | SmartPlan Finance">
-
-<meta property="og:description"
-content="Use our free SIP Calculator to estimate mutual fund wealth creation through disciplined monthly investing and long-term compounding.">
-
-<meta property="og:type" content="website">
-
-<meta property="og:url" content="https://smartplanfinance.com/sip-calculator">
-
-<meta property="og:image" content="https://smartplanfinance.com/static/images/logo.png">
     <meta charset="UTF-8">
+
+    <link rel="canonical"
+          href="https://smartplanfinance.com/sip-calculator">
+
     <link rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+          type="image/png"
+          sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
 
-<link rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
 
-<link rel="apple-touch-icon"
-      href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
 
-<link rel="manifest"
-      href="{{ url_for('static', filename='icons/site.webmanifest') }}">
-    <title>SIP Calculator - Calculate Mutual Fund Returns Online | SmartPlan Finance</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest"
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        SIP Calculator - Calculate Mutual Fund Returns Online | SmartPlan Finance
+    </title>
+
+    <meta name="description"
+          content="Calculate estimated SIP returns with the free SmartPlan Finance SIP Calculator. Estimate total investment, potential wealth, and the effect of long-term compounding using your monthly investment, expected return, and investment period.">
+
+    <meta name="robots"
+          content="index, follow">
+
+    <meta property="og:title"
+          content="SIP Calculator | SmartPlan Finance">
+
+    <meta property="og:description"
+          content="Use the SmartPlan Finance SIP Calculator to estimate potential future wealth from disciplined monthly investing and understand the effect of compounding.">
+
+    <meta property="og:type"
+          content="website">
+
+    <meta property="og:url"
+          content="https://smartplanfinance.com/sip-calculator">
+
+    <meta property="og:image"
+          content="https://smartplanfinance.com/static/images/logo.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
     <style>
-        
-    body {
-        padding: 40px;
-        background: #FFFDF5; /* Same background as Report */
-        font-family: 'Poppins', sans-serif;
-    }
 
-    .container {
-        max-width: 600px;
-        margin: auto;
-        background: white;
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 0 15px 40px rgba(0,0,0,.08);
-    }
-
-    h1 { color: #B8860B; margin-bottom: 25px; } /* Same Gold/Yellow header */
-
-    label { font-weight: 500; color: #555; display: block; margin-top: 15px; }
-
-    input {
-        width: 100%;
-        padding: 12px;
-        margin-top: 8px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-sizing: border-box;
-    }
-
-    button{
-
-    width:100%;
-    margin-top:20px;
-    padding:15px;
-
-    background:#FFC107;
-    color:#222;
-
-    border:none;
-    border-radius:12px;
-
-    font-size:18px;
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:all .18s ease;
-
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
-
-}
-
-button:hover{
-
-    background:#FFB300;
-
-    transform:translateY(-2px);
-
-    box-shadow:0 8px 18px rgba(0,0,0,.18);
-
-}
-
-button:active{
-
-    transform:translateY(2px);
-
-    box-shadow:0 2px 6px rgba(0,0,0,.12);
-
-}
-
-   .back-btn:hover{
-    background:#FFB300;
-}
-
-    .result-box {
-        margin-top: 30px;
-        padding: 20px;
-        background: #FFF8E1; /* Same Box color as Report */
-        border-left: 5px solid #FFC107;
-        border-radius: 12px;
-        text-align: center;
-    }
-    .back-btn{
-
-display:inline-block;
-
-padding:14px 28px;
-
-background:#ffffff;
-
-border:2px solid #FFC107;
-
-border-radius:12px;
-
-text-decoration:none;
-
-font-weight:600;
-
-color:#B8860B;
-
-transition:.3s;
-
-}
-
-.back-btn:hover{
-
-background:#FFF8E1;
-
-transform:translateY(-2px);
-
-}
-
-.result-box h1{
-
-font-size:40px;
-
-margin:15px 0;
-
-}
-
-input:focus{
-
-outline:none;
-
-border:2px solid #FFC107;
-
-box-shadow:0 0 12px rgba(255,193,7,.25);
-
-}
-@media(max-width:768px){
-
-body{
-
-padding:15px;
-
-}
-
-.container{
-
-padding:25px;
-
-}
-
-h1{
-
-font-size:30px;
-
-}
-
-.result-box h1{
-
-font-size:32px;
-
-}
-
-button{
-
-font-size:16px;
-
-}
-
-.back-btn{
-
-width:100%;
-
-display:block;
-
-}
-
-}
- /* Site Footer */
-        .site-footer {
-            max-width: 700px;
-            margin: 40px auto 0;
-            padding-top: 24px;
-            border-top: 1px solid #eee;
-            text-align: center;
+        * {
+            box-sizing: border-box;
         }
 
-        .site-footer .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 18px;
-            margin-bottom: 14px;
+        body {
+
+            margin: 0;
+            padding: 40px 20px;
+
+            background: #FFFDF5;
+
+            font-family: 'Poppins', sans-serif;
+
+            color: #444;
+
+            line-height: 1.8;
+
         }
 
-        .site-footer .footer-links a {
-            color: #666;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
+        .page-wrapper {
+
+            max-width: 900px;
+
+            margin: auto;
+
         }
 
-        .site-footer .footer-links a:hover {
+        .container {
+
+            max-width: 600px;
+
+            margin: auto;
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 20px;
+
+            box-shadow: 0 15px 40px rgba(0,0,0,.08);
+
+        }
+
+        h1,
+        h2,
+        h3 {
+
             color: #B8860B;
+
         }
 
-        .site-footer .copyright {
+        h1 {
+
+            margin-bottom: 25px;
+
+        }
+
+        h2 {
+
+            margin-top: 0;
+
+            margin-bottom: 18px;
+
+        }
+
+        h3 {
+
+            margin-bottom: 10px;
+
+        }
+
+        p {
+
+            color: #555;
+
+        }
+
+        label {
+
+            font-weight: 500;
+
+            color: #555;
+
+            display: block;
+
+            margin-top: 15px;
+
+        }
+
+        input {
+
+            width: 100%;
+
+            padding: 12px;
+
+            margin-top: 8px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+        }
+
+        input:focus {
+
+            outline: none;
+
+            border: 2px solid #FFC107;
+
+            box-shadow: 0 0 12px rgba(255,193,7,.25);
+
+        }
+
+        button {
+
+            width: 100%;
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            background: #FFC107;
+
+            color: #222;
+
+            border: none;
+
+            border-radius: 12px;
+
+            font-size: 18px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: all .18s ease;
+
+            box-shadow: 0 5px 15px rgba(0,0,0,.15);
+
+        }
+
+        button:hover {
+
+            background: #FFB300;
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 8px 18px rgba(0,0,0,.18);
+
+        }
+
+        button:active {
+
+            transform: translateY(2px);
+
+            box-shadow: 0 2px 6px rgba(0,0,0,.12);
+
+        }
+
+        .back-btn {
+
+            display: inline-block;
+
+            padding: 14px 28px;
+
+            background: #ffffff;
+
+            border: 2px solid #FFC107;
+
+            border-radius: 12px;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            color: #B8860B;
+
+            transition: .3s;
+
+        }
+
+        .back-btn:hover {
+
+            background: #FFF8E1;
+
+            transform: translateY(-2px);
+
+        }
+
+        .result-box {
+
+            margin-top: 30px;
+
+            padding: 20px;
+
+            background: #FFF8E1;
+
+            border-left: 5px solid #FFC107;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+        }
+
+        .result-box h1 {
+
+            font-size: 40px;
+
+            margin: 15px 0;
+
+        }
+
+        .section {
+
+            margin-top: 55px;
+
+        }
+
+        .section p,
+        .section li {
+
+            line-height: 1.9;
+
+            color: #555;
+
+        }
+
+        .info-box {
+
+            margin-top: 25px;
+
+            padding: 25px;
+
+            background: #FFF8E1;
+
+            border-left: 5px solid #FFC107;
+
+            border-radius: 12px;
+
+        }
+
+        .formula-box {
+
+            margin-top: 25px;
+
+            padding: 25px;
+
+            background: #FAFAFA;
+
+            border: 1px solid #eee;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            overflow-x: auto;
+
+        }
+
+        .formula {
+
+            font-size: 19px;
+
+            font-weight: 600;
+
+            color: #333;
+
+        }
+
+        .cards {
+
+            display: grid;
+
+            grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+
+            gap: 18px;
+
+            margin-top: 20px;
+
+        }
+
+        .card {
+
+            background: #FFF8E1;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+        }
+
+        .card h3 {
+
+            margin-top: 0;
+
+        }
+
+        .methodology-table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            margin-top: 20px;
+
+            background: white;
+
+        }
+
+        .methodology-table th {
+
+            background: #FFC107;
+
+            color: #333;
+
+            padding: 13px;
+
+            text-align: left;
+
+        }
+
+        .methodology-table td {
+
+            padding: 13px;
+
+            border-bottom: 1px solid #eee;
+
+            color: #555;
+
+        }
+
+        .article-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+
+            gap: 20px;
+
+            margin-top: 25px;
+
+        }
+
+        .article-card {
+
+            display: block;
+
+            background: #FFF8E1;
+
+            border-left: 5px solid #FFC107;
+
+            border-radius: 12px;
+
+            padding: 22px;
+
+            text-decoration: none;
+
+            transition: .3s;
+
+        }
+
+        .article-card:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow: 0 8px 20px rgba(0,0,0,.07);
+
+        }
+
+        .article-card h3 {
+
+            margin-top: 0;
+
+        }
+
+        .credibility {
+
+            margin-top: 55px;
+
+            padding: 30px;
+
+            background: #FFF8E1;
+
+            border-left: 5px solid #B8860B;
+
+            border-radius: 14px;
+
+        }
+
+        .credibility h2 {
+
+            margin-top: 0;
+
+        }
+
+        .disclaimer {
+
+            margin-top: 35px;
+
+            padding: 25px;
+
+            background: #FAFAFA;
+
+            border: 1px solid #e5e5e5;
+
+            border-radius: 12px;
+
+            font-size: 14px;
+
+            color: #555;
+
+            line-height: 1.8;
+
+        }
+
+        .site-footer {
+
+            max-width: 900px;
+
+            margin: 50px auto 10px;
+
+            padding-top: 25px;
+
+            border-top: 1px solid #eee;
+
+            text-align: center;
+
+        }
+
+        .footer-links {
+
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 18px;
+
+            margin-bottom: 14px;
+
+        }
+
+        .footer-links a {
+
+            color: #666;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+        }
+
+        .footer-links a:hover {
+
+            color: #B8860B;
+
+        }
+
+        .copyright {
+
             font-size: 12px;
+
             color: #999;
+
         }
-</style>
-  
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"WebApplication",
-  "name":"SmartPlan Finance SIP Calculator",
-  "applicationCategory":"FinanceApplication",
-  "operatingSystem":"Any",
-  "url":"https://smartplanfinance.com/sip-calculator",
-  "description":"Free SIP Calculator by SmartPlan Finance to estimate future wealth creation through monthly investments, expected returns, and investment duration.",
-  "provider":{
-    "@type":"Organization",
-    "name":"SmartPlan Finance",
-    "url":"https://smartplanfinance.com"
-  },
-  
-"publisher":{
-  "@type":"Organization",
-  "name":"SmartPlan Finance",
-  "url":"https://smartplanfinance.com"
-}
-}
-</script>
+
+        @media(max-width:768px) {
+
+            body {
+
+                padding: 15px;
+
+            }
+
+            .container {
+
+                padding: 25px;
+
+            }
+
+            h1 {
+
+                font-size: 30px;
+
+            }
+
+            .result-box h1 {
+
+                font-size: 32px;
+
+            }
+
+            button {
+
+                font-size: 16px;
+
+            }
+
+            .back-btn {
+
+                width: 100%;
+
+                display: block;
+
+                text-align: center;
+
+            }
+
+        }
+
+    </style>
 
 
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"FAQPage",
-  "mainEntity":[
+    <!-- WebApplication Schema -->
+
+    <script type="application/ld+json">
+
     {
-      "@type":"Question",
-      "name":"What is a SIP Calculator?",
-      "acceptedAnswer":{
-        "@type":"Answer",
-        "text":"A SIP Calculator estimates the future value of your monthly mutual fund investments based on investment amount, expected return, and investment duration."
-      }
-    },
-    {
-      "@type":"Question",
-      "name":"Are SIP returns guaranteed?",
-      "acceptedAnswer":{
-        "@type":"Answer",
-        "text":"No. SIP returns depend on market performance and mutual fund performance. The calculator provides only an estimated future value."
-      }
-    },
-    {
-      "@type":"Question",
-      "name":"How much should I invest through SIP?",
-      "acceptedAnswer":{
-        "@type":"Answer",
-        "text":"The right SIP amount depends on your financial goals, income, expenses, risk profile, and investment timeline."
+      "@context":"https://schema.org",
+      "@type":"WebApplication",
+      "name":"SmartPlan Finance SIP Calculator",
+      "applicationCategory":"FinanceApplication",
+      "operatingSystem":"Any",
+      "url":"https://smartplanfinance.com/sip-calculator",
+      "description":"Free SIP Calculator by SmartPlan Finance to estimate potential future wealth from monthly investments using an assumed annual rate of return and investment duration.",
+      "provider":{
+        "@type":"Organization",
+        "name":"SmartPlan Finance",
+        "url":"https://smartplanfinance.com"
+      },
+      "publisher":{
+        "@type":"Organization",
+        "name":"SmartPlan Finance",
+        "url":"https://smartplanfinance.com"
       }
     }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
- "@context":"https://schema.org",
- "@type":"BreadcrumbList",
- "itemListElement":[
- {
-  "@type":"ListItem",
-  "position":1,
-  "name":"Home",
-  "item":"https://smartplanfinance.com"
- },
- {
-  "@type":"ListItem",
-  "position":2,
-  "name":"SIP Calculator",
-  "item":"https://smartplanfinance.com/sip-calculator"
- }
- ]
-}
-</script>
+
+    </script>
+
+
+    <!-- FAQ Schema -->
+
+    <script type="application/ld+json">
+
+    {
+      "@context":"https://schema.org",
+      "@type":"FAQPage",
+      "mainEntity":[
+
+        {
+          "@type":"Question",
+          "name":"What is a SIP Calculator?",
+          "acceptedAnswer":{
+            "@type":"Answer",
+            "text":"A SIP Calculator estimates the potential future value of regular monthly investments using an assumed rate of return and investment period."
+          }
+        },
+
+        {
+          "@type":"Question",
+          "name":"Are SIP returns guaranteed?",
+          "acceptedAnswer":{
+            "@type":"Answer",
+            "text":"No. SIP returns are not guaranteed. Mutual fund returns depend on market performance and other factors. A calculator provides an estimate based on the assumptions entered by the user."
+          }
+        },
+
+        {
+          "@type":"Question",
+          "name":"How much should I invest through SIP?",
+          "acceptedAnswer":{
+            "@type":"Answer",
+            "text":"The appropriate SIP amount depends on income, expenses, emergency savings, financial goals, investment horizon and risk tolerance."
+          }
+        },
+
+        {
+          "@type":"Question",
+          "name":"Does a SIP calculator predict actual mutual fund returns?",
+          "acceptedAnswer":{
+            "@type":"Answer",
+            "text":"No. A SIP calculator is a mathematical estimation tool. Actual mutual fund returns can be higher or lower than the assumed return entered into the calculator."
+          }
+        }
+
+      ]
+    }
+
+    </script>
+
+
+    <!-- Breadcrumb Schema -->
+
+    <script type="application/ld+json">
+
+    {
+      "@context":"https://schema.org",
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+
+        {
+          "@type":"ListItem",
+          "position":1,
+          "name":"Home",
+          "item":"https://smartplanfinance.com"
+        },
+
+        {
+          "@type":"ListItem",
+          "position":2,
+          "name":"SIP Calculator",
+          "item":"https://smartplanfinance.com/sip-calculator"
+        }
+
+      ]
+    }
+
+    </script>
+
 </head>
+
 
 <body>
 
+
+<div class="page-wrapper">
+
+
+<!-- =====================================================
+     CALCULATOR
+===================================================== -->
+
 <div class="container">
 
-<div style="margin-bottom:35px;">
+    <div style="margin-bottom:35px;">
 
-    <h1 style="font-size:38px;color:#B8860B;margin-bottom:15px;">
-        SIP Calculator</h1>
+        <h1 style="font-size:38px;color:#B8860B;margin-bottom:15px;">
+            SIP Calculator
+        </h1>
 
-    <p>
-Use the SmartPlan Finance SIP Calculator to estimate your future wealth through monthly mutual fund investments. Calculate expected SIP returns, total investment value, and the power of long-term compounding.
-</p>
-<p>
-Created and maintained by the SmartPlan Finance Editorial Team with a focus on personal finance education, investment awareness, and financial literacy.
-</p>
-    <p style="font-size:18px;color:#555;line-height:1.9;">
+        <p>
+            Use the SmartPlan Finance SIP Calculator to estimate the potential
+            future value of regular monthly investments. Enter your monthly
+            investment, assumed annual return and investment duration to see
+            how your contributions could grow over time.
+        </p>
 
-        Whether you're investing for retirement, buying a house, creating wealth, or your child's education, our free SIP Calculator helps you understand the power of disciplined investing and compounding.
+        <p>
+            The calculator is designed as an educational tool to help you
+            understand regular investing, compounding and long-term wealth
+            accumulation.
+        </p>
 
-    </p>
+    </div>
 
-</div>
 
-    <h1>📊 Free SIP Calculator - Calculate Mutual Fund Returns Online | SmartPlanFinance</h1>
+    <h1>
+        📊 Free SIP Calculator
+    </h1>
+
 
     <form method="POST">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <input type="hidden"
+               name="csrf_token"
+               value="{{ csrf_token() }}">
 
 
-        <label>Monthly Investment</label>
+        <label>
+            Monthly Investment
+        </label>
+
         <input
-type="number"
-name="monthly_investment"
-placeholder="₹ 10,000"
-required>
+            type="number"
+            name="monthly_investment"
+            placeholder="₹ 10,000"
+            required
+            min="0"
+            step="any">
 
-        <label>Expected Annual Return (%)</label>
+
+        <label>
+            Expected Annual Return (%)
+        </label>
+
         <input
-type="number"
-name="annual_return"
-placeholder="12"
-required>   
+            type="number"
+            name="annual_return"
+            placeholder="12"
+            required
+            min="0"
+            step="any">
 
-        <label>Time Period (Years)</label>
-       <input
-type="number"
-name="years"
-placeholder="20"
-required>
 
-       <button type="submit">
+        <label>
+            Time Period (Years)
+        </label>
 
-🚀 Calculate My Wealth
+        <input
+            type="number"
+            name="years"
+            placeholder="20"
+            required
+            min="1"
+            step="1">
 
-</button>
+
+        <button type="submit">
+            🚀 Calculate My Wealth
+        </button>
 
     </form>
 
-   <div style="margin-top:20px; text-align:center;">
-    <a href="{{ url_for('index') }}"
-       style="
-            display:inline-block;
-            background:#f4b400;
-            color:white;
-            padding:12px 28px;
-            border-radius:10px;
-            text-decoration:none;
-            font-weight:600;
-            box-shadow:0 4px 10px rgba(0,0,0,.15);
-       ">
-        ← Back to Home
-    </a>
-</div>
 
-<div style="
-    margin-top:30px;
-    padding:18px;
-    background:#fff8e5;
-    border-left:5px solid #B8860B;
-    border-radius:10px;
-    font-size:14px;
-    color:#555;
-    line-height:1.7;
-">
-    <strong>Disclaimer:</strong> The SIP Calculator on SmartPlan Finance provides estimated future values based on the investment amount, expected rate of return, and investment period entered by the user. Actual returns from mutual funds are not guaranteed and may vary depending on market performance, fund selection, expenses, taxes, and other factors. SmartPlan Finance does not guarantee returns, recommend or endorse any specific mutual fund, SIP, or investment product, and does not provide investment advice. Please consult a qualified financial advisor before making any investment decisions.
-</div>
+    <div style="margin-top:20px;text-align:center;">
+
+        <a href="{{ url_for('index') }}"
+           class="back-btn">
+
+            ← Back to Home
+
+        </a>
+
+    </div>
+
+
+    <div class="disclaimer">
+
+        <strong>Important:</strong>
+
+        The SIP Calculator provides mathematical estimates based on the
+        assumptions entered by the user. Actual investment returns can vary
+        significantly. Mutual fund investments are subject to market risks,
+        and past performance does not guarantee future results.
+
+    </div>
+
 
     {% if result %}
+
     <div id="results-section">
 
-<div class="result-box">
+        <div class="result-box">
 
-<h3 style="margin-bottom:10px;color:#555;">
-Estimated Future Value
-</h3>
+            <h3 style="margin-bottom:10px;color:#555;">
+                Estimated Future Value
+            </h3>
 
-<h1 style="font-size:42px;color:#B8860B;">
-₹ {{ result }}
-</h1>
+            <h1 style="font-size:42px;color:#B8860B;">
+                ₹ {{ result }}
+            </h1>
 
-<p>
-Based on your monthly investment and expected returns.
-</p>
+            <p>
+                This is an estimate based on your monthly investment,
+                assumed return and investment duration.
+            </p>
 
-</div>
+        </div>
+
     </div>
-{% endif %}
-{% if result %}
 
-<div class="result-box" style="margin-top:20px;text-align:left;">
+    {% endif %}
 
-<h3>
-💡 SmartPlan Insight
-</h3>
 
-<p>
+    {% if result %}
 
-Starting your SIP today instead of waiting even one year can significantly increase your wealth because of the power of compounding.
+    <div class="result-box"
+         style="margin-top:20px;text-align:left;">
 
-</p>
+        <h3>
+            💡 SmartPlan Insight
+        </h3>
 
-</div>
+        <p>
+            Starting early can give your investments more time to compound.
+            However, the result shown above is not a prediction or guarantee
+            of future investment performance.
+        </p>
 
-{% endif %}
+    </div>
 
-<div style="margin-top:45px;">
-
-<h2 style="color:#B8860B;">
-What is a SIP?
-</h2>
-
-<p style="line-height:1.9;color:#555;">
-
-A Systematic Investment Plan (SIP) is a disciplined way of investing in mutual funds where you invest a fixed amount at regular intervals, usually every month.
-
-Instead of investing a large amount at one time, SIP allows you to build wealth gradually. It also helps reduce the impact of market volatility through rupee cost averaging while allowing your investments to benefit from long-term compounding.
-
-SIPs are suitable for beginners, salaried professionals, students, and anyone looking to achieve long-term financial goals.
-
-</p>
-
-</div>
-<div style="margin-top:45px;">
-
-<h2 style="color:#B8860B;">
-Why Invest Through SIP?
-</h2>
-
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:20px;">
-
-<div style="background:#FFF8E1;padding:20px;border-radius:12px;">
-<h3>📈 Power of Compounding</h3>
-<p>Generate returns on both your investment and previous returns over time.</p>
-</div>
-
-<div style="background:#FFF8E1;padding:20px;border-radius:12px;">
-<h3>💰 Affordable</h3>
-<p>Start investing with small monthly amounts according to your budget.</p>
-</div>
-
-<div style="background:#FFF8E1;padding:20px;border-radius:12px;">
-<h3>📅 Disciplined Investing</h3>
-<p>Automatic monthly investing helps create a healthy financial habit.</p>
-</div>
-
-<div style="background:#FFF8E1;padding:20px;border-radius:12px;">
-<h3>📉 Rupee Cost Averaging</h3>
-<p>Buy more units when markets are low and fewer units when prices are high.</p>
-</div>
+    {% endif %}
 
 </div>
 
-</div>
-<div style="margin-top:45px;">
 
-<h2 style="color:#B8860B;">
-How to Use This SIP Calculator
-</h2>
+<!-- =====================================================
+     WHAT IS SIP
+===================================================== -->
 
-<ol style="line-height:2;color:#555;font-size:17px;">
+<section class="section">
 
-<li>Enter your monthly SIP investment amount.</li>
+    <h2>
+        What Is a SIP?
+    </h2>
 
-<li>Enter the expected annual rate of return.</li>
+    <p>
+        A Systematic Investment Plan, commonly called a SIP, is a method of
+        investing a fixed amount into a mutual fund at regular intervals.
+        Monthly SIPs are particularly popular because they allow investors to
+        invest gradually rather than trying to invest a large amount at once.
+    </p>
 
-<li>Choose your investment duration in years.</li>
+    <p>
+        A SIP is not itself an investment product or a guarantee of returns.
+        It is an investment approach that can be used with eligible mutual
+        fund schemes. The value of the underlying investment can rise or fall
+        depending on market conditions.
+    </p>
 
-<li>Click <strong>Calculate My Wealth</strong>.</li>
+    <p>
+        For a long-term investor, regular contributions can help create
+        consistency. Over time, the investment may also benefit from
+        compounding if returns remain invested.
+    </p>
 
-<li>Review your estimated future investment value.</li>
+</section>
 
-</ol>
 
-</div>
-<div style="margin-top:45px;">
+<!-- =====================================================
+     WHY SIP
+===================================================== -->
 
-<h2 style="color:#B8860B;">
-Example Calculation
-</h2>
+<section class="section">
 
-<div style="background:#FFF8E1;padding:25px;border-radius:12px;">
+    <h2>
+        Why Do Investors Use SIPs?
+    </h2>
 
-<p>
+    <div class="cards">
 
-Suppose Rahul invests <strong>₹10,000 every month</strong> for <strong>20 years</strong> and earns an average annual return of <strong>12%</strong>.
+        <div class="card">
 
-His total investment would be approximately <strong>₹24,00,000</strong>.
+            <h3>
+                📈 Compounding
+            </h3>
 
-However, because of compounding, his investment could potentially grow to approximately <strong>₹99 lakh</strong> (estimated).
+            <p>
+                When investment returns remain invested, future growth can
+                occur on both the original contributions and accumulated
+                returns.
+            </p>
 
-</p>
+        </div>
 
-</div>
-<!-- Related Articles -->
-<div style="margin-top:50px;">
 
-    <h2 style="color:#B8860B; margin-bottom:20px;">
+        <div class="card">
+
+            <h3>
+                💰 Regular Investing
+            </h3>
+
+            <p>
+                Regular contributions can make investing easier to incorporate
+                into a monthly financial routine.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                📅 Long-Term Discipline
+            </h3>
+
+            <p>
+                Automated or scheduled contributions can help investors
+                maintain consistency instead of relying entirely on market
+                timing.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                📉 Market Participation
+            </h3>
+
+            <p>
+                Regular investments purchase units at different market prices.
+                This can reduce dependence on choosing a single entry point,
+                although it does not eliminate market risk.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     HOW TO USE
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        How to Use the SmartPlan Finance SIP Calculator
+    </h2>
+
+    <ol>
+
+        <li>
+            Enter the amount you intend to invest every month.
+        </li>
+
+        <li>
+            Enter an assumed annual rate of return.
+        </li>
+
+        <li>
+            Enter the number of years you expect to remain invested.
+        </li>
+
+        <li>
+            Select <strong>Calculate My Wealth</strong>.
+        </li>
+
+        <li>
+            Review the estimated future value generated by the calculator.
+        </li>
+
+    </ol>
+
+    <p>
+        Try different assumptions to understand how changes in investment
+        amount, return assumptions and time horizon affect the mathematical
+        outcome.
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     MATHEMATICAL METHODOLOGY
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Comprehensive Guide & Mathematical Methodology
+    </h2>
+
+    <p>
+        The purpose of a SIP calculator is to translate regular contributions
+        and an assumed rate of return into an estimated future value. The
+        calculation is mathematical and should not be interpreted as a
+        prediction of what a particular mutual fund will actually deliver.
+    </p>
+
+
+    <h3>
+        SIP Future Value Formula
+    </h3>
+
+    <p>
+        A commonly used monthly SIP future-value calculation is based on the
+        future value of a series of regular investments.
+    </p>
+
+
+    <div class="formula-box">
+
+        <div class="formula">
+
+            FV = P × [((1 + r)<sup>n</sup> − 1) / r] × (1 + r)
+
+        </div>
+
+        <p>
+            where:
+        </p>
+
+        <p>
+            <strong>FV</strong> = estimated future value<br>
+            <strong>P</strong> = monthly investment<br>
+            <strong>r</strong> = assumed monthly rate of return<br>
+            <strong>n</strong> = total number of monthly investments
+        </p>
+
+    </div>
+
+
+    <p>
+        When an annual return assumption is entered, it is converted into a
+        periodic rate for the calculation. The exact result can vary depending
+        on the convention used by a particular calculator, including whether
+        contributions are assumed to occur at the beginning or end of a
+        period.
+    </p>
+
+
+    <table class="methodology-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Input</th>
+
+                <th>Meaning</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>Monthly Investment</td>
+
+                <td>
+                    Amount contributed regularly each month.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>Annual Return</td>
+
+                <td>
+                    Assumed annual rate used for the mathematical estimate.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>Investment Period</td>
+
+                <td>
+                    Number of years the contributions remain invested.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>Total Investment</td>
+
+                <td>
+                    Monthly contribution multiplied by the number of months.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>Estimated Wealth</td>
+
+                <td>
+                    Mathematical future value based on the assumptions entered.
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- =====================================================
+     EXAMPLE
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        SIP Example Calculation
+    </h2>
+
+    <div class="info-box">
+
+        <p>
+            Suppose an investor contributes
+            <strong>₹10,000 per month</strong> for
+            <strong>20 years</strong> and uses an assumed annual return of
+            <strong>12%</strong> for illustration.
+        </p>
+
+        <p>
+            The total amount contributed would be:
+        </p>
+
+        <p>
+            <strong>
+                ₹10,000 × 12 × 20 = ₹24,00,000
+            </strong>
+        </p>
+
+        <p>
+            The estimated future value can be substantially higher than the
+            amount contributed because the mathematical model assumes that
+            returns remain invested and compound over the investment period.
+        </p>
+
+        <p>
+            This example is illustrative only. Actual mutual fund returns do
+            not arrive at a fixed 12% every year and may be significantly
+            higher or lower.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     COMPOUNDING
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Understanding the Power of Compounding
+    </h2>
+
+    <p>
+        Compounding means that returns generated by an investment can
+        themselves participate in future growth when they remain invested.
+        This is one reason why the investment period can have a substantial
+        effect on a long-term mathematical projection.
+    </p>
+
+    <p>
+        Consider two investors contributing the same monthly amount. The
+        investor who remains invested for a longer period has more time for
+        previously accumulated returns to participate in subsequent growth.
+    </p>
+
+    <p>
+        However, compounding should not be interpreted as a guaranteed
+        straight-line increase. Real investments experience fluctuations,
+        and actual returns can vary from year to year.
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     INFLATION
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        How Inflation Affects SIP Results
+    </h2>
+
+    <p>
+        A future amount of money may have less purchasing power than the same
+        nominal amount today. Inflation gradually increases the cost of goods
+        and services, which means investors should consider both future
+        portfolio value and future purchasing power.
+    </p>
+
+    <p>
+        For example, a future portfolio value of ₹1 crore may sound large
+        today, but its purchasing power several decades from now could be
+        materially lower depending on the inflation rate.
+    </p>
+
+    <p>
+        This is why long-term financial planning should consider inflation
+        alongside expected returns, rather than looking only at the final
+        nominal number produced by a calculator.
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     WHAT THE CALCULATOR DOES NOT DO
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        What This SIP Calculator Does — and Does Not — Tell You
+    </h2>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>
+                ✓ It Can Help You
+            </h3>
+
+            <p>
+                Understand how monthly contributions, investment duration and
+                assumed returns interact mathematically.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                ✓ Compare Scenarios
+            </h3>
+
+            <p>
+                You can test different monthly investment amounts and time
+                periods to understand how your assumptions affect the result.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                ✕ It Cannot Predict Markets
+            </h3>
+
+            <p>
+                The calculator cannot predict future mutual fund or market
+                performance.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                ✕ It Does Not Recommend Funds
+            </h3>
+
+            <p>
+                The calculator does not determine which mutual fund or
+                investment product is appropriate for you.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SIP AND FINANCIAL PLANNING
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        How SIP Fits Into a Broader Financial Plan
+    </h2>
+
+    <p>
+        A SIP should generally be considered as one part of a broader personal
+        financial plan rather than as a standalone solution.
+    </p>
+
+    <p>
+        Before increasing investments, investors may want to consider their
+        emergency savings, insurance needs, existing debt, short-term
+        financial obligations and long-term goals.
+    </p>
+
+    <p>
+        The appropriate investment amount can therefore be different for two
+        people with the same salary. Income, expenses, dependants, existing
+        assets, liabilities, financial goals and risk tolerance can all affect
+        an individual's financial decisions.
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     RELATED ARTICLES
+===================================================== -->
+
+<section class="section">
+
+    <h2>
         📚 Learn More About SIP Investing
     </h2>
 
-    <p style="color:#555; line-height:1.8; margin-bottom:25px;">
-        Want to make smarter investment decisions? Explore our in-depth guides on SIP investing, mutual funds, and wealth creation.
+    <p>
+        Explore additional SmartPlan Finance educational resources to
+        understand SIPs, mutual funds and long-term investing.
     </p>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;">
 
-        <a href="https://smartplanfinance.com/blog/sip-vs-fd-which-is-better-in-2026"
-           style="text-decoration:none;">
+    <div class="article-grid">
 
-            <div style="background:#FFF8E1;
-                        border-left:5px solid #FFC107;
-                        border-radius:12px;
-                        padding:22px;
-                        height:100%;
-                        transition:.3s;">
 
-                <h3 style="color:#B8860B;margin-top:0;">
-                    📈 SIP vs Fixed Deposit
-                </h3>
+        <a href="/blog/sip-vs-fd-which-is-better-in-2026"
+           class="article-card">
 
-                <p style="color:#555;line-height:1.7;">
-                    Compare SIPs and Fixed Deposits based on returns, risk, taxation, liquidity, and long-term wealth creation to choose the right investment option.
-                </p>
+            <h3>
+                📈 SIP vs Fixed Deposit
+            </h3>
 
-                <strong style="color:#B8860B;">
-                    Read Article →
-                </strong>
+            <p>
+                Understand the differences between SIPs and Fixed Deposits,
+                including risk, liquidity, returns and suitability.
+            </p>
 
-            </div>
+            <strong style="color:#B8860B;">
+                Read Article →
+            </strong>
 
         </a>
 
-        <a href="https://smartplanfinance.com/blog/sip-vs-lumpsum-which-is-preferable-for-your-wealth"
-           style="text-decoration:none;">
 
-            <div style="background:#FFF8E1;
-                        border-left:5px solid #FFC107;
-                        border-radius:12px;
-                        padding:22px;
-                        height:100%;
-                        transition:.3s;">
+        
 
-                <h3 style="color:#B8860B;margin-top:0;">
-                    💰 SIP vs Lump Sum Investing
-                </h3>
 
-                <p style="color:#555;line-height:1.7;">
-                    Understand the differences between SIP and lump sum investing, their advantages, risks, and when each strategy may be suitable for your financial goals.
-                </p>
+        <a href="/blog/how-to-start-investing-with-just-500-complete-beginner-s-guide"
+           class="article-card">
 
-                <strong style="color:#B8860B;">
-                    Read Article →
-                </strong>
+            <h3>
+                🌱 How to Start Investing With ₹500
+            </h3>
 
-            </div>
+            <p>
+                A beginner-friendly guide to understanding how small,
+                consistent investments can become part of a long-term plan.
+            </p>
+
+            <strong style="color:#B8860B;">
+                Read Article →
+            </strong>
 
         </a>
+
+
+        <a href="/blog/the-power-of-compound-interest-how-5-000-month-turns-into-2-crore-in-30-years"
+           class="article-card">
+
+            <h3>
+                📊 The Power of Compound Interest
+            </h3>
+
+            <p>
+                Explore how investment duration and compounding can affect
+                long-term wealth projections.
+            </p>
+
+            <strong style="color:#B8860B;">
+                Read Article →
+            </strong>
+
+        </a>
+
 
     </div>
 
+</section>
+
+
+<!-- =====================================================
+     SMARTPLAN FINANCE CREDIBILITY
+===================================================== -->
+
+<section class="credibility">
+
+    <h2>
+        About SmartPlan Finance
+    </h2>
+
+    <p>
+        SmartPlan Finance is a personal finance education platform focused on
+        helping individuals understand money management, investing,
+        financial planning, calculators and long-term wealth creation.
+    </p>
+
+    <p>
+        The platform combines educational articles, financial calculators,
+        planning tools and practical examples to make financial concepts
+        easier to understand. The objective is to help readers understand
+        financial concepts and evaluate their own assumptions rather than
+        present guaranteed investment outcomes.
+    </p>
+
+    <p>
+        SmartPlan Finance calculators are designed to perform mathematical
+        calculations based on information entered by the user. The results
+        are estimates and should be interpreted together with the assumptions,
+        limitations and methodology described on each calculator page.
+    </p>
+
+    <p>
+        The platform does not guarantee investment returns. Calculator
+        results should not be treated as personalised investment advice,
+        financial advice, tax advice or a recommendation to purchase or sell
+        any financial product.
+    </p>
+
+    <p>
+        SmartPlan Finance also publishes educational articles covering topics
+        such as SIPs, mutual funds, retirement planning, taxation, budgeting,
+        loans, emergency funds and financial independence.
+    </p>
+
+    <p>
+        For more information about the platform and its purpose, visit our
+        <a href="/about"
+           style="color:#B8860B;font-weight:600;">
+            About Us
+        </a>
+        page.
+    </p>
+
+    <p>
+        You can also learn more about the person behind the platform on our
+        <a href="/about-author"
+           style="color:#B8860B;font-weight:600;">
+            About the Author & Founder
+        </a>
+        page.
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     METHODOLOGY & DATA QUALITY
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Calculator Methodology and Transparency
+    </h2>
+
+    <p>
+        SmartPlan Finance aims to make calculator assumptions visible instead
+        of presenting a final number without context. The SIP calculator uses
+        the monthly investment amount, assumed annual return and investment
+        duration supplied by the user to produce a mathematical future-value
+        estimate.
+    </p>
+
+    <p>
+        The calculated figure depends entirely on the assumptions entered.
+        Changing the expected return or investment duration can materially
+        change the result. This is why users should test conservative,
+        moderate and optimistic scenarios rather than relying on a single
+        projected number.
+    </p>
+
+    <p>
+        The calculator also does not automatically account for every real-world
+        factor that may affect an investor's actual outcome, including
+        taxation, fund-level expenses, changes in contribution amounts,
+        withdrawals, market volatility and changes in the underlying
+        investment.
+    </p>
+
+    <p>
+        For educational purposes, the calculator should therefore be viewed
+        as a scenario-planning tool rather than a forecasting system.
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     DISCLAIMER
+===================================================== -->
+
+<div class="disclaimer">
+
+    <strong>Financial Disclaimer</strong>
+
+    <p>
+        SmartPlan Finance provides calculators, articles and educational
+        information for general informational and educational purposes only.
+        Nothing on this page constitutes investment advice, financial advice,
+        tax advice or a recommendation to buy, sell or hold any security,
+        mutual fund or other financial product.
+    </p>
+
+    <p>
+        SIP and mutual fund investments are subject to market risks. The
+        returns assumed in this calculator are user inputs and are not
+        guaranteed. Actual returns can differ substantially from calculator
+        estimates.
+    </p>
+
+    <p>
+        Users should evaluate their own financial circumstances, objectives,
+        time horizon and risk tolerance and, where appropriate, consult a
+        qualified financial professional before making investment decisions.
+    </p>
+
 </div>
-</div>
-<div style="
-margin-top:50px;
-padding:25px;
-background:#FFF8E1;
-border-left:5px solid #FFC107;
-border-radius:12px;
-line-height:1.8;
-color:#555;
-">
 
-<h2 style="color:#B8860B;">
-About SmartPlan Finance
-</h2>
 
-<p>
-SmartPlan Finance provides educational resources, calculators, and guides to help individuals understand personal finance, investing, SIPs, retirement planning, and wealth creation.
-</p>
+<!-- Partner CTA -->
 
-<p>
-This calculator is designed for educational purposes to help users estimate potential future values based on assumptions entered by them.
-</p>
-
-<p>
-Content is reviewed for accuracy and updated periodically by the SmartPlan Finance Editorial Team.
-</p>
-
-</div>
 {% include "partials/_partner_cta.html" %}
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
 <footer class="site-footer">
+
     <div class="footer-links">
-        <a href="/about">About Us</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms &amp; Conditions</a>
-        <a href="/disclaimer">Disclaimer</a>
+
+        <a href="/about">
+            About Us
+        </a>
+
+        <a href="/about-author">
+            About the Author & Founder
+        </a>
+
+        <a href="/privacy">
+            Privacy Policy
+        </a>
+
+        <a href="/terms">
+            Terms &amp; Conditions
+        </a>
+
+        <a href="/disclaimer">
+            Disclaimer
+        </a>
+
+        <a href="/affiliate-policy">
+            Affiliate Disclosure
+        </a>
+
     </div>
-    <div class="copyright">&copy; 2026 SmartPlanFinance. All rights reserved.</div>
+
+    <div class="copyright">
+
+        &copy; 2026 SmartPlan Finance. All rights reserved.
+
+    </div>
+
 </footer>
+
+
+</div>
+
+
+<!-- =====================================================
+     RESULT SCROLL
+===================================================== -->
+
 <script>
+
 document.addEventListener('DOMContentLoaded', function () {
 
-    const resultsSection = document.getElementById('results-section');
+    const resultsSection =
+        document.getElementById('results-section');
 
     if (resultsSection && window.location.search === '') {
 
-        setTimeout(() => {
+        setTimeout(function () {
 
             resultsSection.scrollIntoView({
                 behavior: 'smooth',
@@ -656,7 +1644,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 });
+
 </script>
+
 
 </body>
 
