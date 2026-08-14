@@ -4,35 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
 
-    <link rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
-
+    <link rel="icon" type="image/png" sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
     <link rel="apple-touch-icon"
-      href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
-
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
     <link rel="manifest"
-      href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
 
-    <title>CAGR Calculator | SmartPlan Finance</title>
-    <meta name="description" content="Free CAGR Calculator by SmartPlan Finance. Calculate Compound Annual Growth Rate of your investments instantly. Measure investment performance accurately.">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>CAGR Calculator | SmartPlanFinance</title>
+    <meta name="description" content="Use the free CAGR Calculator from SmartPlanFinance to calculate the annualized growth rate of a lump-sum investment and understand CAGR, absolute return, and profit.">
+    <meta name="author" content="Argho Sanyal, Founder, SmartPlanFinance">
 
     <link rel="canonical" href="https://smartplanfinance.com/cagr_calculator">
-    <meta name="author" content="Argho Sanyal, Founder, SmartPlanFinance">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <meta property="og:type" content="website">
-    <meta property="og:title" content="CAGR Calculator | SmartPlan Finance">
-    <meta property="og:description" content="Free CAGR Calculator by SmartPlan Finance. Calculate Compound Annual Growth Rate of your investments instantly. Measure investment performance accurately.">
+    <meta property="og:title" content="CAGR Calculator | SmartPlanFinance">
+    <meta property="og:description" content="Calculate the annualized growth rate of a lump-sum investment and understand CAGR, absolute return, and profit.">
     <meta property="og:url" content="https://smartplanfinance.com/cagr_calculator">
     <meta property="og:site_name" content="SmartPlanFinance">
     <meta name="twitter:card" content="summary_large_image">
+
+    <!--
+      Google AdSense:
+      Keep your existing site-wide AdSense script here if it is already installed
+      in your base template. Do not add a second AdSense script to this page.
+      Do not invent a publisher ID in a page template.
+    -->
 
     <style>
         * {
@@ -44,14 +45,15 @@
         body {
             background: #FFFDF5;
             font-family: 'Poppins', sans-serif;
-            padding: 40px 20px;
-            line-height: 1.6;
+            padding: 24px 20px 40px;
+            line-height: 1.7;
+            color: #333;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: white;
+            background: #fff;
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 15px 40px rgba(0,0,0,.08);
@@ -60,6 +62,7 @@
         h1 {
             color: #B8860B;
             font-size: 42px;
+            line-height: 1.25;
             margin-bottom: 15px;
             text-align: center;
         }
@@ -67,6 +70,7 @@
         h2 {
             color: #B8860B;
             font-size: 26px;
+            line-height: 1.35;
             margin-top: 45px;
             margin-bottom: 20px;
         }
@@ -74,26 +78,39 @@
         h3 {
             color: #B8860B;
             font-size: 20px;
+            line-height: 1.4;
             margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 14px;
         }
 
         .subtitle {
             text-align: center;
-            color: #666;
+            color: #555;
             font-size: 17px;
             line-height: 1.8;
-            margin-bottom: 35px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+            margin-bottom: 22px;
+        }
+
+        .byline {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 32px;
+        }
+
+        .byline strong {
+            color: #666;
         }
 
         .form-card {
-            background: white;
+            background: #fff;
             border-radius: 12px;
             padding: 30px;
             margin: 30px 0;
-            border: 1px solid #f0f0f0;
+            border: 1px solid #eee;
         }
 
         .form-group {
@@ -115,7 +132,6 @@
             border-radius: 10px;
             font-size: 16px;
             font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease;
         }
 
         input:focus {
@@ -134,89 +150,57 @@
             font-weight: 600;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0,0,0,.15);
         }
 
         button:hover {
             background: #FFB300;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 18px rgba(0,0,0,.18);
-        }
-
-        button:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 6px rgba(0,0,0,.12);
         }
 
         .back-btn {
             display: inline-block;
-            padding: 14px 28px;
-            background: #ffffff;
+            padding: 12px 25px;
+            background: #fff;
             border: 2px solid #FFC107;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
             color: #B8860B;
-            transition: all 0.3s ease;
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            margin: 4px 0 20px;
         }
 
-        .back-btn:hover {
+        .education-card,
+        .disclaimer-box,
+        .author-card,
+        .ai-box {
             background: #FFF8E1;
-            transform: translateY(-2px);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #FFC107;
         }
 
         .disclaimer-box {
             margin-top: 30px;
-            padding: 18px;
-            background: #fff8e5;
-            border-left: 5px solid #B8860B;
-            border-radius: 10px;
             font-size: 14px;
             color: #555;
-            line-height: 1.7;
+            border-left-color: #B8860B;
         }
 
-        .education-card {
-            background: #FFF8E1;
-            padding: 25px;
-            border-radius: 12px;
-            margin-top: 20px;
-            border-left: 5px solid #FFC107;
+        .author-card {
+            margin-top: 50px;
+            border-left-color: #B8860B;
         }
 
-        .education-card h3 {
-            margin-top: 0;
-        }
-
-        .education-card ul {
-            list-style: none;
-            padding-left: 0;
-            margin-top: 15px;
-        }
-
-        .education-card li {
-            padding-left: 25px;
-            position: relative;
-            margin-bottom: 10px;
+        .author-card p {
             color: #555;
         }
 
-        .education-card li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #FFC107;
+        .author-link {
+            display: inline-block;
+            margin-top: 5px;
+            color: #B8860B;
             font-weight: 600;
-        }
-
-        .education-card p {
-            color: #555;
-            margin-bottom: 12px;
-            line-height: 1.8;
+            text-decoration: none;
         }
 
         .calculator-grid {
@@ -233,14 +217,19 @@
             border-left: 5px solid #FFC107;
         }
 
-        .grid-card h3 {
-            margin-top: 0;
+        .grid-card p,
+        .education-card p,
+        .education-card li {
+            color: #555;
         }
 
-        .grid-card p {
-            color: #555;
-            font-size: 14px;
-            line-height: 1.6;
+        .education-card ul {
+            margin-top: 12px;
+            padding-left: 22px;
+        }
+
+        .education-card li {
+            margin-bottom: 9px;
         }
 
         .cards {
@@ -256,25 +245,20 @@
             border-radius: 12px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,.05);
-            transition: all 0.3s ease;
             border: 1px solid #f0f0f0;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 18px rgba(0,0,0,.12);
         }
 
         .card h2 {
             color: #B8860B;
             font-size: 28px;
-            margin-bottom: 8px;
+            margin: 0 0 8px;
         }
 
         .card p {
             color: #555;
             font-size: 14px;
             font-weight: 500;
+            margin: 0;
         }
 
         .result-table {
@@ -293,29 +277,36 @@
 
         .result-table th {
             background: #B8860B;
-            color: white;
+            color: #fff;
             font-weight: 600;
         }
 
-        .result-table tr:hover {
-            background: #FFF8E1;
-        }
-
-        .ai-box {
+        .success-banner {
+            background: linear-gradient(135deg, #FFC107 0%, #FFB300 100%);
+            padding: 25px;
+            border-radius: 12px;
             margin-top: 30px;
-            padding: 20px;
-            background: #fff8e5;
-            border-left: 5px solid #B8860B;
-            border-radius: 10px;
+            text-align: center;
+            color: #fff;
         }
 
-        .ai-box h3 {
-            margin-top: 0;
+        .success-banner h2 {
+            color: #fff;
+            margin: 0 0 10px;
         }
 
-        .ai-box p {
-            color: #555;
-            line-height: 1.8;
+        .success-banner p {
+            color: rgba(255,255,255,.92);
+            margin: 0;
+        }
+
+        .error-message {
+            background: #ffebee;
+            border-left: 5px solid #d32f2f;
+            padding: 15px;
+            border-radius: 8px;
+            color: #c62828;
+            margin-top: 20px;
         }
 
         .related-articles {
@@ -332,64 +323,83 @@
             padding: 22px;
             text-decoration: none;
             transition: all 0.3s ease;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             color: inherit;
         }
 
         .article-card:hover {
             box-shadow: 0 8px 20px rgba(0,0,0,.12);
-            transform: translateY(-4px);
+            transform: translateY(-3px);
         }
 
         .article-card h3 {
             margin-top: 0;
-            color: #B8860B;
+        }
+
+        .article-card p {
+            color: #555;
+            font-size: 14px;
         }
 
         .article-card strong {
             color: #B8860B;
         }
 
-        .article-card a {
-            color: inherit;
-            text-decoration: none;
+        .site-nav {
+            max-width: 800px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .related-articles a {
-            color: inherit;
+        .site-nav .brand {
+            font-weight: 800;
+            color: #B8860B;
             text-decoration: none;
+            font-size: 18px;
         }
 
-        .success-banner {
-            background: linear-gradient(135deg, #FFC107 0%, #FFB300 100%);
-            padding: 25px;
-            border-radius: 12px;
-            margin-top: 30px;
+        .site-nav .nav-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .site-nav .nav-links a {
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .site-footer {
+            max-width: 800px;
+            margin: 30px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
             text-align: center;
-            color: white;
         }
 
-        .success-banner h2 {
-            color: white;
-            margin-top: 0;
-            margin-bottom: 10px;
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 14px;
         }
 
-        .success-banner p {
-            color: rgba(255,255,255,.9);
-            margin-bottom: 0;
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
         }
 
-        .error-message {
-            background: #ffebee;
-            border-left: 5px solid #d32f2f;
-            padding: 15px;
-            border-radius: 8px;
-            color: #c62828;
-            margin-top: 20px;
+        .copyright {
+            font-size: 12px;
+            color: #999;
         }
 
         @media (max-width: 768px) {
@@ -423,23 +433,8 @@
                 padding: 14px;
             }
 
-            .card h2 {
-                font-size: 24px;
-            }
-
-            .back-btn {
-                width: 100%;
-                display: block;
-            }
-
-            .calculator-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .related-articles {
-                grid-template-columns: 1fr;
-            }
-
+            .related-articles,
+            .calculator-grid,
             .cards {
                 grid-template-columns: 1fr;
             }
@@ -458,87 +453,6 @@
                 text-align: center;
             }
         }
-
-        /* Site Nav */
-        .site-nav {
-            max-width: 800px;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .site-nav .brand {
-            font-weight: 800;
-            color: #B8860B;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .site-nav .nav-links {
-            display: flex;
-            gap: 18px;
-            flex-wrap: wrap;
-        }
-
-        .site-nav .nav-links a {
-            color: #555;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .site-nav .nav-links a:hover {
-            color: #B8860B;
-        }
-
-        /* Byline */
-        .byline {
-            text-align: center;
-            font-size: 13px;
-            color: #888;
-            margin-top: -10px;
-            margin-bottom: 30px;
-        }
-
-        .byline strong {
-            color: #666;
-        }
-
-        /* Site Footer */
-        .site-footer {
-            max-width: 800px;
-            margin: 30px auto 0;
-            padding-top: 24px;
-            border-top: 1px solid #eee;
-            text-align: center;
-        }
-
-        .site-footer .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 18px;
-            margin-bottom: 14px;
-        }
-
-        .site-footer .footer-links a {
-            color: #666;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .site-footer .footer-links a:hover {
-            color: #B8860B;
-        }
-
-        .site-footer .copyright {
-            font-size: 12px;
-            color: #999;
-        }
     </style>
 
     <script type="application/ld+json">
@@ -549,411 +463,382 @@
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Any",
       "url": "https://smartplanfinance.com/cagr_calculator",
-      "description": "Free CAGR Calculator by SmartPlan Finance. Calculate Compound Annual Growth Rate (CAGR) of your investments instantly and measure investment performance.",
+      "description": "Free CAGR calculator for calculating the annualized growth rate of a lump-sum investment.",
       "publisher": {
         "@type": "Organization",
-        "name": "SmartPlan Finance"
+        "name": "SmartPlanFinance"
       },
       "author": {
         "@type": "Person",
-        "name": "Argho Sanyal"
+        "name": "Argho Sanyal",
+        "url": "https://smartplanfinance.com/about"
       }
     }
     </script>
-
 </head>
 
 <body>
 
-<nav class="site-nav">
+<nav class="site-nav" aria-label="Main navigation">
     <a href="{{ url_for('index') }}" class="brand">SmartPlanFinance</a>
-    
+    <div class="nav-links">
+        <a href="{{ url_for('articles') }}">Articles</a>
+        <a href="/about">About</a>
+        <a href="/privacy">Privacy</a>
+    </div>
 </nav>
 
-<div class="container">
+<main class="container">
 
-    <!-- Header Section -->
-    <div style="margin-bottom: 35px;">
+    <header>
         <h1>📈 CAGR Calculator</h1>
         <p class="subtitle">
-            Measure your investment performance accurately. Calculate the Compound Annual Growth Rate (CAGR) of any investment by entering your initial investment, final value, and investment period. Compare your returns with benchmarks and inflation to make informed financial decisions.
+            Calculate the Compound Annual Growth Rate of a lump-sum investment using your initial investment, final value, and investment period. Use CAGR to understand annualized growth and compare investment performance more consistently.
         </p>
-        <p class="byline">By <strong>Argho Sanyal</strong>, Founder, SmartPlanFinance &middot; Last updated: <time datetime="2026-08-01">August 2026</time></p>
-    </div>
+        <p class="byline">
+            By <strong>Argho Sanyal</strong>, Founder, SmartPlanFinance ·
+            Last updated: <time datetime="2026-08-14">August 2026</time>
+        </p>
+    </header>
 
-    <!-- What is CAGR Section - VISIBLE BEFORE CALCULATION -->
-    <div class="education-card">
-        <h3>📊 What is CAGR (Compound Annual Growth Rate)?</h3>
+    <section class="education-card" aria-labelledby="what-is-cagr">
+        <h2 id="what-is-cagr" style="margin-top:0;">What Is CAGR?</h2>
         <p>
-            CAGR is the average annual growth rate of an investment over a specified period, accounting for the effect of compounding. Unlike simple returns, CAGR provides a more accurate picture of how your investment has grown year over year.
+            CAGR, or Compound Annual Growth Rate, is the annualized rate at which an investment would have grown if it had followed a steady compounded growth path from its starting value to its ending value over a specific period.
         </p>
         <p>
-            <strong>Example:</strong> If you invested ₹1 lakh in a mutual fund and it grew to ₹2 lakh over 5 years, the CAGR tells you the steady annual growth rate that achieved this result, which is approximately 14.87% per year.
+            CAGR is useful for comparing investments held for different lengths of time, but it does not show the year-to-year fluctuations that actually occurred.
         </p>
-    </div>
+        <p>
+            <strong>Example:</strong> If ₹1 lakh grows to ₹2 lakh over 5 years, the CAGR is approximately 14.87% per year.
+        </p>
+    </section>
 
-    <!-- Why Use CAGR Calculator -->
-    <div style="margin-top: 45px;">
-        <h2>🎯 Why Use a CAGR Calculator?</h2>
+    <section aria-labelledby="why-use">
+        <h2 id="why-use">Why Use a CAGR Calculator?</h2>
         <div class="calculator-grid">
             <div class="grid-card">
-                <h3>📈 Measure Performance</h3>
-                <p>Understand exactly how your investments have grown on an annualized basis.</p>
+                <h3>Measure Annualized Growth</h3>
+                <p>Convert the growth of a lump-sum investment into an annualized rate.</p>
             </div>
-
             <div class="grid-card">
-                <h3>🔍 Compare Investments</h3>
-                <p>Compare the performance of different investments on an equal footing using annual returns.</p>
+                <h3>Compare Investments</h3>
+                <p>Use CAGR as one consistent measure when comparing investments over different periods.</p>
             </div>
-
             <div class="grid-card">
-                <h3>💼 Benchmark Analysis</h3>
-                <p>Compare your CAGR against indices (Sensex, Nifty) and fixed deposit rates.</p>
+                <h3>Understand Compounding</h3>
+                <p>See how the starting value, ending value, and investment period affect annualized growth.</p>
             </div>
-
             <div class="grid-card">
-                <h3>⏱️ Time-Period Neutral</h3>
-                <p>Compare investments of different durations by converting to annual growth rates.</p>
+                <h3>Support Better Analysis</h3>
+                <p>Combine CAGR with risk, volatility, taxes, fees, and investment objectives before making decisions.</p>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- CAGR Calculator Form -->
-    <form method="POST" class="form-card">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <section aria-labelledby="calculator">
+        <h2 id="calculator">Calculate Your CAGR</h2>
 
-        <div class="form-group">
-            <label>Initial Investment (₹)</label>
-            <input
-                type="number"
-                name="initial"
-                placeholder="Example: 100000"
-                required>
+        <form method="POST" class="form-card">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="form-group">
+                <label for="initial">Initial Investment (₹)</label>
+                <input id="initial" type="number" name="initial"
+                       placeholder="Example: 100000" min="0.01" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="final">Final Value (₹)</label>
+                <input id="final" type="number" name="final"
+                       placeholder="Example: 200000" min="0.01" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="years">Investment Period (Years)</label>
+                <input id="years" type="number" step="0.1" name="years"
+                       placeholder="Example: 5" min="0.1" required>
+            </div>
+
+            <button type="submit">📊 Calculate CAGR</button>
+        </form>
+    </section>
+
+    {% if result %}
+    <section id="results-section" aria-labelledby="results-heading">
+        {% if result.error %}
+        <div class="error-message">
+            <strong>⚠️ Error:</strong> {{ result.error }}
+        </div>
+        {% else %}
+
+        <div class="success-banner">
+            <h2 id="results-heading">Your CAGR Calculation Result</h2>
+            <p>Review the annualized growth and investment summary below.</p>
         </div>
 
-        <div class="form-group">
-            <label>Final Value (₹)</label>
-            <input
-                type="number"
-                name="final"
-                placeholder="Example: 200000"
-                required>
+        <div class="cards">
+            <div class="card">
+                <h2>{{ result.cagr }}%</h2>
+                <p>CAGR</p>
+            </div>
+            <div class="card">
+                <h2>{{ result.absolute_return }}%</h2>
+                <p>Absolute Return</p>
+            </div>
+            <div class="card">
+                <h2>₹ {{ "{:,.0f}".format(result.profit) }}</h2>
+                <p>Total Profit</p>
+            </div>
+            <div class="card">
+                <h2>{{ result.years }} yr</h2>
+                <p>Investment Duration</p>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label>Investment Period (Years)</label>
-            <input
-                type="number"
-                step="0.1"
-                name="years"
-                placeholder="Example: 5"
-                required>
+        <table class="result-table">
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Initial Investment</td>
+                    <td>₹ {{ "{:,.2f}".format(result.initial) }}</td>
+                </tr>
+                <tr>
+                    <td>Final Value</td>
+                    <td>₹ {{ "{:,.2f}".format(result.final) }}</td>
+                </tr>
+                <tr>
+                    <td>Total Profit</td>
+                    <td>₹ {{ "{:,.2f}".format(result.profit) }}</td>
+                </tr>
+                <tr>
+                    <td>CAGR</td>
+                    <td><strong>{{ result.cagr }}%</strong></td>
+                </tr>
+                <tr>
+                    <td>Absolute Return</td>
+                    <td>{{ result.absolute_return }}%</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="ai-box">
+            <h3>SmartPlan Insight</h3>
+            <p>
+                Your investment grew from
+                <strong>₹{{ "{:,.0f}".format(result.initial) }}</strong>
+                to
+                <strong>₹{{ "{:,.0f}".format(result.final) }}</strong>
+                over <strong>{{ result.years }}</strong> years, producing a CAGR of
+                <strong>{{ result.cagr }}%</strong>.
+            </p>
+            <p>
+                CAGR is only one measure of performance. Consider volatility, investment risk,
+                fees, taxes, and the time period before judging whether an investment performed well.
+            </p>
         </div>
 
-        <button type="submit">
-            📊 Calculate CAGR
-        </button>
-    </form>
+        {% endif %}
+    </section>
+    {% endif %}
 
-    <!-- Back to Home Button -->
-    <div style="text-align: center;">
-        <a href="{{ url_for('index') }}" class="back-btn">
-            ← Back to Home
-        </a>
+    <div style="text-align:center;">
+        <a href="{{ url_for('index') }}" class="back-btn">← Back to Home</a>
     </div>
 
-    <!-- Disclaimer -->
-    <div class="disclaimer-box">
-        <strong>Disclaimer:</strong> The CAGR Calculator on SmartPlan Finance provides estimated Compound Annual Growth Rate calculations based on the values entered by the user. The calculated CAGR represents historical or assumed annualized growth and should not be interpreted as a guarantee of future performance. Actual investment returns depend on market conditions, investment selection, and other factors. SmartPlan Finance does not recommend any investment product or provide financial advice. Please consult a qualified financial advisor before making investment decisions.
-    </div>
-
-    <!-- Understanding CAGR -->
-    <div style="margin-top: 45px;">
-        <h2>📖 Understanding CAGR Results</h2>
+    <section aria-labelledby="understanding-results">
+        <h2 id="understanding-results">Understanding CAGR Results</h2>
         <div class="education-card">
-            <h3 style="margin-top: 0;">CAGR vs Absolute Return</h3>
+            <h3>CAGR vs Absolute Return</h3>
             <p>
-                <strong>Absolute Return:</strong> The total percentage gain on your investment (Final Value - Initial Value) / Initial Value
+                <strong>Absolute return</strong> measures the total percentage change between the initial and final values.
             </p>
             <p>
-                <strong>CAGR:</strong> The annualized growth rate that smooths out year-to-year volatility. This is more useful for comparing investments over different time periods.
+                <strong>CAGR</strong> annualizes that growth over the investment period and assumes a steady compounded rate for comparison purposes.
             </p>
             <p>
-                <strong>Example:</strong> An absolute return of 100% over 5 years equals a CAGR of approximately 14.87% per year.
-            </p>
-        </div>
-    </div>
-
-    <!-- CAGR Benchmarking -->
-    <div style="margin-top: 45px;">
-        <h2>🏆 CAGR Benchmarks in India</h2>
-        <div class="education-card">
-            <p>
-                <strong>Fixed Deposits:</strong> 4-8% CAGR (Safe, guaranteed returns)
-            </p>
-            <p>
-                <strong>Government Securities (G-Secs):</strong> 5-7% CAGR (Very safe, government backed)
-            </p>
-            <p>
-                <strong>Inflation Rate:</strong> 5-6% CAGR (Your CAGR should exceed inflation to build real wealth)
-            </p>
-            <p>
-                <strong>Sensex (BSE):</strong> Historically 12-14% CAGR (Equity market returns, higher risk)
-            </p>
-            <p>
-                <strong>Nifty 50 (NSE):</strong> Historically 13-15% CAGR (Equity market returns, high risk)
-            </p>
-            <p>
-                <strong>Balanced Mutual Funds:</strong> 10-12% CAGR (Mix of equity and debt, moderate risk)
-            </p>
-            <p>
-                <strong>Equity Mutual Funds:</strong> 12-15% CAGR (High growth potential, higher risk)
+                For example, a 100% total gain over 5 years corresponds to a CAGR of approximately 14.87%, assuming a single initial investment and a final value after five years.
             </p>
         </div>
-    </div>
+    </section>
 
-    <!-- How to Use Calculator -->
-    <div style="margin-top: 45px;">
-        <h2>📋 How to Use This CAGR Calculator</h2>
+    <section aria-labelledby="benchmarks">
+        <h2 id="benchmarks">How Should You Interpret a CAGR?</h2>
         <div class="education-card">
-            <ol style="color: #555; line-height: 2; padding-left: 20px;">
-                <li>Enter your <strong>initial investment amount</strong> (the amount you invested).</li>
-                <li>Enter the <strong>final value</strong> (the current worth of your investment).</li>
-                <li>Enter the <strong>investment period in years</strong> (how long you've been invested).</li>
-                <li>Click the <strong>Calculate CAGR</strong> button.</li>
-                <li>Review your CAGR, absolute return, and total profit percentage.</li>
-                <li>Compare your CAGR against benchmarks above to evaluate performance.</li>
+            <p>
+                There is no single CAGR that is appropriate for every investment. A useful comparison depends on the asset class, time period, risk level, fees, taxes, and the benchmark being used.
+            </p>
+            <ul>
+                <li>Compare equity investments with an appropriate equity benchmark.</li>
+                <li>Compare debt products with relevant interest-rate or debt benchmarks.</li>
+                <li>Consider inflation when evaluating whether your money is gaining purchasing power.</li>
+                <li>Do not treat a historical CAGR as a guaranteed future return.</li>
+                <li>A higher CAGR is not automatically better if it required substantially higher risk.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section aria-labelledby="how-to-use">
+        <h2 id="how-to-use">How to Use This CAGR Calculator</h2>
+        <div class="education-card">
+            <ol style="color:#555; line-height:2; padding-left:22px;">
+                <li>Enter the amount of your initial lump-sum investment.</li>
+                <li>Enter the final or current value of the investment.</li>
+                <li>Enter the investment period in years.</li>
+                <li>Select <strong>Calculate CAGR</strong>.</li>
+                <li>Review CAGR, absolute return, profit, and investment duration.</li>
+                <li>Use the result as one part of your broader investment analysis.</li>
             </ol>
         </div>
-    </div>
+    </section>
 
-    <!-- CAGR for Different Investments -->
-    <div style="margin-top: 45px;">
-        <h2>💡 CAGR for Different Investment Types</h2>
+    <section aria-labelledby="different-investments">
+        <h2 id="different-investments">CAGR Across Different Investment Types</h2>
         <div class="education-card">
-            <h3>📱 Short-Term Savings (< 1 Year)</h3>
-            <p>Savings accounts and money market funds typically show modest CAGRs of 3-4%. Not meant for measuring long-term wealth creation.</p>
+            <h3>Short-Term Savings</h3>
+            <p>
+                CAGR is generally less useful for very short holding periods because small changes in value can produce large annualized figures.
+            </p>
 
-            <h3 style="margin-top: 20px;">🏦 Medium-Term Investments (1-5 Years)</h3>
-            <p>FDs and bonds with expected CAGRs of 5-8%. Good for specific goals and capital preservation with steady growth.</p>
+            <h3 style="margin-top:20px;">Fixed Deposits and Debt Investments</h3>
+            <p>
+                These investments are generally evaluated using stated interest rates, yields, maturity values, and applicable taxes. CAGR can still help when comparing realized investment values over a defined period.
+            </p>
 
-            <h3 style="margin-top: 20px;">📈 Long-Term Equity (5+ Years)</h3>
-            <p>Stocks and mutual funds with expected CAGRs of 10-15%+. Higher volatility but potential for wealth creation over time.</p>
+            <h3 style="margin-top:20px;">Long-Term Equity Investments</h3>
+            <p>
+                CAGR can help summarize long-term growth, but it hides interim market declines and volatility. Equity performance should therefore be considered alongside risk and drawdowns.
+            </p>
 
-            <h3 style="margin-top: 20px;">🎯 Hybrid Investments</h3>
-            <p>Balanced portfolios combining equity and debt, typically showing CAGRs of 8-12%, balancing growth and stability.</p>
+            <h3 style="margin-top:20px;">Hybrid Portfolios</h3>
+            <p>
+                A blended portfolio may have a different return and risk profile from a pure equity or debt investment. Compare it with an appropriate benchmark and consider the portfolio's asset allocation.
+            </p>
         </div>
-    </div>
+    </section>
 
-    <!-- CAGR Calculation Results - Only Visible After Calculate -->
-    {% if result %}
-    <div id="results-section">
-
-    {% if result.error %}
-
-    <div class="error-message">
-        <strong>⚠️ Error:</strong> {{ result.error }}
-    </div>
-
-    {% else %}
-
-    <div class="success-banner">
-        <h2>✓ Your CAGR Calculation Result</h2>
-        <p>Here's your investment performance breakdown</p>
-    </div>
-
-    <h3 style="text-align: center; color: #B8860B; margin-top: 35px;">
-        💰 Investment Summary
-    </h3>
-
-    <div class="cards">
-        <div class="card">
-            <h2>{{ result.cagr }}%</h2>
-            <p>CAGR (Compound Annual Growth Rate)</p>
-        </div>
-
-        <div class="card">
-            <h2>{{ result.absolute_return }}%</h2>
-            <p>Absolute Return</p>
-        </div>
-
-        <div class="card">
-            <h2>₹ {{ "{:,.0f}".format(result.profit) }}</h2>
-            <p>Total Profit</p>
-        </div>
-
-        <div class="card">
-            <h2>{{ result.years }} yr</h2>
-            <p>Investment Duration</p>
-        </div>
-    </div>
-
-    <!-- Results Table -->
-    <table class="result-table">
-        <tr>
-            <th>Metric</th>
-            <th>Value</th>
-        </tr>
-        <tr>
-            <td>Initial Investment</td>
-            <td>₹ {{ "{:,.2f}".format(result.initial) }}</td>
-        </tr>
-        <tr>
-            <td>Final Value</td>
-            <td>₹ {{ "{:,.2f}".format(result.final) }}</td>
-        </tr>
-        <tr>
-            <td>Total Profit</td>
-            <td>₹ {{ "{:,.2f}".format(result.profit) }}</td>
-        </tr>
-        <tr>
-            <td>CAGR</td>
-            <td><strong>{{ result.cagr }}%</strong></td>
-        </tr>
-        <tr>
-            <td>Absolute Return</td>
-            <td>{{ result.absolute_return }}%</td>
-        </tr>
-    </table>
-
-    <!-- SmartPlan Insight -->
-    <div class="ai-box">
-        <h3>🤖 SmartPlan Insight</h3>
-        <p>
-            Your investment grew from <strong>₹{{ "{:,.0f}".format(result.initial) }}</strong> to <strong>₹{{ "{:,.0f}".format(result.final) }}</strong> over <strong>{{ result.years }}</strong> years, delivering a <strong>{{ result.cagr }}%</strong> compound annual growth rate.
-        </p>
-        <p>
-            <strong>How does this compare?</strong>
-            {% if result.cagr|float < 5 %}
-            Your CAGR is below inflation. Consider diversifying into higher-growth investment options for long-term wealth creation.
-            {% elif result.cagr|float < 10 %}
-            Your CAGR is reasonable but trails equity market benchmarks (10-15% historically). Evaluate your investment mix and risk tolerance.
-            {% elif result.cagr|float < 15 %}
-            Your CAGR is competitive with market benchmarks. Your investment strategy is performing well relative to market averages.
-            {% else %}
-            Your CAGR exceeds typical market benchmarks (12-14%). Excellent investment performance! Consider maintaining your current strategy while staying diversified.
-            {% endif %}
-        </p>
-    </div>
-    </div>
-    {% endif %}
-
-    {% endif %}
-
-    <!-- Key Factors Affecting CAGR -->
-    <div style="margin-top: 45px;">
-        <h2>🔍 Key Factors Affecting CAGR</h2>
+    <section aria-labelledby="factors">
+        <h2 id="factors">Key Factors That Affect Investment CAGR</h2>
         <div class="education-card">
             <ul>
-                <li><strong>Asset Class:</strong> Equities typically have higher CAGR than bonds or savings accounts.</li>
-                <li><strong>Market Conditions:</strong> Bull markets boost CAGR; bear markets reduce it significantly.</li>
-                <li><strong>Time Period:</strong> Longer investment horizons typically show steadier CAGRs due to compounding.</li>
-                <li><strong>Risk Taken:</strong> Higher CAGR usually comes with higher volatility and risk.</li>
-                <li><strong>Diversification:</strong> Well-diversified portfolios often show balanced CAGRs with lower risk.</li>
-                <li><strong>Cost of Investments:</strong> Lower fees and charges mean higher effective CAGR.</li>
-                <li><strong>Taxation:</strong> Tax-efficient investments produce higher after-tax CAGRs.</li>
+                <li><strong>Starting and ending values:</strong> These determine the total growth used in the CAGR calculation.</li>
+                <li><strong>Investment period:</strong> The same total gain can produce a very different annualized rate over different time periods.</li>
+                <li><strong>Asset class:</strong> Different assets have different return and risk characteristics.</li>
+                <li><strong>Market conditions:</strong> Market cycles can significantly affect realized investment values.</li>
+                <li><strong>Costs and taxes:</strong> Fees, expenses, and taxes can reduce the amount ultimately retained by an investor.</li>
+                <li><strong>Cash flows:</strong> CAGR is designed for a starting value and ending value. Multiple deposits or withdrawals require a different return measure, such as XIRR.</li>
             </ul>
         </div>
-    </div>
+    </section>
 
-    <!-- Smart CAGR Investing Tips -->
-    <div style="margin-top: 45px;">
-        <h2>💡 Smart CAGR Investing Tips</h2>
+    <section aria-labelledby="tips">
+        <h2 id="tips">Smart CAGR Analysis Tips</h2>
         <div class="education-card">
             <ul>
-                <li><strong>Long-term Focus:</strong> Don't chase short-term volatility. CAGR rewards long-term, disciplined investing.</li>
-                <li><strong>Beat Inflation:</strong> Ensure your CAGR exceeds inflation rate (5-6%) to maintain purchasing power.</li>
-                <li><strong>Compare Fairly:</strong> Always compare CAGRs across the same time period to make valid comparisons.</li>
-                <li><strong>Consider Risk:</strong> Higher CAGR doesn't always mean better investment if it comes with excessive risk.</li>
-                <li><strong>Regular Review:</strong> Monitor your portfolio CAGR annually to ensure it aligns with your goals.</li>
-                <li><strong>SIP vs Lumpsum:</strong> Use CAGR to compare returns from systematic investments vs one-time investments.</li>
-                <li><strong>Rebalance Regularly:</strong> Periodic portfolio rebalancing helps maintain target CAGR and risk levels.</li>
+                <li>Use CAGR primarily for lump-sum investments with a clearly defined start and end value.</li>
+                <li>Do not use CAGR alone to evaluate an investment decision.</li>
+                <li>For investments with multiple cash flows, consider XIRR instead.</li>
+                <li>Compare returns with a relevant benchmark and the same measurement period.</li>
+                <li>Consider inflation when assessing long-term purchasing power.</li>
+                <li>Review risk and volatility alongside the reported return.</li>
             </ul>
         </div>
-    </div>
+    </section>
 
-    <!-- Related Calculators -->
-    <div style="margin-top: 50px;">
-        <h2>🧮 Related Financial Calculators</h2>
-        <p style="color: #555; line-height: 1.8; margin-bottom: 25px;">
-            Explore other tools to measure investment performance and plan your financial goals.
+    <section aria-labelledby="related-calculators">
+        <h2 id="related-calculators">Related Financial Calculators</h2>
+        <p style="color:#555;">
+            Explore other SmartPlanFinance calculators for investment planning and financial decision-making.
         </p>
 
         <div class="related-articles">
-
-            <a href="{{ url_for('sip_calculator') }}" style="text-decoration: none; display: block;">
-                <div class="article-card">
-                    <h3>📊 SIP Calculator</h3>
-                    <p>Calculate wealth accumulation through regular monthly investments. See how systematic investing builds wealth over time.</p>
-                    <strong>Try Calculator →</strong>
-                </div>
+            <a href="{{ url_for('sip_calculator') }}" class="article-card">
+                <h3>📊 SIP Calculator</h3>
+                <p>Estimate how regular monthly investments may grow over time.</p>
+                <strong>Try Calculator →</strong>
             </a>
 
-            <a href="{{ url_for('lumpsum_calculator') }}" style="text-decoration: none; display: block;">
-                <div class="article-card">
-                    <h3>💰 Lumpsum Investment Calculator</h3>
-                    <p>Calculate returns on one-time lump sum investments. Measure growth across different investment scenarios.</p>
-                    <strong>Try Calculator →</strong>
-                </div>
+            <a href="{{ url_for('lumpsum_calculator') }}" class="article-card">
+                <h3>💰 Lumpsum Investment Calculator</h3>
+                <p>Estimate the future value of a one-time investment under different assumptions.</p>
+                <strong>Try Calculator →</strong>
             </a>
 
-            <a href="{{ url_for('fd_calculator') }}" style="text-decoration: none; display: block;">
-                <div class="article-card">
-                    <h3>🏦 Fixed Deposit Calculator</h3>
-                    <p>Calculate FD maturity amounts and compare returns with equity investments and CAGR benchmarks.</p>
-                    <strong>Try Calculator →</strong>
-                </div>
+            <a href="{{ url_for('fd_calculator') }}" class="article-card">
+                <h3>🏦 Fixed Deposit Calculator</h3>
+                <p>Estimate FD maturity value and interest based on your inputs.</p>
+                <strong>Try Calculator →</strong>
             </a>
 
-            <a href="{{ url_for('emi_calculator') }}" style="text-decoration: none; display: block;">
-                <div class="article-card">
-                    <h3>💳 Loan EMI Calculator</h3>
-                    <p>Calculate monthly loan EMI and plan debt repayment. Understand the cost of borrowing.</p>
-                    <strong>Try Calculator →</strong>
-                </div>
+            <a href="{{ url_for('emi_calculator') }}" class="article-card">
+                <h3>💳 Loan EMI Calculator</h3>
+                <p>Calculate estimated monthly loan payments and total interest.</p>
+                <strong>Try Calculator →</strong>
             </a>
-
         </div>
-    </div>
+    </section>
 
-    <!-- Learn More Section -->
-    <div style="margin-top: 50px;">
-        <h2>📚 Learn More About Investment Performance</h2>
-        <p style="color: #555; line-height: 1.8; margin-bottom: 25px;">
-            Explore our comprehensive collection of investment guides, market insights, and wealth-building strategies.
-        </p>
-
+    <section aria-labelledby="learn-more">
+        <h2 id="learn-more">Learn More About Personal Finance</h2>
         <div class="related-articles">
-
-            <a href="{{ url_for('articles') }}" style="text-decoration: none; display: block;">
-                <div class="article-card">
-                    <h3>📖 All Articles & Guides</h3>
-                    <p>Browse our complete collection of financial articles covering investments, tax planning, retirement, loans, and wealth-building strategies.</p>
-                    <strong>Explore Articles →</strong>
-                </div>
+            <a href="{{ url_for('articles') }}" class="article-card">
+                <h3>📖 Financial Articles & Guides</h3>
+                <p>
+                    Explore SmartPlanFinance guides covering investing, saving, retirement,
+                    loans, taxes, and long-term financial planning.
+                </p>
+                <strong>Explore Articles →</strong>
             </a>
-
         </div>
+    </section>
+
+    <section class="author-card" aria-labelledby="about-author">
+        <h2 id="about-author" style="margin-top:0;">About the Author</h2>
+        <p>
+            <strong>Argho Sanyal</strong> is the founder of SmartPlanFinance and the author
+            of its personal-finance educational content and financial calculators.
+            SmartPlanFinance focuses on making personal finance concepts easier to understand
+            through practical explanations, calculators, and planning tools.
+        </p>
+        <p>
+            This calculator is provided for educational and informational purposes.
+            It does not provide personalized financial advice or guarantee investment returns.
+        </p>
+        <a href="/about" class="author-link">Learn more about SmartPlanFinance and the author →</a>
+    </section>
+
+    <div class="disclaimer-box">
+        <strong>Disclaimer:</strong> The CAGR Calculator provides an estimate based on the
+        values entered by the user. CAGR is an annualized mathematical measure and does not
+        predict future investment performance. Actual returns can vary because of market
+        conditions, investment choices, costs, taxes, and other factors. SmartPlanFinance
+        does not provide personalized investment advice or guarantee investment returns.
+        Please consider your own circumstances and consult a qualified financial professional
+        if you need personalized financial advice.
     </div>
 
-    <!-- Partner CTA -->
     {% include "partials/_partner_cta.html" %}
 
-    <!-- Final CTA -->
-    <div style="margin-top: 45px; text-align: center;">
+    <section style="margin-top:45px; text-align:center;" aria-labelledby="final-cta">
         <div class="success-banner">
-            <h2 style="margin-top: 0; margin-bottom: 15px;">Ready to Evaluate Your Investments?</h2>
-            <p style="margin-bottom: 20px; font-size: 15px;">
-                Use our CAGR Calculator to measure investment performance, then explore other tools to optimize your portfolio and build lasting wealth.
+            <h2 id="final-cta">Ready to Evaluate Your Investments?</h2>
+            <p style="margin-bottom:20px;">
+                Calculate your CAGR and explore other SmartPlanFinance tools to understand
+                your investment goals and options.
             </p>
             <a href="{{ url_for('sip_calculator') }}"
-               style="display: inline-block; background: white; color: #B8860B; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: 0.3s;">
-                Start SIP Investing →
+               style="display:inline-block; background:#fff; color:#B8860B; padding:12px 28px; border-radius:10px; text-decoration:none; font-weight:600;">
+                Explore SIP Calculator →
             </a>
         </div>
-    </div>
+    </section>
 
-</div>
+</main>
 
 <footer class="site-footer">
     <div class="footer-links">
@@ -961,18 +846,30 @@
         <a href="/privacy">Privacy Policy</a>
         <a href="/terms">Terms &amp; Conditions</a>
         <a href="/disclaimer">Disclaimer</a>
+        <a href="{{ url_for('articles') }}">Articles</a>
+        <a
+                href="{{ url_for('about_author') }}"
+                class="credibility-link">
+
+                Learn more about the Author &amp; Founder →
+
+            </a>
+         <a href="/affiliate-policy">
+            💰 Affiliate Disclosure
+        </a>
+       
     </div>
-    <div class="copyright">&copy; 2026 SmartPlanFinance. All rights reserved.</div>
+    <div class="copyright">
+        &copy; 2026 SmartPlanFinance. All rights reserved.
+    </div>
 </footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Scroll only after a POST submission when results exist
     const resultsSection = document.getElementById('results-section');
 
     if (resultsSection && window.location.search === '') {
-        // Small delay ensures layout is fully rendered
-        setTimeout(() => {
+        setTimeout(function () {
             resultsSection.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
@@ -981,6 +878,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
-</body>
 
+</body>
 </html>
