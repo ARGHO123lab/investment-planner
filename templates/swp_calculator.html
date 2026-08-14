@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="icon"
           type="image/png"
           sizes="32x32"
@@ -21,12 +22,48 @@
           href="{{ url_for('static', filename='icons/site.webmanifest') }}">
 
     <title>SWP Calculator | SmartPlan Finance</title>
-    <meta name="description" content="Free SWP Calculator by SmartPlan Finance. Calculate Systematic Withdrawal Plan sustainability for retirement. Plan monthly withdrawals from your investment corpus.">
-    <link rel="canonical" href="https://smartplanfinance.com/swp_calculator">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description"
+          content="Free SWP Calculator by SmartPlan Finance. Estimate retirement withdrawal sustainability based on your investment corpus, withdrawals, expected returns, inflation and investment horizon.">
 
+    <meta name="author"
+          content="Argho Sanyal, Founder, SmartPlanFinance">
+
+    <link rel="canonical"
+          href="https://smartplanfinance.com/swp_calculator">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+<script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
+            crossorigin="anonymous"></script>
+            <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "SWP Calculator",
+  "applicationCategory": "FinanceApplication",
+  "applicationSubCategory": "Retirement Planning Calculator",
+  "operatingSystem": "Any",
+  "url": "https://smartplanfinance.com/swp_calculator",
+  "description": "Free SWP Calculator by SmartPlan Finance to estimate retirement withdrawal sustainability based on investment corpus, monthly withdrawals, expected returns, inflation, withdrawal increases, and investment horizon.",
+  "author": {
+    "@type": "Person",
+    "name": "Argho Sanyal",
+    "jobTitle": "Founder",
+    "url": "https://smartplanfinance.com/about"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SmartPlanFinance",
+    "url": "https://smartplanfinance.com"
+  },
+  "isAccessibleForFree": true
+}
+</script>
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -38,6 +75,7 @@
             font-family: 'Poppins', sans-serif;
             padding: 40px 20px;
             line-height: 1.6;
+            color: #333;
         }
 
         .container {
@@ -78,6 +116,18 @@
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        .byline {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-top: -15px;
+            margin-bottom: 30px;
+        }
+
+        .byline strong {
+            color: #666;
         }
 
         .form-card {
@@ -308,6 +358,7 @@
         .ai-box p {
             color: #555;
             line-height: 1.8;
+            margin-bottom: 12px;
         }
 
         .related-articles {
@@ -377,15 +428,44 @@
             margin-top: 20px;
         }
 
-        .results-section {
-            display: none;
+        #results-section {
+            scroll-margin-top: 20px;
         }
 
-        .results-section.show {
-            display: block;
+        .site-footer {
+            max-width: 800px;
+            margin: 40px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+
+        .site-footer .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 14px;
+        }
+
+        .site-footer .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .site-footer .footer-links a:hover {
+            color: #B8860B;
+        }
+
+        .site-footer .copyright {
+            font-size: 12px;
+            color: #999;
         }
 
         @media (max-width: 768px) {
+
             body {
                 padding: 15px;
             }
@@ -443,40 +523,9 @@
             }
         }
 
-         /* Site Footer */
-        .site-footer {
-            max-width: 700px;
-            margin: 40px auto 0;
-            padding-top: 24px;
-            border-top: 1px solid #eee;
-            text-align: center;
-        }
-
-        .site-footer .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 18px;
-            margin-bottom: 14px;
-        }
-
-        .site-footer .footer-links a {
-            color: #666;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .site-footer .footer-links a:hover {
-            color: #B8860B;
-        }
-
-        .site-footer .copyright {
-            font-size: 12px;
-            color: #999;
-        }
     </style>
 
+    <!-- Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -485,10 +534,15 @@
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Any",
       "url": "https://smartplanfinance.com/swp_calculator",
-      "description": "Free SWP Calculator by SmartPlan Finance. Calculate Systematic Withdrawal Plan sustainability for retirement planning and investment corpus management.",
+      "description": "Free SWP Calculator by SmartPlan Finance for estimating retirement withdrawal sustainability based on investment corpus, withdrawals, expected returns, inflation and investment horizon.",
       "publisher": {
         "@type": "Organization",
-        "name": "SmartPlan Finance"
+        "name": "SmartPlanFinance",
+        "url": "https://smartplanfinance.com"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Argho Sanyal"
       }
     }
     </script>
@@ -499,78 +553,133 @@
 
 <div class="container">
 
-    <!-- Header Section -->
+    <!-- Header -->
     <div style="margin-bottom: 35px;">
+
         <h1>💸 SWP Calculator</h1>
+
         <p class="subtitle">
-            Plan your retirement withdrawals with confidence. Calculate how long your investment corpus can sustain regular monthly withdrawals while earning returns. Understand withdrawal sustainability and retirement income security.
+            Plan your retirement withdrawals with confidence. Estimate how long your investment corpus may sustain regular withdrawals based on expected returns, inflation, withdrawal increases and your chosen investment horizon.
         </p>
+
+        <p class="byline">
+            By <strong>Argho Sanyal</strong>, Founder, SmartPlanFinance
+            &middot;
+            Last updated:
+            <time datetime="2026-08-14">August 2026</time>
+        </p>
+
     </div>
 
-    <!-- What is SWP Section - VISIBLE BEFORE CALCULATION -->
+
+    <!-- What is SWP -->
     <div class="education-card">
+
         <h3>📊 What is SWP (Systematic Withdrawal Plan)?</h3>
+
         <p>
-            A Systematic Withdrawal Plan (SWP) is a retirement income strategy where you withdraw a fixed amount from your investment corpus every month. The remaining balance continues to earn returns, which can help sustain your withdrawals for a longer period.
+            A Systematic Withdrawal Plan (SWP) is a strategy where you withdraw a predetermined amount from an investment corpus at regular intervals, such as monthly. The remaining corpus stays invested and may continue to earn returns.
         </p>
+
         <p>
-            <strong>Example:</strong> If you have a corpus of ₹50 lakhs and withdraw ₹50,000 monthly while earning 8% annual returns on the balance, your corpus may sustain your withdrawals for 10-15+ years depending on inflation and returns.
+            <strong>Example:</strong>
+            If you have a corpus of ₹50 lakh and withdraw ₹50,000 per month, the sustainability of the corpus will depend on factors such as investment returns, inflation, withdrawal increases, market conditions and the length of the withdrawal period.
         </p>
+
     </div>
 
-    <!-- Why Use SWP Calculator - VISIBLE BEFORE CALCULATION -->
+
+    <!-- Why Use SWP Calculator -->
     <div style="margin-top: 45px;">
+
         <h2>🎯 Why Use an SWP Calculator?</h2>
+
         <div class="calculator-grid">
+
             <div class="grid-card">
                 <h3>🏖️ Retirement Planning</h3>
-                <p>Estimate how long your retirement corpus will last with planned monthly withdrawals.</p>
+                <p>
+                    Estimate how your retirement corpus may change with planned withdrawals over a selected period.
+                </p>
             </div>
 
             <div class="grid-card">
                 <h3>💡 Withdrawal Strategy</h3>
-                <p>Determine the optimal monthly withdrawal amount that sustains your corpus.</p>
+                <p>
+                    Test different monthly withdrawal amounts and understand their potential effect on corpus sustainability.
+                </p>
             </div>
 
             <div class="grid-card">
                 <h3>📈 Return Impact</h3>
-                <p>Understand how investment returns affect your withdrawal sustainability.</p>
+                <p>
+                    Explore how different expected investment return assumptions can affect your projected retirement corpus.
+                </p>
             </div>
 
             <div class="grid-card">
-                <h3>🛡️ Inflation Protection</h3>
-                <p>Plan for inflation impact on purchasing power and adjust withdrawals accordingly.</p>
+                <h3>🛡️ Inflation Planning</h3>
+                <p>
+                    Account for inflation and potential annual increases in withdrawals when planning retirement income.
+                </p>
             </div>
+
         </div>
+
     </div>
 
-    <!-- SWP Calculator Form -->
-    <form method="POST" class="form-card">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <!-- Calculator -->
+    <form method="POST"
+          class="form-card"
+          action="{{ url_for('swp_calculator') }}">
+
+        <input type="hidden"
+               name="csrf_token"
+               value="{{ csrf_token() }}">
 
         <div class="form-group">
-            <label>Initial Investment Corpus (₹)</label>
+
+            <label for="corpus">
+                Initial Investment Corpus (₹)
+            </label>
+
             <input
+                id="corpus"
                 type="number"
                 name="corpus"
                 placeholder="Example: 5000000"
                 required
                 min="100000">
+
         </div>
 
+
         <div class="form-group">
-            <label>Monthly Withdrawal Amount (₹)</label>
+
+            <label for="withdrawal">
+                Monthly Withdrawal Amount (₹)
+            </label>
+
             <input
+                id="withdrawal"
                 type="number"
                 name="withdrawal"
                 placeholder="Example: 50000"
                 required
                 min="5000">
+
         </div>
 
+
         <div class="form-group">
-            <label>Expected Annual Return (%)</label>
+
+            <label for="return_rate">
+                Expected Annual Return (%)
+            </label>
+
             <input
+                id="return_rate"
                 type="number"
                 step="0.1"
                 name="return_rate"
@@ -578,11 +687,18 @@
                 required
                 min="0"
                 max="25">
+
         </div>
 
+
         <div class="form-group">
-            <label>Expected Annual Inflation (%)</label>
+
+            <label for="inflation">
+                Expected Annual Inflation (%)
+            </label>
+
             <input
+                id="inflation"
                 type="number"
                 step="0.1"
                 name="inflation"
@@ -590,11 +706,18 @@
                 value="6"
                 min="0"
                 max="15">
+
         </div>
 
+
         <div class="form-group">
-            <label>Annual Withdrawal Increase (% for inflation adjustment)</label>
+
+            <label for="stepup">
+                Annual Withdrawal Increase (%)
+            </label>
+
             <input
+                id="stepup"
                 type="number"
                 step="0.1"
                 name="stepup"
@@ -602,399 +725,939 @@
                 value="5"
                 min="0"
                 max="20">
+
         </div>
 
+
         <div class="form-group">
-            <label>Calculation Period (Years)</label>
+
+            <label for="years">
+                Calculation Period (Years)
+            </label>
+
             <input
+                id="years"
                 type="number"
                 name="years"
                 placeholder="Example: 30"
                 required
                 min="1"
                 max="60">
+
         </div>
+
 
         <button type="submit">
             📊 Calculate SWP Sustainability
         </button>
+
     </form>
 
-    <!-- Back to Home Button -->
+
+    <!-- Back Home -->
     <div style="text-align: center;">
-        <a href="{{ url_for('index') }}" class="back-btn">
+
+        <a href="{{ url_for('index') }}"
+           class="back-btn">
             ← Back to Home
         </a>
+
     </div>
+
 
     <!-- Disclaimer -->
     <div class="disclaimer-box">
-        <strong>Disclaimer:</strong> The SWP Calculator on SmartPlan Finance provides estimated calculations based on assumptions about returns, inflation, and withdrawal patterns. Actual SWP performance depends on market conditions, inflation volatility, investment selection, and spending changes. SmartPlan Finance does not provide financial advice or guarantee future returns. Please consult a qualified financial advisor before implementing an SWP strategy.
+
+        <strong>Disclaimer:</strong>
+        The SWP Calculator on SmartPlan Finance provides estimates based on the assumptions entered by the user. Actual investment outcomes can differ because investment returns, inflation, market volatility, taxes, fees, withdrawal amounts and spending requirements can change over time. The calculator does not guarantee future investment performance or corpus sustainability. SmartPlan Finance does not provide financial advice. Please consider your individual circumstances and consult a qualified financial professional when appropriate.
+
     </div>
 
-    <!-- Understanding SWP Better - VISIBLE BEFORE CALCULATION -->
+
+    <!-- Understanding SWP -->
     <div style="margin-top: 45px;">
+
         <h2>📖 Understanding SWP Better</h2>
+
         <div class="education-card">
-            <h3 style="margin-top: 0;">SWP vs Other Withdrawal Strategies</h3>
+
+            <h3 style="margin-top: 0;">
+                SWP vs Other Withdrawal Strategies
+            </h3>
+
             <p>
-                <strong>Fixed Amount (SWP):</strong> Withdraw a fixed amount every month. Simple but doesn't adjust for inflation.
+                <strong>Fixed Amount SWP:</strong>
+                Withdraw a predetermined amount regularly. This is simple to understand, but the purchasing power of the withdrawal can decline over time because of inflation.
             </p>
+
             <p>
-                <strong>Inflation-Adjusted SWP:</strong> Increase withdrawals annually to keep up with inflation. Better for real purchasing power.
+                <strong>Inflation-Adjusted SWP:</strong>
+                Increase withdrawals periodically to account for inflation. This can help maintain purchasing power but may place greater pressure on the investment corpus.
             </p>
+
             <p>
-                <strong>Percentage-Based:</strong> Withdraw a fixed percentage of remaining corpus. Adjusts to market conditions.
+                <strong>Percentage-Based Withdrawal:</strong>
+                Withdraw a percentage of the remaining portfolio. The withdrawal amount changes as the portfolio value changes.
             </p>
+
             <p>
-                <strong>The 4% Rule:</strong> A popular retirement strategy where you withdraw 4% of your corpus in the first year, then adjust for inflation. Our calculator shows this as "Safe Monthly Withdrawal."
+                <strong>4% Rule:</strong>
+                The 4% rule is a commonly discussed retirement-planning heuristic. It is not a guaranteed safe withdrawal rate and should be treated as a reference point rather than a promise that a portfolio will last for a particular period.
             </p>
+
         </div>
+
     </div>
 
-    <!-- How to Use Calculator - VISIBLE BEFORE CALCULATION -->
+
+    <!-- 4% Rule Methodology -->
     <div style="margin-top: 45px;">
+
+        <h2>📐 About the 4% Rule</h2>
+
+        <div class="education-card">
+
+            <p>
+                The 4% rule is a retirement-planning heuristic that is commonly used as a starting reference when discussing retirement withdrawals. It generally refers to withdrawing around 4% of the initial retirement portfolio during the first year and adjusting the withdrawal for inflation in subsequent years.
+            </p>
+
+            <p>
+                It is <strong>not a guaranteed safe withdrawal rate</strong>. A portfolio's ability to support withdrawals depends on actual investment returns, inflation, market volatility, portfolio allocation, fees, taxes, changes in spending and the length of the retirement period.
+            </p>
+
+            <p>
+                The sequence and timing of investment returns can also affect retirement outcomes. Two investors with the same starting corpus and withdrawal rate can experience different outcomes depending on how markets perform during their retirement.
+            </p>
+
+            <p>
+                This calculator therefore uses the 4% figure only as a <strong>planning reference</strong>. It should not be interpreted as a guarantee that your corpus will remain intact or last throughout retirement.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- How to Use -->
+    <div style="margin-top: 45px;">
+
         <h2>📋 How to Use This SWP Calculator</h2>
+
         <div class="education-card">
+
             <ol style="color: #555; line-height: 2; padding-left: 20px;">
-                <li>Enter your <strong>initial investment corpus</strong> (total retirement savings).</li>
-                <li>Enter the <strong>monthly withdrawal amount</strong> you plan to withdraw.</li>
-                <li>Enter your <strong>expected annual return</strong> (based on your investment mix).</li>
-                <li>Enter the <strong>expected inflation rate</strong> (historical average ~6% in India).</li>
-                <li>Enter the <strong>annual withdrawal increase</strong> (usually matches inflation).</li>
-                <li>Enter the <strong>calculation period</strong> (how long you want to plan).</li>
-                <li>Click <strong>Calculate SWP Sustainability</strong> to see results.</li>
-                <li>Review how long your corpus sustains and compare with the "safe" withdrawal amount.</li>
+
+                <li>
+                    Enter your <strong>initial investment corpus</strong>.
+                </li>
+
+                <li>
+                    Enter the <strong>monthly withdrawal amount</strong> you plan to withdraw.
+                </li>
+
+                <li>
+                    Enter your <strong>expected annual return</strong>.
+                </li>
+
+                <li>
+                    Enter your <strong>expected annual inflation rate</strong>.
+                </li>
+
+                <li>
+                    Enter the expected <strong>annual withdrawal increase</strong>.
+                </li>
+
+                <li>
+                    Enter your intended <strong>calculation period</strong>.
+                </li>
+
+                <li>
+                    Click <strong>Calculate SWP Sustainability</strong>.
+                </li>
+
+                <li>
+                    Review the projected corpus, withdrawals and sustainability assessment.
+                </li>
+
             </ol>
+
         </div>
+
     </div>
 
-    <!-- SWP Sustainability Levels - VISIBLE BEFORE CALCULATION -->
+
+    <!-- Sustainability -->
     <div style="margin-top: 45px;">
-        <h2>📊 SWP Sustainability Levels Explained</h2>
+
+        <h2>📊 Understanding SWP Sustainability</h2>
+
         <div class="education-card">
-            <h3>✓ Sustainable (Low Risk)</h3>
-            <p>Your monthly withdrawal is well below the safe 4% rule. Your corpus will likely sustain throughout your planned period. You have financial flexibility.</p>
 
-            <h3 style="margin-top: 20px;">⚠️ Moderate Risk</h3>
-            <p>Your withdrawal is close to the 4% rule but below it. Sustainable under normal market conditions but vulnerable to bear markets and inflation spikes.</p>
+            <h3>✓ Lower Withdrawal Rate</h3>
 
-            <h3 style="margin-top: 20px;">🔴 High Risk / Unsustainable</h3>
-            <p>Your withdrawal exceeds the safe 4% rule. Your corpus may deplete before your planned period ends. Consider reducing withdrawals or increasing returns.</p>
+            <p>
+                A lower withdrawal rate may give your retirement corpus a greater chance of lasting through a long retirement period. However, no withdrawal rate can guarantee that a portfolio will never run out of money.
+            </p>
+
+
+            <h3 style="margin-top: 20px;">
+                ⚠️ Moderate Withdrawal Rate
+            </h3>
+
+            <p>
+                Withdrawals closer to commonly discussed retirement-planning reference points may require closer monitoring. Poor market returns, higher inflation or a longer retirement period can reduce portfolio sustainability.
+            </p>
+
+
+            <h3 style="margin-top: 20px;">
+                🔴 Higher Withdrawal Rate
+            </h3>
+
+            <p>
+                A higher withdrawal rate can increase the risk of depleting the corpus, particularly when withdrawals increase with inflation or markets perform poorly during the early years of retirement.
+            </p>
+
+
+            <p style="margin-top: 20px;">
+
+                <strong>Important:</strong>
+                The 4% rule is a retirement-planning heuristic, not a guaranteed safe withdrawal rate. It should be treated as one reference point when evaluating retirement sustainability.
+
+            </p>
+
         </div>
+
     </div>
 
-    <!-- Investment Return Scenarios - VISIBLE BEFORE CALCULATION -->
+
+    <!-- Expected Returns -->
     <div style="margin-top: 45px;">
-        <h2>💼 Expected Returns by Investment Type</h2>
+
+        <h2>💼 Illustrative Return Assumptions</h2>
+
         <div class="education-card">
+
+            <p>
+                The following ranges are illustrative only and should not be interpreted as guaranteed returns. Actual returns vary by product, market conditions, portfolio allocation, taxes and fees.
+            </p>
+
             <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+
                 <tr style="border-bottom: 1px solid rgba(0,0,0,.1);">
-                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">Fixed Deposits</td>
-                    <td style="padding: 12px; color: #555;">4-6% (Safe, low returns)</td>
+                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">
+                        Fixed Deposits
+                    </td>
+                    <td style="padding: 12px; color: #555;">
+                        Illustrative lower-volatility return range
+                    </td>
                 </tr>
+
                 <tr style="border-bottom: 1px solid rgba(0,0,0,.1);">
-                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">Bonds & G-Secs</td>
-                    <td style="padding: 12px; color: #555;">5-7% (Low risk, stable)</td>
+                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">
+                        Bonds &amp; G-Secs
+                    </td>
+                    <td style="padding: 12px; color: #555;">
+                        Generally lower volatility, but returns vary
+                    </td>
                 </tr>
+
                 <tr style="border-bottom: 1px solid rgba(0,0,0,.1);">
-                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">Balanced Portfolio (60:40)</td>
-                    <td style="padding: 12px; color: #555;">8-10% (Moderate risk, balanced)</td>
+                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">
+                        Balanced Portfolio
+                    </td>
+                    <td style="padding: 12px; color: #555;">
+                        Combination of equity and debt; returns vary
+                    </td>
                 </tr>
+
                 <tr style="border-bottom: 1px solid rgba(0,0,0,.1);">
-                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">Equity Mutual Funds</td>
-                    <td style="padding: 12px; color: #555;">10-14% (Higher volatility)</td>
+                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">
+                        Equity Mutual Funds
+                    </td>
+                    <td style="padding: 12px; color: #555;">
+                        Higher potential returns with higher volatility
+                    </td>
                 </tr>
+
                 <tr>
-                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">Aggressive Equity</td>
-                    <td style="padding: 12px; color: #555;">12-16% (High volatility, high risk)</td>
+                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">
+                        Aggressive Equity
+                    </td>
+                    <td style="padding: 12px; color: #555;">
+                        Higher volatility and greater uncertainty
+                    </td>
                 </tr>
+
             </table>
+
         </div>
+
     </div>
 
-    <!-- Key Factors Affecting SWP - VISIBLE BEFORE CALCULATION -->
+
+    <!-- Factors -->
     <div style="margin-top: 45px;">
+
         <h2>🔍 Key Factors Affecting SWP Sustainability</h2>
+
         <div class="education-card">
+
             <ul>
-                <li><strong>Investment Returns:</strong> Higher returns extend corpus life. Market volatility affects returns unpredictably.</li>
-                <li><strong>Inflation Rate:</strong> Higher inflation erodes purchasing power; requires withdrawal increases.</li>
-                <li><strong>Withdrawal Amount:</strong> Lower withdrawals preserve corpus for longer. Withdraw conservatively for safety.</li>
-                <li><strong>Market Conditions:</strong> Bear markets reduce returns and corpus balance. Sequence of returns matters in retirement.</li>
-                <li><strong>Portfolio Allocation:</strong> Conservative (bonds) provides stability; equity provides growth but volatility.</li>
-                <li><strong>Expense Ratio:</strong> Lower fund costs mean higher effective returns and longer corpus sustainability.</li>
-                <li><strong>Time Horizon:</strong> Longer retirement periods require more conservative withdrawal rates.</li>
+
+                <li>
+                    <strong>Investment Returns:</strong>
+                    Higher returns can extend corpus life, but future returns are uncertain.
+                </li>
+
+                <li>
+                    <strong>Inflation:</strong>
+                    Higher inflation can increase future spending requirements and withdrawals.
+                </li>
+
+                <li>
+                    <strong>Withdrawal Amount:</strong>
+                    Higher withdrawals generally place greater pressure on the corpus.
+                </li>
+
+                <li>
+                    <strong>Market Conditions:</strong>
+                    Market declines can have a significant effect on a portfolio during the withdrawal phase.
+                </li>
+
+                <li>
+                    <strong>Sequence of Returns:</strong>
+                    The timing of good and poor investment returns can materially affect retirement outcomes.
+                </li>
+
+                <li>
+                    <strong>Portfolio Allocation:</strong>
+                    Different combinations of equity and debt have different risk and return characteristics.
+                </li>
+
+                <li>
+                    <strong>Fees and Taxes:</strong>
+                    Investment costs and applicable taxes can reduce effective portfolio returns.
+                </li>
+
+                <li>
+                    <strong>Time Horizon:</strong>
+                    Longer retirement periods generally require more careful withdrawal planning.
+                </li>
+
             </ul>
+
         </div>
+
     </div>
 
-    <!-- Smart SWP Planning Tips - VISIBLE BEFORE CALCULATION -->
+
+    <!-- Planning Tips -->
     <div style="margin-top: 45px;">
+
         <h2>💡 Smart SWP Planning Tips</h2>
+
         <div class="education-card">
+
             <ul>
-                <li><strong>Follow 4% Rule:</strong> Withdraw 4% of corpus in year 1, then adjust for inflation. Conservative and proven strategy.</li>
-                <li><strong>Maintain Flexibility:</strong> Adjust withdrawals based on market conditions and life circumstances.</li>
-                <li><strong>Diversify Portfolio:</strong> Mix of equity (growth) and debt (stability) provides balance for SWP.</li>
-                <li><strong>Account for Inflation:</strong> Increase withdrawals annually to maintain purchasing power.</li>
-                <li><strong>Regular Monitoring:</strong> Review SWP annually and rebalance portfolio based on market conditions.</li>
-                <li><strong>Emergency Reserves:</strong> Keep 1-2 years of expenses in cash/bonds to avoid forced sales during downturns.</li>
-                <li><strong>Professional Guidance:</strong> Work with a financial advisor to customize SWP based on personal goals and risk tolerance.</li>
+
+                <li>
+                    <strong>Use the 4% Rule as a Reference:</strong>
+                    The 4% rule is a retirement-planning heuristic, not a guaranteed safe withdrawal rate. Test different withdrawal rates and assumptions.
+                </li>
+
+                <li>
+                    <strong>Maintain Flexibility:</strong>
+                    Consider adjusting withdrawals during unusually strong or weak market periods.
+                </li>
+
+                <li>
+                    <strong>Diversify Your Portfolio:</strong>
+                    Consider an asset allocation appropriate for your goals, time horizon and risk tolerance.
+                </li>
+
+                <li>
+                    <strong>Account for Inflation:</strong>
+                    Retirement expenses can rise over time, requiring larger withdrawals.
+                </li>
+
+                <li>
+                    <strong>Monitor Regularly:</strong>
+                    Review your withdrawal strategy and portfolio periodically.
+                </li>
+
+                <li>
+                    <strong>Maintain Emergency Reserves:</strong>
+                    Maintaining a suitable emergency reserve may reduce the need to sell investments during market declines.
+                </li>
+
+                <li>
+                    <strong>Consider Professional Guidance:</strong>
+                    A qualified financial professional can help evaluate your individual retirement circumstances.
+                </li>
+
             </ul>
+
         </div>
+
     </div>
 
-    <!-- SWP Calculation Results - Only Visible After Calculation -->
+
+    <!-- RESULTS -->
     {% if result %}
+
     <div id="results-section">
 
-    {% if result.error %}
+        {% if result.error %}
 
-    <div class="error-message">
-        <strong>⚠️ Error:</strong> {{ result.error }}
-    </div>
+        <div class="error-message">
 
-    {% else %}
+            <strong>⚠️ Error:</strong>
+            {{ result.error }}
 
-    <div class="success-banner">
-        <h2>✓ Your SWP Sustainability Analysis</h2>
-        <p>Here's your retirement withdrawal plan assessment</p>
-    </div>
-
-    <h3 style="text-align: center; color: #B8860B; margin-top: 35px;">
-        💰 SWP Summary
-    </h3>
-
-    <div class="metrics-grid">
-        <div class="metric-card">
-            <div class="metric-label">Remaining Corpus</div>
-            <div class="metric-value">₹{{ "{:,.0f}".format(result.remaining) }}</div>
-            <div class="metric-subtitle">After {{ result.years_completed }} years</div>
         </div>
 
-        <div class="metric-card" style="background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%); box-shadow: 0 4px 15px rgba(76,175,80,.25);">
-            <div class="metric-label">Total Withdrawn</div>
-            <div class="metric-value">₹{{ "{:,.0f}".format(result.withdrawn) }}</div>
-            <div class="metric-subtitle">Over the period</div>
+        {% else %}
+
+        <div class="success-banner">
+
+            <h2>✓ Your SWP Sustainability Analysis</h2>
+
+            <p>
+                Here's your retirement withdrawal plan assessment based on the assumptions entered.
+            </p>
+
         </div>
 
-        <div class="metric-card" style="background: linear-gradient(135deg, #FF9800 0%, #E68900 100%); box-shadow: 0 4px 15px rgba(255,152,0,.25);">
-            <div class="metric-label">Sustainability</div>
-            <div class="metric-value">{{ result.sustainability }}</div>
-            <div class="metric-subtitle">Status indicator</div>
+
+        <h3 style="text-align: center; color: #B8860B; margin-top: 35px;">
+            💰 SWP Summary
+        </h3>
+
+
+        <div class="metrics-grid">
+
+            <div class="metric-card">
+
+                <div class="metric-label">
+                    Remaining Corpus
+                </div>
+
+                <div class="metric-value">
+                    ₹{{ "{:,.0f}".format(result.remaining) }}
+                </div>
+
+                <div class="metric-subtitle">
+                    After {{ result.years_completed }} years
+                </div>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <div class="metric-label">
+                    Total Withdrawn
+                </div>
+
+                <div class="metric-value">
+                    ₹{{ "{:,.0f}".format(result.withdrawn) }}
+                </div>
+
+                <div class="metric-subtitle">
+                    Over the period
+                </div>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <div class="metric-label">
+                    Sustainability
+                </div>
+
+                <div class="metric-value">
+                    {{ result.sustainability }}
+                </div>
+
+                <div class="metric-subtitle">
+                    Based on entered assumptions
+                </div>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <div class="metric-label">
+                    Current Monthly
+                </div>
+
+                <div class="metric-value">
+                    ₹{{ "{:,.0f}".format(result.current_withdrawal) }}
+                </div>
+
+                <div class="metric-subtitle">
+                    Withdrawal amount
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="metric-card" style="background: linear-gradient(135deg, #2196F3 0%, #1565C0 100%); box-shadow: 0 4px 15px rgba(33,150,243,.25);">
-            <div class="metric-label">Current Monthly</div>
-            <div class="metric-value">₹{{ "{:,.0f}".format(result.current_withdrawal) }}</div>
-            <div class="metric-subtitle">Withdrawal amount</div>
-        </div>
-    </div>
 
-    <!-- Key Metrics Table -->
-    <table class="result-table" style="margin-top: 30px;">
-        <tr>
-            <th>Metric</th>
-            <th>Value</th>
-        </tr>
-        <tr>
-            <td>Initial Corpus</td>
-            <td>₹ {{ "{:,.0f}".format(result.corpus) }}</td>
-        </tr>
-        <tr>
-            <td>Monthly Withdrawal</td>
-            <td>₹ {{ "{:,.0f}".format(result.current_withdrawal) }}</td>
-        </tr>
-        <tr>
-            <td>Safe Monthly (4% Rule)</td>
-            <td>₹ {{ "{:,.0f}".format(result.safe_monthly) }}</td>
-        </tr>
-        <tr>
-            <td>Expected Annual Return</td>
-            <td>{{ result.return_rate }}%</td>
-        </tr>
-        <tr>
-            <td>Annual Inflation Rate</td>
-            <td>{{ result.inflation }}%</td>
-        </tr>
-        <tr>
-            <td>Total Amount Withdrawn</td>
-            <td>₹ {{ "{:,.0f}".format(result.withdrawn) }}</td>
-        </tr>
-        <tr>
-            <td>Remaining Corpus</td>
-            <td>₹ {{ "{:,.0f}".format(result.remaining) }}</td>
-        </tr>
-    </table>
-
-    <!-- SmartPlan Insight -->
-    <div class="ai-box">
-        <h3>🤖 SmartPlan Insight</h3>
-        <p>
-            Your withdrawal plan shows <strong>{{ result.sustainability }}</strong> sustainability. Starting with a corpus of <strong>₹{{ "{:,.0f}".format(result.corpus) }}</strong> and withdrawing <strong>₹{{ "{:,.0f}".format(result.current_withdrawal) }}</strong> monthly, your remaining balance after <strong>{{ result.years_completed }}</strong> years is approximately <strong>₹{{ "{:,.0f}".format(result.remaining) }}</strong>.
-        </p>
-        <p>
-            {% if result.current_withdrawal <= result.safe_monthly %}
-            ✓ <strong>Good News:</strong> Your withdrawal is within the safe 4% rule (₹{{ "{:,.0f}".format(result.safe_monthly) }} monthly). This conservative approach provides financial security. Your corpus is well-positioned for a long retirement.
-            {% else %}
-            ⚠️ <strong>Caution:</strong> Your withdrawal (₹{{ "{:,.0f}".format(result.current_withdrawal) }}) exceeds the safe 4% rule (₹{{ "{:,.0f}".format(result.safe_monthly) }}). Consider reducing withdrawals or increasing expected returns through portfolio optimization. Consult a financial advisor for sustainable retirement planning.
-            {% endif %}
-        </p>
-    </div>
-
-    <!-- Year-wise Table -->
-    {% if result.yearly_data %}
-    <h3 style="text-align: center; color: #B8860B; margin-top: 35px;">
-        📋 Year-wise Corpus Balance
-    </h3>
-
-    <div style="overflow-x: auto;">
+        <!-- Results Table -->
         <table class="result-table">
+
             <tr>
-                <th>Year</th>
-                <th>Annual Withdrawal (₹)</th>
-                <th>Remaining Balance (₹)</th>
+                <th>Metric</th>
+                <th>Value</th>
             </tr>
-            {% for row in result.yearly_data %}
+
             <tr>
-                <td>Year {{ row.year }}</td>
-                <td>₹ {{ "{:,.0f}".format(row.withdrawal) }}</td>
-                <td>₹ {{ "{:,.0f}".format(row.balance) }}</td>
+                <td>Initial Corpus</td>
+                <td>
+                    ₹ {{ "{:,.0f}".format(result.corpus) }}
+                </td>
             </tr>
-            {% endfor %}
+
+            <tr>
+                <td>Monthly Withdrawal</td>
+                <td>
+                    ₹ {{ "{:,.0f}".format(result.current_withdrawal) }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>4% Rule Reference Amount</td>
+                <td>
+                    ₹ {{ "{:,.0f}".format(result.safe_monthly) }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>Expected Annual Return</td>
+                <td>
+                    {{ result.return_rate }}%
+                </td>
+            </tr>
+
+            <tr>
+                <td>Annual Inflation Rate</td>
+                <td>
+                    {{ result.inflation }}%
+                </td>
+            </tr>
+
+            <tr>
+                <td>Total Amount Withdrawn</td>
+                <td>
+                    ₹ {{ "{:,.0f}".format(result.withdrawn) }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>Remaining Corpus</td>
+                <td>
+                    ₹ {{ "{:,.0f}".format(result.remaining) }}
+                </td>
+            </tr>
+
         </table>
-    </div>
-    {% endif %}
 
-    {% endif %}
 
-    {% endif %}
+        <!-- SmartPlan Insight -->
+        <div class="ai-box">
 
-    <!-- Comparing SWP with Other Strategies - VISIBLE BEFORE CALCULATION -->
-    <div style="margin-top: 45px;">
-        <h2>⚖️ SWP vs Other Retirement Income Strategies</h2>
-        <div class="education-card">
-            <h3 style="margin-top: 0;">SWP (Systematic Withdrawal)</h3>
-            <p>Withdraw fixed/inflation-adjusted amount from your corpus. Requires active management and market monitoring.</p>
+            <h3>
+                🤖 SmartPlan Insight
+            </h3>
 
-            <h3 style="margin-top: 20px;">Fixed Deposits & Interest</h3>
-            <p>Live on FD interest (~4-6% returns). Conservative but returns may not match inflation. Corpus remains untouched.</p>
+            <p>
+                Your withdrawal plan shows
+                <strong>{{ result.sustainability }}</strong>
+                sustainability based on the assumptions entered.
+            </p>
 
-            <h3 style="margin-top: 20px;">Pension/Annuity</h3>
-            <p>Guaranteed monthly income for life. No flexibility, but assured income regardless of market conditions.</p>
+            <p>
+                Starting with a corpus of
+                <strong>₹{{ "{:,.0f}".format(result.corpus) }}</strong>
+                and withdrawing approximately
+                <strong>₹{{ "{:,.0f}".format(result.current_withdrawal) }}</strong>
+                per month, the projected remaining balance after
+                <strong>{{ result.years_completed }}</strong>
+                years is approximately
+                <strong>₹{{ "{:,.0f}".format(result.remaining) }}</strong>.
+            </p>
 
-            <h3 style="margin-top: 20px;">Combination Strategy</h3>
-            <p>Mix SWP, pension, and passive income for optimal retirement security. Recommended for comprehensive coverage.</p>
+
+            {% if result.current_withdrawal <= result.safe_monthly %}
+
+            <p>
+
+                ✓ <strong>Planning Reference:</strong>
+                Your withdrawal of
+                ₹{{ "{:,.0f}".format(result.current_withdrawal) }}
+                is within the 4% rule reference amount of
+                ₹{{ "{:,.0f}".format(result.safe_monthly) }}
+                per month.
+
+                This does <strong>not</strong> guarantee that your corpus will last throughout retirement.
+
+                Actual sustainability depends on investment returns, inflation, market conditions, withdrawal changes, fees, taxes and your investment horizon.
+
+            </p>
+
+            {% else %}
+
+            <p>
+
+                ⚠️ <strong>Caution:</strong>
+                Your withdrawal of
+                ₹{{ "{:,.0f}".format(result.current_withdrawal) }}
+                is above the 4% rule reference amount of
+                ₹{{ "{:,.0f}".format(result.safe_monthly) }}
+                per month.
+
+                A higher withdrawal rate can increase the risk of corpus depletion, particularly during periods of poor market performance or high inflation.
+
+                Consider testing different withdrawal amounts and assumptions.
+
+            </p>
+
+            {% endif %}
+
         </div>
+
+
+        <!-- Year-wise Table -->
+        {% if result.yearly_data %}
+
+        <h3 style="text-align: center; color: #B8860B; margin-top: 35px;">
+            📋 Year-wise Corpus Balance
+        </h3>
+
+        <div style="overflow-x: auto;">
+
+            <table class="result-table">
+
+                <tr>
+                    <th>Year</th>
+                    <th>Annual Withdrawal (₹)</th>
+                    <th>Remaining Balance (₹)</th>
+                </tr>
+
+                {% for row in result.yearly_data %}
+
+                <tr>
+
+                    <td>
+                        Year {{ row.year }}
+                    </td>
+
+                    <td>
+                        ₹ {{ "{:,.0f}".format(row.withdrawal) }}
+                    </td>
+
+                    <td>
+                        ₹ {{ "{:,.0f}".format(row.balance) }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+        {% endif %}
+
+        {% endif %}
+
     </div>
+
+    {% endif %}
+
+
+    <!-- SWP Comparison -->
+    <div style="margin-top: 45px;">
+
+        <h2>⚖️ SWP vs Other Retirement Income Strategies</h2>
+
+        <div class="education-card">
+
+            <h3 style="margin-top: 0;">
+                SWP
+            </h3>
+
+            <p>
+                Withdraw a fixed or inflation-adjusted amount from an investment portfolio. It offers flexibility but requires monitoring because investment returns are uncertain.
+            </p>
+
+
+            <h3 style="margin-top: 20px;">
+                Fixed Deposits
+            </h3>
+
+            <p>
+                Generate interest income from deposits. Returns and taxation depend on the applicable product and terms.
+            </p>
+
+
+            <h3 style="margin-top: 20px;">
+                Pension or Annuity
+            </h3>
+
+            <p>
+                May provide a more predictable income stream depending on the product and contract terms, but flexibility and liquidity can vary.
+            </p>
+
+
+            <h3 style="margin-top: 20px;">
+                Combination Strategy
+            </h3>
+
+            <p>
+                Some retirees combine multiple income sources, such as investments, pensions and other assets, to diversify retirement income.
+            </p>
+
+        </div>
+
+    </div>
+
 
     <!-- Related Calculators -->
     <div style="margin-top: 50px;">
+
         <h2>🧮 Related Financial Calculators</h2>
+
         <p style="color: #555; line-height: 1.8; margin-bottom: 25px;">
             Explore other tools for comprehensive retirement and investment planning.
         </p>
 
         <div class="related-articles">
 
-            <a href="{{ url_for('cagr_calculator') }}" style="text-decoration: none; display: block;">
+
+            <a href="{{ url_for('cagr_calculator') }}"
+               style="text-decoration: none; display: block;">
+
                 <div class="article-card">
+
                     <h3>📊 CAGR Calculator</h3>
-                    <p>Measure your investment returns and verify if they can support your SWP sustainability needs.</p>
-                    <strong>Try Calculator →</strong>
+
+                    <p>
+                        Measure investment growth over time and understand annualized investment performance.
+                    </p>
+
+                    <strong>
+                        Try Calculator →
+                    </strong>
+
                 </div>
+
             </a>
 
-            <a href="{{ url_for('sip_calculator') }}" style="text-decoration: none; display: block;">
+
+            <a href="{{ url_for('sip_calculator') }}"
+               style="text-decoration: none; display: block;">
+
                 <div class="article-card">
+
                     <h3>💰 SIP Calculator</h3>
-                    <p>Build your retirement corpus through regular SIP investments. Calculate accumulation before withdrawal phase.</p>
-                    <strong>Try Calculator →</strong>
+
+                    <p>
+                        Estimate potential wealth accumulation through regular monthly investments.
+                    </p>
+
+                    <strong>
+                        Try Calculator →
+                    </strong>
+
                 </div>
+
             </a>
 
-            <a href="{{ url_for('lumpsum_calculator') }}" style="text-decoration: none; display: block;">
+
+            <a href="{{ url_for('lumpsum_calculator') }}"
+               style="text-decoration: none; display: block;">
+
                 <div class="article-card">
+
                     <h3>📈 Lumpsum Investment Calculator</h3>
-                    <p>Calculate growth of one-time investments to understand potential corpus for SWP planning.</p>
-                    <strong>Try Calculator →</strong>
+
+                    <p>
+                        Estimate potential growth of a one-time investment for long-term financial planning.
+                    </p>
+
+                    <strong>
+                        Try Calculator →
+                    </strong>
+
                 </div>
+
             </a>
 
-            <a href="{{ url_for('retirement_calculator') }}" style="text-decoration: none; display: block;">
+
+            <a href="{{ url_for('retirement_calculator') }}"
+               style="text-decoration: none; display: block;">
+
                 <div class="article-card">
+
                     <h3>🏖️ Retirement Calculator</h3>
-                    <p>Calculate retirement corpus needed based on expenses and plan your financial independence date.</p>
-                    <strong>Try Calculator →</strong>
+
+                    <p>
+                        Estimate the retirement corpus you may need based on your expenses, assumptions and retirement horizon.
+                    </p>
+
+                    <strong>
+                        Try Calculator →
+                    </strong>
+
                 </div>
+
             </a>
+
 
         </div>
+
     </div>
 
-    <!-- Learn More Section -->
+
+    <!-- Learn More -->
     <div style="margin-top: 50px;">
-        <h2>📚 Learn More About SWP & Retirement Planning</h2>
+
+        <h2>📚 Learn More About SWP &amp; Retirement Planning</h2>
+
         <p style="color: #555; line-height: 1.8; margin-bottom: 25px;">
-            Explore our comprehensive collection of articles on retirement strategies, withdrawal planning, and wealth preservation.
+            Explore our collection of articles covering retirement planning, withdrawal strategies, investing and long-term wealth planning.
         </p>
 
         <div class="related-articles">
 
-            <a href="{{ url_for('articles') }}" style="text-decoration: none; display: block;">
+            <a href="{{ url_for('articles') }}"
+               style="text-decoration: none; display: block;">
+
                 <div class="article-card">
-                    <h3>📖 All Articles & Guides</h3>
-                    <p>Browse our complete collection covering retirement planning, SWP strategies, withdrawal sustainability, investment planning, and long-term wealth preservation.</p>
-                    <strong>Explore Articles →</strong>
+
+                    <h3>
+                        📖 All Articles &amp; Guides
+                    </h3>
+
+                    <p>
+                        Browse financial education articles covering retirement planning, investing, withdrawal strategies and wealth building.
+                    </p>
+
+                    <strong>
+                        Explore Articles →
+                    </strong>
+
                 </div>
+
             </a>
 
         </div>
+
     </div>
+
 
     <!-- Final CTA -->
     <div style="margin-top: 45px; text-align: center;">
+
         <div class="success-banner">
-            <h2 style="margin-top: 0; margin-bottom: 15px;">Plan Your Retirement Income With Confidence</h2>
+
+            <h2 style="margin-top: 0; margin-bottom: 15px;">
+                Plan Your Retirement Income With Confidence
+            </h2>
+
             <p style="margin-bottom: 20px; font-size: 15px;">
-                Use our SWP Calculator to validate your withdrawal strategy, then explore related calculators to optimize your retirement corpus and investment returns.
+                Use the SWP Calculator to test different withdrawal assumptions, then explore related calculators to plan your retirement corpus and investment strategy.
             </p>
+
             <a href="{{ url_for('sip_calculator') }}"
-               style="display: inline-block; background: white; color: #B8860B; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: 0.3s;">
+               style="display: inline-block;
+                      background: white;
+                      color: #B8860B;
+                      padding: 12px 28px;
+                      border-radius: 10px;
+                      text-decoration: none;
+                      font-weight: 600;
+                      transition: 0.3s;">
+
                 Build Your Corpus →
+
             </a>
+
         </div>
+
     </div>
+
 
     <!-- Partner CTA -->
     {% include "partials/_partner_cta.html" %}
 
 </div>
+
+
+<!-- Footer -->
 <footer class="site-footer">
+
     <div class="footer-links">
-        <a href="/about">About Us</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms &amp; Conditions</a>
-        <a href="/disclaimer">Disclaimer</a>
+
+        <a href="/about">
+            About Us
+        </a>
+        <a href="{{ url_for('about_author') }}">
+
+👨‍💼 About the Author &amp; Founder
+
+</a>
+<a href="/affiliate-policy">
+                Affiliate Policy
+            </a>
+        <a href="/privacy">
+            Privacy Policy
+        </a>
+
+        <a href="/terms">
+            Terms &amp; Conditions
+        </a>
+
+        <a href="/disclaimer">
+            Disclaimer
+        </a>
+
     </div>
-    <div class="copyright">&copy; 2026 SmartPlanFinance. All rights reserved.</div>
+
+    <div class="copyright">
+        &copy; 2026 SmartPlanFinance. All rights reserved.
+    </div>
+
 </footer>
+
+
 <script>
+
 document.addEventListener('DOMContentLoaded', function () {
-    // Scroll to results section after POST submission when results exist
-    const resultsSection = document.getElementById('results-section');
+
+    const resultsSection =
+        document.getElementById('results-section');
 
     if (resultsSection && window.location.search === '') {
-        // Small delay ensures layout is fully rendered
+
         setTimeout(() => {
+
             resultsSection.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
+
         }, 100);
+
     }
+
 });
+
 </script>
 
 </body>
