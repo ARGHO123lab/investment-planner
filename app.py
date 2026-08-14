@@ -853,6 +853,9 @@ def reset_session():
 def robots_txt():
     content = """User-agent: *
 Allow: /
+Disallow: /login
+Disallow: /profile
+Disallow: /dashboard
 
 Sitemap: https://smartplanfinance.com/sitemap.xml
 """
@@ -6377,6 +6380,6 @@ init_db()
 if __name__ == "__main__":
     app.run(
         host="127.0.0.1",
-        port=5001,
+        port=5000,
         debug=False
     )
