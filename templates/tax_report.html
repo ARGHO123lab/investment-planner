@@ -1,128 +1,464 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<title>Your Tax Report</title>
-    <meta name="description" content="Your personalized tax report from SmartPlan Finance with tax savings insights and comparison between new and old regimes.">
-    <link rel="canonical" href="https://smartplanfinance.com/tax-report">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Your Tax Report | SmartPlan Finance</title>
+
+    <meta name="description"
+          content="Your personalized income tax report from SmartPlan Finance. Compare Old and New Tax Regimes, review estimated tax, potential savings, taxable income and tax planning insights.">
+
+    <meta name="author"
+          content="Argho Sanyal, Founder, SmartPlanFinance">
+
+    <link rel="canonical"
+          href="https://smartplanfinance.com/tax-report">
+
+    <meta property="og:type"
+          content="website">
+
+    <meta property="og:title"
+          content="Your Personalized Income Tax Report | SmartPlan Finance">
+
+    <meta property="og:description"
+          content="Review your estimated income tax, compare Old and New Tax Regimes, and understand potential tax savings with SmartPlan Finance.">
+
+    <meta property="og:url"
+          content="https://smartplanfinance.com/tax-report">
+
+    <meta property="og:site_name"
+          content="SmartPlanFinance">
+
+    <meta name="twitter:card"
+          content="summary">
+
+    <!-- Favicon -->
+
+    <link rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+
+    <link rel="manifest"
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+
+    <!-- Google AdSense -->
+
+    <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
+            crossorigin="anonymous"></script>
+
+    <!-- Structured Data -->
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Your Personalized Income Tax Report",
+      "url": "https://smartplanfinance.com/tax-report",
+      "description": "Personalized estimated income tax report comparing India's Old and New Tax Regimes.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "SmartPlanFinance",
+        "url": "https://smartplanfinance.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "SmartPlanFinance",
+        "url": "https://smartplanfinance.com"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Argho Sanyal",
+        "url": "https://smartplanfinance.com/about-author"
+      }
+    }
+    </script>
 
 <style>
 
-body{
-    background:#FFFDF5;
-    font-family:Poppins,sans-serif;
-    padding:40px;
+* {
+    box-sizing: border-box;
 }
 
-.container{
-    max-width:750px;
-    margin:auto;
-    background:white;
-    padding:40px;
-    border-radius:18px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+body {
+    margin: 0;
+    background: #FFFDF5;
+    font-family: Poppins, Arial, sans-serif;
+    color: #333;
+    padding: 20px;
 }
 
-h1{
-    color:#B8860B;
-    text-align:center;
+.container {
+    max-width: 750px;
+    margin: auto;
+    background: white;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
 }
 
-.card{
+.site-nav {
+    max-width: 750px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
 
-    margin-top:20px;
+.site-nav .brand {
+    font-weight: 800;
+    color: #B8860B;
+    text-decoration: none;
+    font-size: 20px;
+}
 
-    background:#FFF8E1;
+.site-nav .nav-links {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
 
-    border-left:5px solid #FFC107;
+.site-nav .nav-links a {
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
 
-    padding:20px;
+.site-nav .nav-links a:hover {
+    color: #B8860B;
+}
 
-    border-radius:12px;
+.report-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.report-header h1 {
+    color: #B8860B;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.report-header p {
+    color: #666;
+    line-height: 1.7;
+    font-size: 14px;
+    margin: 0;
+}
+
+.byline {
+    margin-top: 12px;
+    color: #888;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.byline strong {
+    color: #666;
+}
+
+.card {
+    margin-top: 20px;
+    background: #FFF8E1;
+    border-left: 5px solid #FFC107;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.card h2 {
+    color: #B8860B;
+    margin-top: 0;
+}
+
+.card h3 {
+    color: #333;
+}
+
+.card p {
+    color: #555;
+    line-height: 1.8;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.value {
+    font-weight: bold;
+    text-align: right;
+}
+
+.recommend {
+    margin-top: 25px;
+    background: #E8F5E9;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.recommend h2 {
+    margin-top: 0;
+}
+
+.tip {
+    margin-top: 25px;
+    background: #F5F5F5;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.tip h3 {
+    margin-top: 0;
+    color: #B8860B;
+}
+
+.button {
+    display: block;
+    margin-top: 30px;
+    background: #FFC107;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    transition: .25s;
+}
+
+.button:hover {
+    background: #E0A800;
+    transform: translateY(-2px);
+}
+
+.calc-card {
+    display: block;
+    padding: 16px;
+    background: #FFF8E1;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #B8860B;
+    font-weight: 600;
+    transition: .25s;
+    text-align: center;
+    border: 2px solid transparent;
+}
+
+.calc-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,.12);
+    border-color: #FFC107;
+}
+
+.article-card {
+    background: #FFF8E1;
+    border-left: 5px solid #FFC107;
+    border-radius: 12px;
+    padding: 20px;
+    height: 100%;
+    transition: .25s;
+}
+
+.article-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,.12);
+}
+
+.article-card h3 {
+    color: #B8860B;
+    margin-top: 0;
+    line-height: 1.5;
+}
+
+.article-card p {
+    color: #555;
+    line-height: 1.7;
+}
+
+.article-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 20px;
+}
+
+.disclaimer {
+    margin-top: 30px;
+    padding: 18px;
+    background: #fff8e5;
+    border-left: 5px solid #B8860B;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.7;
+}
+
+.disclaimer strong {
+    color: #333;
+}
+
+.section-content {
+    margin-top: 30px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.06);
+}
+
+.section-content h2 {
+    color: #B8860B;
+    margin-top: 0;
+}
+
+.section-content p {
+    color: #555;
+    line-height: 1.9;
+}
+
+.section-content ul {
+    color: #555;
+    line-height: 2;
+    padding-left: 20px;
+}
+
+.rebate-box {
+    margin-top: 22px;
+    padding: 20px;
+    background: #FFFEF5;
+    border-left: 4px solid #B8860B;
+    border-radius: 10px;
+}
+
+.rebate-box h3 {
+    color: #B8860B;
+    margin-top: 0;
+}
+
+.rebate-box p {
+    margin-bottom: 0;
+}
+
+.footer {
+    max-width: 750px;
+    margin: 35px auto 0;
+    padding: 30px 25px;
+    background: #333;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.footer p {
+    margin: 9px 0;
+}
+
+.footer .copyright {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,.2);
+    color: #ccc;
+    font-size: 12px;
+}
+
+@media (max-width: 768px) {
+
+    body {
+        padding: 14px;
+    }
+
+    .container {
+        padding: 22px;
+    }
+
+    .site-nav {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .site-nav .nav-links {
+        justify-content: center;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .value {
+        text-align: left;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    th,
+    td {
+        padding: 9px 6px !important;
+    }
 
 }
 
-.row{
+@media print {
 
-display:flex;
+    body {
+        background: white;
+        padding: 0;
+    }
 
-justify-content:space-between;
+    .site-nav,
+    .button,
+    .footer,
+    .partner-section {
+        display: none !important;
+    }
 
-padding:12px 0;
+    .container {
+        box-shadow: none;
+        max-width: 100%;
+        padding: 0;
+    }
 
-border-bottom:1px solid #eee;
-
-}
-
-.value{
-
-font-weight:bold;
-
-}
-
-.recommend{
-
-margin-top:25px;
-
-background:#E8F5E9;
-
-padding:20px;
-
-border-radius:12px;
-
-text-align:center;
-
-}
-
-.tip{
-
-margin-top:25px;
-
-background:#F5F5F5;
-
-padding:20px;
-
-border-radius:12px;
-
-}
-
-.button{
-
-display:block;
-
-margin-top:30px;
-
-background:#FFC107;
-
-text-align:center;
-
-padding:15px;
-
-border-radius:10px;
-
-text-decoration:none;
-
-color:#000;
-
-font-weight:bold;
-
-}
-.calc-card{
-display:block;
-padding:16px;
-background:#FFF8E1;
-border-radius:10px;
-text-decoration:none;
-color:#B8860B;
-font-weight:600;
-transition:.25s;
-}
-
-.calc-card:hover{
-transform:translateY(-3px);
-box-shadow:0 8px 18px rgba(0,0,0,.12);
 }
 
 </style>
@@ -131,177 +467,353 @@ box-shadow:0 8px 18px rgba(0,0,0,.12);
 
 <body>
 
+<nav class="site-nav">
+
+    <a href="{{ url_for('index') }}" class="brand">
+        SmartPlanFinance
+    </a>
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('index') }}">
+            Home
+        </a>
+
+        <a href="{{ url_for('articles') }}">
+            Articles
+        </a>
+
+        <a href="/about">
+            About
+        </a>
+
+    </div>
+
+</nav>
+
+
 <div class="container">
 
-<h1>📄 Personalized Income Tax Report</h1>
+<div class="report-header">
+
+    <h1>
+        📄 Personalized Income Tax Report
+    </h1>
+
+    <p>
+        Review your estimated income tax under India's Old and New Tax Regimes,
+        compare potential tax savings, and understand how your taxable income
+        affects the calculation.
+    </p>
+
+    <div class="byline">
+        Prepared by
+        <strong>Argho Sanyal, Founder, SmartPlanFinance</strong>
+        &middot;
+        Tax rules reviewed for
+        <time datetime="2026-08-14">August 2026</time>
+    </div>
+
+</div>
+
 
 <div class="card">
 
 <div class="row">
 <span>Annual Income</span>
-<span class="value">₹ {{ "{:,.0f}".format(report.income) }}</span>
-</div>
-
-<div class="row">
-<span>Old Regime Tax</span>
-<span class="value">₹ {{ "{:,.0f}".format(report.old_regime) }}</span>
-</div>
-
-<div class="row">
-<span>New Regime Tax</span>
-<span class="value">₹ {{ "{:,.0f}".format(report.new_regime) }}</span>
-</div>
-
-<div class="row">
-<span>Potential Tax Saving</span>
-<span class="value">₹ {{ "{:,.0f}".format(report.savings) }}</span>
-</div>
-
-</div>
-<div class="card">
-
-<h2 style="color:#B8860B;">
-📊 Taxable Income Breakdown
-</h2>
-
-<div class="row">
-<span><strong>Old Regime Gross Income</strong></span>
 <span class="value">
 ₹ {{ "{:,.0f}".format(report.income) }}
 </span>
 </div>
 
 <div class="row">
-<span>Standard Deduction</span>
+<span>Old Regime Tax</span>
+<span class="value">
+₹ {{ "{:,.0f}".format(report.old_regime) }}
+</span>
+</div>
+
+<div class="row">
+<span>New Regime Tax</span>
+<span class="value">
+₹ {{ "{:,.0f}".format(report.new_regime) }}
+</span>
+</div>
+
+<div class="row">
+<span>Potential Tax Saving</span>
+<span class="value">
+₹ {{ "{:,.0f}".format(report.savings) }}
+</span>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+📊 Taxable Income Breakdown
+</h2>
+
+<div class="row">
+<span>
+<strong>Old Regime Gross Income</strong>
+</span>
+
+<span class="value">
+₹ {{ "{:,.0f}".format(report.income) }}
+</span>
+</div>
+
+<div class="row">
+<span>
+Standard Deduction
+</span>
+
 <span class="value">
 ₹ {{ "{:,.0f}".format(report.std_old) }}
 </span>
 </div>
 
 <div class="row">
-<span>Investments (80C etc.)</span>
+<span>
+Investments (80C etc.)
+</span>
+
 <span class="value">
 ₹ {{ "{:,.0f}".format(report.investments) }}
 </span>
 </div>
 
 <div class="row">
-<span><strong>Taxable Income (Old)</strong></span>
+<span>
+<strong>Taxable Income (Old)</strong>
+</span>
+
 <span class="value">
 ₹ {{ "{:,.0f}".format(report.taxable_old) }}
 </span>
 </div>
 
-<hr style="margin:20px 0;">
+<hr style="margin:20px 0;border:none;border-top:1px solid #ddd;">
 
 <div class="row">
-<span><strong>New Regime Gross Income</strong></span>
+
+<span>
+<strong>New Regime Gross Income</strong>
+</span>
+
 <span class="value">
 ₹ {{ "{:,.0f}".format(report.income) }}
 </span>
+
 </div>
 
 <div class="row">
-<span>Standard Deduction</span>
+
+<span>
+Standard Deduction
+</span>
+
 <span class="value">
 ₹ {{ "{:,.0f}".format(report.std_new) }}
 </span>
+
 </div>
 
 <div class="row">
-<span><strong>Taxable Income (New)</strong></span>
+
+<span>
+<strong>Taxable Income (New)</strong>
+</span>
+
 <span class="value">
 ₹ {{ "{:,.0f}".format(report.taxable_new) }}
 </span>
+
 </div>
 
 </div>
+
+
 <div class="card">
 
-<h2 style="color:#B8860B;">
+<h2>
 📅 Monthly Tax Summary
 </h2>
 
 <div class="row">
-<span>Old Regime (Per Month)</span>
+
+<span>
+Old Regime (Per Month)
+</span>
+
 <span class="value">
 ₹ {{ "{:,.0f}".format(report.monthly_old) }}
 </span>
+
 </div>
 
 <div class="row">
-<span>New Regime (Per Month)</span>
+
+<span>
+New Regime (Per Month)
+</span>
+
 <span class="value">
 ₹ {{ "{:,.0f}".format(report.monthly_new) }}
 </span>
+
 </div>
 
 <div class="row">
-<span><strong>Monthly Saving</strong></span>
-<span class="value" style="color:green;">
+
+<span>
+<strong>Monthly Saving</strong>
+</span>
+
+<span class="value" style="color:#228B22;">
 ₹ {{ "{:,.0f}".format(report.monthly_saving) }}
 </span>
+
 </div>
 
 </div>
+
+
 <div class="card">
 
-<h2 style="color:#B8860B;">
+<h2>
 ⚖️ Old vs New Regime Comparison
 </h2>
+
+<div style="overflow-x:auto;">
 
 <table style="width:100%;border-collapse:collapse;margin-top:20px;">
 
 <tr style="background:#FFC107;">
-    <th style="padding:12px;">Particular</th>
-    <th>Old Regime</th>
-    <th>New Regime</th>
+
+<th style="padding:12px;">
+Particular
+</th>
+
+<th style="padding:12px;">
+Old Regime
+</th>
+
+<th style="padding:12px;">
+New Regime
+</th>
+
 </tr>
 
 <tr>
-    <td style="padding:12px;">Gross Income</td>
-    <td>₹ {{ "{:,.0f}".format(report.income) }}</td>
-    <td>₹ {{ "{:,.0f}".format(report.income) }}</td>
+
+<td style="padding:12px;">
+Gross Income
+</td>
+
+<td style="padding:12px;">
+₹ {{ "{:,.0f}".format(report.income) }}
+</td>
+
+<td style="padding:12px;">
+₹ {{ "{:,.0f}".format(report.income) }}
+</td>
+
 </tr>
 
 <tr>
-    <td style="padding:12px;">Standard Deduction</td>
-    <td>₹ {{ "{:,.0f}".format(report.std_old) }}</td>
-    <td>₹ {{ "{:,.0f}".format(report.std_new) }}</td>
+
+<td style="padding:12px;">
+Standard Deduction
+</td>
+
+<td style="padding:12px;">
+₹ {{ "{:,.0f}".format(report.std_old) }}
+</td>
+
+<td style="padding:12px;">
+₹ {{ "{:,.0f}".format(report.std_new) }}
+</td>
+
 </tr>
 
 <tr>
-    <td style="padding:12px;">Taxable Income</td>
-    <td>₹ {{ "{:,.0f}".format(report.taxable_old) }}</td>
-    <td>₹ {{ "{:,.0f}".format(report.taxable_new) }}</td>
+
+<td style="padding:12px;">
+Taxable Income
+</td>
+
+<td style="padding:12px;">
+₹ {{ "{:,.0f}".format(report.taxable_old) }}
+</td>
+
+<td style="padding:12px;">
+₹ {{ "{:,.0f}".format(report.taxable_new) }}
+</td>
+
 </tr>
 
 <tr>
-    <td style="padding:12px;">Income Tax</td>
-    <td>₹ {{ "{:,.0f}".format(report.old_regime) }}</td>
-    <td>₹ {{ "{:,.0f}".format(report.new_regime) }}</td>
+
+<td style="padding:12px;">
+Income Tax
+</td>
+
+<td style="padding:12px;">
+₹ {{ "{:,.0f}".format(report.old_regime) }}
+</td>
+
+<td style="padding:12px;">
+₹ {{ "{:,.0f}".format(report.new_regime) }}
+</td>
+
 </tr>
 
 <tr style="background:#FFF8E1;font-weight:bold;">
-    <td style="padding:12px;">Effective Tax Rate</td>
-    <td>{{ report.effective_old }}%</td>
-    <td>{{ report.effective_new }}%</td>
+
+<td style="padding:12px;">
+Effective Tax Rate
+</td>
+
+<td style="padding:12px;">
+{{ report.effective_old }}%
+</td>
+
+<td style="padding:12px;">
+{{ report.effective_new }}%
+</td>
+
 </tr>
 
 </table>
 
 </div>
-<div class="recommend">
-
-<h2>🏆 Recommended Option</h2>
-
-<h1 style="color:#B8860B;">
-
-{{ report.better_option }}
-
-</h1>
 
 </div>
+
+
+<div class="recommend">
+
+<h2>
+🏆 Recommended Option
+</h2>
+
+<h1 style="color:#B8860B;">
+{{ report.better_option }}
+</h1>
+
+<p style="color:#555;line-height:1.7;margin-bottom:0;">
+Based on the values entered into the calculator and the assumptions used
+by the calculation, this is the regime producing the lower estimated tax
+liability.
+</p>
+
+</div>
+
+
 <div style="
 margin-top:30px;
 padding:35px;
@@ -312,7 +824,7 @@ text-align:center;
 box-shadow:0 12px 30px rgba(0,0,0,.15);
 ">
 
-<h2 style="margin:0;">
+<h2 style="margin:0;color:white;">
 🏆 Best Tax Regime
 </h2>
 
@@ -342,80 +854,145 @@ by choosing
 <h2 style="
 font-size:34px;
 margin-top:15px;
+color:white;
 ">
 {{ report.better_option }}
 </h2>
 
 </div>
+
+
 <div class="card">
 
-<h2 style="color:#B8860B;">
+<h2>
 📈 Effective Tax Rate
 </h2>
 
 <div class="row">
-<span>Old Regime</span>
-<span class="value">{{ report.effective_old }}%</span>
+
+<span>
+Old Regime
+</span>
+
+<span class="value">
+{{ report.effective_old }}%
+</span>
+
 </div>
 
 <div class="row">
-<span>New Regime</span>
-<span class="value">{{ report.effective_new }}%</span>
+
+<span>
+New Regime
+</span>
+
+<span class="value">
+{{ report.effective_new }}%
+</span>
+
 </div>
 
 </div>
+
+
 <div class="card">
 
-<h2 style="color:#B8860B;">
+<h2>
 📚 How Your Tax Was Calculated
 </h2>
 
-<h3>Old Regime</h3>
+<h3>
+Old Regime
+</h3>
 
 <ul style="line-height:2;">
 
-<li>₹0 – ₹2,50,000 → <strong>0%</strong></li>
+<li>
+₹0 – ₹2,50,000 → <strong>0%</strong>
+</li>
 
-<li>₹2,50,001 – ₹5,00,000 → <strong>5%</strong></li>
+<li>
+₹2,50,001 – ₹5,00,000 → <strong>5%</strong>
+</li>
 
-<li>₹5,00,001 – ₹10,00,000 → <strong>20%</strong></li>
+<li>
+₹5,00,001 – ₹10,00,000 → <strong>20%</strong>
+</li>
 
-<li>Above ₹10,00,000 → <strong>30%</strong></li>
+<li>
+Above ₹10,00,000 → <strong>30%</strong>
+</li>
 
 </ul>
 
-<hr>
+<hr style="border:none;border-top:1px solid #ddd;margin:20px 0;">
 
-<h3>New Regime (FY 2025-26)</h3>
+<h3>
+New Regime Tax Slabs (FY 2025-26 / AY 2026-27)
+</h3>
 
 <ul style="line-height:2;">
 
-<li>₹0 – ₹4,00,000 → <strong>0%</strong></li>
+<li>
+₹0 – ₹4,00,000 → <strong>0%</strong>
+</li>
 
-<li>₹4,00,001 – ₹8,00,000 → <strong>5%</strong></li>
+<li>
+₹4,00,001 – ₹8,00,000 → <strong>5%</strong>
+</li>
 
-<li>₹8,00,001 – ₹12,00,000 → <strong>10%</strong></li>
+<li>
+₹8,00,001 – ₹12,00,000 → <strong>10%</strong>
+</li>
 
-<li>₹12,00,001 – ₹16,00,000 → <strong>15%</strong></li>
+<li>
+₹12,00,001 – ₹16,00,000 → <strong>15%</strong>
+</li>
 
-<li>₹16,00,001 – ₹20,00,000 → <strong>20%</strong></li>
+<li>
+₹16,00,001 – ₹20,00,000 → <strong>20%</strong>
+</li>
 
-<li>₹20,00,001 – ₹24,00,000 → <strong>25%</strong></li>
+<li>
+₹20,00,001 – ₹24,00,000 → <strong>25%</strong>
+</li>
 
-<li>Above ₹24,00,000 → <strong>30%</strong></li>
+<li>
+Above ₹24,00,000 → <strong>30%</strong>
+</li>
 
 </ul>
 
-<p style="margin-top:20px;color:#666;">
 
-Your tax has been calculated using the above income tax slabs and includes the applicable Health & Education Cess.
+<div class="rebate-box">
+
+<h3>
+💡 The Section 87A Rebate Advantage
+</h3>
+
+<p>
+
+For Assessment Year 2026–27, eligible resident individuals under the New Tax Regime may claim a rebate under Section 87A where their total income does not exceed ₹12,00,000. The maximum rebate is ₹60,000. For eligible salaried taxpayers, the standard deduction can also affect the income level at which the rebate becomes relevant.
+
+The rebate reduces the income-tax liability, subject to the applicable provisions and conditions. It is not a deduction from taxable income.
 
 </p>
 
 </div>
+
+
+<p style="margin-top:20px;color:#666;">
+
+The calculator provides an estimate using the assumptions and tax rules incorporated into SmartPlan Finance's calculation logic. Income-tax liability can also depend on applicable rebates, deductions, exemptions, surcharge, marginal relief, cess, income type and other individual circumstances.
+
+</p>
+
+</div>
+
+
 <div class="card">
 
-<h2 style="color:#B8860B;">
+<h2>
 🤖 SmartPlan Finance Recommendation
 </h2>
 
@@ -423,9 +1000,13 @@ Your tax has been calculated using the above income tax slabs and includes the a
 
 <p>
 
-Based on your deductions and investments, the <strong>Old Tax Regime</strong> currently results in a lower tax liability.
+Based on your deductions and investments, the
+<strong>Old Tax Regime</strong>
+currently results in a lower estimated tax liability.
 
-Continue investing under Section 80C, EPF, PPF, ELSS and eligible deductions to maximize your savings.
+Eligible deductions and exemptions may make the Old Regime more useful
+for some taxpayers. Consider the deductions actually available to you
+before choosing a regime.
 
 </p>
 
@@ -433,30 +1014,52 @@ Continue investing under Section 80C, EPF, PPF, ELSS and eligible deductions to 
 
 <p>
 
-Based on your income, the <strong>New Tax Regime</strong> provides a lower overall tax burden.
+Based on the information used in this calculation, the
+<strong>New Tax Regime</strong>
+provides a lower estimated tax burden.
 
-Unless you have significant deductions, this regime is likely to be more beneficial.
+The New Regime generally has lower slab rates and allows fewer deductions
+and exemptions than the Old Regime. Your final choice should depend on
+your complete tax situation.
 
 </p>
 
 {% endif %}
 
 </div>
+
+
 <div class="tip">
 
-<h3>💡 Smart Tax Tips</h3>
+<h3>
+💡 Smart Tax Tips
+</h3>
 
 <ul>
 
-<li>✅ Compare both tax regimes every financial year.</li>
+<li>
+✅ Compare both tax regimes every financial year.
+</li>
 
-<li>✅ Invest under Section 80C only if the Old Regime offers lower tax.</li>
+<li>
+✅ Consider deductions and exemptions available to you before choosing the Old Regime.
+</li>
 
-<li>✅ Consider NPS and Health Insurance for additional tax savings where applicable.</li>
+<li>
+✅ Consider NPS and health-insurance-related tax benefits where applicable.
+</li>
 
-<li>✅ Review your salary structure after appraisal or job changes.</li>
+<li>
+✅ Review your salary structure after appraisal or job changes.
+</li>
 
-<li>✅ Recalculate your tax before filing your Income Tax Return.</li>
+<li>
+✅ Recalculate your tax before filing your Income Tax Return.
+</li>
+
+<li>
+✅ Keep records of investments, deductions and supporting documents.
+</li>
 
 </ul>
 
@@ -471,6 +1074,8 @@ onclick="window.print();return false;">
 🖨 Print Tax Report
 
 </a>
+
+
 <a
 class="button"
 href="{{ url_for('tax_calculator') }}">
@@ -478,6 +1083,8 @@ href="{{ url_for('tax_calculator') }}">
 🧾 Calculate Again
 
 </a>
+
+
 <a
 class="button"
 href="{{ url_for('index') }}">
@@ -486,146 +1093,169 @@ href="{{ url_for('index') }}">
 
 </a>
 
-<div style="
-    margin-top:30px;
-    padding:18px;
-    background:#fff8e5;
-    border-left:5px solid #B8860B;
-    border-radius:10px;
-    font-size:14px;
-    color:#555;
-    line-height:1.7;
-">
-    <strong>Disclaimer:</strong> The Income Tax Calculator on SmartPlan Finance provides estimated tax calculations based on the information entered by the user and applicable tax rules available at the time of calculation. Actual tax liability may differ depending on individual circumstances, deductions, exemptions, rebates, surcharges, cess, and future changes in tax laws. SmartPlan Finance does not guarantee the accuracy of tax calculations or provide tax, legal, or financial advice. Please consult a qualified Chartered Accountant or tax professional before filing your income tax return or making tax-related decisions.
+
+<div class="disclaimer">
+
+<strong>Disclaimer:</strong>
+
+The Income Tax Calculator and this report on SmartPlan Finance provide
+estimated tax calculations based on the information entered by the user,
+the assumptions used by the calculator, and applicable tax rules available
+at the time of calculation.
+
+Actual tax liability may differ depending on individual circumstances,
+income sources, deductions, exemptions, rebates, surcharge, marginal
+relief, cess, residential status, age, tax-law changes and other applicable
+provisions.
+
+SmartPlan Finance does not guarantee the accuracy or completeness of the
+calculation and does not provide tax, legal or financial advice.
+
+Please verify your tax position with the applicable provisions of the
+Income Tax Act and consult a qualified Chartered Accountant or tax
+professional when appropriate, particularly for complex tax situations.
 
 </div>
-<div style="
-margin-top:35px;
-background:#fff;
-padding:25px;
-border-radius:15px;
-box-shadow:0 8px 20px rgba(0,0,0,.06);
-">
 
-<h2 style="color:#B8860B;margin-bottom:18px;">
+
+<div class="section-content">
+
+<h2>
 📖 Understanding Your Tax Comparison
 </h2>
 
-<p style="line-height:1.9;color:#555;">
+<p>
 
-This calculator estimates your income tax under both the Old and New Tax Regime based on the annual taxable income you entered.
+This report estimates your income tax under both the Old and New Tax
+Regimes based on the information entered into the calculator.
 
-If one regime results in lower tax, it may help you save more money. However, your ideal tax regime also depends on deductions, exemptions, investments, and your individual financial situation.
+If one regime produces a lower estimated tax amount, the difference may
+represent potential tax savings. However, the better regime can vary
+depending on deductions, exemptions, investments, income sources and other
+individual circumstances.
 
-Use this calculator as a planning tool before making tax decisions.
+Use this report as a financial-planning reference rather than as a
+substitute for professional tax advice or your final tax computation.
 
 </p>
 
 </div>
-<div style="
-margin-top:30px;
-background:#fff;
-padding:25px;
-border-radius:15px;
-box-shadow:0 8px 20px rgba(0,0,0,.06);
-">
 
-<h2 style="color:#B8860B;">
+
+<div class="section-content">
+
+<h2>
 🤔 Why Compare Tax Regimes?
 </h2>
 
-<ul style="margin-top:18px;line-height:2;color:#555;padding-left:20px;">
+<ul>
 
-<li>Know which regime could reduce your tax liability.</li>
+<li>
+Know which regime could reduce your estimated tax liability.
+</li>
 
-<li>Plan your investments more effectively.</li>
+<li>
+Understand how deductions can affect the Old Regime calculation.
+</li>
 
-<li>Understand whether deductions actually benefit you.</li>
+<li>
+Compare your estimated tax burden before making tax-planning decisions.
+</li>
 
-<li>Make informed tax planning decisions before filing your return.</li>
+<li>
+Review the effect of your taxable income on the calculation.
+</li>
 
-<li>Estimate your tax in just a few seconds.</li>
+<li>
+Plan ahead instead of making tax decisions at the end of the financial year.
+</li>
 
 </ul>
 
 </div>
-<div style="
-margin-top:30px;
-background:#fff;
-padding:25px;
-border-radius:15px;
-box-shadow:0 8px 20px rgba(0,0,0,.06);
-">
 
-<h2 style="color:#B8860B;">
+
+<div class="section-content">
+
+<h2>
 💡 Smart Tax Planning Tips
 </h2>
 
 <div style="margin-top:18px;">
 
 <p style="margin-bottom:16px;line-height:1.8;">
-✔ Start tax planning early instead of waiting until the end of the financial year.
+
+✔ Start tax planning early instead of waiting until the end of the
+financial year.
+
 </p>
 
 <p style="margin-bottom:16px;line-height:1.8;">
-✔ Compare both tax regimes every year because your financial situation may change.
+
+✔ Compare both tax regimes every year because your income, deductions and
+financial situation can change.
+
 </p>
 
 <p style="margin-bottom:16px;line-height:1.8;">
+
 ✔ Keep proper records of investments and eligible deductions.
+
+</p>
+
+<p style="margin-bottom:16px;line-height:1.8;">
+
+✔ Review the applicable Section 87A rebate and other provisions when
+estimating your final liability.
+
 </p>
 
 <p style="line-height:1.8;">
+
 ✔ Consult a Chartered Accountant for complex tax situations.
+
 </p>
 
 </div>
 
 </div>
-<!-- Recommended Reading -->
-<div style="
-margin-top:35px;
-background:#fff;
-padding:25px;
-border-radius:15px;
-box-shadow:0 8px 20px rgba(0,0,0,.06);
-">
 
-<h2 style="color:#B8860B;">
+
+<!-- Recommended Reading -->
+
+<div class="section-content">
+
+<h2>
 📚 Learn More About Tax Planning
 </h2>
 
-<p style="color:#555;line-height:1.8;margin-top:12px;margin-bottom:25px;">
+<p style="margin-top:12px;margin-bottom:25px;">
 
-Understanding India's income tax system can help you make better financial decisions. Explore our detailed guides on tax deductions, tax regimes, and practical tax-saving strategies.
+Understanding India's income-tax system can help you make more informed
+financial decisions. Explore these SmartPlan Finance guides for additional
+information about tax deductions, tax regimes and practical tax planning.
 
 </p>
 
-<div style="
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:20px;
-">
 
-<a href="https://smartplanfinance.com/blog/the-complete-tax-deduction-strategy-for-salaried-professionals-2026-claim-every-rupee-pay-less-tax"
+<div class="article-grid">
+
+
+<a
+href="https://smartplanfinance.com/blog/the-complete-tax-deduction-strategy-for-salaried-professionals-2026-claim-every-rupee-pay-less-tax"
 style="text-decoration:none;">
 
-<div style="
-background:#FFF8E1;
-border-left:5px solid #FFC107;
-border-radius:12px;
-padding:20px;
-height:100%;
-transition:.25s;
-">
+<div class="article-card">
 
-<h3 style="color:#B8860B;margin-top:0;">
+<h3>
 💰 Complete Tax Deduction Strategy
 </h3>
 
-<p style="color:#555;line-height:1.7;">
+<p>
 
-Learn how salaried professionals can legally reduce their income tax by understanding deductions, exemptions, and effective tax planning strategies.
+Learn how salaried professionals can understand deductions, exemptions
+and tax-planning considerations that may help reduce their tax liability
+when applicable.
 
 </p>
 
@@ -637,25 +1267,21 @@ Read Article →
 
 </a>
 
-<a href="https://smartplanfinance.com/blog/income-tax-slabs-2026-new-regime-vs-old-regime-which-saves-you-more-money"
+
+<a
+href="https://smartplanfinance.com/blog/income-tax-slabs-2026-new-regime-vs-old-regime-which-saves-you-more-money"
 style="text-decoration:none;">
 
-<div style="
-background:#FFF8E1;
-border-left:5px solid #FFC107;
-border-radius:12px;
-padding:20px;
-height:100%;
-transition:.25s;
-">
+<div class="article-card">
 
-<h3 style="color:#B8860B;margin-top:0;">
+<h3>
 📑 Income Tax Slabs 2026
 </h3>
 
-<p style="color:#555;line-height:1.7;">
+<p>
 
-Compare the Old and New Tax Regime, understand the latest tax slabs, and discover which option may be more suitable for your financial situation.
+Compare the Old and New Tax Regimes, understand the applicable tax slabs
+and explore factors that can affect which regime may be more suitable.
 
 </p>
 
@@ -667,27 +1293,27 @@ Read Article →
 
 </a>
 
+
 </div>
 
 </div>
+
+
 <!-- Related Calculators -->
-<div style="
-margin-top:35px;
-background:#fff;
-padding:25px;
-border-radius:15px;
-box-shadow:0 8px 20px rgba(0,0,0,.06);
-">
 
-<h2 style="color:#B8860B;">
+<div class="section-content">
+
+<h2>
 🧮 Related Financial Calculators
 </h2>
 
-<p style="color:#555;line-height:1.8;margin-top:12px;margin-bottom:20px;">
+<p style="margin-top:12px;margin-bottom:20px;">
 
-Continue your financial planning with these free calculators from SmartPlan Finance.
+Continue your financial planning with these free calculators from
+SmartPlan Finance.
 
 </p>
+
 
 <div style="
 display:grid;
@@ -695,36 +1321,134 @@ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:15px;
 ">
 
-<a href="https://smartplanfinance.com/emi_calculator" class="calc-card">
+<a
+href="https://smartplanfinance.com/emi_calculator"
+class="calc-card">
+
 🏠 EMI Calculator
+
 </a>
 
-<a href="https://smartplanfinance.com/financial-future" class="calc-card">
+
+<a
+href="https://smartplanfinance.com/financial-future"
+class="calc-card">
+
 🎯 Financial Goal Planner
+
 </a>
 
 </div>
 
 </div>
+
+
+<!-- Partner CTA -->
+
+<div class="partner-section">
 
 {% include "partials/_partner_cta.html" %}
 
 </div>
+
+
+</div>
+
+
+<!-- Footer -->
+
+<footer class="footer">
+
+    <div class="footer-links">
+
+        <p>
+            <a href="{{ url_for('articles') }}"
+               style="color:white;text-decoration:none;">
+                📰 Articles
+            </a>
+        </p>
+
+        <p>
+            <a href="/privacy"
+               style="color:white;text-decoration:none;">
+                🔒 Privacy Policy
+            </a>
+        </p>
+
+        <p>
+            <a href="/terms"
+               style="color:white;text-decoration:none;">
+                📄 Terms &amp; Conditions
+            </a>
+        </p>
+
+        <p>
+            <a href="/disclaimer"
+               style="color:white;text-decoration:none;">
+                ⚠ Disclaimer
+            </a>
+        </p>
+
+        <p>
+            <a href="/about"
+               style="color:white;text-decoration:none;">
+                ℹ About Us
+            </a>
+        </p>
+
+        <p>
+            <a href="/affiliate-policy"
+               style="color:white;text-decoration:none;">
+                💰 Affiliate Disclosure
+            </a>
+        </p>
+
+        <p>
+            <a href="{{ url_for('about_author') }}"
+               style="color:white;text-decoration:none;">
+                👨‍💼 About the Author &amp; Founder
+            </a>
+        </p>
+
+    </div>
+
+    <div class="copyright">
+
+        &copy; 2026 SmartPlanFinance. All rights reserved.
+
+    </div>
+
+</footer>
+
+
 <script>
+
 document.addEventListener('DOMContentLoaded', function () {
+
     // Scroll only after a POST submission when results exist
-    const resultsSection = document.getElementById('results-section');
+
+    const resultsSection =
+        document.getElementById('results-section');
 
     if (resultsSection && window.location.search === '') {
+
         // Small delay ensures layout is fully rendered
+
         setTimeout(() => {
+
             resultsSection.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
+
         }, 100);
+
     }
+
 });
+
 </script>
+
 </body>
+
 </html>
