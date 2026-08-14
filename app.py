@@ -856,6 +856,10 @@ Allow: /
 Disallow: /login
 Disallow: /profile
 Disallow: /dashboard
+Disallow: /tax-report
+Disallow: /financial-plan-results
+Disallow: /wellness/quiz
+Disallow: /wellness/results
 
 Sitemap: https://smartplanfinance.com/sitemap.xml
 """
