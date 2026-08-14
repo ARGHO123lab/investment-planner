@@ -4,6 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>XIRR Calculator - Calculate Portfolio Returns | SmartPlanFinance</title>
+
+    <meta name="description"
+          content="Free XIRR Calculator by SmartPlanFinance. Calculate annualized portfolio returns from investments made on different dates. Understand XIRR vs CAGR, SIP returns, cash flows, and investment performance.">
+
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="https://smartplanfinance.com/xirr-calculator">
+
     <link rel="icon"
           type="image/png"
           sizes="32x32"
@@ -19,11 +29,11 @@
 
     <link rel="manifest"
           href="{{ url_for('static', filename='icons/site.webmanifest') }}">
-    <title>XIRR Calculator - Calculate Portfolio Returns | SmartPlanFinance</title>
-    <link rel="canonical" href="https://smartplanfinance.com/xirr-calculator">
 
-    <meta name="description"
-          content="Free XIRR Calculator by SmartPlanFinance. Calculate your portfolio's Extended Internal Rate of Return (XIRR) with multiple cash flows. Perfect for mutual funds, stocks, and real estate investments.">
+    <!-- Google AdSense -->
+    <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
+            crossorigin="anonymous"></script>
 
     <style>
         * {
@@ -37,6 +47,7 @@
             background: #FFFDF5;
             font-family: 'Poppins', sans-serif;
             color: #333;
+            line-height: 1.6;
         }
 
         .container {
@@ -44,10 +55,17 @@
             margin: 0 auto;
         }
 
-        /* Enhanced Header Section */
+        /* =========================
+           HEADER
+        ========================= */
+
         .header-section {
             text-align: center;
-            background: linear-gradient(135deg, rgba(184, 134, 11, 0.08) 0%, rgba(255, 193, 7, 0.05) 100%);
+            background: linear-gradient(
+                135deg,
+                rgba(184, 134, 11, 0.08) 0%,
+                rgba(255, 193, 7, 0.05) 100%
+            );
             padding: 50px 30px;
             border-radius: 20px;
             border: 2px solid rgba(184, 134, 11, 0.1);
@@ -75,14 +93,17 @@
             color: #555;
             font-size: 17px;
             line-height: 1.8;
-            max-width: 650px;
+            max-width: 680px;
             margin: 0 auto;
             font-weight: 500;
         }
 
-        /* Education Card */
+        /* =========================
+           EDUCATION
+        ========================= */
+
         .education-card {
-            background: linear-gradient(135deg, #FFFEF9 0%, #F0F7FF 100%);
+            background: #FFFEF9;
             padding: 32px 28px;
             border-radius: 16px;
             border: 2px solid #FFE082;
@@ -92,7 +113,7 @@
 
         .education-card h2 {
             color: #333;
-            font-size: 18px;
+            font-size: 19px;
             margin-bottom: 14px;
             font-weight: 700;
         }
@@ -108,7 +129,10 @@
             margin-bottom: 0;
         }
 
-        /* Form Section */
+        /* =========================
+           FORM
+        ========================= */
+
         .form-card {
             background: white;
             padding: 35px;
@@ -147,7 +171,10 @@
             background: #FFFEF9;
         }
 
-        /* Cash Flows Section */
+        /* =========================
+           CASH FLOWS
+        ========================= */
+
         .cash-flows-section {
             margin-bottom: 30px;
         }
@@ -160,6 +187,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
         }
 
         .cash-flows-table {
@@ -279,7 +307,10 @@
             transform: translateY(-2px);
         }
 
-        /* Results Section */
+        /* =========================
+           RESULTS
+        ========================= */
+
         .results-section {
             display: none;
         }
@@ -288,7 +319,6 @@
             display: block;
         }
 
-        /* Card Styles */
         .card {
             background: white;
             padding: 24px;
@@ -322,7 +352,10 @@
             margin-bottom: 8px;
         }
 
-        /* Main XIRR Display */
+        /* =========================
+           XIRR RESULT
+        ========================= */
+
         .xirr-amount-card {
             background: linear-gradient(135deg, #FFC107 0%, #E0A800 100%);
             color: white;
@@ -354,7 +387,10 @@
             opacity: 0.9;
         }
 
-        /* Performance Metrics Grid */
+        /* =========================
+           METRICS
+        ========================= */
+
         .metrics-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -390,7 +426,10 @@
             font-weight: 500;
         }
 
-        /* Performance Badge */
+        /* =========================
+           PERFORMANCE
+        ========================= */
+
         .performance-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -399,12 +438,11 @@
         }
 
         .performance-card {
-            background: white;
+            background: #FFFEF9;
             padding: 24px;
             border-radius: 12px;
             text-align: center;
             border: 2px solid #FFE082;
-            background: #FFFEF9;
         }
 
         .performance-badge {
@@ -428,12 +466,11 @@
         }
 
         .confidence-card {
-            background: white;
+            background: linear-gradient(135deg, #F7FBF7 0%, white 100%);
             padding: 24px;
             border-radius: 12px;
             text-align: center;
             border: 2px solid #4CAF50;
-            background: linear-gradient(135deg, #F1F8F4 0%, white 100%);
         }
 
         .stars {
@@ -457,7 +494,10 @@
             font-weight: 600;
         }
 
-        /* SmartPlan Insights */
+        /* =========================
+           INSIGHTS
+        ========================= */
+
         .insights-card {
             background: linear-gradient(135deg, #F8F9FA 0%, white 100%);
             border-left: 5px solid #FFC107;
@@ -497,7 +537,10 @@
             border-bottom: none;
         }
 
-        /* Related Calculators */
+        /* =========================
+           RELATED
+        ========================= */
+
         .related-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -535,7 +578,10 @@
             margin: 0;
         }
 
-        /* CTA Section */
+        /* =========================
+           CTA
+        ========================= */
+
         .cta-section {
             background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
             color: white;
@@ -577,7 +623,10 @@
             transform: translateY(-2px);
         }
 
-        /* Disclaimer */
+        /* =========================
+           DISCLAIMER
+        ========================= */
+
         .disclaimer {
             margin-top: 30px;
             padding: 20px;
@@ -593,8 +642,130 @@
             color: #333;
         }
 
-        /* Responsive */
+        /* =========================
+           AUTHOR / TRUST
+        ========================= */
+
+        .author-card {
+            margin-top: 30px;
+            padding: 24px;
+            background: #FFFEF9;
+            border: 1px solid #FFE082;
+            border-radius: 15px;
+        }
+
+        .author-card h2 {
+            color: #B8860B;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .author-card p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        .author-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .site-footer {
+            max-width: 1000px;
+            margin: 50px auto 0;
+            padding: 40px 25px 20px;
+            background: hsla(120, 100%, 6%, 0.659);
+            border-radius: 18px 18px 0 0;
+            color: white;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 35px;
+            margin-bottom: 30px;
+        }
+
+        .footer-brand h2 {
+            color: #D4AF37;
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .footer-brand p {
+            color: #ddd;
+            font-size: 13px;
+            line-height: 1.8;
+            max-width: 420px;
+        }
+
+        .footer-column h3 {
+            color: #D4AF37;
+            font-size: 15px;
+            margin-bottom: 14px;
+        }
+
+        .footer-column a {
+            display: block;
+            color: #ddd;
+            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 9px;
+            transition: color 0.2s;
+        }
+
+        .footer-column a:hover {
+            color: #D4AF37;
+        }
+
+        .footer-contact {
+            color: #ddd;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .footer-contact a {
+            display: inline;
+        }
+
+        .affiliate-note {
+            margin-top: 18px;
+            padding: 14px;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 10px;
+            color: #ddd;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.15);
+            padding-top: 20px;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: #bbb;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .footer-tagline {
+            color: #D4AF37 !important;
+            font-weight: 600;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
         @media (max-width: 768px) {
+
             body {
                 padding: 16px;
             }
@@ -648,6 +819,11 @@
                 padding: 8px;
             }
 
+            .cash-flows-table {
+                display: block;
+                overflow-x: auto;
+            }
+
             .cta-links {
                 flex-direction: column;
             }
@@ -655,38 +831,24 @@
             .cta-link {
                 width: 100%;
             }
-        }
-          /* Site Footer */
-        .site-footer {
-            max-width: 700px;
-            margin: 40px auto 0;
-            padding-top: 24px;
-            border-top: 1px solid #eee;
-            text-align: center;
-        }
 
-        .site-footer .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 18px;
-            margin-bottom: 14px;
-        }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
 
-        .site-footer .footer-links a {
-            color: #666;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-        }
+            .site-footer {
+                padding: 30px 20px 20px;
+            }
 
-        .site-footer .footer-links a:hover {
-            color: #B8860B;
-        }
+            .cash-flows-title {
+                align-items: flex-start;
+                flex-direction: column;
+            }
 
-        .site-footer .copyright {
-            font-size: 12px;
-            color: #999;
+            .add-flow-btn {
+                width: 100%;
+            }
         }
     </style>
 
@@ -694,313 +856,1218 @@
 
 <body>
 
-    <div class="container">
-        <!-- Enhanced Header -->
-        <div class="header-section">
-            <div class="header-subtitle">📊 Investment Analysis Tool</div>
-            <h1>📊 XIRR Calculator</h1>
-            <p>Calculate your true portfolio return with our free XIRR (Extended Internal Rate of Return) calculator. Perfect for analyzing investments with multiple cash flows, SIPs, and irregular transactions across mutual funds, stocks, and real estate.</p>
+<div class="container">
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <div class="header-section">
+
+        <div class="header-subtitle">
+            📊 Investment Analysis Tool
         </div>
 
-        <!-- Education Card -->
-        <div class="education-card">
-            <h2>What is XIRR and Why Does It Matter?</h2>
-            <p>CAGR (Compound Annual Growth Rate) assumes you invested a lump sum and made no additional investments. But in reality, most investors use SIPs (Systematic Investment Plans), add bonus money, or withdraw funds at different times.</p>
-            <p><strong>XIRR is designed specifically for this.</strong> It calculates your annualized return considering every investment and redemption on their exact dates. This gives you an accurate picture of your portfolio's real performance.</p>
-            <p><strong>Example:</strong> If you invested ₹10,000 in January, ₹10,000 in February, and ₹15,000 in March, XIRR accounts for the timing of each investment. A simple CAGR calculation would be inaccurate.</p>
+        <h1>📊 XIRR Calculator</h1>
+
+        <p>
+            Calculate your annualized investment return when money is invested
+            or withdrawn on different dates. Our free XIRR Calculator helps you
+            analyze SIPs, mutual funds, stocks, real estate investments and
+            portfolios with multiple cash flows.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         EDUCATION
+    ========================= -->
+
+    <div class="education-card">
+
+        <h2>What Is XIRR and Why Does It Matter?</h2>
+
+        <p>
+            XIRR stands for <strong>Extended Internal Rate of Return</strong>.
+            It measures the annualized return of an investment when your cash
+            flows happen on different dates.
+        </p>
+
+        <p>
+            This is particularly useful for SIPs and portfolios where you may
+            invest different amounts at different times. XIRR considers both
+            the amount of every cash flow and the exact date on which it
+            occurred.
+        </p>
+
+        <p>
+            <strong>Example:</strong> If you invest ₹10,000 in January,
+            another ₹10,000 in February and ₹15,000 in March, the money has
+            not been invested for the same amount of time. XIRR accounts for
+            this timing difference when calculating your annualized return.
+        </p>
+
+        <p>
+            A simple CAGR calculation generally assumes a single initial
+            investment and a final value. It therefore may not accurately
+            represent a portfolio with multiple investments or withdrawals.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         INPUT FORM
+    ========================= -->
+
+    <div class="form-card">
+
+        <form method="POST" id="xiirrForm">
+
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+
+            <div class="cash-flows-section">
+
+                <div class="cash-flows-title">
+
+                    <span>
+                        📅 Your Investment Transactions
+                    </span>
+
+                    <button type="button"
+                            class="add-flow-btn"
+                            onclick="addCashFlow()">
+                        + Add More
+                    </button>
+
+                </div>
+
+                <table class="cash-flows-table"
+                       id="cashFlowsTable">
+
+                    <thead>
+
+                    <tr>
+                        <th>Investment Date</th>
+                        <th>Amount (₹)</th>
+                        <th>Action</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="cashFlowsBody">
+
+                    <tr class="cash-flow-row">
+
+                        <td>
+                            <input type="date"
+                                   name="date[]"
+                                   required>
+                        </td>
+
+                        <td>
+                            <input type="number"
+                                   name="amount[]"
+                                   placeholder="10000"
+                                   step="0.01"
+                                   value="10000"
+                                   required>
+                        </td>
+
+                        <td>
+                            <button type="button"
+                                    class="remove-btn"
+                                    onclick="removeCashFlow(this)">
+                                Remove
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr class="cash-flow-row">
+
+                        <td>
+                            <input type="date"
+                                   name="date[]">
+                        </td>
+
+                        <td>
+                            <input type="number"
+                                   name="amount[]"
+                                   placeholder="10000"
+                                   step="0.01"
+                                   value="10000">
+                        </td>
+
+                        <td>
+                            <button type="button"
+                                    class="remove-btn"
+                                    onclick="removeCashFlow(this)">
+                                Remove
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr class="cash-flow-row">
+
+                        <td>
+                            <input type="date"
+                                   name="date[]">
+                        </td>
+
+                        <td>
+                            <input type="number"
+                                   name="amount[]"
+                                   placeholder="15000"
+                                   step="0.01"
+                                   value="15000">
+                        </td>
+
+                        <td>
+                            <button type="button"
+                                    class="remove-btn"
+                                    onclick="removeCashFlow(this)">
+                                Remove
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+                <p style="
+                    color:#777;
+                    font-size:13px;
+                    line-height:1.7;
+                    margin-top:10px;
+                ">
+                    Enter each investment or withdrawal with its actual date.
+                    For a meaningful XIRR calculation, your cash-flow history
+                    should represent the transactions that actually occurred.
+                </p>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="current_value">
+                    Current Portfolio Value (₹)
+                </label>
+
+                <input type="number"
+                       id="current_value"
+                       name="current_value"
+                       placeholder="72000"
+                       value="72000"
+                       step="0.01"
+                       required
+                       min="0">
+
+                <small style="
+                    color:#999;
+                    font-size:12px;
+                    display:block;
+                    margin-top:6px;
+                ">
+                    Enter the current market value of your investments as of
+                    today.
+                </small>
+
+            </div>
+
+
+            <button type="submit"
+                    class="submit-btn">
+                Calculate XIRR
+            </button>
+
+            <a href="{{ url_for('index') }}"
+               class="back-home">
+                ← Back to Home
+            </a>
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================
+         RESULTS
+    ========================= -->
+
+    {% if result and not result.error %}
+
+    <div class="results-section show"
+         id="results-section">
+
+        <div class="xirr-amount-card">
+
+            <h2>
+                Your XIRR (Annualized Return)
+            </h2>
+
+            <div class="amount">
+                {{ result.xirr }}
+                <span class="suffix">%</span>
+            </div>
+
         </div>
 
-        <!-- Input Form -->
-        <div class="form-card">
-            <form method="POST" id="xiirrForm">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-                <div class="cash-flows-section">
-                    <div class="cash-flows-title">
-                        <span>📅 Your Investment Transactions</span>
-                        <button type="button" class="add-flow-btn" onclick="addCashFlow()">+ Add More</button>
-                    </div>
-                    
-                    <table class="cash-flows-table" id="cashFlowsTable">
-                        <thead>
-                            <tr>
-                                <th>Investment Date</th>
-                                <th>Amount (₹)</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cashFlowsBody">
-                            <tr class="cash-flow-row">
-                                <td><input type="date" name="date[]" required></td>
-                                <td><input type="number" name="amount[]" placeholder="10000" step="0.01" required></td>
-                                <td><button type="button" class="remove-btn" onclick="removeCashFlow(this)">Remove</button></td>
-                            </tr>
-                            <tr class="cash-flow-row">
-                                <td><input type="date" name="date[]"></td>
-                                <td><input type="number" name="amount[]" placeholder="10000" step="0.01"></td>
-                                <td><button type="button" class="remove-btn" onclick="removeCashFlow(this)">Remove</button></td>
-                            </tr>
-                            <tr class="cash-flow-row">
-                                <td><input type="date" name="date[]"></td>
-                                <td><input type="number" name="amount[]" placeholder="15000" step="0.01"></td>
-                                <td><button type="button" class="remove-btn" onclick="removeCashFlow(this)">Remove</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <div class="metrics-grid">
+
+            <div class="metric-item">
+                <div class="metric-item-label">
+                    Total Invested
                 </div>
 
-                <div class="form-group">
-                    <label for="current_value">Current Portfolio Value (₹)</label>
-                    <input type="number" id="current_value" name="current_value" placeholder="72000" step="0.01" required min="0">
-                    <small style="color: #999; font-size: 12px; display: block; margin-top: 6px;">Enter the current market value of your investments as of today</small>
-                </div>
-
-                <button type="submit" class="submit-btn">Calculate XIRR</button>
-                <a href="{{ url_for('index') }}" class="back-home">← Back to Home</a>
-            </form>
-        </div>
-
-        <!-- Results Section (shown after calculation) -->
-        {% if result and not result.error %}
-        <div class="results-section show" id="results-section">
-            
-            <!-- Main XIRR Display -->
-            <div class="xirr-amount-card">
-                <h2>Your XIRR (Annualized Return)</h2>
-                <div class="amount">{{ result.xirr }}<span class="suffix">%</span></div>
-            </div>
-
-            <!-- Performance Metrics -->
-            <div class="metrics-grid">
-                <div class="metric-item">
-                    <div class="metric-item-label">Total Invested</div>
-                    <div class="metric-item-value">₹{{ result.total_invested }}</div>
-                </div>
-                <div class="metric-item">
-                    <div class="metric-item-label">Current Value</div>
-                    <div class="metric-item-value">₹{{ result.current_value }}</div>
-                </div>
-                <div class="metric-item">
-                    <div class="metric-item-label">Absolute Profit/Loss</div>
-                    <div class="metric-item-value" style="color: {% if result.absolute_return|replace(',', '')|float > 0 %}#4CAF50{% else %}#FF6B6B{% endif %};">₹{{ result.absolute_return }}</div>
-                </div>
-                <div class="metric-item">
-                    <div class="metric-item-label">Total Return %</div>
-                    <div class="metric-item-value" style="color: {% if result.absolute_return_pct|float > 0 %}#4CAF50{% else %}#FF6B6B{% endif %};">{{ result.absolute_return_pct }}%</div>
-                </div>
-                <div class="metric-item">
-                    <div class="metric-item-label">Investment Period</div>
-                    <div class="metric-item-value">{{ result.duration_years }} yrs</div>
-                </div>
-                <div class="metric-item">
-                    <div class="metric-item-label">Transactions</div>
-                    <div class="metric-item-value">{{ result.num_transactions }}</div>
+                <div class="metric-item-value">
+                    ₹{{ result.total_invested }}
                 </div>
             </div>
 
-            <!-- Performance & Confidence -->
-            <div class="performance-section">
-                <div class="performance-card">
-                    <div class="performance-badge">{{ result.badge }}</div>
-                    <div class="performance-label">Portfolio Performance</div>
-                    <div class="performance-value">{{ result.performance }}</div>
+
+            <div class="metric-item">
+                <div class="metric-item-label">
+                    Current Value
                 </div>
-                <div class="confidence-card">
-                    <div class="stars">
-                        {% if result.confidence >= 80 %}★★★★★
-                        {% elif result.confidence >= 65 %}★★★★☆
-                        {% elif result.confidence >= 50 %}★★★☆☆
-                        {% else %}★★☆☆☆
-                        {% endif %}
-                    </div>
-                    <div class="confidence-label">Data Confidence</div>
-                    <div class="confidence-text">{{ result.confidence }}% Reliable</div>
+
+                <div class="metric-item-value">
+                    ₹{{ result.current_value }}
                 </div>
             </div>
 
-            <!-- SmartPlan Insights -->
-            <div class="insights-card">
-                <h2>💡 SmartPlan Insights</h2>
-                <div class="insights-card-subtitle">Analysis & Recommendations</div>
-                {% for insight in result.insights %}
-                <div class="insight-item">{{ insight }}</div>
-                {% endfor %}
+
+            <div class="metric-item">
+
+                <div class="metric-item-label">
+                    Absolute Profit/Loss
+                </div>
+
+                <div class="metric-item-value"
+                     style="color:
+                     {% if result.absolute_return|replace(',', '')|float > 0 %}
+                     #4CAF50
+                     {% else %}
+                     #FF6B6B
+                     {% endif %};">
+
+                    ₹{{ result.absolute_return }}
+
+                </div>
+
             </div>
 
-            <!-- Related Calculators -->
-            <div class="card">
-                <h2>Explore Related Calculators</h2>
-                <div class="related-section">
-                    <a href="{{ url_for('cagr_calculator') }}" class="related-card">
-                        <h3>📈 CAGR Calculator</h3>
-                        <p>Compare XIRR with CAGR to understand the impact of investment timing on your returns.</p>
-                    </a>
-                    <a href="{{ url_for('stock_analyzer') }}" class="related-card">
-                        <h3>🔍 AI Stock Analyzer</h3>
-                        <p>Analyze your entire portfolio's composition and get AI-powered optimization recommendations.</p>
-                    </a>
+
+            <div class="metric-item">
+
+                <div class="metric-item-label">
+                    Total Return %
                 </div>
+
+                <div class="metric-item-value"
+                     style="color:
+                     {% if result.absolute_return_pct|float > 0 %}
+                     #4CAF50
+                     {% else %}
+                     #FF6B6B
+                     {% endif %};">
+
+                    {{ result.absolute_return_pct }}%
+
+                </div>
+
+            </div>
+
+
+            <div class="metric-item">
+
+                <div class="metric-item-label">
+                    Investment Period
+                </div>
+
+                <div class="metric-item-value">
+                    {{ result.duration_years }} yrs
+                </div>
+
+            </div>
+
+
+            <div class="metric-item">
+
+                <div class="metric-item-label">
+                    Transactions
+                </div>
+
+                <div class="metric-item-value">
+                    {{ result.num_transactions }}
+                </div>
+
             </div>
 
         </div>
-        {% elif result and result.error %}
-        <div class="card" style="background: #FFE5E5; border-left: 5px solid #FF6B6B;">
-            <h2 style="color: #FF6B6B;">Error in Calculation</h2>
-            <p>{{ result.error }}</p>
-            <p style="margin-top: 12px; color: #999; font-size: 14px;">Please check your inputs and try again. Ensure you have at least 2 valid transaction dates with amounts.</p>
-        </div>
-        {% endif %}
 
-        <!-- How XIRR Calculator Works -->
+
+        <div class="performance-section">
+
+            <div class="performance-card">
+
+                <div class="performance-badge">
+                    {{ result.badge }}
+                </div>
+
+                <div class="performance-label">
+                    Portfolio Performance
+                </div>
+
+                <div class="performance-value">
+                    {{ result.performance }}
+                </div>
+
+            </div>
+
+
+            <div class="confidence-card">
+
+                <div class="stars">
+
+                    {% if result.confidence >= 80 %}
+                        ★★★★★
+                    {% elif result.confidence >= 65 %}
+                        ★★★★☆
+                    {% elif result.confidence >= 50 %}
+                        ★★★☆☆
+                    {% else %}
+                        ★★☆☆☆
+                    {% endif %}
+
+                </div>
+
+                <div class="confidence-label">
+                    Data Confidence
+                </div>
+
+                <div class="confidence-text">
+                    {{ result.confidence }}% Reliable
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="insights-card">
+
+            <h2>
+                💡 SmartPlan Insights
+            </h2>
+
+            <div class="insights-card-subtitle">
+                Analysis & Recommendations
+            </div>
+
+            {% for insight in result.insights %}
+
+            <div class="insight-item">
+                {{ insight }}
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
         <div class="card">
-            <h2>How This XIRR Calculator Works</h2>
-            <p>Our calculator uses the Extended Internal Rate of Return formula to account for all your cash flows on their specific dates. It then calculates what annualized return these cash flows produced.</p>
-            <ul>
-                <li>✔ Enter each investment date and amount</li>
-                <li>✔ Add your current portfolio value</li>
-                <li>✔ Click Calculate to get your XIRR</li>
-                <li>✔ Receive AI-powered insights about your returns</li>
-            </ul>
-        </div>
 
-        <!-- Why XIRR vs CAGR -->
-        <div class="card">
-            <h2>XIRR vs CAGR: What's the Difference?</h2>
-            <ul>
-                <li><strong>CAGR</strong> assumes a single lump sum investment with no additional cash flows. It's useful for benchmarks but doesn't reflect most real portfolios.</li>
-                <li><strong>XIRR</strong> accounts for every investment and withdrawal on their actual dates. It's the most accurate measure for personal portfolios with multiple transactions.</li>
-                <li>For portfolios with monthly SIPs and occasional additions, <strong>XIRR is always more accurate than CAGR.</strong></li>
-                <li>Use our <a href="{{ url_for('cagr_calculator') }}" style="color: #B8860B; font-weight: 600;">CAGR Calculator</a> to compare and understand the difference.</li>
-            </ul>
-        </div>
+            <h2>
+                Explore Related Calculators
+            </h2>
 
-        <!-- Popular Investment Scenarios -->
-        <div class="card">
-            <h2>Common Investment Scenarios for XIRR</h2>
-            <ul>
-                <li>🏦 <strong>Mutual Fund SIPs</strong> - Track returns across monthly investments</li>
-                <li>📈 <strong>Direct Stock Investments</strong> - Multiple buy-ins at different prices</li>
-                <li>🏠 <strong>Real Estate</strong> - Down payment, additional investments, rental income</li>
-                <li>💰 <strong>Lump Sum + SIP Mix</strong> - Combined portfolio with different investment styles</li>
-                <li>🔄 <strong>Portfolio Rebalancing</strong> - Regular additions and reductions across funds</li>
-            </ul>
-        </div>
-
-        <!-- Related Blog Articles -->
-        <div class="card">
-            <h2>Learn More About Investment Returns</h2>
-            <p style="margin-bottom: 20px;">Understand the nuances of calculating investment returns and optimizing your portfolio strategy.</p>
-            
             <div class="related-section">
-                <a href="https://smartplanfinance.com/blog/how-to-build-a-diversified-investment-portfolio-using-multiple-platforms-in-2026-the-complete-beginner-s-blueprint" style="text-decoration: none;">
-                    <div class="related-card">
-                        <h3>📈 Build a Diversified Investment Portfolio</h3>
-                        <p>Learn how to diversify across platforms and asset classes for optimal returns.</p>
-                    </div>
+
+                <a href="{{ url_for('cagr_calculator') }}"
+                   class="related-card">
+
+                    <h3>
+                        📈 CAGR Calculator
+                    </h3>
+
+                    <p>
+                        Compare XIRR with CAGR to understand how investment
+                        timing affects your annualized returns.
+                    </p>
+
                 </a>
 
-                <a href="https://smartplanfinance.com/blog/the-step-by-step-wealth-building-blueprint-for-india-2026-a-complete-guide-to-financial-freedom" style="text-decoration: none;">
-                    <div class="related-card">
-                        <h3>💰 Wealth Building Blueprint</h3>
-                        <p>Complete roadmap for financial freedom including investment strategies and goals.</p>
-                    </div>
+
+                <a href="{{ url_for('stock_analyzer') }}"
+                   class="related-card">
+
+                    <h3>
+                        🔍 AI Stock Analyzer
+                    </h3>
+
+                    <p>
+                        Analyze your portfolio and explore additional
+                        investment insights.
+                    </p>
+
                 </a>
+
             </div>
-        </div>
 
-        <!-- Next Steps CTA -->
-        <div class="cta-section">
-            <h2>Ready to Optimize Your Portfolio?</h2>
-            <div class="cta-links">
-                <a href="{{ url_for('cagr_calculator') }}" class="cta-link">📊 CAGR Calculator</a>
-                <a href="{{ url_for('stock_analyzer') }}" class="cta-link">🔍 AI Stock Analyzer</a>
-                <a href="{{ url_for('financial_future') }}" class="cta-link">🎯 Financial Goal Planner</a>
-            </div>
-        </div>
-
-        <!-- Disclaimer -->
-        <div class="disclaimer">
-            <strong>Disclaimer:</strong> This XIRR Calculator provides estimated calculations based on the cash flows and current value you enter. The calculation is for educational and informational purposes only. Actual returns may vary depending on investment performance, market conditions, inflation, taxes, and individual circumstances. Past performance does not guarantee future results. Please consult a qualified financial advisor before making investment decisions or portfolio changes.
-        </div>
-
-        <!-- Partner CTA -->
-        <div class="partner-section" style="margin-top: 40px;">
-            {% include "partials/_partner_cta.html" %}
         </div>
 
     </div>
+
+
+    {% elif result and result.error %}
+
+    <div class="card"
+         style="
+         background:#FFE5E5;
+         border-left:5px solid #FF6B6B;
+         ">
+
+        <h2 style="color:#FF6B6B;">
+            Error in Calculation
+        </h2>
+
+        <p>
+            {{ result.error }}
+        </p>
+
+        <p style="
+            margin-top:12px;
+            color:#999;
+            font-size:14px;
+        ">
+            Please check your inputs and try again. Ensure you have
+            sufficient valid transaction data for the calculation.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- =========================
+         HOW XIRR WORKS
+    ========================= -->
+
+    <div class="card">
+
+        <h2>
+            How This XIRR Calculator Works
+        </h2>
+
+        <p style="margin-bottom:15px;">
+            XIRR estimates the annualized return generated by a series of
+            cash flows that occur on different dates. Instead of treating
+            every rupee as if it was invested for the same amount of time,
+            XIRR considers the actual timing of each transaction.
+        </p>
+
+        <ul>
+
+            <li>
+                ✔ Enter each investment, withdrawal or other relevant
+                cash flow and its actual date.
+            </li>
+
+            <li>
+                ✔ Enter the current market value of the portfolio.
+            </li>
+
+            <li>
+                ✔ The calculator uses the timing of the cash flows to
+                estimate an annualized return.
+            </li>
+
+            <li>
+                ✔ Review the resulting XIRR along with the portfolio
+                metrics and SmartPlan insights.
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- =========================
+         REQUIRED INPUTS
+    ========================= -->
+
+    <div class="card">
+
+        <h2>
+            What Cash-Flow and Date Information Do You Need?
+        </h2>
+
+        <p style="margin-bottom:15px;">
+            XIRR depends on both <strong>cash-flow amounts</strong> and
+            <strong>the dates on which those cash flows occurred</strong>.
+            For the most useful result, use actual transaction records
+            rather than approximate dates.
+        </p>
+
+        <ul>
+
+            <li>
+                <strong>Investment date:</strong> the date on which money
+                was invested.
+            </li>
+
+            <li>
+                <strong>Investment amount:</strong> the amount of each
+                contribution.
+            </li>
+
+            <li>
+                <strong>Withdrawals:</strong> include relevant money
+                withdrawn from the investment.
+            </li>
+
+            <li>
+                <strong>Current value:</strong> the current market value
+                of the investment or portfolio being analyzed.
+            </li>
+
+        </ul>
+
+        <p style="margin-top:15px;">
+            For SIPs, you can enter each installment separately. The more
+            accurately your transaction history represents the actual
+            portfolio cash flows, the more meaningful the resulting XIRR
+            can be.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         XIRR VS CAGR
+    ========================= -->
+
+    <div class="card">
+
+        <h2>
+            XIRR vs CAGR: What's the Difference?
+        </h2>
+
+        <ul>
+
+            <li>
+                <strong>CAGR</strong> is generally used when comparing a
+                beginning value with an ending value over a period and
+                works best when there are no intervening cash flows.
+            </li>
+
+            <li>
+                <strong>XIRR</strong> accounts for multiple cash flows and
+                their actual dates, making it useful for SIPs and portfolios
+                with irregular contributions or withdrawals.
+            </li>
+
+            <li>
+                For a portfolio with multiple transactions at different
+                dates, XIRR can provide a more appropriate annualized-return
+                measure than a simple CAGR calculation.
+            </li>
+
+            <li>
+                Use our
+                <a href="{{ url_for('cagr_calculator') }}"
+                   style="color:#B8860B;font-weight:600;">
+                    CAGR Calculator
+                </a>
+                when you want to evaluate a simpler beginning-value-to-
+                ending-value investment scenario.
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- =========================
+         UNUSUAL CASH FLOWS / LIMITATIONS
+    ========================= -->
+
+    <div class="card">
+
+        <h2>
+            XIRR Limitations and Unusual Cash-Flow Patterns
+        </h2>
+
+        <p style="margin-bottom:15px;">
+            XIRR is useful for many real-world investment portfolios, but
+            the result should not automatically be treated as a complete
+            measure of investment quality.
+        </p>
+
+        <ul>
+
+            <li>
+                Results can become difficult to interpret when cash flows
+                change direction multiple times, such as repeated patterns
+                of investments and withdrawals.
+            </li>
+
+            <li>
+                Very unusual or irregular cash-flow patterns can produce
+                results that require additional interpretation.
+            </li>
+
+            <li>
+                Some cash-flow combinations may have more than one possible
+                mathematical solution or may not produce a meaningful
+                solution under the assumptions used by an XIRR calculation.
+            </li>
+
+            <li>
+                A very high or negative XIRR should therefore be reviewed
+                against the underlying transactions rather than considered
+                in isolation.
+            </li>
+
+            <li>
+                XIRR does not predict future investment returns and does not
+                account by itself for every factor affecting your wealth,
+                such as taxes, fees, inflation or future market conditions.
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- =========================
+         COMMON SCENARIOS
+    ========================= -->
+
+    <div class="card">
+
+        <h2>
+            Common Investment Scenarios for XIRR
+        </h2>
+
+        <ul>
+
+            <li>
+                🏦 <strong>Mutual Fund SIPs</strong> — Track returns across
+                monthly or irregular investments.
+            </li>
+
+            <li>
+                📈 <strong>Direct Stock Investments</strong> — Analyze
+                multiple purchases made at different dates.
+            </li>
+
+            <li>
+                🏠 <strong>Real Estate</strong> — Evaluate cash flows such
+                as down payments, additional investments and relevant
+                proceeds.
+            </li>
+
+            <li>
+                💰 <strong>Lump Sum + SIP Mix</strong> — Analyze portfolios
+                containing different investment patterns.
+            </li>
+
+            <li>
+                🔄 <strong>Portfolio Rebalancing</strong> — Review returns
+                when money is added or withdrawn over time.
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- =========================
+         RELATED ARTICLES
+    ========================= -->
+
+    <div class="card">
+
+        <h2>
+            Learn More About Investment Returns
+        </h2>
+
+        <p style="margin-bottom:20px;">
+            Understanding how investment returns are calculated can help
+            you evaluate portfolio performance and make more informed
+            financial decisions.
+        </p>
+
+        <div class="related-section">
+
+            <a href="https://smartplanfinance.com/blog/how-to-build-a-diversified-investment-portfolio-using-multiple-platforms-in-2026-the-complete-beginner-s-blueprint"
+               style="text-decoration:none;">
+
+                <div class="related-card">
+
+                    <h3>
+                        📈 Build a Diversified Investment Portfolio
+                    </h3>
+
+                    <p>
+                        Learn how diversification across platforms and
+                        asset classes can support a long-term investment
+                        strategy.
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <a href="https://smartplanfinance.com/blog/the-step-by-step-wealth-building-blueprint-for-india-2026-a-complete-guide-to-financial-freedom"
+               style="text-decoration:none;">
+
+                <div class="related-card">
+
+                    <h3>
+                        💰 Wealth Building Blueprint
+                    </h3>
+
+                    <p>
+                        Explore a practical roadmap for long-term wealth
+                        building, investment planning and financial freedom.
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         CTA
+    ========================= -->
+
+    <div class="cta-section">
+
+        <h2>
+            Ready to Analyze Your Portfolio?
+        </h2>
+
+        <div class="cta-links">
+
+            <a href="{{ url_for('cagr_calculator') }}"
+               class="cta-link">
+                📊 CAGR Calculator
+            </a>
+
+            <a href="{{ url_for('stock_analyzer') }}"
+               class="cta-link">
+                🔍 AI Stock Analyzer
+            </a>
+
+            <a href="{{ url_for('financial_future') }}"
+               class="cta-link">
+                🎯 Financial Goal Planner
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         DISCLAIMER
+    ========================= -->
+
+    <div class="disclaimer">
+
+        <strong>Disclaimer:</strong>
+        This XIRR Calculator provides estimated calculations based on the
+        cash flows, transaction dates and current value entered by the user.
+        It is provided for educational and informational purposes only.
+        Actual investment returns may differ due to market movements,
+        transaction costs, taxes, fees, valuation differences and other
+        factors. XIRR is a mathematical measure of historical or estimated
+        cash-flow performance and does not guarantee future investment
+        returns. SmartPlan Finance does not provide personalized investment,
+        tax or legal advice. Please consider consulting a qualified financial
+        professional before making investment decisions.
+
+    </div>
+
+
+    <!-- =========================
+         AUTHOR / CONTENT TRUST
+    ========================= -->
+
+    <div class="author-card">
+
+        <h2>
+            About This Calculator
+        </h2>
+
+        <p>
+            This XIRR Calculator is created and published by
+            <strong>Argho Sanyal, Founder of SmartPlan Finance</strong>,
+            as part of SmartPlan Finance's financial education and planning
+            tools.
+        </p>
+
+        <p>
+            SmartPlan Finance develops practical calculators, educational
+            guides and financial planning resources designed to help users
+            understand money, investments and long-term financial decisions.
+        </p>
+
+        <p>
+            Calculator results should be independently reviewed before being
+            used for financial decisions.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         PARTNER CTA
+    ========================= -->
+
+    <div class="partner-section"
+         style="margin-top:40px;">
+
+        {% include "partials/_partner_cta.html" %}
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
 <footer class="site-footer">
-    <div class="footer-links">
-        <a href="/about">About Us</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms &amp; Conditions</a>
-        <a href="/disclaimer">Disclaimer</a>
+
+    <div class="footer-grid">
+
+        <div class="footer-brand">
+
+            <h2>
+                SmartPlan Finance
+            </h2>
+
+            <p>
+                SmartPlan Finance is a financial education and planning
+                platform providing practical calculators, investment
+                resources and money-management tools to help people make
+                more informed financial decisions.
+            </p>
+
+            <div class="affiliate-note">
+
+                <strong>Affiliate Disclosure:</strong>
+                SmartPlan Finance may receive a referral commission when
+                users proceed with certain qualifying products or services
+                through partner links. This does not change the price you
+                pay. Our content and calculator results are designed to
+                provide educational information and should not be considered
+                personalized financial advice.
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h3>
+                Quick Links
+            </h3>
+
+            <a href="{{ url_for('index') }}">
+                Home
+            </a>
+
+            <a href="{{ url_for('articles') }}">
+                Articles
+            </a>
+
+            <a href="/about">
+                About Us
+            </a>
+
+            <a href="/privacy">
+                Privacy Policy
+            </a>
+
+            <a href="/terms">
+                Terms &amp; Conditions
+            </a>
+
+            <a href="/disclaimer">
+                Disclaimer
+            </a>
+
+            <a href="/affiliate-policy">
+                Affiliate Policy
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h3>
+                Connect With Us
+            </h3>
+
+            <div class="footer-contact">
+
+                <a href="mailto:contact@smartplanfinance.com">
+                    contact@smartplanfinance.com
+                </a>
+
+                <br>
+
+                <a href="mailto:support@smartplanfinance.com">
+                    support@smartplanfinance.com
+                </a>
+
+            </div>
+
+        </div>
+
     </div>
-    <div class="copyright">&copy; 2026 SmartPlanFinance. All rights reserved.</div>
+
+
+    <div class="footer-bottom">
+
+        <p>
+            &copy; 2026 SmartPlan Finance. All rights reserved.
+        </p>
+
+        <p class="footer-tagline">
+            Plan Smarter. Invest Better. Build Your Financial Future.
+        </p>
+
+    </div>
+
 </footer>
-    <script>
-        // Auto-scroll to results after calculation
-        document.addEventListener('DOMContentLoaded', function () {
-            const resultsSection = document.getElementById('results-section');
-            if (resultsSection && window.location.search === '') {
-                setTimeout(() => {
-                    resultsSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }, 100);
-            }
-        });
 
-        // Add new cash flow row
-        function addCashFlow() {
-            const tbody = document.getElementById('cashFlowsBody');
-            const newRow = document.createElement('tr');
-            newRow.className = 'cash-flow-row';
-            newRow.innerHTML = `
-                <td><input type="date" name="date[]"></td>
-                <td><input type="number" name="amount[]" placeholder="0" step="0.01"></td>
-                <td><button type="button" class="remove-btn" onclick="removeCashFlow(this)">Remove</button></td>
-            `;
-            tbody.appendChild(newRow);
+
+<script>
+
+    /* =========================
+       DEFAULT SAMPLE DATES
+       ========================= */
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const dateInputs =
+            document.querySelectorAll('input[name="date[]"]');
+
+        const today = new Date();
+
+        function formatDate(date) {
+
+            const year = date.getFullYear();
+
+            const month =
+                String(date.getMonth() + 1).padStart(2, '0');
+
+            const day =
+                String(date.getDate()).padStart(2, '0');
+
+            return `${year}-${month}-${day}`;
         }
 
-        // Remove cash flow row
-        function removeCashFlow(button) {
-            const rows = document.querySelectorAll('.cash-flow-row');
-            if (rows.length > 1) {
-                button.closest('tr').remove();
-            } else {
-                alert('You must have at least one transaction.');
+        if (dateInputs.length >= 3) {
+
+            const firstDate = new Date(today);
+            firstDate.setMonth(firstDate.getMonth() - 2);
+
+            const secondDate = new Date(today);
+            secondDate.setMonth(secondDate.getMonth() - 1);
+
+            const thirdDate = new Date(today);
+
+            if (!dateInputs[0].value) {
+                dateInputs[0].value = formatDate(firstDate);
             }
+
+            if (!dateInputs[1].value) {
+                dateInputs[1].value = formatDate(secondDate);
+            }
+
+            if (!dateInputs[2].value) {
+                dateInputs[2].value = formatDate(thirdDate);
+            }
+
         }
 
+        /* Auto-scroll to results after calculation */
+
+        const resultsSection =
+            document.getElementById('results-section');
+
+        if (resultsSection && window.location.search === '') {
+
+            setTimeout(() => {
+
+                resultsSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+
+            }, 100);
+
+        }
+
+    });
 
 
-        // Form validation
-        document.getElementById('xiirrForm').addEventListener('submit', function(e) {
-            const dateInputs = document.querySelectorAll('input[name="date[]"]');
-            const amountInputs = document.querySelectorAll('input[name="amount[]"]');
+    /* =========================
+       ADD CASH FLOW
+       ========================= */
+
+    function addCashFlow() {
+
+        const tbody =
+            document.getElementById('cashFlowsBody');
+
+        const newRow =
+            document.createElement('tr');
+
+        newRow.className = 'cash-flow-row';
+
+        newRow.innerHTML = `
+            <td>
+                <input type="date" name="date[]">
+            </td>
+
+            <td>
+                <input
+                    type="number"
+                    name="amount[]"
+                    placeholder="0"
+                    step="0.01">
+            </td>
+
+            <td>
+                <button
+                    type="button"
+                    class="remove-btn"
+                    onclick="removeCashFlow(this)">
+                    Remove
+                </button>
+            </td>
+        `;
+
+        tbody.appendChild(newRow);
+    }
+
+
+    /* =========================
+       REMOVE CASH FLOW
+       ========================= */
+
+    function removeCashFlow(button) {
+
+        const rows =
+            document.querySelectorAll('.cash-flow-row');
+
+        if (rows.length > 1) {
+
+            button.closest('tr').remove();
+
+        } else {
+
+            alert(
+                'You must have at least one transaction.'
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       FORM VALIDATION
+       ========================= */
+
+    document
+        .getElementById('xiirrForm')
+        .addEventListener('submit', function (e) {
+
+            const dateInputs =
+                document.querySelectorAll(
+                    'input[name="date[]"]'
+                );
+
+            const amountInputs =
+                document.querySelectorAll(
+                    'input[name="amount[]"]'
+                );
+
             let validRows = 0;
 
-            for (let i = 0; i < dateInputs.length; i++) {
-                if (dateInputs[i].value && amountInputs[i].value) {
+            for (
+                let i = 0;
+                i < dateInputs.length;
+                i++
+            ) {
+
+                if (
+                    dateInputs[i].value &&
+                    amountInputs[i].value
+                ) {
+
                     validRows++;
+
                 }
+
             }
 
             if (validRows < 1) {
+
                 e.preventDefault();
-                alert('Please enter at least one investment transaction with both date and amount.');
+
+                alert(
+                    'Please enter at least one investment transaction with both date and amount.'
+                );
+
             }
 
-            const currentValue = document.getElementById('current_value').value;
-            if (!currentValue || parseFloat(currentValue) <= 0) {
+            const currentValue =
+                document.getElementById(
+                    'current_value'
+                ).value;
+
+            if (
+                !currentValue ||
+                parseFloat(currentValue) <= 0
+            ) {
+
                 e.preventDefault();
-                alert('Please enter your current portfolio value.');
+
+                alert(
+                    'Please enter your current portfolio value.'
+                );
+
             }
+
         });
-    </script>
+
+</script>
 
 </body>
 
