@@ -4,26 +4,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO -->
+    <title>FD Calculator | Fixed Deposit Maturity & Interest Calculator | SmartPlan Finance</title>
+
+    <meta name="description"
+          content="Use the SmartPlan Finance FD Calculator to estimate Fixed Deposit maturity amount, interest earned and total returns. Compare deposit amounts, interest rates and investment durations.">
+
+    <meta name="author" content="Argho Sanyal">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://smartplanfinance.com/fd_calculator">
+
+    <!-- Favicon -->
     <link rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+          type="image/png"
+          sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
 
     <link rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+          type="image/png"
+          sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
 
     <link rel="apple-touch-icon"
-      href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
 
     <link rel="manifest"
-      href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
 
-    <title>FD Calculator | SmartPlan Finance</title>
-    <meta name="description" content="Free Fixed Deposit Calculator by SmartPlan Finance. Calculate your FD maturity amount, interest earned, and returns for any bank or financial institution instantly.">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google AdSense -->
+    <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
+            crossorigin="anonymous"></script>
+
+    <!-- WebApplication Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "@id": "https://smartplanfinance.com/fd_calculator#webapplication",
+      "name": "Fixed Deposit Calculator",
+      "alternateName": "FD Calculator",
+      "url": "https://smartplanfinance.com/fd_calculator",
+      "description": "Free Fixed Deposit Calculator by SmartPlan Finance for estimating FD maturity amount, interest earned and total returns.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires a modern web browser with HTML5 support.",
+      "isAccessibleForFree": true,
+      "creator": {
+        "@type": "Person",
+        "name": "Argho Sanyal",
+        "url": "https://smartplanfinance.com/about"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "SmartPlan Finance",
+        "url": "https://smartplanfinance.com"
+      }
+    }
+    </script>
+
+    <!-- Organization Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "SmartPlan Finance",
+      "url": "https://smartplanfinance.com",
+      "founder": {
+        "@type": "Person",
+        "name": "Argho Sanyal"
+      }
+    }
+    </script>
 
     <style>
         * {
@@ -37,20 +94,22 @@
             font-family: 'Poppins', sans-serif;
             padding: 40px 20px;
             line-height: 1.6;
+            color: #333;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: white;
+            background: #ffffff;
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,.08);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .08);
         }
 
         h1 {
             color: #B8860B;
             font-size: 42px;
+            line-height: 1.25;
             margin-bottom: 15px;
             text-align: center;
         }
@@ -58,6 +117,7 @@
         h2 {
             color: #B8860B;
             font-size: 26px;
+            line-height: 1.35;
             margin-top: 45px;
             margin-bottom: 20px;
         }
@@ -65,7 +125,12 @@
         h3 {
             color: #B8860B;
             font-size: 20px;
+            line-height: 1.4;
             margin-bottom: 12px;
+        }
+
+        p {
+            color: #555;
         }
 
         .subtitle {
@@ -80,7 +145,7 @@
         }
 
         .form-card {
-            background: white;
+            background: #ffffff;
             border-radius: 12px;
             padding: 30px;
             margin: 30px 0;
@@ -112,7 +177,7 @@
         input:focus {
             outline: none;
             border: 2px solid #FFC107;
-            box-shadow: 0 0 12px rgba(255,193,7,.25);
+            box-shadow: 0 0 12px rgba(255, 193, 7, .25);
         }
 
         button {
@@ -126,18 +191,18 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,.15);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .15);
         }
 
         button:hover {
             background: #FFB300;
             transform: translateY(-2px);
-            box-shadow: 0 8px 18px rgba(0,0,0,.18);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .18);
         }
 
         button:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 6px rgba(0,0,0,.12);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .12);
         }
 
         .back-btn {
@@ -163,7 +228,7 @@
         .disclaimer-box {
             margin-top: 30px;
             padding: 18px;
-            background: #fff8e5;
+            background: #FFF8E5;
             border-left: 5px solid #B8860B;
             border-radius: 10px;
             font-size: 14px;
@@ -196,7 +261,7 @@
             color: #555;
         }
 
-        .education-card li:before {
+        .education-card li::before {
             content: "✓";
             position: absolute;
             left: 0;
@@ -210,6 +275,10 @@
             line-height: 1.8;
         }
 
+        .education-card ol {
+            color: #555;
+        }
+
         .result-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -218,18 +287,18 @@
         }
 
         .card {
-            background: #fffdf6;
+            background: #FFFDF6;
             border-left: 5px solid #B8860B;
             padding: 18px;
             border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .05);
             transition: all 0.3s ease;
             text-align: center;
         }
 
         .card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 18px rgba(0,0,0,.12);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .12);
         }
 
         .card h4 {
@@ -276,7 +345,7 @@
 
         .smart-tip {
             margin-top: 30px;
-            background: #fff8e5;
+            background: #FFF8E5;
             border-left: 5px solid #B8860B;
             padding: 20px;
             border-radius: 10px;
@@ -323,6 +392,7 @@
         }
 
         .article-card {
+            height: 100%;
             background: #FFF8E1;
             border-left: 5px solid #FFC107;
             border-radius: 12px;
@@ -332,7 +402,7 @@
         }
 
         .article-card:hover {
-            box-shadow: 0 8px 20px rgba(0,0,0,.12);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .12);
             transform: translateY(-4px);
         }
 
@@ -368,7 +438,7 @@
         }
 
         .success-banner p {
-            color: rgba(255,255,255,.9);
+            color: rgba(255, 255, 255, .9);
             margin-bottom: 0;
         }
 
@@ -382,13 +452,68 @@
             line-height: 1.8;
         }
 
+        .insight-box p {
+            color: #2E7D32;
+        }
+
         .insight-box strong {
             color: #1B5E20;
         }
 
- /* Site Footer */
+        /* Author Section */
+        .author-box {
+            margin-top: 45px;
+            padding: 25px;
+            background: #FFFDF6;
+            border: 1px solid #eee;
+            border-radius: 12px;
+        }
+
+        .author-box h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .author-box p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+
+        .author-name {
+            font-weight: 700;
+            color: #B8860B;
+        }
+
+        .author-link {
+            color: #B8860B;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .author-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Commercial Disclosure */
+        .affiliate-disclosure {
+            margin-top: 30px;
+            padding: 18px;
+            background: #FAFAFA;
+            border: 1px solid #e8e8e8;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .affiliate-disclosure strong {
+            color: #444;
+        }
+
+        /* Footer */
         .site-footer {
-            max-width: 700px;
+            max-width: 800px;
             margin: 40px auto 0;
             padding-top: 24px;
             border-top: 1px solid #eee;
@@ -418,7 +543,9 @@
             font-size: 12px;
             color: #999;
         }
+
         @media (max-width: 768px) {
+
             body {
                 padding: 15px;
             }
@@ -434,6 +561,10 @@
             h2 {
                 font-size: 22px;
                 margin-top: 35px;
+            }
+
+            h3 {
+                font-size: 19px;
             }
 
             .subtitle {
@@ -472,441 +603,1051 @@
         }
     </style>
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Fixed Deposit Calculator",
-      "applicationCategory": "FinanceApplication",
-      "operatingSystem": "Any",
-      "url": "https://smartplanfinance.com/fd_calculator",
-      "description": "Free Fixed Deposit Calculator by SmartPlan Finance to calculate your FD maturity amount, interest earned, and total returns instantly.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "SmartPlan Finance",
-        "url": "https://smartplanfinance.com"
-      }
-    }
-    </script>
-
 </head>
 
 <body>
 
 <div class="container">
 
-    <!-- Header Section -->
-    <div style="margin-bottom: 35px;">
+    <!-- Header -->
+    <header style="margin-bottom: 35px;">
         <h1>🏦 Fixed Deposit Calculator</h1>
+
         <p class="subtitle">
-            Estimate your Fixed Deposit maturity amount, total interest earned, and overall returns in seconds. SmartPlan Finance helps you compare investment outcomes and make informed decisions for your short and medium-term financial goals.
+            Estimate your Fixed Deposit maturity amount, total interest earned,
+            and overall returns. Use different deposit amounts, interest rates,
+            and investment durations to compare potential FD outcomes for your
+            financial goals.
         </p>
-    </div>
+    </header>
 
-    <!-- What is FD Section - VISIBLE BEFORE CALCULATION -->
-    <div class="education-card">
-        <h3>💰 What is a Fixed Deposit?</h3>
-        <p>
-            A Fixed Deposit (FD) is a savings instrument offered by banks and financial institutions where you invest a lump sum for a fixed period at a predetermined interest rate. At maturity, you receive your original investment along with the accumulated interest.
-        </p>
-        <p>
-            Fixed Deposits are commonly used by investors seeking relatively stable returns, capital preservation, and guaranteed interest income. They offer peace of mind with predictable returns, making them ideal for conservative investors and those planning for specific financial milestones.
-        </p>
-    </div>
 
-    <!-- Why Use FD Calculator -->
-    <div style="margin-top: 45px;">
+    <!-- What is an FD -->
+    <section class="education-card">
+
+        <h2 style="font-size: 22px; margin-top: 0;">
+            💰 What is a Fixed Deposit?
+        </h2>
+
+        <p>
+            A Fixed Deposit (FD) is a savings and investment product offered by
+            banks and other financial institutions. You deposit a lump sum for a
+            predetermined period and earn interest according to the applicable
+            rate and terms.
+        </p>
+
+        <p>
+            At maturity, the deposit is generally returned along with the
+            applicable interest, subject to the product's terms and conditions.
+            Fixed Deposits are often considered by people who prefer relatively
+            predictable returns and want to allocate part of their savings to
+            lower-volatility instruments.
+        </p>
+
+    </section>
+
+
+    <!-- Why use calculator -->
+    <section>
+
         <h2>📊 Why Use an FD Calculator?</h2>
+
         <div class="calculator-grid">
+
             <div class="grid-card">
                 <h3>🎯 Quick Estimation</h3>
-                <p>Calculate maturity amounts instantly without manual calculations or bank visits.</p>
+                <p>
+                    Estimate maturity amounts and interest without performing
+                    manual calculations.
+                </p>
             </div>
 
             <div class="grid-card">
                 <h3>💼 Compare Options</h3>
-                <p>Test different deposit amounts, interest rates, and tenures to find the best option.</p>
+                <p>
+                    Test different deposit amounts, interest rates, and
+                    investment durations.
+                </p>
             </div>
 
             <div class="grid-card">
                 <h3>📈 Understand Returns</h3>
-                <p>See exactly how much interest you'll earn and how your money grows over time.</p>
+                <p>
+                    See the estimated relationship between your principal,
+                    interest earned, and maturity value.
+                </p>
             </div>
 
             <div class="grid-card">
-                <h3>🏦 Bank Comparison</h3>
-                <p>Compare returns across different banks offering various interest rates.</p>
+                <h3>🏦 Compare Scenarios</h3>
+                <p>
+                    Use different assumptions to understand how rates and
+                    investment periods can affect potential outcomes.
+                </p>
             </div>
-        </div>
-    </div>
 
-    <!-- FD Calculator Form -->
-    <form method="POST" class="form-card">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-        <div class="form-group">
-            <label>Deposit Amount (₹)</label>
-            <input type="number"
-                   name="principal"
-                   placeholder="Example: 500000"
-                   required>
         </div>
 
-        <div class="form-group">
-            <label>Interest Rate (% per annum)</label>
-            <input type="number"
-                   step="0.1"
-                   name="rate"
-                   placeholder="Example: 6.5"
-                   required>
-        </div>
+    </section>
 
-        <div class="form-group">
-            <label>Investment Duration (Years)</label>
-            <input type="number"
-                   step="0.5"
-                   name="years"
-                   placeholder="Example: 5"
-                   required>
-        </div>
 
-        <button type="submit">
-            💰 Calculate FD Returns
-        </button>
-    </form>
+    <!-- Calculator -->
+    <section>
 
-    <!-- Back to Home Button -->
+        <h2>🧮 Calculate Your Fixed Deposit Returns</h2>
+
+        <form method="POST"
+              class="form-card"
+              aria-label="Fixed Deposit Calculator">
+
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+
+            <div class="form-group">
+
+                <label for="principal">
+                    Deposit Amount (₹)
+                </label>
+
+                <input type="number"
+                       id="principal"
+                       name="principal"
+                       value="{{ request.form.get('principal', '500000') }}"
+                       min="1000"
+                       step="1000"
+                       inputmode="numeric"
+                       aria-label="FD deposit amount in Indian rupees"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="rate">
+                    Interest Rate (% per annum)
+                </label>
+
+                <input type="number"
+                       id="rate"
+                       name="rate"
+                       value="{{ request.form.get('rate', '6.5') }}"
+                       min="0.1"
+                       max="30"
+                       step="0.1"
+                       inputmode="decimal"
+                       aria-label="Annual FD interest rate"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="years">
+                    Investment Duration (Years)
+                </label>
+
+                <input type="number"
+                       id="years"
+                       name="years"
+                       value="{{ request.form.get('years', '5') }}"
+                       min="0.5"
+                       max="50"
+                       step="0.5"
+                       inputmode="decimal"
+                       aria-label="FD investment duration in years"
+                       required>
+
+            </div>
+
+
+            <button type="submit">
+                💰 Calculate FD Returns
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- Back to Home -->
     <div style="text-align: center;">
-        <a href="{{ url_for('index') }}" class="back-btn">
+
+        <a href="{{ url_for('index') }}"
+           class="back-btn">
             ← Back to Home
         </a>
+
     </div>
+
 
     <!-- Disclaimer -->
     <div class="disclaimer-box">
-        <strong>Disclaimer:</strong> The Fixed Deposit Calculator on SmartPlan Finance provides estimated results based on the information you enter and standard compound interest calculations. Actual maturity amounts and interest earned may vary depending on the bank or financial institution's interest rates, compounding frequency, tenure calculation, applicable taxes, and other terms and conditions. SmartPlan Finance does not guarantee the accuracy of returns, recommend or endorse any specific Fixed Deposit product, or provide investment advice. Please consult your bank or a qualified financial advisor before making any investment decisions.
+
+        <strong>Calculator Disclaimer:</strong>
+
+        This Fixed Deposit Calculator provides estimates based on the
+        information entered by the user and the calculation methodology used
+        by SmartPlan Finance. Actual maturity amounts may differ depending on
+        the bank or financial institution, applicable interest rate,
+        compounding frequency, tenure calculation, premature withdrawal
+        rules, taxes, and other product-specific terms.
+
+        SmartPlan Finance does not guarantee any particular return and does not
+        recommend or endorse a specific Fixed Deposit product. This calculator
+        is provided for educational and informational purposes and should not
+        be treated as personalized investment, tax, or financial advice.
+
     </div>
 
-    <!-- Understanding FD Results -->
-    <div style="margin-top: 45px;">
+
+    <!-- Understanding results -->
+    <section>
+
         <h2>📖 Understanding Your FD Results</h2>
-        <div class="education-card">
-            <h3 style="margin-top: 0;">How Your FD Amount is Calculated</h3>
-            <p>
-                Your FD maturity amount is made up of two components:
-            </p>
-            <ul>
-                <li><strong>Principal Amount:</strong> Your original investment that you deposit.</li>
-                <li><strong>Interest Earned:</strong> The returns generated by your deposit over the investment period.</li>
-            </ul>
-            <p>
-                Generally, higher interest rates and longer investment durations result in greater maturity values due to the effect of compounding. Even small differences in interest rates can lead to significant differences in returns over longer periods.
-            </p>
-        </div>
-    </div>
 
-    <!-- Benefits of Fixed Deposits -->
-    <div style="margin-top: 45px;">
-        <h2>✅ Benefits of Fixed Deposits</h2>
         <div class="education-card">
-            <ul>
-                <li><strong>Predictable Returns:</strong> Know exactly how much you'll earn before investing.</li>
-                <li><strong>Capital Preservation:</strong> Your principal investment is safe and secure.</li>
-                <li><strong>Suitable for Conservative Investors:</strong> Ideal for risk-averse investors seeking stability.</li>
-                <li><strong>Flexible Investment Tenures:</strong> Choose tenures from months to years based on your needs.</li>
-                <li><strong>Simple and Easy to Understand:</strong> No complex calculations or market tracking needed.</li>
-                <li><strong>Deposit Insurance:</strong> Funds up to ₹5 lakh per bank are protected under DICGC.</li>
-                <li><strong>Loan Against FD:</strong> Many banks offer loans against FD at lower interest rates.</li>
-            </ul>
-        </div>
-    </div>
 
-    <!-- Things to Consider -->
-    <div style="margin-top: 45px;">
+            <h3 style="margin-top: 0;">
+                How Your FD Amount is Calculated
+            </h3>
+
+            <p>
+                Your estimated FD maturity amount consists primarily of two
+                components:
+            </p>
+
+            <ul>
+
+                <li>
+                    <strong>Principal Amount:</strong>
+                    The original amount deposited into the FD.
+                </li>
+
+                <li>
+                    <strong>Interest Earned:</strong>
+                    The estimated interest generated during the investment
+                    period based on the assumptions entered.
+                </li>
+
+            </ul>
+
+            <p>
+                In general, a higher interest rate or longer investment period
+                can increase the maturity amount. The actual calculation used
+                by a financial institution may differ depending on its
+                compounding frequency and product-specific rules.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Benefits -->
+    <section>
+
+        <h2>✅ Potential Benefits of Fixed Deposits</h2>
+
+        <div class="education-card">
+
+            <ul>
+
+                <li>
+                    <strong>Predictable Interest:</strong>
+                    The applicable rate is generally known when the FD is
+                    booked, subject to the product's terms.
+                </li>
+
+                <li>
+                    <strong>Lower Volatility:</strong>
+                    Unlike market-linked investments, traditional bank FDs
+                    generally do not fluctuate in value based on daily market
+                    movements.
+                </li>
+
+                <li>
+                    <strong>Simple Structure:</strong>
+                    FDs are relatively straightforward savings products.
+                </li>
+
+                <li>
+                    <strong>Flexible Tenures:</strong>
+                    Banks generally provide multiple tenure options.
+                </li>
+
+                <li>
+                    <strong>Interest Payout Options:</strong>
+                    Depending on the product, investors may be able to choose
+                    cumulative or periodic interest payouts.
+                </li>
+
+                <li>
+                    <strong>Deposit Insurance:</strong>
+                    Eligible deposits with insured banks are covered by DICGC
+                    subject to the applicable insurance limit and rules.
+                </li>
+
+                <li>
+                    <strong>Loan Against FD:</strong>
+                    Some financial institutions provide loans or overdraft
+                    facilities against eligible deposits, subject to their
+                    terms.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- Things to consider -->
+    <section>
+
         <h2>⚠️ Things to Consider Before Investing</h2>
+
         <div class="education-card">
+
             <ul>
-                <li><strong>Compare Interest Rates:</strong> Different banks offer varying rates. Always compare before investing.</li>
-                <li><strong>Check Premature Withdrawal Rules:</strong> Understand penalties for early withdrawal of your funds.</li>
-                <li><strong>Understand Taxation on Interest Income:</strong> Interest is taxable as per your income tax slab.</li>
-                <li><strong>Consider Inflation:</strong> Ensure FD returns exceed inflation to maintain purchasing power.</li>
-                <li><strong>Review Liquidity Requirements:</strong> Lock in funds only if you don't need immediate access.</li>
-                <li><strong>Check Bank Safety:</strong> Invest in banks that are DICGC insured and financially stable.</li>
-                <li><strong>Evaluate Interest Payout Options:</strong> Choose between monthly, quarterly, or maturity payout.</li>
+
+                <li>
+                    <strong>Compare Interest Rates:</strong>
+                    Rates can differ between banks and FD products.
+                </li>
+
+                <li>
+                    <strong>Check Premature Withdrawal Rules:</strong>
+                    Closing an FD before maturity may result in a lower
+                    applicable interest rate or penalty.
+                </li>
+
+                <li>
+                    <strong>Understand Taxation:</strong>
+                    FD interest is generally taxable according to the
+                    applicable income-tax rules.
+                </li>
+
+                <li>
+                    <strong>Consider Inflation:</strong>
+                    A nominal positive return does not necessarily mean that
+                    purchasing power will increase after inflation.
+                </li>
+
+                <li>
+                    <strong>Review Liquidity Requirements:</strong>
+                    Avoid locking money into a tenure if you may need it
+                    earlier.
+                </li>
+
+                <li>
+                    <strong>Check Deposit Protection:</strong>
+                    Understand the applicable DICGC insurance rules and limits
+                    before deciding how much to keep with one bank.
+                </li>
+
+                <li>
+                    <strong>Check Interest Payout Options:</strong>
+                    Compare cumulative and periodic interest options according
+                    to your financial needs.
+                </li>
+
             </ul>
-        </div>
-    </div>
 
-    <!-- How to Use Calculator -->
-    <div style="margin-top: 45px;">
+        </div>
+
+    </section>
+
+
+    <!-- How to use -->
+    <section>
+
         <h2>📋 How to Use This FD Calculator</h2>
+
         <div class="education-card">
-            <ol style="color: #555; line-height: 2; padding-left: 20px;">
-                <li>Enter the <strong>deposit amount</strong> (your principal investment in rupees).</li>
-                <li>Enter the <strong>annual interest rate</strong> offered by your bank (usually between 4-8%).</li>
-                <li>Enter the <strong>investment duration</strong> in years (typically 1-10 years).</li>
-                <li>Click the <strong>Calculate FD Returns</strong> button.</li>
-                <li>Review your maturity amount, interest earned, and total returns percentage.</li>
-                <li>Adjust the values to compare different scenarios and find the best option.</li>
+
+            <ol style="line-height: 2; padding-left: 20px;">
+
+                <li>
+                    Enter your <strong>deposit amount</strong>.
+                </li>
+
+                <li>
+                    Enter the applicable <strong>annual interest rate</strong>.
+                </li>
+
+                <li>
+                    Enter the expected <strong>investment duration</strong>.
+                </li>
+
+                <li>
+                    Click <strong>Calculate FD Returns</strong>.
+                </li>
+
+                <li>
+                    Review the estimated principal, interest, maturity amount,
+                    return percentage, and average monthly growth.
+                </li>
+
+                <li>
+                    Change the inputs to compare different scenarios.
+                </li>
+
             </ol>
-        </div>
-    </div>
 
-    <!-- FD for Different Investors -->
-    <div style="margin-top: 45px;">
-        <h2>👥 FD for Different Investor Types</h2>
+        </div>
+
+    </section>
+
+
+    <!-- Different investor types -->
+    <section>
+
+        <h2>👥 FD Planning for Different Investor Needs</h2>
+
         <div class="education-card">
-            <h3>🎯 Short-Term Savers (6 months - 2 years)</h3>
-            <p>Perfect for emergency funds, vacation savings, or other near-term goals. Offers liquidity with assured returns.</p>
 
-            <h3 style="margin-top: 20px;">📈 Medium-Term Investors (2-5 years)</h3>
-            <p>Ideal for specific goals like home down payment, car purchase, or child's education initial corpus. Better interest rates than short-term.</p>
+            <h3>
+                🎯 Short-Term Savers
+            </h3>
 
-            <h3 style="margin-top: 20px;">🏦 Long-Term Wealth Builders (5+ years)</h3>
-            <p>Part of portfolio diversification. Can ladder FDs for better returns. Consider combining with other investments for growth.</p>
+            <p>
+                Short-tenure FDs may be considered for financial goals where
+                capital stability and a defined maturity date are important.
+                Examples may include planned purchases or short-term savings
+                goals.
+            </p>
 
-            <h3 style="margin-top: 20px;">💼 Retirees & Senior Citizens</h3>
-            <p>Best option for stable income through monthly interest payouts. Senior citizens get additional 0.5% interest bonus from most banks.</p>
+
+            <h3 style="margin-top: 20px;">
+                📈 Medium-Term Investors
+            </h3>
+
+            <p>
+                Medium-tenure FDs can be considered for goals such as a future
+                home down payment, vehicle purchase, education expenses, or
+                other planned financial requirements.
+            </p>
+
+
+            <h3 style="margin-top: 20px;">
+                🏦 Long-Term Savers
+            </h3>
+
+            <p>
+                Longer-tenure deposits can provide predictable interest income,
+                although investors should also consider inflation, liquidity,
+                taxes, and the opportunity cost of keeping money in a fixed
+                income product.
+            </p>
+
+
+            <h3 style="margin-top: 20px;">
+                💼 Senior Citizens
+            </h3>
+
+            <p>
+                Many banks offer preferential FD interest rates to eligible
+                senior citizens. Rates, eligibility requirements, and
+                additional benefits vary between institutions and should be
+                checked before investing.
+            </p>
+
         </div>
-    </div>
 
-    <!-- Tax Implications -->
-    <div style="margin-top: 45px;">
+    </section>
+
+
+    <!-- Taxation -->
+    <section>
+
         <h2>💡 Understanding Taxation on FD Interest</h2>
+
         <div class="education-card">
-            <p>
-                <strong>Interest Income Taxable:</strong> Interest earned on Fixed Deposits is treated as income and taxed according to your income tax slab. This is different from the principal amount, which is always yours to keep.
-            </p>
-            <p>
-                <strong>TDS Deducted:</strong> If annual interest exceeds ₹40,000 (₹50,000 for senior citizens), banks automatically deduct TDS (Tax Deducted at Source) at 10%.
-            </p>
-            <p>
-                <strong>Tax-Free FDs:</strong> Certain FDs (like those by Post Office) offer tax benefits under Section 80C of the Income Tax Act.
-            </p>
-            <p>
-                <strong>Plan Accordingly:</strong> Use Section 80C investments to offset FD interest income and optimize your tax liability.
-            </p>
-        </div>
-    </div>
 
-    <!-- Calculation Results - Only Visible After Calculate -->
+            <p>
+                <strong>Interest Income:</strong>
+                Interest earned from a Fixed Deposit is generally treated as
+                taxable income and may be subject to tax according to the
+                applicable income-tax rules and the individual's circumstances.
+            </p>
+
+            <p>
+                <strong>TDS:</strong>
+                Banks and other financial institutions may deduct Tax Deducted
+                at Source (TDS) on interest when the applicable statutory
+                threshold and conditions are met. The thresholds and rules can
+                change, so investors should verify the current rules with the
+                Income Tax Department or their tax professional.
+            </p>
+
+            <p>
+                <strong>Tax-Saving FDs:</strong>
+                Certain eligible tax-saving deposits may qualify for deductions
+                under applicable provisions of the Income Tax Act, subject to
+                the prevailing rules, lock-in requirements, and individual
+                eligibility.
+            </p>
+
+            <p>
+                <strong>Important:</strong>
+                Tax treatment can vary depending on the investor's income,
+                applicable tax regime, type of deposit, and prevailing
+                regulations. This page is educational and does not constitute
+                tax advice.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Results -->
     {% if result %}
-    <div id="results-section">
 
-    <div class="success-banner">
-        <h2>✓ Your FD Calculation Result</h2>
-        <p>Here's your estimated Fixed Deposit breakdown</p>
-    </div>
+    <section id="results-section"
+             aria-labelledby="results-heading">
 
-    <h3 style="text-align: center; color: #B8860B; margin-top: 35px;">
-        📊 Your FD Summary
-    </h3>
+        <div class="success-banner">
 
-    <div class="result-grid">
-        <div class="card">
-            <h4>💰 Deposit Amount</h4>
-            <p>₹ {{ "{:,.0f}".format(result.principal) }}</p>
-        </div>
+            <h2 id="results-heading">
+                ✓ Your FD Calculation Result
+            </h2>
 
-        <div class="card">
-            <h4>📈 Interest Earned</h4>
-            <p style="color: green;">
-                ₹ {{ "{:,.0f}".format(result.interest) }}
-            </p>
-        </div>
-
-        <div class="card">
-            <h4>🏆 Maturity Amount</h4>
             <p>
-                ₹ {{ "{:,.0f}".format(result.maturity) }}
+                Here's your estimated Fixed Deposit breakdown.
             </p>
+
         </div>
 
-        <div class="card">
-            <h4>📊 Total Return %</h4>
+
+        <h3 style="text-align: center; color: #B8860B; margin-top: 35px;">
+            📊 Your FD Summary
+        </h3>
+
+
+        <div class="result-grid">
+
+            <div class="card">
+
+                <h4>💰 Deposit Amount</h4>
+
+                <p>
+                    ₹ {{ "{:,.0f}".format(result.principal) }}
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h4>📈 Interest Earned</h4>
+
+                <p style="color: #2E7D32;">
+                    ₹ {{ "{:,.0f}".format(result.interest) }}
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h4>🏆 Maturity Amount</h4>
+
+                <p>
+                    ₹ {{ "{:,.0f}".format(result.maturity) }}
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h4>📊 Total Return %</h4>
+
+                <p>
+                    {{ "%.1f"|format(result.return_percent) }}%
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h4>📅 Avg Monthly Growth</h4>
+
+                <p>
+                    ₹ {{ "{:,.0f}".format(result.monthly_growth) }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Principal vs Interest -->
+        <div class="progress-box">
+
+            <div class="progress-label">
+                💵 Principal vs Interest Earned Breakdown
+            </div>
+
+            <div class="progress"
+                 role="img"
+                 aria-label="Visual comparison of principal amount and interest earned">
+
+                <div class="principal-bar"
+                     style="width: {{ (result.principal / result.maturity * 100) }}%;">
+                </div>
+
+                <div class="interest-bar"
+                     style="width: {{ (result.interest / result.maturity * 100) }}%;">
+                </div>
+
+            </div>
+
+
+            <div style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                margin-top: 15px;
+            ">
+
+                <div style="display: flex; align-items: center;">
+
+                    <div style="
+                        width: 16px;
+                        height: 16px;
+                        background: #B8860B;
+                        border-radius: 3px;
+                        margin-right: 10px;
+                    "></div>
+
+                    <span style="color: #555;">
+                        <strong>Principal:</strong>
+                        ₹{{ "{:,.0f}".format(result.principal) }}
+                    </span>
+
+                </div>
+
+
+                <div style="display: flex; align-items: center;">
+
+                    <div style="
+                        width: 16px;
+                        height: 16px;
+                        background: #4CAF50;
+                        border-radius: 3px;
+                        margin-right: 10px;
+                    "></div>
+
+                    <span style="color: #555;">
+                        <strong>Interest:</strong>
+                        ₹{{ "{:,.0f}".format(result.interest) }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SmartPlan Insight -->
+        <div class="smart-tip">
+
+            <h3>
+                🤖 SmartPlan Insight
+            </h3>
+
             <p>
-                {{ "%.1f"|format(result.return_percent) }}%
+                {{ result.insight }}
             </p>
+
         </div>
 
-        <div class="card">
-            <h4>📅 Avg Monthly Growth</h4>
-            <p>
-                ₹ {{ "{:,.0f}".format(result.monthly_growth) }}
-            </p>
-        </div>
-    </div>
-
-    <!-- Principal vs Interest Visualization -->
-    <div class="progress-box">
-        <div class="progress-label">
-            💵 Principal vs Interest Earned Breakdown
-        </div>
-
-        <div class="progress">
-            <div class="principal-bar"
-                 style="width: {{ (result.principal / result.maturity * 100) }}%;">
-            </div>
-
-            <div class="interest-bar"
-                 style="width: {{ (result.interest / result.maturity * 100) }}%;">
-            </div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
-            <div style="display: flex; align-items: center;">
-                <div style="width: 16px; height: 16px; background: #B8860B; border-radius: 3px; margin-right: 10px;"></div>
-                <span style="color: #555;"><strong>Principal:</strong> ₹{{ "{:,.0f}".format(result.principal) }}</span>
-            </div>
-            <div style="display: flex; align-items: center;">
-                <div style="width: 16px; height: 16px; background: #4CAF50; border-radius: 3px; margin-right: 10px;"></div>
-                <span style="color: #555;"><strong>Interest:</strong> ₹{{ "{:,.0f}".format(result.interest) }}</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- SmartPlan Insight -->
-    <div class="smart-tip">
-        <h3>🤖 SmartPlan Insight</h3>
-        <p>{{ result.insight }}</p>
-    </div>
-    </div>
+    </section>
 
     {% endif %}
 
+
     <!-- Related Articles -->
-    <div style="margin-top: 50px;">
+    <section>
+
         <h2>📚 Learn More About Fixed Deposits</h2>
-        <p style="color: #555; line-height: 1.8; margin-bottom: 25px;">
-            Make smarter investment decisions with our comprehensive guides on Fixed Deposits, interest rates, and investment strategies.
+
+        <p style="
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        ">
+            Explore our educational guides to better understand Fixed Deposits,
+            interest rates, taxation, and practical investment strategies.
         </p>
+
 
         <div class="related-articles">
 
             <a href="https://smartplanfinance.com/blog/smart-investing-how-to-maximize-returns-with-fixed-deposits-in-2026"
-               style="text-decoration: none; display: block;" target="_blank">
+               style="text-decoration: none; display: block;">
+
                 <div class="article-card">
-                    <h3>📈 Smart Investing: Maximize Returns with Fixed Deposits</h3>
-                    <p>Learn advanced strategies to maximize your FD returns, including FD laddering, choosing right tenures, and optimizing interest income.</p>
-                    <strong>Read Article →</strong>
+
+                    <h3>
+                        📈 Smart Investing: Maximize Returns with Fixed Deposits
+                    </h3>
+
+                    <p>
+                        Learn about FD laddering, choosing appropriate tenures,
+                        comparing rates, and managing interest income.
+                    </p>
+
+                    <strong>
+                        Read Article →
+                    </strong>
+
                 </div>
+
             </a>
+
 
             <a href="https://smartplanfinance.com/blog/best-fixed-deposit-interest-rates-in-india-2026-fd-returns-calculator"
-               style="text-decoration: none; display: block;" target="_blank">
+               style="text-decoration: none; display: block;">
+
                 <div class="article-card">
-                    <h3>🏦 Best Fixed Deposit Interest Rates in India 2026</h3>
-                    <p>Compare current FD interest rates offered by major banks in India, understand rate trends, and find the best options for your investment.</p>
-                    <strong>Read Article →</strong>
+
+                    <h3>
+                        🏦 Best Fixed Deposit Interest Rates in India 2026
+                    </h3>
+
+                    <p>
+                        Learn how to compare FD interest rates and understand
+                        the factors that can affect your expected returns.
+                    </p>
+
+                    <strong>
+                        Read Article →
+                    </strong>
+
                 </div>
+
             </a>
 
+
             <a href="https://smartplanfinance.com/blog/fixed-deposit-calculator-calculate-fd-maturity-amount-online-2026-guide"
-               style="text-decoration: none; display: block;" target="_blank">
+               style="text-decoration: none; display: block;">
+
                 <div class="article-card">
-                    <h3>💰 Complete Guide to Fixed Deposits 2026</h3>
-                    <p>Comprehensive guide covering everything about Fixed Deposits: how they work, tax implications, premature withdrawal, and when to invest.</p>
-                    <strong>Read Article →</strong>
+
+                    <h3>
+                        💰 Complete Guide to Fixed Deposits 2026
+                    </h3>
+
+                    <p>
+                        Understand how Fixed Deposits work, taxation,
+                        premature withdrawals, interest calculations, and
+                        important considerations.
+                    </p>
+
+                    <strong>
+                        Read Article →
+                    </strong>
+
                 </div>
+
             </a>
 
         </div>
-    </div>
+
+    </section>
+
 
     <!-- Related Calculators -->
-    <div style="margin-top: 50px;">
+    <section>
+
         <h2>🧮 Related Financial Calculators</h2>
-        <p style="color: #555; line-height: 1.8; margin-bottom: 25px;">
-            Explore other tools to plan your financial goals comprehensively.
+
+        <p style="
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        ">
+            Explore other SmartPlan Finance calculators for investment,
+            borrowing, and long-term financial planning.
         </p>
+
 
         <div class="related-articles">
 
             <a href="{{ url_for('lumpsum_calculator') }}"
                style="text-decoration: none; display: block;">
+
                 <div class="article-card">
-                    <h3>📊 Lumpsum Investment Calculator</h3>
-                    <p>Calculate returns on one-time lump sum investments. Compare growth across different investment horizons and return rates.</p>
-                    <strong>Try Calculator →</strong>
+
+                    <h3>
+                        📊 Lumpsum Investment Calculator
+                    </h3>
+
+                    <p>
+                        Estimate potential growth from a one-time investment
+                        using different investment periods and return
+                        assumptions.
+                    </p>
+
+                    <strong>
+                        Try Calculator →
+                    </strong>
+
                 </div>
+
             </a>
+
 
             <a href="{{ url_for('sip_calculator') }}"
                style="text-decoration: none; display: block;">
+
                 <div class="article-card">
-                    <h3>📈 SIP Calculator</h3>
-                    <p>Plan your Systematic Investment Plan. Calculate wealth accumulation through regular monthly mutual fund investments.</p>
-                    <strong>Try Calculator →</strong>
+
+                    <h3>
+                        📈 SIP Calculator
+                    </h3>
+
+                    <p>
+                        Estimate potential wealth accumulation from regular
+                        monthly investments over time.
+                    </p>
+
+                    <strong>
+                        Try Calculator →
+                    </strong>
+
                 </div>
+
             </a>
+
 
             <a href="{{ url_for('emi_calculator') }}"
                style="text-decoration: none; display: block;">
+
                 <div class="article-card">
-                    <h3>💳 Loan EMI Calculator</h3>
-                    <p>Calculate monthly loan EMI, total interest payable, and plan your loan repayments for home, car, education, or personal loans.</p>
-                    <strong>Try Calculator →</strong>
+
+                    <h3>
+                        💳 Loan EMI Calculator
+                    </h3>
+
+                    <p>
+                        Estimate monthly EMI, total interest payable, and
+                        overall repayment for different loan scenarios.
+                    </p>
+
+                    <strong>
+                        Try Calculator →
+                    </strong>
+
                 </div>
+
             </a>
 
         </div>
+
+    </section>
+
+
+    <!-- SmartPlan Perspective -->
+    <section>
+
+        <div class="insight-box">
+
+            <h3 style="margin-top: 0; color: #1B5E20;">
+                💡 SmartPlan Finance Perspective
+            </h3>
+
+            <p>
+                A Fixed Deposit can be useful for people who value predictable
+                interest and want to allocate part of their savings to a
+                relatively stable instrument. However, the suitability of an
+                FD depends on your financial goals, liquidity needs, taxation,
+                inflation, and overall asset allocation.
+            </p>
+
+            <p>
+                <strong>Smart Strategy:</strong>
+                Instead of relying on a single investment product, consider
+                evaluating your emergency fund, short-term goals, long-term
+                investments, and risk tolerance separately. Depending on your
+                circumstances, a diversified financial plan may include a
+                combination of fixed-income and market-linked investments.
+            </p>
+
+            <p>
+                FD laddering can also be considered when you want to spread
+                maturity dates across different periods rather than locking
+                your entire deposit into one maturity date.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Affiliate / Commercial Disclosure -->
+    <div class="affiliate-disclosure">
+
+        <strong>Affiliate & Commercial Disclosure:</strong>
+
+        Some links or partner recommendations on SmartPlan Finance may be
+        affiliate links or commercial partnerships. If you use an eligible
+        partner link and complete a transaction, SmartPlan Finance may receive
+        a commission at no additional cost to you. Our educational content
+        and calculator results are not determined by whether a company is an
+        affiliate partner. Users should independently review the product's
+        terms, fees, risks, eligibility requirements, and suitability before
+        making a financial decision.
+
     </div>
 
-    <!-- SmartPlan Finance Insight Section -->
-    <div class="insight-box">
-        <h3 style="margin-top: 0; color: #1B5E20;">💡 SmartPlan Finance Perspective</h3>
-        <p>
-            A Fixed Deposit can provide excellent stability to your investment portfolio, especially for short and medium-term goals. However, fixed deposit returns may not always outpace inflation over very long periods, especially in high-inflation years.
-        </p>
-        <p>
-            <strong>Smart Strategy:</strong> Many successful investors use Fixed Deposits as a foundation (stable, safe returns) while combining them with equity investments (SIP, stocks) for growth. This balanced approach helps achieve both stability and wealth creation.
-        </p>
-        <p>
-            Consider laddering your FDs (investing in FDs with different maturity dates) to maintain liquidity while maximizing returns across interest rate cycles.
-        </p>
-    </div>
 
     <!-- Partner CTA -->
     {% include "partials/_partner_cta.html" %}
 
+
+    <!-- About the Author -->
+    <section class="author-box">
+
+        <h2>About the Author</h2>
+
+        <p>
+            This page was created and reviewed for SmartPlan Finance by
+            <span class="author-name">Argho Sanyal</span>, the creator of
+            SmartPlan Finance.
+        </p>
+
+        <p>
+            SmartPlan Finance focuses on practical personal finance
+            education, calculators, investment planning tools, and
+            easy-to-understand financial information for Indian users.
+        </p>
+
+        <p>
+            The information on this page is intended for general educational
+            purposes. Financial products, tax rules, interest rates, and
+            regulatory requirements can change, so users should verify
+            current information with the relevant financial institution or
+            qualified professional before making important financial
+            decisions.
+        </p>
+
+        <a href="/about"
+           class="author-link">
+            Learn more about SmartPlan Finance →
+        </a>
+
+    </section>
+
+
     <!-- Final CTA -->
-    <div style="margin-top: 45px; text-align: center;">
+    <div style="
+        margin-top: 45px;
+        text-align: center;
+    ">
+
         <div class="success-banner">
-            <h2 style="margin-top: 0; margin-bottom: 15px;">Ready to Start Your FD Investment?</h2>
-            <p style="margin-bottom: 20px; font-size: 15px;">
-                Use our FD Calculator to estimate returns, then explore other investment options to create a diversified wealth-building strategy.
+
+            <h2 style="
+                margin-top: 0;
+                margin-bottom: 15px;
+            ">
+                Plan Your Next Investment Step
+            </h2>
+
+            <p style="
+                margin-bottom: 20px;
+                font-size: 15px;
+            ">
+                Use the FD Calculator to understand your estimated returns,
+                then explore other SmartPlan Finance tools to evaluate your
+                broader financial plan.
             </p>
+
             <a href="{{ url_for('sip_calculator') }}"
-               style="display: inline-block; background: white; color: #B8860B; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: 0.3s;">
+               style="
+                    display: inline-block;
+                    background: white;
+                    color: #B8860B;
+                    padding: 12px 28px;
+                    border-radius: 10px;
+                    text-decoration: none;
+                    font-weight: 600;
+               ">
                 Explore SIP Investment →
             </a>
+
         </div>
+
     </div>
 
 </div>
+
+
+<!-- Footer -->
 <footer class="site-footer">
+
     <div class="footer-links">
-        <a href="/about">About Us</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms &amp; Conditions</a>
-        <a href="/disclaimer">Disclaimer</a>
+
+        <a href="/about">
+            About Us
+        </a>
+
+<a href="{{ url_for('about_author') }}">
+            👨‍💼 About the Author &amp; Founder
+        </a>
+        <a href="/privacy">
+            Privacy Policy
+        </a>
+
+        <a href="/terms">
+            Terms &amp; Conditions
+        </a>
+
+        <a href="/disclaimer">
+            Disclaimer
+        </a>
+         <a href="/affiliate-policy">
+            💰 Affiliate Disclosure
+        </a>
+
     </div>
-    <div class="copyright">&copy; 2026 SmartPlanFinance. All rights reserved.</div>
+
+    <div class="copyright">
+        &copy; 2026 SmartPlanFinance. All rights reserved.
+    </div>
+
 </footer>
+
+
+<!-- Results Auto Scroll -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Scroll to results section after POST submission when results exist
-    const resultsSection = document.getElementById('results-section');
 
-    if (resultsSection && window.location.search === '') {
-        // Small delay ensures layout is fully rendered
-        setTimeout(() => {
+    const resultsSection =
+        document.getElementById('results-section');
+
+    if (resultsSection) {
+
+        setTimeout(function () {
+
             resultsSection.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
-        }, 100);
+
+        }, 150);
+
     }
+
 });
 </script>
 
