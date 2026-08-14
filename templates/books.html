@@ -1,9 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SmartPlan Finance | Two Books to Build Your Wealth</title>
+
+<title>SmartPlan Finance Books | Free Financial Education Books</title>
+<meta name="description" content="Read and download SmartPlan Finance books for free. Practical guides covering budgeting, investing, tax planning, financial independence and long-term wealth building.">
+<meta name="robots" content="index, follow">
+
 <style>
 :root{
   --gold-dark:#7A5A00;
@@ -13,305 +18,790 @@
   --ink:#1F2937;
   --muted:#4B5563;
   --bg:#F8FAFC;
-  --teal:#0F766E;
-  --teal-light:#CCFBF1;
+  --green:#2E7D32;
+  --green-light:#E8F5E9;
 }
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--ink)}
-.container{max-width:1200px;margin:auto;padding:0 20px}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:0 20px;
+}
+
+/* HERO */
 
 header{
   background:
     radial-gradient(circle at top right, rgba(255,255,255,.35), transparent 35%),
     linear-gradient(135deg,#FFFDF6 0%,#F8E9A1 40%,#D4AF37 100%);
   color:var(--ink);
-  padding:90px 20px 70px;
+  padding:85px 20px 70px;
   position:relative;
   overflow:hidden;
   text-align:center;
 }
+
 header::before{
-  content:"";position:absolute;width:700px;height:700px;border-radius:50%;
-  background:rgba(255,255,255,.18);top:-250px;right:-150px;
+  content:"";
+  position:absolute;
+  width:700px;
+  height:700px;
+  border-radius:50%;
+  background:rgba(255,255,255,.18);
+  top:-250px;
+  right:-150px;
 }
+
 header::after{
-  content:"";position:absolute;width:500px;height:500px;border-radius:50%;
-  background:rgba(255,255,255,.10);bottom:-220px;left:-120px;
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  border-radius:50%;
+  background:rgba(255,255,255,.10);
+  bottom:-220px;
+  left:-120px;
 }
+
 header .eyebrow{
-  display:inline-block;background:#2E7D32;color:white;padding:10px 18px;
-  border-radius:50px;font-weight:bold;margin-bottom:22px;font-size:13px;
+  display:inline-block;
+  background:var(--green);
+  color:white;
+  padding:10px 18px;
+  border-radius:50px;
+  font-weight:bold;
+  margin-bottom:22px;
+  font-size:13px;
+  position:relative;
+  z-index:2;
 }
-h1{font-size:52px;line-height:1.1;font-weight:800;margin:0 0 18px;position:relative}
+
+h1{
+  font-size:52px;
+  line-height:1.1;
+  font-weight:800;
+  margin:0 0 18px;
+  position:relative;
+  z-index:2;
+}
+
 header p.subtitle{
-  font-size:20px;line-height:1.8;color:#374151;max-width:700px;margin:0 auto 10px;
+  font-size:20px;
+  line-height:1.8;
+  color:#374151;
+  max-width:760px;
+  margin:0 auto;
+  position:relative;
+  z-index:2;
+}
+
+/* BUTTONS */
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:14px 24px;
+  border-radius:50px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:white;
+  font-weight:700;
+  font-size:14px;
+  text-decoration:none;
+  transition:.3s;
+  box-shadow:0 12px 30px rgba(184,134,11,.28);
+  border:none;
+  cursor:pointer;
+}
+
+.btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 18px 38px rgba(184,134,11,.38);
+}
+
+.btn.green{
+  background:linear-gradient(135deg,#2E7D32,#43A047);
+  box-shadow:0 12px 30px rgba(46,125,50,.25);
+}
+
+.btn.green:hover{
+  box-shadow:0 18px 38px rgba(46,125,50,.35);
+}
+
+.btn.dark{
+  background:#1F2937;
+  box-shadow:0 12px 30px rgba(31,41,55,.22);
+}
+
+/* SECTIONS */
+
+section{
+  padding:80px 0;
+  border-bottom:1px solid #ececec;
+}
+
+section h2{
+  font-size:38px;
+  margin:0 0 12px;
+  text-align:center;
+  color:var(--gold-dark);
   position:relative;
 }
 
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:14px 28px;border-radius:50px;
-  background:linear-gradient(135deg,var(--gold),var(--gold-light));
-  color:white;font-weight:700;font-size:15px;text-decoration:none;
-  transition:.3s;box-shadow:0 15px 35px rgba(184,134,11,.35);border:none;cursor:pointer;
-}
-.btn:hover{transform:translateY(-4px);box-shadow:0 22px 45px rgba(184,134,11,.45)}
-.btn.dark{background:#1F2937;box-shadow:0 15px 35px rgba(31,41,55,.3)}
-.btn.dark:hover{box-shadow:0 22px 45px rgba(31,41,55,.4)}
-.btn.teal{background:linear-gradient(135deg,#0F766E,#14B8A6);box-shadow:0 15px 35px rgba(15,118,110,.3)}
-.btn.teal:hover{box-shadow:0 22px 45px rgba(15,118,110,.4)}
-.btn.small{padding:11px 20px;font-size:13px}
-
-section{padding:80px 0;border-bottom:1px solid #ececec}
-section h2{
-  font-size:38px;margin-bottom:12px;text-align:center;color:var(--gold-dark);position:relative;
-}
 section .section-lede{
-  text-align:center;color:var(--muted);max-width:640px;margin:0 auto 50px;font-size:17px;line-height:1.7;
+  text-align:center;
+  color:var(--muted);
+  max-width:720px;
+  margin:0 auto 50px;
+  font-size:17px;
+  line-height:1.8;
 }
+
 section h2::after{
-  content:"";display:block;width:90px;height:4px;background:var(--gold-light);
-  margin:15px auto 0;border-radius:20px;
+  content:"";
+  display:block;
+  width:90px;
+  height:4px;
+  background:var(--gold-light);
+  margin:15px auto 0;
+  border-radius:20px;
 }
+
+/* FREE NOTICE */
+
+.free-notice{
+  max-width:850px;
+  margin:0 auto 45px;
+  background:var(--green-light);
+  border:2px solid #81C784;
+  border-radius:18px;
+  padding:24px 28px;
+  text-align:center;
+}
+
+.free-notice h3{
+  margin:0 0 8px;
+  color:#256B2A;
+  font-size:21px;
+}
+
+.free-notice p{
+  margin:0;
+  color:#365E39;
+}
+
+/* BOOK GRID */
 
 .book-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:32px;
 }
-.book-card{
-  background:white;border-radius:22px;padding:34px 30px;
-  box-shadow:0 15px 40px rgba(0,0,0,.08);
-  display:flex;flex-direction:column;align-items:center;text-align:center;
-  border:2px solid transparent;position:relative;overflow:hidden;transition:.3s;
-}
-.book-card:hover{transform:translateY(-6px);box-shadow:0 25px 55px rgba(0,0,0,.12)}
-.book-card.book2{border-color:var(--teal-light)}
-.book-card .cover-wrap{margin-bottom:22px}
-.book-card .cover-wrap img{
-  width:180px;border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.28);
-}
-.book-card .badge{
-  position:absolute;top:18px;right:18px;background:var(--teal);color:white;
-  font-size:12px;font-weight:700;padding:6px 12px;border-radius:30px;letter-spacing:.3px;
-}
-.book-card h3{font-size:22px;margin:0 0 6px;color:var(--gold-dark);line-height:1.3}
-.book-card .author{color:var(--muted);font-size:14px;margin-bottom:14px}
-.book-card p.desc{color:var(--muted);line-height:1.7;font-size:15px;margin-bottom:18px;min-height:70px}
-.book-card .price{font-size:32px;font-weight:800;color:var(--gold);margin:6px 0 20px}
-.book-card .price span{font-size:14px;color:var(--muted);font-weight:400}
 
-/* Updated .actions grid for better layout with multiple buttons */
-.book-card .actions{
+.book-card{
+  background:white;
+  border-radius:22px;
+  padding:34px 30px;
+  box-shadow:0 15px 40px rgba(0,0,0,.08);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  border:2px solid transparent;
+  position:relative;
+  overflow:hidden;
+  transition:.3s;
+}
+
+.book-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 25px 55px rgba(0,0,0,.12);
+}
+
+.book-card.book2{
+  border-color:#D4AF37;
+}
+
+.book-card .cover-wrap{
+  margin-bottom:22px;
+}
+
+.book-card .cover-wrap img{
+  width:180px;
+  max-width:100%;
+  border-radius:14px;
+  box-shadow:0 18px 40px rgba(0,0,0,.28);
+}
+
+.book-card .badge{
+  position:absolute;
+  top:18px;
+  right:18px;
+  background:var(--green);
+  color:white;
+  font-size:12px;
+  font-weight:700;
+  padding:6px 12px;
+  border-radius:30px;
+  letter-spacing:.3px;
+}
+
+.book-card h3{
+  font-size:22px;
+  margin:0 0 6px;
+  color:var(--gold-dark);
+  line-height:1.35;
+}
+
+.book-card .author{
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:14px;
+}
+
+.book-card p.desc{
+  color:var(--muted);
+  line-height:1.7;
+  font-size:15px;
+  margin:0 0 22px;
+  min-height:85px;
+}
+
+.free-label{
+  display:inline-block;
+  background:var(--green-light);
+  color:#256B2A;
+  font-weight:800;
+  padding:8px 18px;
+  border-radius:50px;
+  margin-bottom:20px;
+  font-size:14px;
+}
+
+.actions{
   display:flex;
   flex-direction:column;
   gap:10px;
   width:100%;
 }
-.book-card .actions-row{
-  display:flex;
-  gap:8px;
+
+.actions .btn{
   width:100%;
 }
-.book-card .actions .btn{
-  flex:1;
-  min-width:0;
-  font-size:12px;
-  padding:10px 14px;
+
+/* LEARNING CARDS */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:24px;
 }
 
-/* Alternative: 2-row layout for multiple buttons */
-.book-card .actions-row.preview{
-  margin-bottom:8px;
-}
-
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px}
 .card{
   background:linear-gradient(135deg,var(--cream),#F8E6A0);
-  border:2px solid var(--gold-light);border-radius:18px;padding:24px;
-  box-shadow:0 15px 35px rgba(212,175,55,.25);transition:.35s;position:relative;overflow:hidden;
+  border:2px solid var(--gold-light);
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 15px 35px rgba(212,175,55,.20);
+  transition:.35s;
+  position:relative;
+  overflow:hidden;
 }
-.card::before{
-  content:"";position:absolute;top:-100%;left:-60%;width:60%;height:300%;
-  background:rgba(255,255,255,.25);transform:rotate(25deg);transition:.7s;
+
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 22px 45px rgba(212,175,55,.32);
 }
-.card:hover{transform:translateY(-8px);box-shadow:0 22px 45px rgba(212,175,55,.40)}
-.card:hover::before{left:140%}
-.card h4{color:var(--gold-dark);margin:0 0 12px;font-size:20px;font-weight:700}
-.card p{color:var(--muted);line-height:1.8;margin:0}
+
+.card h4{
+  color:var(--gold-dark);
+  margin:0 0 12px;
+  font-size:20px;
+  font-weight:700;
+}
+
+.card p{
+  color:var(--muted);
+  line-height:1.8;
+  margin:0;
+}
+
+/* AUTHOR */
 
 .plain-card{
-  background:white;border-radius:18px;padding:34px;box-shadow:0 12px 30px rgba(0,0,0,.08);
+  background:white;
+  border-radius:18px;
+  padding:34px;
+  box-shadow:0 12px 30px rgba(0,0,0,.08);
   text-align:center;
+  max-width:900px;
+  margin:auto;
 }
-.plain-card p{color:var(--muted);line-height:1.9;font-size:16px}
+
+.plain-card p{
+  color:var(--muted);
+  line-height:1.9;
+  font-size:16px;
+}
+
+/* FINAL CTA */
+
+.final-cta{
+  background:linear-gradient(135deg,#FFF8E1,#F8E6A0);
+  border:2px solid var(--gold-light);
+  border-radius:22px;
+  padding:50px 30px;
+  text-align:center;
+  box-shadow:0 15px 40px rgba(212,175,55,.20);
+}
+
+.final-cta h2{
+  margin-top:0;
+}
+
+.final-cta p{
+  max-width:700px;
+  margin:0 auto 28px;
+  color:var(--muted);
+  font-size:17px;
+}
+
+.cta-buttons{
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+/* FOOTER */
 
 footer{
-  background:linear-gradient(135deg,#FFF8E1,#C89B2A);padding:50px;text-align:center;
-  font-size:16px;font-weight:600;color:#2D3748;margin-top:0;
+  background:linear-gradient(135deg,#FFF8E1,#C89B2A);
+  padding:50px 20px;
+  text-align:center;
+  font-size:15px;
+  color:#2D3748;
 }
-footer a{color:#2D3748;text-decoration:none;margin:0 10px;transition:.3s}
-footer a:hover{text-decoration:underline}
+
+footer a{
+  color:#2D3748;
+  text-decoration:none;
+  margin:0 10px;
+}
+
+footer a:hover{
+  text-decoration:underline;
+}
+
+.footer-note{
+  max-width:800px;
+  margin:15px auto 0;
+  font-size:13px;
+  line-height:1.7;
+  font-weight:400;
+}
+
+/* MOBILE */
 
 @media(max-width:600px){
-  h1{font-size:36px}
-  .book-card .actions{flex-direction:column}
-  .book-card .actions-row{flex-direction:column}
-  .btn.small{padding:10px 18px;font-size:12px}
+
+  h1{
+    font-size:36px;
+  }
+
+  header{
+    padding:65px 20px 55px;
+  }
+
+  header p.subtitle{
+    font-size:17px;
+  }
+
+  section{
+    padding:60px 0;
+  }
+
+  section h2{
+    font-size:30px;
+  }
+
+  .book-card{
+    padding:30px 22px;
+  }
+
+  .book-card .cover-wrap img{
+    width:165px;
+  }
+
+  .btn{
+    width:100%;
+  }
+
+  .cta-buttons{
+    flex-direction:column;
+  }
 }
 </style>
 </head>
+
 <body>
 
 <header>
   <div class="container">
+
     <span class="eyebrow">📘 SmartPlan Finance Library</span>
-    <h1>Master Your Money.<br>Build Your Wealth.</h1>
+
+    <h1>
+      Master Your Money.<br>
+      Build Your Wealth.
+    </h1>
+
     <p class="subtitle">
-      Two practical guides to budgeting, investing, and long-term financial
-      freedom — pick the one that fits where you are, or grab both.
+      Practical financial education books designed to help you understand
+      budgeting, investing, tax planning, retirement and long-term wealth
+      building — available to read and download completely free.
     </p>
+
   </div>
 </header>
 
+
 <section class="container" id="books">
-  <h2>Choose Your Book</h2>
+
+  <h2>Free SmartPlan Finance Books</h2>
+
   <p class="section-lede">
-    Same trusted guidance, same secure payment, same instant delivery — for both titles below.
+    Explore the SmartPlan Finance library and download the complete books
+    directly from this website. No payment or purchase is required.
   </p>
+
+  <div class="free-notice">
+
+    <h3>✓ Completely Free Access</h3>
+
+    <p>
+      Both books are provided for free educational access.
+      You can read them online or download the PDF directly to your device.
+    </p>
+
+  </div>
+
 
   <div class="book-grid">
 
-    <!-- BOOK 1: Smart Plan Finance -->
+    <!-- BOOK 1 -->
+
     <div class="book-card book1">
+
+      <span class="badge">FREE PDF</span>
+
       <div class="cover-wrap">
-        <img src="{{ url_for('static', filename='images/SmartPlanFinanceCover.png') }}" alt="Smart Plan Finance cover">
+        <img
+          src="{{ url_for('static', filename='images/SmartPlanFinanceCover.png') }}"
+          alt="SmartPlan Finance book cover"
+          loading="lazy"
+        >
       </div>
+
       <h3>Smart Plan Finance</h3>
-      <div class="author">by Argho Sanyal</div>
-      <p class="desc">
-        A practical guide to building wealth, managing money, and achieving
-        financial freedom — 450+ pages covering budgeting, investing, tax
-        planning, and retirement.
-      </p>
-      <div class="price">₹288
-        <span>/ one-time</span></div>
-      
-      <div class="actions">
-        <div class="actions-row preview">
-          <a class="btn dark small" href="/spf/book-preview" target="_blank">📖 Free Preview (50 pages)</a>
-        </div>
-        
-        <div class="actions-row">
-          <a class="btn small" href="https://amzn.in/d/01T2AhP3" target="_blank">🇮🇳 Amazon.in</a>
-          <a class="btn small" href="https://a.co/d/0158TUuU" target="_blank">🇺🇸 Amazon.com</a>
-        </div>
-        
-        <div class="actions-row">
-          <a class="btn teal small" href="https://store.pothi.com/book/argho-sanyal-smartplan-finance/" target="_blank">📕 Pothi Paperback</a>
-        </div>
+
+      <div class="author">
+        by Argho Sanyal
       </div>
+
+      <p class="desc">
+        A practical guide to building wealth, managing money and working
+        towards financial freedom, covering budgeting, investing, tax
+        planning, retirement and long-term financial planning.
+      </p>
+
+      <div class="free-label">
+        📥 Free Complete Book
+      </div>
+
+      <div class="actions">
+
+        <a
+          class="btn green"
+          href="{{ url_for('static', filename='SmartPlanFinance.pdf') }}"
+          download="SmartPlanFinance.pdf"
+        >
+          📥 Download Complete PDF
+        </a>
+
+        <a
+          class="btn dark"
+          href="/spf/book-preview"
+        >
+          📖 Read Online
+        </a>
+
+      </div>
+
     </div>
 
-    <!-- BOOK 2: Smart Plan Finance – Professional Edition -->
+
+    <!-- BOOK 2 -->
+
     <div class="book-card book2">
-      <span class="badge">FULL PREVIEW FREE</span>
+
+      <span class="badge">FREE PDF</span>
+
       <div class="cover-wrap">
-        <img src="{{ url_for('static', filename='images/SmartPlanFinanceBook2.png') }}" alt="Smart Plan Finance Professional Edition cover">
+        <img
+          src="{{ url_for('static', filename='images/SmartPlanFinanceBook2.png') }}"
+          alt="Smart Plan Finance From First Salary to Financial Freedom book cover"
+          loading="lazy"
+        >
       </div>
-      <h3>Smart Plan Finance<br>From First Salary to Financial Freedom</h3>
-      <div class="author">by Argho Sanyal</div>
+
+      <h3>
+        Smart Plan Finance<br>
+        From First Salary to Financial Freedom
+      </h3>
+
+      <div class="author">
+        by Argho Sanyal
+      </div>
+
       <p class="desc">
-        A practical money guide for young professionals from your first salary to financial freedom.
+        A practical financial guide for young professionals covering the
+        journey from your first salary towards better money management,
+        investing and long-term financial freedom.
       </p>
-      <div class="price">₹99 <span>/ one-time</span></div>
-      
-      <div class="actions">
-        <div class="actions-row preview">
-          <a class="btn teal small" href="/spf/book2-preview" target="_blank">📖 Free Preview (Full Book)</a>
-        </div>
-        
-        <div class="actions-row">
-          <a class="btn small" href="https://amzn.in/d/00RRvYX8" target="_blank">🇮🇳 Amazon.in</a>
-          <a class="btn small" href="https://a.co/d/0fazI2Q4" target="_blank">🇺🇸 Amazon.com</a>
-        </div>
-        
-        <div class="actions-row">
-          <a class="btn teal small" href="https://store.pothi.com/book/argho-sanyal-smartplanfinance-first-salary-financial-freedom/" target="_blank">📕 Pothi Paperback</a>
-        </div>
+
+      <div class="free-label">
+        📥 Free Complete Book
       </div>
+
+      <div class="actions">
+
+        <a
+          class="btn green"
+          href="{{ url_for('static', filename='Final_SmartPlanFinance_Professional.pdf') }}"
+          download="SmartPlanFinance-From-First-Salary-to-Financial-Freedom.pdf"
+        >
+          📥 Download Complete PDF
+        </a>
+
+        <a
+          class="btn dark"
+          href="/spf/book2-preview"
+        >
+          📖 Read Online
+        </a>
+
+      </div>
+
     </div>
 
   </div>
+
 </section>
 
+
 <section class="container">
+
   <h2>What You'll Learn</h2>
-  <p class="section-lede">Covered across both books in the library.</p>
+
+  <p class="section-lede">
+    Practical financial concepts explained in simple language for everyday
+    financial decision-making.
+  </p>
+
   <div class="grid">
-    <div class="card"><h4>Budgeting</h4><p>Build a strong financial foundation.</p></div>
-    <div class="card"><h4>Investing</h4><p>Mutual funds, stocks and long-term wealth.</p></div>
-    <div class="card"><h4>Tax Planning</h4><p>Optimize legally and efficiently.</p></div>
-    <div class="card"><h4>Retirement</h4><p>Create lasting financial independence.</p></div>
-  </div>
-</section>
 
-<section class="container">
-  <h2>Who This Library Is For</h2>
-  <div class="grid">
-    <div class="card"><h4>🎓 Students</h4><p>Develop smart financial habits from the beginning of your career.</p></div>
-    <div class="card"><h4>💼 Working Professionals</h4><p>Learn budgeting, investing and tax planning to grow your wealth.</p></div>
-    <div class="card"><h4>📈 New Investors</h4><p>Understand mutual funds, stocks and long-term investing with confidence.</p></div>
-    <div class="card"><h4>👨‍👩‍👧 Families</h4><p>Create a financial roadmap for your family's future and financial security.</p></div>
-  </div>
-</section>
-
-<section class="container">
-  <h2>About the Author</h2>
-  <div class="plain-card">
-    <h3 style="color:var(--gold-dark);margin-top:0;">👨‍💼 Argho Sanyal</h3>
-    <p>
-      SmartPlan Finance is a passionate finance educational platform. Through
-      practical financial planning, investing strategies, and easy-to-understand
-      guidance, our mission is to help individuals and families achieve lasting
-      financial freedom.
-    </p>
-  </div>
-</section>
-
-<section class="container">
-  <div class="plain-card">
-    <h2 style="margin-top:0;">Available on Multiple Platforms</h2>
-    <p>
-      🇮🇳 Amazon.in — Instant Ebook Delivery<br><br>
-      🇺🇸 Amazon.com — Worldwide Access<br><br>
-      📕 Pothi — Paperback Edition<br><br>
-      ✅ Lifetime Access — Purchase Once, Read Forever
-    </p>
-  </div>
-</section>
-
-<section class="container" style="border-bottom:none">
-  <div class="plain-card" style="padding:50px;">
-    <h2 style="margin-top:0;">Start Your Financial Journey Today</h2>
-    <p style="font-size:18px;max-width:700px;margin:0 auto 30px;">
-      Join readers who are learning to budget smarter, invest confidently, and
-      build long-term wealth — with either book, or both.
-    </p>
-    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
-      <a class="btn" href="https://amzn.in/d/01T2AhP3" target="_blank">📚 Smart Plan Finance — ₹288</a>
-      <a class="btn teal" href="https://amzn.in/d/0eYirCOL" target="_blank">📚 From Fisrt Salary to Financial Freedom — ₹99</a>
+    <div class="card">
+      <h4>Budgeting</h4>
+      <p>
+        Understand how to manage income, expenses, savings and financial
+        priorities effectively.
+      </p>
     </div>
+
+    <div class="card">
+      <h4>Investing</h4>
+      <p>
+        Learn the fundamentals of mutual funds, stocks, SIPs and long-term
+        wealth creation.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>Tax Planning</h4>
+      <p>
+        Understand important tax concepts and how tax-efficient financial
+        planning can support long-term goals.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>Retirement</h4>
+      <p>
+        Build a framework for retirement planning, financial independence
+        and long-term security.
+      </p>
+    </div>
+
   </div>
+
 </section>
+
+
+<section class="container">
+
+  <h2>Who These Books Are For</h2>
+
+  <div class="grid">
+
+    <div class="card">
+      <h4>🎓 Students</h4>
+      <p>
+        Develop strong money habits and understand personal finance before
+        beginning your professional journey.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>💼 Working Professionals</h4>
+      <p>
+        Learn practical approaches to budgeting, investing, financial
+        planning and wealth building.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>📈 New Investors</h4>
+      <p>
+        Build a foundation for understanding investing and making informed
+        long-term financial decisions.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>👨‍👩‍👧 Families</h4>
+      <p>
+        Explore financial planning concepts that can help families organise
+        their savings, investments and long-term goals.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="container">
+
+  <h2>About the Author</h2>
+
+  <div class="plain-card">
+
+    <h3 style="color:var(--gold-dark);margin-top:0;">
+      👨‍💼 Argho Sanyal
+    </h3>
+
+    <p>
+      SmartPlan Finance is a financial education platform focused on making
+      personal finance easier to understand. Through practical financial
+      planning resources, calculators, books and educational articles, the
+      platform aims to help individuals make more informed decisions about
+      budgeting, saving, investing and long-term financial planning.
+    </p>
+
+  </div>
+
+</section>
+
+
+<section class="container" style="border-bottom:none;">
+
+  <div class="final-cta">
+
+    <h2>
+      Start Learning — Completely Free
+    </h2>
+
+    <p>
+      Choose either book, read it online or download the complete PDF directly
+      from SmartPlan Finance. No purchase is required.
+    </p>
+
+    <div class="cta-buttons">
+
+      <a
+        class="btn green"
+        href="{{ url_for('static', filename='SmartPlanFinance.pdf') }}"
+        download="SmartPlanFinance.pdf"
+      >
+        📥 Download Smart Plan Finance
+      </a>
+
+      <a
+        class="btn"
+        href="{{ url_for('static', filename='Final_SmartPlanFinance_Professional.pdf') }}"
+        download="SmartPlanFinance-From-First-Salary-to-Financial-Freedom.pdf"
+      >
+        📥 Download From First Salary to Financial Freedom
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
 
 <footer>
-  <div>© 2026 SmartPlan Finance</div>
-  <div style="margin-top:15px;">Helping Indians Build Wealth Through Smarter Financial Decisions.</div>
+
+  <div>
+    © 2026 SmartPlan Finance
+  </div>
+
+  <div style="margin-top:15px;">
+    Helping Indians Build Wealth Through Smarter Financial Decisions.
+  </div>
+
+  <div class="footer-note">
+    The books and resources provided by SmartPlan Finance are intended for
+    educational and informational purposes only and should not be considered
+    personalised financial, investment, tax or legal advice.
+  </div>
+
   <div style="margin-top:20px;">
+
     <a href="/privacy">Privacy Policy</a> •
     <a href="/terms">Terms</a> •
     <a href="/disclaimer">Disclaimer</a>
+    <a
+                href="{{ url_for('about_author') }}"
+                class="credibility-link">
+
+                Learn more about the Author &amp; Founder →
+
+            </a>
+         <a href="/affiliate-policy">
+            💰 Affiliate Disclosure
+        </a>
+       
+
   </div>
+
 </footer>
 
 </body>
 </html>
+
