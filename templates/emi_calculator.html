@@ -4,38 +4,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
 
     <link rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+          type="image/png"
+          sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
 
     <link rel="apple-touch-icon"
-      href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
 
     <link rel="manifest"
-      href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
 
-    <title>Loan EMI Calculator | SmartPlan Finance</title>
+    <title>Loan EMI Calculator | Calculate Monthly EMI &amp; Total Interest | SmartPlanFinance</title>
+
     <meta name="description"
-    content="Free EMI Calculator by SmartPlan Finance. Calculate your monthly loan EMI, total interest payable, and repayment amount for home, car, personal, and education loans instantly.">
+          content="Use the free SmartPlanFinance Loan EMI Calculator to estimate monthly EMI, total interest and total repayment. Learn the EMI formula, understand each variable, and compare loan scenarios.">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="author"
+          content="Argho Sanyal, Founder, SmartPlanFinance">
 
-    <link rel="canonical" href="https://smartplanfinance.com/emi_calculator">
-    <meta name="author" content="Argho Sanyal, Founder, SmartPlanFinance">
+    <link rel="canonical"
+          href="https://smartplanfinance.com/emi_calculator">
+
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Loan EMI Calculator | SmartPlan Finance">
-    <meta property="og:description" content="Free EMI Calculator by SmartPlan Finance. Calculate your monthly loan EMI, total interest payable, and repayment amount for home, car, personal, and education loans instantly.">
-    <meta property="og:url" content="https://smartplanfinance.com/emi_calculator">
-    <meta property="og:site_name" content="SmartPlanFinance">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:title" content="Loan EMI Calculator | SmartPlanFinance">
+    <meta property="og:description"
+          content="Calculate your estimated loan EMI, total interest and total repayment while learning how the standard EMI formula works.">
+    <meta property="og:url"
+          content="https://smartplanfinance.com/emi_calculator">
+    <meta property="og:site_name"
+          content="SmartPlanFinance">
+
+    <meta name="twitter:card"
+          content="summary">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+          <!-- Google AdSense -->
+    <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
+            crossorigin="anonymous"></script>
+
+    <!-- WebApplication Structured Data -->
+     <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Loan EMI Calculator",
+  "url": "https://smartplanfinance.com/emi_calculator",
+  "applicationCategory": "FinanceApplication",
+  "applicationSubCategory": "Loan Calculator",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript-enabled web browser",
+  "description": "Free Loan EMI Calculator by SmartPlanFinance that estimates monthly EMI, total interest payable, and total repayment amount based on loan amount, interest rate, and loan tenure.",
+  "author": {
+    "@type": "Person",
+    "name": "Argho Sanyal",
+    "url": "https://smartplanfinance.com/about"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SmartPlanFinance",
+    "url": "https://smartplanfinance.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  }
+}
+</script>
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -45,17 +92,18 @@
         body {
             background: #FFFDF5;
             font-family: 'Poppins', sans-serif;
-            padding: 40px 20px;
-            line-height: 1.6;
+            padding: 30px 20px 50px;
+            line-height: 1.7;
+            color: #333;
         }
 
         .container {
             max-width: 750px;
             margin: 0 auto;
-            background: white;
+            background: #fff;
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,.08);
+            box-shadow: 0 15px 40px rgba(0,0,0,.07);
         }
 
         h1 {
@@ -63,19 +111,26 @@
             font-size: 42px;
             margin-bottom: 15px;
             text-align: center;
+            line-height: 1.25;
         }
 
         h2 {
             color: #B8860B;
             font-size: 26px;
             margin-top: 45px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
+            line-height: 1.35;
         }
 
         h3 {
             color: #B8860B;
             font-size: 20px;
             margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        p {
+            color: #555;
         }
 
         .subtitle {
@@ -83,11 +138,160 @@
             color: #666;
             font-size: 17px;
             line-height: 1.8;
-            margin-bottom: 35px;
+            margin-bottom: 20px;
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
         }
+
+        .byline {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        .byline strong {
+            color: #666;
+        }
+
+        /* Navigation */
+
+        .site-nav {
+            max-width: 750px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .site-nav .brand {
+            font-weight: 800;
+            color: #B8860B;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .site-nav .nav-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .site-nav .nav-links a {
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .site-nav .nav-links a:hover {
+            color: #B8860B;
+        }
+
+        /* Educational Cards */
+
+        .education-card {
+            background: #FFF8E1;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 25px;
+            border-left: 5px solid #FFC107;
+        }
+
+        .education-card h3 {
+            margin-top: 0;
+        }
+
+        .education-card p {
+            color: #555;
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        .education-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .education-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 15px;
+        }
+
+        .education-card li {
+            padding-left: 25px;
+            position: relative;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .education-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #B8860B;
+            font-weight: 700;
+        }
+
+        /* Formula */
+
+        .formula-card {
+            background: #FFFEF7;
+            border: 2px solid #FFE082;
+            border-radius: 14px;
+            padding: 28px 22px;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .formula {
+            font-size: 24px;
+            font-weight: 700;
+            color: #8B6400;
+            background: #FFF8E1;
+            border-radius: 10px;
+            padding: 20px 10px;
+            margin: 18px 0;
+            overflow-x: auto;
+        }
+
+        .formula-note {
+            font-size: 14px;
+            color: #666;
+            text-align: left;
+        }
+
+        .variable-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .variable-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .variable-symbol {
+            font-size: 25px;
+            font-weight: 700;
+            color: #B8860B;
+            margin-bottom: 7px;
+        }
+
+        .variable-card p {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Form */
 
         .form-card {
             background: white;
@@ -95,6 +299,7 @@
             padding: 30px;
             margin: 30px 0;
             border: 1px solid #f0f0f0;
+            box-shadow: 0 5px 18px rgba(0,0,0,.04);
         }
 
         .form-group {
@@ -137,6 +342,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0,0,0,.15);
+            font-family: 'Poppins', sans-serif;
         }
 
         button:hover {
@@ -147,13 +353,12 @@
 
         button:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 6px rgba(0,0,0,.12);
         }
 
         .back-btn {
             display: inline-block;
             padding: 14px 28px;
-            background: #ffffff;
+            background: #fff;
             border: 2px solid #FFC107;
             border-radius: 12px;
             text-decoration: none;
@@ -170,6 +375,8 @@
             transform: translateY(-2px);
         }
 
+        /* Disclaimer */
+
         .disclaimer-box {
             margin-top: 30px;
             padding: 18px;
@@ -181,43 +388,63 @@
             line-height: 1.7;
         }
 
-        .education-card {
-            background: #FFF8E1;
-            padding: 25px;
-            border-radius: 12px;
+        /* General content */
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
             margin-top: 20px;
+        }
+
+        .grid-card {
+            background: #FFF8E1;
+            padding: 20px;
+            border-radius: 12px;
             border-left: 5px solid #FFC107;
         }
 
-        .education-card h3 {
+        .grid-card h3 {
             margin-top: 0;
         }
 
-        .education-card ul {
-            list-style: none;
-            padding-left: 0;
-            margin-top: 15px;
+        .grid-card p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.7;
         }
 
-        .education-card li {
-            padding-left: 25px;
-            position: relative;
-            margin-bottom: 10px;
+        /* Example */
+
+        .worked-example {
+            background: #FAFAFA;
+            border: 1px solid #e9e9e9;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .worked-example .example-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
             color: #555;
         }
 
-        .education-card li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #FFC107;
-            font-weight: 600;
+        .worked-example .example-line:last-child {
+            border-bottom: none;
         }
 
-        .education-card p {
-            color: #555;
-            margin-bottom: 12px;
-            line-height: 1.8;
+        .worked-example strong {
+            color: #333;
+        }
+
+        /* Results */
+
+        #results-section {
+            scroll-margin-top: 20px;
         }
 
         .result-box {
@@ -244,48 +471,55 @@
 
         .result-item .amount {
             font-size: 24px;
-            color: #FFC107;
+            color: #B8860B;
             font-weight: 700;
             margin-top: 8px;
         }
 
+        .success-banner {
+            background: linear-gradient(135deg, #FFC107 0%, #FFB300 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .success-banner h2 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .success-banner p {
+            color: rgba(255,255,255,.95);
+            margin-bottom: 0;
+        }
+
         .insight-box {
-            background: #E8F5E9;
+            background: #F5F9F5;
             border-left: 5px solid #4CAF50;
             padding: 20px;
             border-radius: 12px;
             margin-top: 20px;
-            color: #2E7D32;
+            color: #444;
             line-height: 1.8;
         }
 
-        .insight-box strong {
-            color: #1B5E20;
-        }
-
-        .calculator-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 18px;
-            margin-top: 20px;
-        }
-
-        .grid-card {
-            background: #FFF8E1;
-            padding: 20px;
-            border-radius: 12px;
-            border-left: 5px solid #FFC107;
-        }
-
-        .grid-card h3 {
+        .insight-box h3 {
+            color: #2E7D32;
             margin-top: 0;
         }
 
-        .grid-card p {
-            color: #555;
-            font-size: 14px;
-            line-height: 1.6;
+        .insight-box p {
+            margin-bottom: 15px;
         }
+
+        .insight-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Related Articles */
 
         .related-articles {
             display: grid;
@@ -324,33 +558,50 @@
             color: #B8860B;
         }
 
-        .success-banner {
-            background: linear-gradient(135deg, #FFC107 0%, #FFB300 100%);
-            padding: 25px;
-            border-radius: 12px;
-            margin-top: 30px;
+        /* Footer */
+
+        .site-footer {
+            max-width: 750px;
+            margin: 30px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
             text-align: center;
-            color: white;
         }
 
-        .success-banner h2 {
-            color: white;
-            margin-top: 0;
-            margin-bottom: 10px;
+        .site-footer .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 14px;
         }
 
-        .success-banner p {
-            color: rgba(255,255,255,.9);
-            margin-bottom: 0;
+        .site-footer .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
         }
+
+        .site-footer .footer-links a:hover {
+            color: #B8860B;
+        }
+
+        .site-footer .copyright {
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* Mobile */
 
         @media (max-width: 768px) {
+
             body {
                 padding: 15px;
             }
 
             .container {
-                padding: 25px;
+                padding: 25px 20px;
             }
 
             h1 {
@@ -384,11 +635,12 @@
                 display: block;
             }
 
-            .calculator-grid {
+            .calculator-grid,
+            .related-articles {
                 grid-template-columns: 1fr;
             }
 
-            .related-articles {
+            .variable-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -396,90 +648,20 @@
                 justify-content: center;
                 text-align: center;
             }
+
+            .formula {
+                font-size: 18px;
+            }
+
+            .worked-example .example-line {
+                flex-direction: column;
+                gap: 2px;
+            }
         }
 
-        /* Site Nav */
-        .site-nav {
-            max-width: 750px;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .site-nav .brand {
-            font-weight: 800;
-            color: #B8860B;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .site-nav .nav-links {
-            display: flex;
-            gap: 18px;
-            flex-wrap: wrap;
-        }
-
-        .site-nav .nav-links a {
-            color: #555;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .site-nav .nav-links a:hover {
-            color: #B8860B;
-        }
-
-        /* Byline */
-        .byline {
-            text-align: center;
-            font-size: 13px;
-            color: #888;
-            margin-top: -10px;
-            margin-bottom: 30px;
-        }
-
-        .byline strong {
-            color: #666;
-        }
-
-        /* Site Footer */
-        .site-footer {
-            max-width: 750px;
-            margin: 30px auto 0;
-            padding-top: 24px;
-            border-top: 1px solid #eee;
-            text-align: center;
-        }
-
-        .site-footer .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 18px;
-            margin-bottom: 14px;
-        }
-
-        .site-footer .footer-links a {
-            color: #666;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .site-footer .footer-links a:hover {
-            color: #B8860B;
-        }
-
-        .site-footer .copyright {
-            font-size: 12px;
-            color: #999;
-        }
     </style>
 
+    <!-- WebApplication Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -488,15 +670,55 @@
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Any",
       "url": "https://smartplanfinance.com/emi_calculator",
-      "description": "Free EMI Calculator by SmartPlan Finance to calculate your monthly loan EMI, total interest payable, and total repayment amount for home, car, education, and personal loans.",
+      "description": "Free Loan EMI Calculator by SmartPlanFinance to estimate monthly EMI, total interest and total repayment amount.",
       "publisher": {
         "@type": "Organization",
-        "name": "SmartPlan Finance"
+        "name": "SmartPlanFinance",
+        "url": "https://smartplanfinance.com"
       },
       "author": {
         "@type": "Person",
         "name": "Argho Sanyal"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
       }
+    }
+    </script>
+
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is an EMI?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An Equated Monthly Installment (EMI) is the scheduled amount a borrower pays each month toward a loan. It generally includes both principal repayment and interest."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the EMI formula?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The standard reducing-balance EMI formula is EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is the principal loan amount, r is the monthly interest rate expressed as a decimal, and n is the total number of monthly installments."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the EMI calculator show the exact amount charged by a lender?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The calculator provides an estimate based on the inputs entered. Actual lender terms may differ because of interest-rate type, fees, charges, rounding, prepayments, taxes, insurance and other loan-specific conditions."
+          }
+        }
+      ]
     }
     </script>
 
@@ -505,363 +727,1005 @@
 <body>
 
 <nav class="site-nav">
-    <a href="{{ url_for('index') }}" class="brand">SmartPlanFinance</a>
+
+    <a href="{{ url_for('index') }}"
+       class="brand">
+        SmartPlanFinance
+    </a>
+
     <div class="nav-links">
         <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('index') }}">Calculators</a>
-        <a href="{{ url_for('articles') }}">articles</a>
+        <a href="{{ url_for('index') }}">Calculators</a>
+        <a href="{{ url_for('articles') }}">Blog</a>
         <a href="/about">About</a>
-       
     </div>
+
 </nav>
 
 <div class="container">
 
-    <!-- Header Section -->
-    <div style="margin-bottom: 35px;">
+    <!-- HEADER -->
+
+    <header>
+
         <h1>🏠 Loan EMI Calculator</h1>
+
         <p class="subtitle">
-            Plan your loan repayments with confidence using the SmartPlan Finance EMI Calculator. Estimate your monthly EMI, total interest payable, and total repayment amount for home, car, education, or personal loans in just a few seconds.
+            Estimate your monthly loan EMI, total interest and total repayment amount.
+            Use the calculator to compare different loan amounts, interest rates and
+            repayment periods before making a borrowing decision.
         </p>
-        <p class="byline">By <strong>Argho Sanyal</strong>, Founder, SmartPlanFinance &middot; Last updated: <time datetime="2026-08-01">August 2026</time></p>
-    </div>
 
-    <!-- What is EMI Section - VISIBLE BEFORE CALCULATION -->
-    <div class="education-card">
-        <h3>💳 What is an EMI?</h3>
-        <p>
-            An Equated Monthly Installment (EMI) is the fixed amount you pay every month to repay a loan. Each EMI consists of two components:
+        <p class="byline">
+            By <strong>Argho Sanyal</strong>, Founder, SmartPlanFinance
+            &middot;
+            Last updated:
+            <time datetime="2026-08-14">August 2026</time>
         </p>
+
+    </header>
+
+
+    <!-- WHAT IS EMI -->
+
+    <section class="education-card">
+
+        <h3>💳 What Is an EMI?</h3>
+
+        <p>
+            An Equated Monthly Installment (EMI) is the scheduled amount a borrower
+            pays each month toward a loan. For a standard reducing-balance loan,
+            the EMI generally contains two components: repayment of the principal
+            and payment of interest charged on the outstanding loan balance.
+        </p>
+
         <ul>
-            <li>Principal repayment (the actual loan amount)</li>
-            <li>Interest charged by the lender (cost of borrowing)</li>
+            <li><strong>Principal:</strong> The original amount borrowed.</li>
+            <li><strong>Interest:</strong> The cost charged by the lender for providing the loan.</li>
         </ul>
+
         <p>
-            This calculator helps you estimate your monthly repayment so you can plan your finances before applying for a loan. Knowing your EMI helps you understand your financial obligations and make informed borrowing decisions.
+            Although the scheduled EMI may remain broadly constant for a standard
+            fixed-rate loan, the proportion going toward interest and principal
+            changes over the repayment period. Early installments generally contain
+            a larger interest component because the outstanding principal is higher.
         </p>
-    </div>
 
-    <!-- Calculator Form -->
-    <form action="{{ url_for('emi_calculator') }}" method="POST" class="form-card">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    </section>
 
-        <div class="form-group">
-            <label>Loan Amount (₹)</label>
-            <input
-                type="number"
-                name="loan_amount"
-                placeholder="Example: 4000000"
-                required>
+
+    <!-- CALCULATOR -->
+
+    <section>
+
+        <h2>🧮 Calculate Your Loan EMI</h2>
+
+        <form action="{{ url_for('emi_calculator') }}"
+              method="POST"
+              class="form-card">
+
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+
+            <div class="form-group">
+
+                <label for="loan_amount">
+                    Loan Amount (₹)
+                </label>
+
+                <input
+                    type="number"
+                    id="loan_amount"
+                    name="loan_amount"
+                    placeholder="Example: 4000000"
+                    min="1"
+                    required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="interest_rate">
+                    Annual Interest Rate (%)
+                </label>
+
+                <input
+                    type="number"
+                    id="interest_rate"
+                    name="interest_rate"
+                    placeholder="Example: 8.5"
+                    step="0.01"
+                    min="0"
+                    required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="tenure">
+                    Loan Tenure (Years)
+                </label>
+
+                <input
+                    type="number"
+                    id="tenure"
+                    name="tenure"
+                    placeholder="Example: 20"
+                    min="1"
+                    required>
+
+            </div>
+
+            <button type="submit">
+                💰 Calculate EMI
+            </button>
+
+        </form>
+
+        <div style="text-align:center;">
+
+            <a href="{{ url_for('index') }}"
+               class="back-btn">
+                ← Back to Home
+            </a>
+
         </div>
 
-        <div class="form-group">
-            <label>Annual Interest Rate (%)</label>
-            <input
-                type="number"
-                step="0.01"
-                name="interest_rate"
-                placeholder="Example: 8.5"
-                required>
-        </div>
+    </section>
 
-        <div class="form-group">
-            <label>Loan Tenure (Years)</label>
-            <input
-                type="number"
-                name="tenure"
-                placeholder="Example: 20"
-                required>
-        </div>
 
-        <button type="submit">
-            💰 Calculate EMI
-        </button>
-    </form>
+    <!-- FORMULA -->
 
-    <!-- Back to Home Button -->
-    <div style="text-align: center;">
-        <a href="{{ url_for('index') }}" class="back-btn">
-            ← Back to Home
-        </a>
-    </div>
+    <section>
 
-    <!-- Disclaimer -->
-    <div class="disclaimer-box">
-        <strong>Disclaimer:</strong> The Loan EMI Calculator on SmartPlan Finance provides estimated EMI, total interest, and repayment amounts based on the loan amount, interest rate, and tenure entered by the user. Actual loan repayments may vary depending on your lender's policies, interest rate changes, processing fees, prepayments, foreclosure charges, taxes, and other applicable terms. SmartPlan Finance does not recommend any loan product or lender and does not provide financial advice. Please verify loan details with your financial institution before making borrowing decisions.
-    </div>
+        <h2>📐 EMI Formula Explained</h2>
 
-    <!-- Why EMI Calculator Matters -->
-    <div style="margin-top: 45px;">
-        <h2>📖 Why Use an EMI Calculator?</h2>
-        <div class="calculator-grid">
-            <div class="grid-card">
-                <h3>🎯 Smart Planning</h3>
-                <p>Estimate your monthly obligations before taking a loan and align with your budget.</p>
-            </div>
-
-            <div class="grid-card">
-                <h3>💼 Compare Options</h3>
-                <p>Test different loan amounts, interest rates, and tenures to find the best fit for your needs.</p>
-            </div>
-
-            <div class="grid-card">
-                <h3>📊 Understand Costs</h3>
-                <p>See exactly how much interest you'll pay over the loan tenure and total repayment amount.</p>
-            </div>
-
-            <div class="grid-card">
-                <h3>💡 Informed Decisions</h3>
-                <p>Make confident borrowing decisions by knowing all the financial implications upfront.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Understanding EMI Result -->
-    <div style="margin-top: 45px;">
-        <h2>📊 Understanding Your EMI Result</h2>
-        <p style="color: #555; line-height: 1.9;">
-            Your EMI calculation depends on three key factors:
-        </p>
-        <div class="calculator-grid">
-            <div class="grid-card">
-                <h3>₹ Loan Amount</h3>
-                <p>The principal amount you borrow. Higher loan amounts result in higher EMIs.</p>
-            </div>
-
-            <div class="grid-card">
-                <h3>% Interest Rate</h3>
-                <p>The annual interest rate charged by the lender. Higher rates increase your EMI and total interest paid.</p>
-            </div>
-
-            <div class="grid-card">
-                <h3>📅 Loan Tenure</h3>
-                <p>The repayment period in years. Longer tenures reduce monthly EMI but increase total interest.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- EMI Formula Explanation -->
-    <div class="education-card">
-        <h3>🧮 How is EMI Calculated?</h3>
         <p>
-            The EMI is calculated using a standard financial formula that takes into account your loan amount, interest rate, and tenure. The first few EMIs consist of more interest and less principal, while later EMIs have more principal repayment.
+            A standard reducing-balance loan EMI can be calculated using the
+            following mathematical formula:
         </p>
-        <p>
-            <strong>Example:</strong> A ₹40 lakh home loan at 8.5% interest for 20 years equals approximately ₹38,789 per month. Over 20 years, you'll pay ₹93.09 lakh in total (including ₹53.09 lakh as interest).
-        </p>
-    </div>
 
-    <!-- Benefits of EMI Calculator -->
-    <div style="margin-top: 45px;">
-        <h2>✅ Benefits of Using an EMI Calculator</h2>
+        <div class="formula-card">
+
+            <div class="formula">
+                EMI = P × r × (1 + r)<sup>n</sup>
+                ÷
+                [(1 + r)<sup>n</sup> − 1]
+            </div>
+
+            <p class="formula-note">
+                This formula assumes a standard amortising loan where the monthly
+                interest rate and number of installments are used to determine the
+                scheduled payment.
+            </p>
+
+            <div class="variable-grid">
+
+                <div class="variable-card">
+
+                    <div class="variable-symbol">P</div>
+
+                    <p>
+                        <strong>Principal</strong><br>
+                        The original loan amount borrowed.
+                    </p>
+
+                </div>
+
+                <div class="variable-card">
+
+                    <div class="variable-symbol">r</div>
+
+                    <p>
+                        <strong>Monthly Rate</strong><br>
+                        Annual interest rate divided by 12 and converted from a
+                        percentage to a decimal.
+                    </p>
+
+                </div>
+
+                <div class="variable-card">
+
+                    <div class="variable-symbol">n</div>
+
+                    <p>
+                        <strong>Number of Payments</strong><br>
+                        Total number of monthly installments over the loan tenure.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
         <div class="education-card">
-            <ul>
-                <li>Instantly calculate monthly EMI without financial jargon</li>
-                <li>Understand total borrowing cost (principal + interest)</li>
-                <li>Compare different loan scenarios (amounts, rates, tenures)</li>
-                <li>Plan your monthly budget with precision</li>
-                <li>Make informed decisions before approaching lenders</li>
-                <li>Identify how tenure changes affect your EMI</li>
-                <li>Borrow responsibly within your financial capacity</li>
-            </ul>
-        </div>
-    </div>
 
-    <!-- Smart Borrowing Tips -->
-    <div style="margin-top: 45px;">
-        <h2>💡 Smart Borrowing Tips</h2>
+            <h3>🔎 Converting the Interest Rate and Tenure</h3>
+
+            <p>
+                If the annual interest rate is 8.5%, the monthly rate used in the
+                formula is:
+            </p>
+
+            <p>
+                <strong>
+                    r = 8.5 ÷ 12 ÷ 100 = 0.0070833
+                </strong>
+            </p>
+
+            <p>
+                If the loan tenure is 20 years, the number of monthly payments is:
+            </p>
+
+            <p>
+                <strong>
+                    n = 20 × 12 = 240 monthly installments
+                </strong>
+            </p>
+
+            <p>
+                These converted values are then used with the principal amount in
+                the EMI formula.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- WORKED EXAMPLE -->
+
+    <section>
+
+        <h2>📝 Worked EMI Example</h2>
+
+        <p>
+            Consider a hypothetical loan of ₹40 lakh at an annual interest rate
+            of 8.5% for 20 years.
+        </p>
+
+        <div class="worked-example">
+
+            <div class="example-line">
+                <strong>Loan principal (P)</strong>
+                <span>₹40,00,000</span>
+            </div>
+
+            <div class="example-line">
+                <strong>Annual interest rate</strong>
+                <span>8.5%</span>
+            </div>
+
+            <div class="example-line">
+                <strong>Monthly rate (r)</strong>
+                <span>8.5 ÷ 12 ÷ 100 = 0.0070833</span>
+            </div>
+
+            <div class="example-line">
+                <strong>Loan tenure</strong>
+                <span>20 years</span>
+            </div>
+
+            <div class="example-line">
+                <strong>Total payments (n)</strong>
+                <span>20 × 12 = 240</span>
+            </div>
+
+            <div class="example-line">
+                <strong>Estimated EMI</strong>
+                <span>Approximately ₹34,700</span>
+            </div>
+
+        </div>
+
         <div class="education-card">
-            <ul>
-                <li><strong>Choose the shortest affordable tenure:</strong> Shorter tenures mean less interest paid overall.</li>
-                <li><strong>Maintain a healthy credit score:</strong> Better scores qualify you for lower interest rates.</li>
-                <li><strong>Compare lenders before borrowing:</strong> Different banks offer different interest rates and terms.</li>
-                <li><strong>Avoid borrowing beyond repayment capacity:</strong> Ensure EMI is within 40-50% of your monthly income.</li>
-                <li><strong>Make prepayments when possible:</strong> Reduce loan tenure and save on total interest.</li>
-                <li><strong>Read loan agreement carefully:</strong> Understand all charges, penalties, and terms before signing.</li>
-                <li><strong>Build emergency fund alongside EMI:</strong> Keep 6 months of expenses saved for emergencies.</li>
-            </ul>
-        </div>
-    </div>
 
-    <!-- CALCULATION RESULTS - ONLY VISIBLE AFTER CLICKING CALCULATE -->
+            <h3>💡 What Does This Example Mean?</h3>
+
+            <p>
+                The estimated EMI is the scheduled monthly repayment under the
+                assumptions above. Over the full 20-year period, the borrower would
+                make 240 monthly payments.
+            </p>
+
+            <p>
+                The exact total interest is determined by the EMI calculation and
+                the outstanding principal over time. A longer tenure can reduce the
+                monthly EMI but can substantially increase the total interest paid.
+            </p>
+
+            <p>
+                The example is for illustration only. Actual lender calculations
+                may differ because of the specific interest-rate structure, payment
+                dates, rounding conventions, fees, charges and other contractual
+                terms.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESULT -->
+
     {% if result %}
-    <div id="results-section">
 
-    <div class="success-banner">
-        <h2>✓ Your EMI Calculation Result</h2>
-        <p>Here's your estimated loan repayment breakdown</p>
-    </div>
+    <section id="results-section">
 
-    <div class="result-box">
-        <div class="result-item">
-            <strong>Monthly EMI</strong>
-            <div class="amount">₹ {{ "{:,.2f}".format(result.emi) }}</div>
+        <div class="success-banner">
+
+            <h2>✓ Your EMI Calculation Result</h2>
+
+            <p>
+                Estimated repayment based on the information you entered.
+            </p>
+
         </div>
 
-        <div class="result-item">
-            <strong>Total Interest Payable</strong>
-            <div class="amount">₹ {{ "{:,.2f}".format(result.interest) }}</div>
+        <div class="result-box">
+
+            <div class="result-item">
+
+                <strong>Monthly EMI</strong>
+
+                <div class="amount">
+                    ₹ {{ "{:,.2f}".format(result.emi) }}
+                </div>
+
+            </div>
+
+            <div class="result-item">
+
+                <strong>Total Interest Payable</strong>
+
+                <div class="amount">
+                    ₹ {{ "{:,.2f}".format(result.interest) }}
+                </div>
+
+            </div>
+
+            <div class="result-item">
+
+                <strong>Total Repayment Amount</strong>
+
+                <div class="amount">
+                    ₹ {{ "{:,.2f}".format(result.total) }}
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="result-item">
-            <strong>Total Repayment Amount</strong>
-            <div class="amount">₹ {{ "{:,.2f}".format(result.total) }}</div>
-        </div>
-    </div>
 
-    <!-- Insight Section -->
-    <div class="insight-box">
-        <h3 style="color: #1B5E20; margin-top: 0;">💡 SmartPlan Insight</h3>
-        <p>
-            <strong>Your Monthly Budget Impact:</strong> Your EMI of ₹{{ "{:,.0f}".format(result.emi) }} should ideally be no more than 40-50% of your monthly income. Ensure this fits comfortably within your budget before committing to the loan.
-        </p>
-        <p>
-            <strong>Interest Cost Awareness:</strong> Out of your total repayment of ₹{{ "{:,.0f}".format(result.total) }}, you'll pay ₹{{ "{:,.0f}".format(result.interest) }} as interest. This is the cost of borrowing money. Shorter tenures or higher down payments can reduce this burden.
-        </p>
-        <p>
-            <strong>Prepayment Strategy:</strong> If possible, make additional payments toward the principal during your loan tenure. Even small prepayments can significantly reduce total interest and help you become debt-free earlier.
-        </p>
-    </div>
-    </div>
+        <!-- RESULT INTERPRETATION -->
+
+        <div class="insight-box">
+
+            <h3>💡 Understanding Your Result</h3>
+
+            <p>
+                <strong>Monthly EMI:</strong>
+                Your estimated monthly installment is
+                ₹{{ "{:,.0f}".format(result.emi) }}.
+                This is the recurring payment indicated by the calculator for the
+                loan assumptions you entered.
+            </p>
+
+            <p>
+                <strong>Total Interest:</strong>
+                The estimated interest cost over the repayment period is
+                ₹{{ "{:,.0f}".format(result.interest) }}.
+                This represents the financing cost in addition to the original
+                principal, assuming the entered rate and repayment schedule remain
+                applicable.
+            </p>
+
+            <p>
+                <strong>Total Repayment:</strong>
+                The estimated total amount paid over the full tenure is
+                ₹{{ "{:,.0f}".format(result.total) }}.
+                This consists of the original principal plus the calculated
+                interest.
+            </p>
+
+        </div>
+
+
+        <div class="education-card">
+
+            <h3>📊 How to Interpret Your EMI</h3>
+
+            <ul>
+                <li>
+                    A higher loan amount generally produces a higher EMI.
+                </li>
+
+                <li>
+                    A higher interest rate generally increases both EMI and total
+                    interest for the same loan amount and tenure.
+                </li>
+
+                <li>
+                    A longer tenure can lower the monthly EMI but usually increases
+                    the total interest paid.
+                </li>
+
+                <li>
+                    A shorter tenure can increase the monthly EMI but may reduce
+                    the overall interest cost.
+                </li>
+
+                <li>
+                    Prepayments, if permitted under your loan agreement, may reduce
+                    outstanding principal and future interest.
+                </li>
+            </ul>
+
+        </div>
+
+    </section>
+
     {% endif %}
 
-    <!-- How to Use This Calculator -->
-    <div style="margin-top: 45px;">
+
+    <!-- WHY USE -->
+
+    <section>
+
+        <h2>📖 Why Use an EMI Calculator?</h2>
+
+        <div class="calculator-grid">
+
+            <div class="grid-card">
+
+                <h3>🎯 Plan Your Budget</h3>
+
+                <p>
+                    Estimate your monthly repayment before taking a loan and
+                    consider whether the payment fits comfortably within your
+                    overall household budget.
+                </p>
+
+            </div>
+
+            <div class="grid-card">
+
+                <h3>💼 Compare Scenarios</h3>
+
+                <p>
+                    Change the loan amount, interest rate or tenure to see how
+                    different borrowing scenarios affect your estimated EMI.
+                </p>
+
+            </div>
+
+            <div class="grid-card">
+
+                <h3>📊 Understand Interest</h3>
+
+                <p>
+                    Look beyond the monthly EMI and understand the estimated total
+                    interest payable over the entire repayment period.
+                </p>
+
+            </div>
+
+            <div class="grid-card">
+
+                <h3>💡 Make Informed Decisions</h3>
+
+                <p>
+                    Use the calculation as one input when comparing loan offers
+                    and assessing your borrowing requirements.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRINCIPAL INTEREST -->
+
+    <section>
+
+        <h2>💰 How Principal and Interest Change Over Time</h2>
+
+        <div class="education-card">
+
+            <p>
+                For a standard amortising loan, interest is calculated based on the
+                outstanding principal. At the beginning of the loan, the outstanding
+                balance is relatively high, so a larger portion of the scheduled
+                payment may go toward interest.
+            </p>
+
+            <p>
+                As principal is repaid, the outstanding balance decreases. The
+                interest component therefore generally decreases over time, while
+                a larger portion of the payment goes toward principal.
+            </p>
+
+            <p>
+                This is why looking only at the EMI may not provide a complete picture
+                of the cost of borrowing. Total interest and total repayment are also
+                important when comparing loan options.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- TENURE -->
+
+    <section>
+
+        <h2>📅 How Loan Tenure Affects EMI</h2>
+
+        <div class="calculator-grid">
+
+            <div class="grid-card">
+
+                <h3>Shorter Tenure</h3>
+
+                <p>
+                    A shorter repayment period usually means a higher monthly EMI,
+                    but the loan may accumulate less interest because the principal
+                    is repaid over a shorter period.
+                </p>
+
+            </div>
+
+            <div class="grid-card">
+
+                <h3>Longer Tenure</h3>
+
+                <p>
+                    A longer repayment period generally reduces the monthly EMI,
+                    but interest can accumulate for a longer period and increase
+                    the overall repayment cost.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SMART BORROWING -->
+
+    <section>
+
+        <h2>💡 Smart Borrowing Considerations</h2>
+
+        <div class="education-card">
+
+            <ul>
+
+                <li>
+                    <strong>Compare the total cost:</strong>
+                    Do not compare loans using EMI alone. Consider interest,
+                    fees and other applicable charges.
+                </li>
+
+                <li>
+                    <strong>Check the interest-rate structure:</strong>
+                    Determine whether the loan is fixed, floating or subject to
+                    another rate mechanism.
+                </li>
+
+                <li>
+                    <strong>Consider affordability:</strong>
+                    A lower EMI does not necessarily mean a cheaper loan.
+                    A long tenure can increase total interest.
+                </li>
+
+                <li>
+                    <strong>Review prepayment conditions:</strong>
+                    Check whether your lender permits partial prepayments and
+                    whether any charges apply.
+                </li>
+
+                <li>
+                    <strong>Maintain an emergency reserve:</strong>
+                    Avoid using all available cash for the down payment or loan
+                    repayment if doing so leaves insufficient funds for emergencies.
+                </li>
+
+                <li>
+                    <strong>Read the loan agreement:</strong>
+                    Review the lender's actual terms, fees, penalties, insurance
+                    requirements and repayment conditions before signing.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- LIMITATIONS -->
+
+    <section>
+
+        <h2>⚠️ Calculator Limitations</h2>
+
+        <div class="disclaimer-box">
+
+            <p>
+                <strong>This calculator provides an estimate, not a lender quotation.</strong>
+            </p>
+
+            <p>
+                The calculation assumes the loan amount, interest rate and repayment
+                tenure entered by the user. Actual lender terms may differ because
+                of fixed or floating interest rates, rate revisions, payment dates,
+                daily or monthly interest calculations, rounding methods, processing
+                fees, insurance, taxes, prepayments, foreclosure conditions,
+                late-payment charges and other applicable terms.
+            </p>
+
+            <p>
+                The calculator also does not determine whether you qualify for a
+                particular loan or interest rate. Lenders may consider income,
+                credit history, employment, existing obligations, collateral and
+                their own eligibility policies.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- DISCLAIMER -->
+
+    <section>
+
+        <div class="disclaimer-box">
+
+            <strong>General Disclaimer:</strong>
+            SmartPlanFinance provides this calculator for educational and
+            informational purposes. The results are mathematical estimates based
+            on the inputs supplied by the user and should not be treated as a
+            loan offer, financial recommendation or guarantee of borrowing terms.
+            Actual lender terms may differ. Please verify the applicable interest
+            rate, fees, repayment schedule and other conditions directly with the
+            relevant financial institution before making a borrowing decision.
+
+        </div>
+
+    </section>
+
+
+    <!-- HOW TO USE -->
+
+    <section>
+
         <h2>📋 How to Use This EMI Calculator</h2>
+
         <div class="education-card">
-            <ol style="color: #555; line-height: 2; padding-left: 20px;">
-                <li>Enter the <strong>loan amount</strong> you plan to borrow (in rupees).</li>
-                <li>Enter the <strong>annual interest rate</strong> offered by your lender (usually between 5-12%).</li>
-                <li>Enter the <strong>loan tenure</strong> in years (commonly 5-30 years depending on loan type).</li>
-                <li>Click the <strong>Calculate EMI</strong> button.</li>
-                <li>Review your monthly EMI, total interest, and total repayment amount.</li>
-                <li>Adjust the values to compare different scenarios and find the best option for your situation.</li>
+
+            <ol style="color:#555; line-height:2; padding-left:22px;">
+
+                <li>
+                    Enter the <strong>loan amount</strong> you are considering.
+                </li>
+
+                <li>
+                    Enter the <strong>annual interest rate</strong> applicable to
+                    the loan.
+                </li>
+
+                <li>
+                    Enter the <strong>loan tenure</strong> in years.
+                </li>
+
+                <li>
+                    Select <strong>Calculate EMI</strong>.
+                </li>
+
+                <li>
+                    Review the estimated <strong>monthly EMI</strong>.
+                </li>
+
+                <li>
+                    Review the estimated <strong>total interest</strong>.
+                </li>
+
+                <li>
+                    Review the estimated <strong>total repayment</strong>.
+                </li>
+
+                <li>
+                    Change the inputs to compare different scenarios.
+                </li>
+
             </ol>
-        </div>
-    </div>
 
-    <!-- EMI for Different Loan Types -->
-    <div style="margin-top: 45px;">
+        </div>
+
+    </section>
+
+
+    <!-- LOAN TYPES -->
+
+    <section>
+
         <h2>🏦 EMI for Different Types of Loans</h2>
+
         <div class="education-card">
-            <h3>Home Loan</h3>
-            <p><strong>Interest Rate:</strong> 7-9%, <strong>Tenure:</strong> 15-30 years. Largest EMI due to high principal. Tax benefits available.</p>
 
-            <h3 style="margin-top: 20px;">Car Loan</h3>
-            <p><strong>Interest Rate:</strong> 8-12%, <strong>Tenure:</strong> 3-7 years. Moderate EMI with vehicle as collateral. Insurance required.</p>
+            <h3>Home Loans</h3>
 
-            <h3 style="margin-top: 20px;">Education Loan</h3>
-            <p><strong>Interest Rate:</strong> 6-10%, <strong>Tenure:</strong> 5-15 years. EMI starts after course completion. Some tax deductions available.</p>
+            <p>
+                Home loans typically involve relatively large principal amounts
+                and longer repayment periods. The actual interest rate and tenure
+                depend on the lender, borrower profile and loan terms.
+            </p>
 
-            <h3 style="margin-top: 20px;">Personal Loan</h3>
-            <p><strong>Interest Rate:</strong> 10-18%, <strong>Tenure:</strong> 2-5 years. Highest interest rates but quick approval. No collateral needed.</p>
+            <h3 style="margin-top:22px;">Car Loans</h3>
+
+            <p>
+                Car loans generally have shorter repayment periods than home loans.
+                Compare the interest rate, tenure, processing charges and other
+                applicable costs before borrowing.
+            </p>
+
+            <h3 style="margin-top:22px;">Education Loans</h3>
+
+            <p>
+                Education loans can have specific repayment structures, including
+                repayment schedules that differ during or after the study period.
+                Check the lender's agreement for the exact terms.
+            </p>
+
+            <h3 style="margin-top:22px;">Personal Loans</h3>
+
+            <p>
+                Personal loans are generally unsecured and can have different
+                interest rates depending on the lender and borrower profile.
+                Compare the total borrowing cost rather than EMI alone.
+            </p>
+
         </div>
-    </div>
 
-    <!-- Related Articles -->
-    <div style="margin-top: 50px;">
-        <h2>📚 Learn More About Loans & Finance</h2>
-        <p style="color: #555; line-height: 1.8; margin-bottom: 25px;">
-            Make smarter financial decisions with our comprehensive guides on loans, EMI planning, and debt management.
+    </section>
+
+
+    <!-- RELATED ARTICLES -->
+
+    <section>
+
+        <h2>📚 Learn More About Loans &amp; Finance</h2>
+
+        <p style="color:#555; line-height:1.8; margin-bottom:25px;">
+
+            Explore SmartPlanFinance resources to improve your understanding of
+            borrowing, investing and personal financial planning.
+
         </p>
 
         <div class="related-articles">
 
-            <a href="https://smartplanfinance.com//articles"
-               style="text-decoration: none; display: block;">
+            <a href="{{ url_for('articles') }}"
+               style="text-decoration:none; display:block;">
+
                 <div class="article-card">
-                    <h3>💳 Follow SmartPlan Finance Articles </h3>
-                    <p>Understand the step by step wealth building Strategy.</p>
-                    <strong>Read Article →</strong>
+
+                    <h3>
+                        💳 SmartPlanFinance Articles
+                    </h3>
+
+                    <p>
+                        Explore practical guides covering personal finance,
+                        investing, loans and long-term financial planning.
+                    </p>
+
+                    <strong>
+                        Explore Articles →
+                    </strong>
+
                 </div>
+
             </a>
 
         </div>
-    </div>
 
-    <!-- Related Calculators -->
-    <div style="margin-top: 50px;">
+    </section>
+
+
+    <!-- RELATED CALCULATORS -->
+
+    <section>
+
         <h2>🧮 Related Financial Calculators</h2>
-        <p style="color: #555; line-height: 1.8; margin-bottom: 25px;">
-            Explore other tools to plan your financial goals comprehensively.
+
+        <p style="color:#555; line-height:1.8; margin-bottom:25px;">
+
+            Explore additional SmartPlanFinance calculators for investment and
+            financial planning.
+
         </p>
 
         <div class="related-articles">
 
             <a href="{{ url_for('fd_calculator') }}"
-               style="text-decoration: none; display: block;">
+               style="text-decoration:none; display:block;">
+
                 <div class="article-card">
+
                     <h3>🏦 Fixed Deposit Calculator</h3>
-                    <p>Calculate returns on your Fixed Deposits. Plan short-term investments and compare FD options with different interest rates.</p>
-                    <strong>Try Calculator →</strong>
+
+                    <p>
+                        Estimate potential fixed deposit maturity value and
+                        interest based on your investment assumptions.
+                    </p>
+
+                    <strong>
+                        Try Calculator →
+                    </strong>
+
                 </div>
+
             </a>
+
 
             <a href="{{ url_for('cagr_calculator') }}"
-               style="text-decoration: none; display: block;">
+               style="text-decoration:none; display:block;">
+
                 <div class="article-card">
+
                     <h3>📈 CAGR Calculator</h3>
-                    <p>Calculate Compound Annual Growth Rate for your investments. Measure investment performance and compare growth over time.</p>
-                    <strong>Try Calculator →</strong>
+
+                    <p>
+                        Calculate compound annual growth rate and understand
+                        investment growth over a selected period.
+                    </p>
+
+                    <strong>
+                        Try Calculator →
+                    </strong>
+
                 </div>
+
             </a>
+
 
             <a href="{{ url_for('sip_calculator') }}"
-               style="text-decoration: none; display: block;">
+               style="text-decoration:none; display:block;">
+
                 <div class="article-card">
+
                     <h3>📊 SIP Calculator</h3>
-                    <p>Plan your Systematic Investment Plan. Calculate wealth accumulation through regular monthly mutual fund investments.</p>
-                    <strong>Try Calculator →</strong>
+
+                    <p>
+                        Estimate potential SIP investment growth using monthly
+                        contributions and an assumed return rate.
+                    </p>
+
+                    <strong>
+                        Try Calculator →
+                    </strong>
+
                 </div>
+
             </a>
 
         </div>
-    </div>
 
-    <!-- Partner CTA -->
+    </section>
+
+
+    <!-- PARTNER CTA -->
+
     {% include "partials/_partner_cta.html" %}
 
-    <!-- Final CTA -->
-    <div style="margin-top: 45px; text-align: center;">
+
+    <!-- FINAL CTA -->
+
+    <section style="margin-top:45px;">
+
         <div class="success-banner">
-            <h2 style="margin-top: 0; margin-bottom: 15px;">Ready to Plan Your Loan?</h2>
-            <p style="margin-bottom: 20px; font-size: 15px;">
-                Use our EMI Calculator to estimate your monthly repayments, then explore our other financial planning tools to achieve your financial goals.
+
+            <h2 style="margin-top:0; margin-bottom:15px;">
+                Plan Your Finances With Confidence
+            </h2>
+
+            <p style="margin-bottom:20px; font-size:15px;">
+
+                Use SmartPlanFinance calculators to understand different
+                financial scenarios and plan your long-term financial goals.
+
             </p>
+
             <a href="{{ url_for('retirement_calculator') }}"
-               style="display: inline-block; background: white; color: #B8860B; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: 0.3s;">
+               style="display:inline-block;
+                      background:white;
+                      color:#B8860B;
+                      padding:12px 28px;
+                      border-radius:10px;
+                      text-decoration:none;
+                      font-weight:600;">
+
                 Plan Your Retirement →
+
             </a>
+
         </div>
-    </div>
+
+    </section>
 
 </div>
 
+
+<!-- FOOTER -->
+
 <footer class="site-footer">
+
     <div class="footer-links">
-        <a href="/about">About Us</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms &amp; Conditions</a>
-        <a href="/disclaimer">Disclaimer</a>
+
+        <a href="/about">
+            About Us
+        </a>
+<a href="{{ url_for('about_author') }}">
+            👨‍💼 About the Author &amp; Founder
+        </a>
+        <a href="/privacy">
+            Privacy Policy
+        </a>
+
+        <a href="/terms">
+            Terms &amp; Conditions
+        </a>
+
+        <a href="/disclaimer">
+            Disclaimer
+        </a>
+        <a href="/affiliate-policy">
+            💰 Affiliate Disclosure
+        </a>
+
     </div>
-    <div class="copyright">&copy; 2026 SmartPlanFinance. All rights reserved.</div>
+
+    <div class="copyright">
+
+        &copy; 2026 SmartPlanFinance. All rights reserved.
+
+    </div>
+
 </footer>
 
-</body>
+
 <script>
+
 document.addEventListener('DOMContentLoaded', function () {
-    // Scroll only after a POST submission when results exist
-    const resultsSection = document.getElementById('results-section');
+
+    const resultsSection =
+        document.getElementById('results-section');
 
     if (resultsSection && window.location.search === '') {
-        // Small delay ensures layout is fully rendered
-        setTimeout(() => {
+
+        setTimeout(function () {
+
             resultsSection.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
+
         }, 100);
+
     }
+
 });
+
 </script>
+
+</body>
+
 </html>
