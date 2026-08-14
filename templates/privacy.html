@@ -5,6 +5,9 @@
 
     <meta charset="UTF-8">
 
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <link rel="icon"
           type="image/png"
           sizes="32x32"
@@ -21,9 +24,6 @@
     <link rel="manifest"
           href="{{ url_for('static', filename='icons/site.webmanifest') }}">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
     <title>Privacy Policy | SmartPlan Finance</title>
 
     <meta name="description"
@@ -32,36 +32,56 @@
     <meta name="robots"
           content="index, follow">
 
+    <link rel="canonical"
+          href="https://smartplanfinance.com/privacy">
+
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 
 
     <style>
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f4f7fb;
+            background: #FFFDF5;
             margin: 0;
-            padding: 40px;
+            padding: 40px 20px;
+            color: #333333;
         }
 
         .container {
             max-width: 900px;
-            margin: auto;
+            margin: 0 auto;
             background: #ffffff;
             padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, .08);
+            border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, .07);
         }
 
         h1 {
-            color: #0b4da2;
+            color: #B8860B;
             margin-bottom: 10px;
+            font-size: 38px;
+            line-height: 1.25;
         }
 
         h2 {
-            color: #333333;
-            margin-top: 30px;
+            color: #B8860B;
+            margin-top: 38px;
+            margin-bottom: 15px;
+            font-size: 25px;
+            line-height: 1.35;
+        }
+
+        h3 {
+            color: #8B6400;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 19px;
         }
 
         p,
@@ -70,16 +90,39 @@
             color: #444444;
         }
 
+        p {
+            margin-bottom: 15px;
+        }
+
         ul {
-            padding-left: 22px;
+            padding-left: 24px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        a {
+            color: #8B6400;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
 
         .important {
-            background: #fff8e6;
-            border-left: 6px solid #ff9800;
+            background: #FFF8E5;
+            border-left: 5px solid #B8860B;
             padding: 20px;
-            margin: 30px 0;
+            margin: 28px 0;
             border-radius: 8px;
+        }
+
+        .important p:last-child {
+            margin-bottom: 0;
         }
 
         .updated {
@@ -88,21 +131,21 @@
             margin-bottom: 30px;
         }
 
-        a {
-            color: #0b4da2;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
+        .contact-box {
+            background: #FFF8E1;
+            border-left: 5px solid #B8860B;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
         }
 
         footer {
-            margin-top: 40px;
+            margin-top: 45px;
             text-align: center;
             color: #777777;
             border-top: 1px solid #eeeeee;
-            padding-top: 20px;
+            padding-top: 22px;
+            font-size: 13px;
         }
 
         @media (max-width: 600px) {
@@ -116,11 +159,16 @@
             }
 
             h1 {
-                font-size: 28px;
+                font-size: 30px;
             }
 
             h2 {
-                font-size: 21px;
+                font-size: 22px;
+                margin-top: 32px;
+            }
+
+            h3 {
+                font-size: 18px;
             }
 
             p,
@@ -148,7 +196,7 @@
 
 
     <p class="updated">
-        Last updated: 13 August 2026
+        Last updated: 15 August 2026
     </p>
 
 
@@ -165,6 +213,10 @@
         to you.
     </p>
 
+
+    <!-- =========================================================
+         1. INFORMATION WE COLLECT
+    ========================================================== -->
 
     <h2>
         1. Information We Collect
@@ -307,6 +359,10 @@
     </ul>
 
 
+    <!-- =========================================================
+         2. HOW WE USE INFORMATION
+    ========================================================== -->
+
     <h2>
         2. How We Use Your Information
     </h2>
@@ -361,6 +417,10 @@
     </ul>
 
 
+    <!-- =========================================================
+         3. AI FEATURES
+    ========================================================== -->
+
     <h2>
         3. AI-Powered Features
     </h2>
@@ -390,6 +450,10 @@
     </p>
 
 
+    <!-- =========================================================
+         4. COOKIES
+    ========================================================== -->
+
     <h2>
         4. Cookies and Similar Technologies
     </h2>
@@ -407,6 +471,10 @@
         functionality of some features.
     </p>
 
+
+    <!-- =========================================================
+         5. GOOGLE ANALYTICS
+    ========================================================== -->
 
     <h2>
         5. Google Analytics
@@ -430,10 +498,14 @@
         <a href="https://policies.google.com/technologies/partner-sites"
            target="_blank"
            rel="noopener noreferrer">
-            Google's Privacy & Terms information
+            Google's Privacy &amp; Terms information
         </a>.
     </p>
 
+
+    <!-- =========================================================
+         6. ADSENSE
+    ========================================================== -->
 
     <h2>
         6. Advertising and Google AdSense
@@ -452,24 +524,26 @@
     </p>
 
     <p>
-        Google may use advertising cookies to serve advertisements
-        based on a user's visits to this website and other websites,
-        subject to Google's applicable policies and user settings.
+        Google may use advertising cookies and similar technologies
+        to serve, measure, and personalize advertisements based on
+        a user's visits to this website and other websites, subject
+        to Google's applicable policies and the user's available
+        advertising settings.
     </p>
 
     <p>
-        Users may learn more about Google's advertising practices
-        by visiting
+        Users can learn more about how Google uses information
+        for advertising by visiting
         <a href="https://policies.google.com/technologies/ads"
            target="_blank"
            rel="noopener noreferrer">
-            Google's Advertising Policies
+            Google's Advertising information
         </a>.
     </p>
 
     <p>
-        You may also manage certain Google advertising preferences
-        through
+        Users may also manage certain Google advertising
+        personalization preferences through
         <a href="https://adssettings.google.com"
            target="_blank"
            rel="noopener noreferrer">
@@ -477,6 +551,10 @@
         </a>.
     </p>
 
+
+    <!-- =========================================================
+         7. AFFILIATE
+    ========================================================== -->
 
     <h2>
         7. Affiliate and Referral Links
@@ -502,6 +580,10 @@
     </p>
 
 
+    <!-- =========================================================
+         8. THIRD PARTY SERVICES
+    ========================================================== -->
+
     <h2>
         8. Third-Party Services and Websites
     </h2>
@@ -520,6 +602,10 @@
         information.
     </p>
 
+
+    <!-- =========================================================
+         9. DATA SHARING
+    ========================================================== -->
 
     <h2>
         9. Data Sharing
@@ -546,6 +632,10 @@
     </p>
 
 
+    <!-- =========================================================
+         10. DATA RETENTION
+    ========================================================== -->
+
     <h2>
         10. Data Retention
     </h2>
@@ -563,6 +653,10 @@
         information and the reason it was collected.
     </p>
 
+
+    <!-- =========================================================
+         11. DATA SECURITY
+    ========================================================== -->
 
     <h2>
         11. Data Security
@@ -587,6 +681,10 @@
     </p>
 
 
+    <!-- =========================================================
+         12. CHILDREN
+    ========================================================== -->
+
     <h2>
         12. Children's Privacy
     </h2>
@@ -609,6 +707,10 @@
 
     </div>
 
+
+    <!-- =========================================================
+         13. PRIVACY RIGHTS
+    ========================================================== -->
 
     <h2>
         13. Your Privacy Choices and Rights
@@ -647,11 +749,9 @@
     </p>
 
     <p>
-
         <a href="mailto:support@smartplanfinance.com">
             support@smartplanfinance.com
         </a>
-
     </p>
 
     <p>
@@ -662,24 +762,52 @@
     </p>
 
 
+    <!-- =========================================================
+         14. DELETION
+    ========================================================== -->
+
     <h2>
         14. Account and Data Deletion Requests
     </h2>
 
     <p>
-        If you have an account with SmartPlan Finance and would
-        like to request deletion of your account or associated
-        personal information, you may contact us using the email
-        address provided below.
+        If you have an account with SmartPlan Finance or have
+        submitted personal information through the website and
+        would like to request deletion of your account or
+        associated personal information, you may contact us at:
+    </p>
+
+    <div class="contact-box">
+
+        <strong>
+            Data Deletion Requests:
+        </strong>
+
+        <p>
+            <a href="mailto:support@smartplanfinance.com">
+                support@smartplanfinance.com
+            </a>
+        </p>
+
+    </div>
+
+    <p>
+        We will review and process legitimate deletion requests
+        in accordance with applicable law, our data-retention
+        requirements, and operational security obligations.
     </p>
 
     <p>
         Some information may need to be retained where required
-        by law, necessary for security, dispute resolution,
-        fraud prevention, accounting, or other legitimate
-        purposes.
+        by law or where reasonably necessary for security,
+        fraud prevention, dispute resolution, accounting,
+        record keeping, or other legitimate purposes.
     </p>
 
+
+    <!-- =========================================================
+         15. FINANCIAL INFORMATION
+    ========================================================== -->
 
     <h2>
         15. Financial Information
@@ -713,6 +841,10 @@
     </div>
 
 
+    <!-- =========================================================
+         16. CHANGES
+    ========================================================== -->
+
     <h2>
         16. Changes to This Privacy Policy
     </h2>
@@ -735,6 +867,10 @@
     </p>
 
 
+    <!-- =========================================================
+         17. CONTACT
+    ========================================================== -->
+
     <h2>
         17. Contact Us
     </h2>
@@ -745,22 +881,30 @@
         please contact us at:
     </p>
 
-    <p>
+    <div class="contact-box">
 
-        <strong>
-            Privacy & Support:
-        </strong>
+        <p>
 
-        <a href="mailto:support@smartplanfinance.com">
-            support@smartplanfinance.com
-        </a>
+            <strong>
+                Privacy &amp; Support:
+            </strong>
 
-    </p>
+            <a href="mailto:support@smartplanfinance.com">
+                support@smartplanfinance.com
+            </a>
 
+        </p>
+
+    </div>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
 
     <footer>
 
-        © 2026 SmartPlan Finance.
+        &copy; 2026 SmartPlan Finance.
         All Rights Reserved.
 
     </footer>
