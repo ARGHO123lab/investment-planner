@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About Argho Sanyal | Founder of SmartPlanFinance</title>
+
+    <meta name="description"
+          content="Learn about Argho Sanyal, founder of SmartPlanFinance. Discover his background, the mission behind SmartPlanFinance, its financial education approach, calculators, books, and editorial principles.">
+
+    <meta name="author" content="Argho Sanyal">
+
+    <link rel="canonical"
+          href="https://smartplanfinance.com/about-author">
+
+    <!-- Favicon -->
+
+    <link rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+
+    <link rel="manifest"
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+
+    <!-- Main stylesheet -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Google Font -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <!-- =====================================================
+         PERSON STRUCTURED DATA
+    ====================================================== -->
+
+    <script type="application/ld+json">
+
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://smartplanfinance.com/about-author#argho-sanyal",
+
+        "name": "Argho Sanyal",
+
+        "url": "https://smartplanfinance.com/about-author",
+
+        "jobTitle": "Software Engineer and Founder of SmartPlanFinance",
+
+        "worksFor": {
+            "@type": "Organization",
+            "name": "SmartPlanFinance",
+            "url": "https://smartplanfinance.com/"
+        },
+
+        "sameAs": [
+            "https://www.linkedin.com/company/135116513/",
+            "https://open.spotify.com/show/033XsMw2lD6Uz5wvtmTGQw"
+        ],
+
+        "knowsAbout": [
+            "Personal Finance",
+            "Investing",
+            "Financial Planning",
+            "Saving",
+            "Budgeting",
+            "Financial Independence",
+            "Software Engineering"
+        ]
+    }
+
+    </script>
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ====================================================== */
+
+        body {
+
+            margin: 0;
+
+            padding: 0;
+
+            background: #FFFDF5;
+
+            color: #333;
+
+            font-family: 'Poppins', sans-serif;
+
+            line-height: 1.8;
+
+        }
+
+
+        .about-container {
+
+            max-width: 1050px;
+
+            margin: auto;
+
+            padding: 40px 20px 80px;
+
+        }
+
+
+        /* =====================================================
+           HERO
+        ====================================================== */
+
+        .about-hero {
+
+            text-align: center;
+
+            padding: 65px 20px 55px;
+
+        }
+
+
+        .about-hero .eyebrow {
+
+            color: #B8860B;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .about-hero h1 {
+
+            font-size: 44px;
+
+            line-height: 1.2;
+
+            color: #333;
+
+            margin: 0 0 20px;
+
+        }
+
+
+        .about-hero h1 span {
+
+            color: #B8860B;
+
+        }
+
+
+        .about-hero p {
+
+            max-width: 760px;
+
+            margin: auto;
+
+            font-size: 18px;
+
+            color: #666;
+
+        }
+
+
+        /* =====================================================
+           CARDS
+        ====================================================== */
+
+        .about-card {
+
+            background: #ffffff;
+
+            border-radius: 20px;
+
+            padding: 40px;
+
+            margin-bottom: 28px;
+
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+
+        }
+
+
+        .about-card h2 {
+
+            color: #B8860B;
+
+            font-size: 27px;
+
+            margin-top: 0;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .about-card h3 {
+
+            color: #444;
+
+            font-size: 20px;
+
+            margin-top: 30px;
+
+        }
+
+
+        .about-card p {
+
+            color: #555;
+
+            font-size: 16px;
+
+        }
+
+
+        .about-card strong {
+
+            color: #333;
+
+        }
+
+
+        /* =====================================================
+           FOUNDER INTRO
+        ====================================================== */
+
+        .founder-intro {
+
+            text-align: center;
+
+            max-width: 850px;
+
+            margin: auto;
+
+        }
+
+
+        .founder-badge {
+
+            width: 90px;
+
+            height: 90px;
+
+            margin: 0 auto 25px;
+
+            border-radius: 50%;
+
+            background: #FFF8E1;
+
+            border: 2px solid #D4AF37;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 34px;
+
+        }
+
+
+        .founder-intro h2 {
+
+            margin-bottom: 15px;
+
+        }
+
+
+        /* =====================================================
+           PRINCIPLES
+        ====================================================== */
+
+        .principles {
+
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 20px;
+
+        }
+
+
+        .principle {
+
+            padding: 25px;
+
+            background: #FFFDF5;
+
+            border-radius: 15px;
+
+            border: 1px solid #F0E6C8;
+
+        }
+
+
+        .principle h3 {
+
+            margin-top: 0;
+
+            color: #B8860B;
+
+        }
+
+
+        .principle p {
+
+            margin-bottom: 0;
+
+        }
+
+
+        /* =====================================================
+           BOOK
+        ====================================================== */
+
+        .book-box {
+
+            background: #FFF8E1;
+
+            border-radius: 18px;
+
+            padding: 30px;
+
+            border-left: 4px solid #D4AF37;
+
+        }
+
+
+        .book-box h3 {
+
+            margin-top: 0;
+
+            color: #333;
+
+        }
+
+
+        .book-box a {
+
+            display: inline-block;
+
+            margin-top: 10px;
+
+            color: #8A6500;
+
+            font-weight: 600;
+
+            text-decoration: none;
+
+        }
+
+
+        /* =====================================================
+           LINKS
+        ====================================================== */
+
+        .author-links {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin-top: 20px;
+
+        }
+
+
+        .author-links a {
+
+            text-decoration: none;
+
+            color: #8A6500;
+
+            border: 1px solid #D4AF37;
+
+            padding: 10px 18px;
+
+            border-radius: 30px;
+
+            transition: 0.3s;
+
+        }
+
+
+        .author-links a:hover {
+
+            background: #FFF8E1;
+
+        }
+
+
+        /* =====================================================
+           DISCLAIMER
+        ====================================================== */
+
+        .disclaimer {
+
+            background: #FAFAFA;
+
+            border: 1px solid #E5E5E5;
+
+            border-radius: 16px;
+
+            padding: 28px;
+
+        }
+
+
+        .disclaimer h2 {
+
+            color: #555;
+
+        }
+
+
+        .disclaimer p {
+
+            font-size: 14px;
+
+            color: #666;
+
+        }
+
+
+        /* =====================================================
+           CTA
+        ====================================================== */
+
+        .about-cta {
+
+            text-align: center;
+
+            padding: 45px 25px;
+
+        }
+
+
+        .about-cta h2 {
+
+            color: #333;
+
+        }
+
+
+        .about-cta a {
+
+            display: inline-block;
+
+            margin-top: 15px;
+
+            padding: 13px 25px;
+
+            background: #D4AF37;
+
+            color: #fff;
+
+            text-decoration: none;
+
+            border-radius: 30px;
+
+            font-weight: 600;
+
+        }
+
+
+        .about-cta a:hover {
+
+            background: #B8860B;
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 750px) {
+
+            .about-container {
+
+                padding: 20px 15px 60px;
+
+            }
+
+
+            .about-hero {
+
+                padding: 45px 10px 40px;
+
+            }
+
+
+            .about-hero h1 {
+
+                font-size: 32px;
+
+            }
+
+
+            .about-hero p {
+
+                font-size: 16px;
+
+            }
+
+
+            .about-card {
+
+                padding: 25px;
+
+            }
+
+
+            .principles {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<main class="about-container">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="about-hero">
+
+        <div class="eyebrow">
+            About the Founder
+        </div>
+
+        <h1>
+            Meet <span>Argho Sanyal</span>
+        </h1>
+
+        <p>
+            Founder of SmartPlanFinance and a software engineer
+            focused on making personal finance easier to understand,
+            calculate, and plan.
+        </p>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         INTRODUCTION
+    ====================================================== -->
+
+    <section class="about-card">
+
+        <div class="founder-intro">
+
+            <div class="founder-badge">
+                👨‍💻
+            </div>
+
+            <h2>
+                About Argho Sanyal
+            </h2>
+
+            <p>
+                I am Argho Sanyal, a software engineer and the
+                founder of SmartPlanFinance.
+            </p>
+
+            <p>
+                I created SmartPlanFinance with a simple objective:
+                to make personal finance more understandable,
+                practical, and accessible to everyday people.
+            </p>
+
+            <p>
+                Money decisions often involve complicated concepts
+                such as investing, compounding, inflation, taxes,
+                loans, retirement planning, savings, and risk.
+                SmartPlanFinance brings these concepts together through
+                educational content, interactive calculators, and
+                financial planning tools.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         BACKGROUND
+    ====================================================== -->
+
+    <section class="about-card">
+
+        <h2>
+            My Professional Background
+        </h2>
+
+        <p>
+            My professional background is in software engineering
+            and technology.
+        </p>
+
+        <p>
+            Working in technology has strongly influenced the way
+            I approach financial education. I believe complicated
+            problems become easier to understand when they are
+            broken down into smaller components, assumptions are
+            clearly explained, and the underlying calculations are
+            made visible.
+        </p>
+
+        <p>
+            That philosophy is reflected throughout SmartPlanFinance.
+            Instead of simply presenting a financial number, the
+            platform aims to explain where the number comes from,
+            which assumptions influence it, and what limitations
+            should be considered.
+        </p>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         WHY SMARTPLANFINANCE
+    ====================================================== -->
+
+    <section class="about-card">
+
+        <h2>
+            Why I Created SmartPlanFinance
+        </h2>
+
+        <p>
+            Personal finance can sometimes appear more complicated
+            than it needs to be.
+        </p>
+
+        <p>
+            People often have practical questions such as:
+            How much should I save every month? How much could my
+            investments potentially grow? How does inflation affect
+            future purchasing power? How much might I need for
+            retirement? How should I think about my financial goals?
+        </p>
+
+        <p>
+            These questions become easier to explore when financial
+            concepts are connected to understandable examples and
+            actual numbers.
+        </p>
+
+        <p>
+            SmartPlanFinance was created to provide that practical
+            bridge between financial concepts and everyday decisions.
+        </p>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FINANCIAL PHILOSOPHY
+    ====================================================== -->
+
+    <section class="about-card">
+
+        <h2>
+            My Approach to Personal Finance
+        </h2>
+
+        <div class="principles">
+
+
+            <div class="principle">
+
+                <h3>
+                    Understand Before You Invest
+                </h3>
+
+                <p>
+                    Financial products can be useful, but understanding
+                    their purpose, risks, costs, assumptions, and time
+                    horizon should come before making a decision.
+                </p>
+
+            </div>
+
+
+            <div class="principle">
+
+                <h3>
+                    Numbers Need Context
+                </h3>
+
+                <p>
+                    A projected return or future value is meaningful
+                    only when the assumptions behind the calculation
+                    are clearly understood.
+                </p>
+
+            </div>
+
+
+            <div class="principle">
+
+                <h3>
+                    Think Long Term
+                </h3>
+
+                <p>
+                    Personal finance is generally a long-term process.
+                    Saving behaviour, consistency, risk management,
+                    and realistic expectations are important.
+                </p>
+
+            </div>
+
+
+            <div class="principle">
+
+                <h3>
+                    Keep Finance Practical
+                </h3>
+
+                <p>
+                    Financial education should not require a finance
+                    degree. Explanations and tools should be accessible
+                    to people at different stages of their financial
+                    journey.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SMARTPLANFINANCE PLATFORM
+    ====================================================== -->
+
+    <section class="about-card">
+
+        <h2>
+            What You Will Find on SmartPlanFinance
+        </h2>
+
+        <p>
+            SmartPlanFinance combines financial education with
+            interactive tools designed to help users understand
+            common personal-finance questions.
+        </p>
+
+
+        <h3>
+            Financial Calculators
+        </h3>
+
+        <p>
+            The platform provides calculators covering areas such as
+            SIPs, investments, returns, retirement planning, savings,
+            taxes, loans, and other personal-finance calculations.
+        </p>
+
+
+        <h3>
+            Educational Articles
+        </h3>
+
+        <p>
+            Articles explain personal-finance concepts using practical
+            examples, Indian rupee values, assumptions, and
+            straightforward language.
+        </p>
+
+
+        <h3>
+            Financial Planning Tools
+        </h3>
+
+        <p>
+            SmartPlanFinance also provides planning tools that help
+            users think about income, expenses, savings, investments,
+            financial goals, and different stages of their financial
+            lives.
+        </p>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CALCULATOR METHODOLOGY
+    ====================================================== -->
+
+    <section class="about-card">
+
+        <h2>
+            How We Approach Financial Calculations
+        </h2>
+
+        <p>
+            Financial calculators can produce impressive-looking
+            numbers, but the number itself is not the complete answer.
+        </p>
+
+        <p>
+            Wherever practical, SmartPlanFinance aims to explain the
+            methodology behind a calculation, including relevant
+            formulas, assumptions, contribution frequency, investment
+            period, estimated return, and other variables.
+        </p>
+
+        <p>
+            Calculator results are estimates based on the information
+            entered by the user and the assumptions used by the
+            particular calculator. Actual financial outcomes can
+            differ significantly.
+        </p>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         BOOK
+    ====================================================== -->
+
+    <section class="about-card">
+
+        <h2>
+            Author of SmartPlanFinance
+        </h2>
+
+        <div class="book-box">
+
+            <h3>
+                SmartPlanFinance: From First Salary to Financial Freedom
+            </h3>
+
+            <p>
+                SmartPlanFinance also extends beyond the website through
+                educational content designed to help readers develop a
+                stronger understanding of money, investing, financial
+                behaviour, and long-term financial planning.
+            </p>
+
+            <p>
+                The objective is not to promise a particular financial
+                outcome. Instead, the aim is to provide practical
+                frameworks that can help readers think more clearly
+                about their financial decisions.
+            </p>
+
+            <a href="/books">
+                Explore the SmartPlanFinance Book →
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         EDITORIAL PRINCIPLES
+    ====================================================== -->
+
+    <section class="about-card">
+
+        <h2>
+            Editorial Principles
+        </h2>
+
+        <p>
+            Financial information can influence real-world decisions.
+            SmartPlanFinance therefore aims to approach financial
+            content carefully and transparently.
+        </p>
+
+        <p>
+            Content should be understandable, calculations should be
+            explainable, assumptions should be disclosed, and financial
+            claims should not be presented as guaranteed outcomes.
+        </p>
+
+        <p>
+            When financial products, tax rules, regulations, interest
+            rates, or other time-sensitive information are discussed,
+            readers should verify the latest information with the
+            relevant official source or a qualified professional before
+            making a decision.
+        </p>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CONNECT
+    ====================================================== -->
+
+    <section class="about-card">
+
+        <h2>
+            Connect With SmartPlanFinance
+        </h2>
+
+        <p>
+            Follow SmartPlanFinance through its website, professional
+            presence, and audio content.
+        </p>
+
+
+        <div class="author-links">
+
+            <a href="/">
+                🌐 SmartPlanFinance
+            </a>
+
+
+            <a href="https://www.linkedin.com/company/135116513/"
+               target="_blank"
+               rel="noopener noreferrer">
+
+                💼 LinkedIn
+
+            </a>
+
+
+            <a href="https://open.spotify.com/show/033XsMw2lD6Uz5wvtmTGQw"
+               target="_blank"
+               rel="noopener noreferrer">
+
+                🎧 Spotify
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FINANCIAL DISCLAIMER
+    ====================================================== -->
+
+    <section class="about-card disclaimer">
+
+        <h2>
+            Financial Disclaimer
+        </h2>
+
+        <p>
+            SmartPlanFinance provides general educational and
+            informational content about personal finance. The
+            information presented on this website should not be
+            considered personalised financial, investment, tax,
+            legal, or professional advice.
+        </p>
+
+        <p>
+            Financial calculators provide estimates based on user
+            inputs and stated assumptions. Actual investment returns,
+            expenses, taxes, inflation, interest rates, and other
+            financial outcomes may differ.
+        </p>
+
+        <p>
+            Before making an investment, tax, loan, insurance, or
+            other financial decision, consider your individual
+            circumstances and, where appropriate, consult a qualified
+            financial or tax professional.
+        </p>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CTA
+    ====================================================== -->
+
+    <section class="about-cta">
+
+        <h2>
+            Start Planning Your Financial Future
+        </h2>
+
+        <p>
+            Explore the calculators, guides, and financial planning
+            tools available on SmartPlanFinance.
+        </p>
+
+        <a href="/">
+            Explore SmartPlanFinance
+        </a>
+
+    </section>
+
+
+</main>
+
+
+</body>
+
+</html>
+

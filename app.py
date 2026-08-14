@@ -4385,7 +4385,9 @@ def about():
 @app.route("/privacy")
 def privacy():
     return render_template("privacy.html")
-
+@app.route("/about-author")
+def about_author():
+    return render_template("about_author.html")
 @app.route("/affiliate-policy")
 def affiliate_policy():
     return render_template("affiliate_policy.html")
