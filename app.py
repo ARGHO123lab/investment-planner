@@ -2885,53 +2885,107 @@ from math import pow
 
 @app.route("/inflation_calculator", methods=["GET", "POST"])
 def inflation_calculator():
-
     result = None
 
     if request.method == "POST":
-
         try:
+            current_amount = float(request.form.get("current_amount", 0))
+            inflation_rate = float(request.form.get("inflation_rate", 0))
+            years = int(request.form.get("years", 0))
 
-            current_amount = float(request.form["current_amount"])
-            inflation_rate = float(request.form["inflation_rate"])
-            years = int(request.form["years"])
+            # Basic validation
+            if current_amount <= 0:
+                result = {
+                    "error": "Please enter a current amount greater than ₹0."
+                }
 
-            future_value = current_amount * pow(
-                (1 + inflation_rate / 100),
-                years
-            )
+            elif inflation_rate < 0:
+                result = {
+                    "error": "Inflation rate cannot be negative."
+                }
 
-            purchasing_power_loss = future_value - current_amount
+            elif years <= 0:
+                result = {
+                    "error": "Please enter a time period of at least 1 year."
+                }
 
-            yearly_data = []
+            elif years > 100:
+                result = {
+                    "error": "Please enter a time period of 100 years or less."
+                }
 
-            for year in range(1, years + 1):
+            else:
+                # ---------------------------------------------------------
+                # Future amount required to maintain today's purchasing power
+                #
+                # Formula:
+                # Future Value = Present Value × (1 + inflation)^years
+                # ---------------------------------------------------------
 
-                value = current_amount * pow(
-                    (1 + inflation_rate / 100),
-                    year
+                inflation_decimal = inflation_rate / 100
+
+                future_value = (
+                    current_amount
+                    * ((1 + inflation_decimal) ** years)
                 )
 
-                yearly_data.append({
-                    "year": year,
-                    "value": round(value, 2)
-                })
+                # Amount by which the future required value exceeds
+                # today's amount.
+                loss = future_value - current_amount
 
+                # ---------------------------------------------------------
+                # Year-by-year inflation data
+                # ---------------------------------------------------------
+
+                yearly_data = []
+
+                for year in range(1, years + 1):
+
+                    year_value = (
+                        current_amount
+                        * ((1 + inflation_decimal) ** year)
+                    )
+
+                    # Purchasing power remaining as a percentage
+                    # of today's purchasing power.
+                    purchasing_power_remaining = (
+                        current_amount / year_value
+                    ) * 100
+
+                    # Purchasing power lost.
+                    loss_percentage = (
+                        100 - purchasing_power_remaining
+                    )
+
+                    yearly_data.append({
+                        "year": year,
+                        "value": year_value,
+                        "loss_percentage": round(
+                            loss_percentage, 2
+                        )
+                    })
+
+                result = {
+                    "current_amount": current_amount,
+                    "inflation_rate": inflation_rate,
+                    "years": years,
+                    "future_value": future_value,
+                    "loss": loss,
+                    "yearly_data": yearly_data
+                }
+
+        except (ValueError, TypeError):
             result = {
-
-                "current_amount": round(current_amount, 2),
-                "future_value": round(future_value, 2),
-                "inflation_rate": inflation_rate,
-                "years": years,
-                "loss": round(purchasing_power_loss, 2),
-                "yearly_data": yearly_data
-
+                "error": "Please enter valid numbers in all fields."
             }
 
         except Exception as e:
+            app.logger.exception(
+                "Inflation calculator error"
+            )
 
             result = {
-                "error": str(e)
+                "error": "Something went wrong while calculating the inflation impact. Please try again."
             }
 
     return render_template(
