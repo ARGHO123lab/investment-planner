@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="icon"
           type="image/png"
           sizes="32x32"
@@ -21,12 +22,50 @@
           href="{{ url_for('static', filename='icons/site.webmanifest') }}">
 
     <title>Lumpsum Calculator | SmartPlan Finance</title>
-    <meta name="description" content="Free Lumpsum Investment Calculator by SmartPlan Finance. Calculate returns on one-time investments and watch your wealth grow through compounding.">
-    <link rel="canonical" href="https://smartplanfinance.com/lumpsum_calculator">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description"
+          content="Use the SmartPlan Finance Lumpsum Calculator to estimate the future value of a one-time investment using an assumed annual return and investment period. Learn how compounding works and why projected returns are not guaranteed.">
+
+    <link rel="canonical"
+          href="https://smartplanfinance.com/lumpsum_calculator">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+<script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
+            crossorigin="anonymous"></script>
+    <!--
+        Structured Data
+        This describes the calculator as a financial web application.
+    -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Lumpsum Investment Calculator",
+      "alternateName": "Lumpsum Calculator",
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Investment Calculator",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript-capable web browser",
+      "url": "https://smartplanfinance.com/lumpsum_calculator",
+      "description": "A free online lumpsum investment calculator that estimates the future value of a one-time investment using an assumed annual return and investment period. The calculator provides projections and does not guarantee investment returns.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "SmartPlan Finance",
+        "url": "https://smartplanfinance.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      }
+    }
+    </script>
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -38,12 +77,13 @@
             font-family: 'Poppins', sans-serif;
             padding: 40px 20px;
             line-height: 1.6;
+            color: #333;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: white;
+            background: #ffffff;
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 15px 40px rgba(0,0,0,.08);
@@ -54,6 +94,7 @@
             font-size: 42px;
             margin-bottom: 15px;
             text-align: center;
+            line-height: 1.25;
         }
 
         h2 {
@@ -61,12 +102,17 @@
             font-size: 26px;
             margin-top: 45px;
             margin-bottom: 20px;
+            line-height: 1.35;
         }
 
         h3 {
             color: #B8860B;
             font-size: 20px;
             margin-bottom: 12px;
+        }
+
+        p {
+            line-height: 1.8;
         }
 
         .subtitle {
@@ -81,7 +127,7 @@
         }
 
         .form-card {
-            background: white;
+            background: #ffffff;
             border-radius: 12px;
             padding: 30px;
             margin: 30px 0;
@@ -121,7 +167,7 @@
             padding: 15px;
             border: none;
             background: linear-gradient(135deg, #B8860B 0%, #8B6400 100%);
-            color: white;
+            color: #ffffff;
             font-size: 18px;
             font-weight: 600;
             border-radius: 12px;
@@ -164,7 +210,7 @@
         .disclaimer-box {
             margin-top: 30px;
             padding: 18px;
-            background: #fff8e5;
+            background: #FFF8E5;
             border-left: 5px solid #B8860B;
             border-radius: 10px;
             font-size: 14px;
@@ -184,31 +230,20 @@
             margin-top: 0;
         }
 
-        .education-card ul {
-            list-style: none;
-            padding-left: 0;
-            margin-top: 15px;
-        }
-
-        .education-card li {
-            padding-left: 25px;
-            position: relative;
-            margin-bottom: 10px;
-            color: #555;
-        }
-
-        .education-card li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #B8860B;
-            font-weight: 600;
-        }
-
         .education-card p {
             color: #555;
             margin-bottom: 12px;
             line-height: 1.8;
+        }
+
+        .education-card ul {
+            padding-left: 22px;
+            margin-top: 15px;
+        }
+
+        .education-card li {
+            margin-bottom: 10px;
+            color: #555;
         }
 
         .calculator-grid {
@@ -235,6 +270,42 @@
             line-height: 1.6;
         }
 
+        .formula-box {
+            background: #FFFDF5;
+            border: 1px solid #E7D8A5;
+            border-radius: 12px;
+            padding: 22px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .formula {
+            font-size: 20px;
+            font-weight: 600;
+            color: #8B6400;
+            margin: 12px 0;
+            word-break: break-word;
+        }
+
+        .formula-explanation {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.8;
+            text-align: left;
+        }
+
+        .important-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: #FFF8E1;
+            border-left: 5px solid #B8860B;
+            border-radius: 10px;
+        }
+
+        .important-box strong {
+            color: #8B6400;
+        }
+
         .result-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -243,7 +314,7 @@
         }
 
         .card {
-            background: #fffdf6;
+            background: #FFFDF6;
             border-left: 5px solid #B8860B;
             padding: 18px;
             border-radius: 12px;
@@ -285,7 +356,7 @@
 
         .result-table th {
             background: #B8860B;
-            color: white;
+            color: #ffffff;
             font-weight: 600;
         }
 
@@ -296,7 +367,7 @@
         .insight-box {
             margin-top: 30px;
             padding: 20px;
-            background: #fff8e5;
+            background: #FFF8E5;
             border-left: 5px solid #B8860B;
             border-radius: 10px;
         }
@@ -325,6 +396,7 @@
             text-decoration: none;
             transition: all 0.3s ease;
             color: inherit;
+            height: 100%;
         }
 
         .article-card:hover {
@@ -354,17 +426,17 @@
             border-radius: 12px;
             margin-top: 30px;
             text-align: center;
-            color: white;
+            color: #ffffff;
         }
 
         .success-banner h2 {
-            color: white;
+            color: #ffffff;
             margin-top: 0;
             margin-bottom: 10px;
         }
 
         .success-banner p {
-            color: rgba(255,255,255,.9);
+            color: rgba(255,255,255,.92);
             margin-bottom: 0;
         }
 
@@ -378,14 +450,49 @@
         }
 
         .results-section {
-            display: none;
+            margin-top: 35px;
         }
 
-        .results-section.show {
-            display: block;
+        .section-note {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .site-footer {
+            max-width: 800px;
+            margin: 40px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+
+        .site-footer .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 14px;
+        }
+
+        .site-footer .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .site-footer .footer-links a:hover {
+            color: #B8860B;
+        }
+
+        .site-footer .copyright {
+            font-size: 12px;
+            color: #999;
         }
 
         @media (max-width: 768px) {
+
             body {
                 padding: 15px;
             }
@@ -425,14 +532,8 @@
                 display: block;
             }
 
-            .calculator-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .related-articles {
-                grid-template-columns: 1fr;
-            }
-
+            .calculator-grid,
+            .related-articles,
             .result-grid {
                 grid-template-columns: 1fr;
             }
@@ -445,460 +546,1006 @@
             .result-table td {
                 padding: 10px;
             }
-        }
-         /* Site Footer */
-        .site-footer {
-            max-width: 700px;
-            margin: 40px auto 0;
-            padding-top: 24px;
-            border-top: 1px solid #eee;
-            text-align: center;
+
+            .formula {
+                font-size: 17px;
+            }
         }
 
-        .site-footer .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 18px;
-            margin-bottom: 14px;
-        }
-
-        .site-footer .footer-links a {
-            color: #666;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .site-footer .footer-links a:hover {
-            color: #B8860B;
-        }
-
-        .site-footer .copyright {
-            font-size: 12px;
-            color: #999;
-        }
     </style>
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Lumpsum Investment Calculator",
-      "applicationCategory": "FinanceApplication",
-      "operatingSystem": "Any",
-      "url": "https://smartplanfinance.com/lumpsum_calculator",
-      "description": "Free Lumpsum Investment Calculator by SmartPlan Finance. Calculate returns on one-time investments and watch your wealth grow through compounding returns.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "SmartPlan Finance"
-      }
-    }
-    </script>
-
 </head>
 
 <body>
 
 <div class="container">
 
-    <!-- Header Section -->
-    <div style="margin-bottom: 35px;">
+    <!-- =========================================================
+         HEADER
+    ========================================================== -->
+
+    <header>
         <h1>💰 Lumpsum Investment Calculator</h1>
+
         <p class="subtitle">
-            Estimate how much your one-time investment can grow over time through the power of compounding returns. See your wealth multiply with long-term strategic investing.
+            Estimate the future value of a one-time investment using an assumed annual return and investment period. Understand how compounding can affect your wealth over time.
         </p>
-    </div>
+    </header>
 
-    <!-- What is Lumpsum Investment -->
-    <div class="education-card">
-        <h3>📈 What is a Lumpsum Investment?</h3>
-        <p>
-            A lumpsum investment is a one-time deployment of a large sum of money into investment instruments like mutual funds, stocks, fixed deposits, or bonds. Instead of investing gradually (like SIP), you invest the entire amount at once and benefit from long-term compounding.
-        </p>
-        <p>
-            <strong>Example:</strong> If you invest ₹10 lakhs in a fund returning 12% annually for 15 years, your investment could grow to approximately ₹54.8 lakhs, earning ₹44.8 lakhs in returns through the power of compounding.
-        </p>
-    </div>
 
-    <!-- Why Lumpsum Investing Matters -->
-    <div style="margin-top: 45px;">
+    <!-- =========================================================
+         BASIC EDUCATION
+    ========================================================== -->
+
+    <section>
+
+        <div class="education-card">
+
+            <h3>📈 What Is a Lumpsum Investment?</h3>
+
+            <p>
+                A lumpsum investment is a one-time investment of a specific amount of money. Instead of contributing money regularly through a SIP, you invest the available amount at once and allow it to remain invested for a chosen period.
+            </p>
+
+            <p>
+                For example, if you invest ₹1,00,000 today and assume an annual return of 10% for 10 years, the calculator estimates how much that ₹1,00,000 could be worth at the end of the period if the assumed rate remained constant.
+            </p>
+
+            <p>
+                The result is a <strong>projection, not a promise of future returns</strong>. Actual investment performance can be higher or lower than the rate used in the calculator.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         FUTURE VALUE CALCULATION
+    ========================================================== -->
+
+    <section>
+
+        <h2>🧮 How Is Future Value Calculated?</h2>
+
+        <div class="education-card">
+
+            <p>
+                The future value of a one-time investment can be estimated using the compound-interest formula:
+            </p>
+
+            <div class="formula-box">
+
+                <div class="formula">
+                    FV = P × (1 + r)<sup>n</sup>
+                </div>
+
+                <div class="formula-explanation">
+
+                    <p>
+                        <strong>FV</strong> = estimated future value
+                    </p>
+
+                    <p>
+                        <strong>P</strong> = initial one-time investment
+                    </p>
+
+                    <p>
+                        <strong>r</strong> = assumed annual rate of return expressed as a decimal
+                    </p>
+
+                    <p>
+                        <strong>n</strong> = investment period in years
+                    </p>
+
+                </div>
+
+            </div>
+
+            <p style="margin-top: 20px;">
+                For example, a ₹1,00,000 investment growing at an assumed 10% annually for 10 years would be calculated as:
+            </p>
+
+            <div class="formula-box">
+
+                <div class="formula">
+                    ₹1,00,000 × (1 + 0.10)<sup>10</sup>
+                </div>
+
+                <p class="formula-explanation">
+                    This produces an estimated future value of approximately <strong>₹2,59,374</strong>, assuming the investment compounds at exactly 10% every year and ignoring taxes, fees and other costs.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         ASSUMED VS GUARANTEED RETURNS
+    ========================================================== -->
+
+    <section>
+
+        <h2>⚠️ Assumed Returns vs Guaranteed Returns</h2>
+
+        <div class="important-box">
+
+            <h3>What does the return percentage mean?</h3>
+
+            <p>
+                The return percentage entered into this calculator is an <strong>assumption used for mathematical projection</strong>. It does not mean that an investment will actually generate that return every year.
+            </p>
+
+            <p>
+                Market-linked investments such as equity mutual funds and stocks can experience significant fluctuations. A calculator may use 10%, 12% or another rate simply to demonstrate how compounding could work.
+            </p>
+
+            <p>
+                A <strong>guaranteed or contractual return</strong> is different. Certain products may specify an interest rate or payout according to their terms and conditions. Even then, the applicable rate, taxation, premature-withdrawal rules and other conditions should be checked before investing.
+            </p>
+
+            <p>
+                Therefore, never interpret the calculator's projected future value as a guaranteed amount.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         WHY LUMPSUM INVESTING MATTERS
+    ========================================================== -->
+
+    <section>
+
         <h2>🎯 Why Lumpsum Investing Matters</h2>
+
         <div class="calculator-grid">
+
             <div class="grid-card">
-                <h3>⏱️ Immediate Deployment</h3>
-                <p>Deploy capital immediately and start benefiting from market returns right away, rather than waiting for regular investments.</p>
+                <h3>⏱️ Immediate Investment</h3>
+                <p>
+                    A lumpsum allows your available capital to enter the investment immediately rather than being spread across future contributions.
+                </p>
             </div>
 
             <div class="grid-card">
-                <h3>💎 Compounding Power</h3>
-                <p>The larger your initial investment, the more compounding works in your favor over long periods.</p>
+                <h3>💎 Compounding</h3>
+                <p>
+                    When returns remain invested, future growth can occur on both the original investment and accumulated gains.
+                </p>
             </div>
 
             <div class="grid-card">
-                <h3>💡 Bonus & Windfall</h3>
-                <p>Invest bonuses, inheritances, tax refunds, or savings windfall to accelerate wealth creation.</p>
+                <h3>💡 Windfalls</h3>
+                <p>
+                    Bonuses, maturity proceeds, inheritances or accumulated savings may provide capital for a one-time investment.
+                </p>
             </div>
 
             <div class="grid-card">
-                <h3>📊 Full Market Exposure</h3>
-                <p>Get complete exposure to market movements from day one instead of gradual SIP-based exposure.</p>
+                <h3>📊 Market Exposure</h3>
+                <p>
+                    Market-linked lumpsum investments receive market exposure from the time the money is invested.
+                </p>
             </div>
-        </div>
-    </div>
 
-    <!-- Lumpsum Investment Calculator Form -->
-    <form method="POST" class="form-card">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-        <div class="form-group">
-            <label>One-Time Investment Amount (₹)</label>
-            <input type="number"
-                   name="investment"
-                   placeholder="Example: 1000000"
-                   required
-                   min="1000">
         </div>
 
-        <div class="form-group">
-            <label>Expected Annual Return (%)</label>
-            <input type="number"
-                   step="0.1"
-                   name="return_rate"
-                   placeholder="Example: 12"
-                   required
-                   min="0"
-                   max="30">
-        </div>
+    </section>
 
-        <div class="form-group">
-            <label>Investment Period (Years)</label>
-            <input type="number"
-                   step="0.5"
-                   name="years"
-                   placeholder="Example: 15"
-                   required
-                   min="0.5"
-                   max="60">
-        </div>
 
-        <button type="submit">
-            💰 Calculate Future Value
-        </button>
-    </form>
+    <!-- =========================================================
+         CALCULATOR
+    ========================================================== -->
 
-    <!-- Back to Home Button -->
+    <section>
+
+        <h2>💰 Calculate Your Lumpsum Investment</h2>
+
+        <form method="POST"
+              class="form-card"
+              aria-label="Lumpsum Investment Calculator">
+
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+
+            <div class="form-group">
+
+                <label for="investment">
+                    One-Time Investment Amount (₹)
+                </label>
+
+                <input type="number"
+                       id="investment"
+                       name="investment"
+                       value="{{ request.form.get('investment', '100000') }}"
+                       placeholder="Example: 100000"
+                       required
+                       min="1000"
+                       step="1000">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="return_rate">
+                    Assumed Annual Return (%)
+                </label>
+
+                <input type="number"
+                       id="return_rate"
+                       name="return_rate"
+                       value="{{ request.form.get('return_rate', '10') }}"
+                       placeholder="Example: 10"
+                       required
+                       min="0"
+                       max="30"
+                       step="0.1">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="years">
+                    Investment Period (Years)
+                </label>
+
+                <input type="number"
+                       id="years"
+                       name="years"
+                       value="{{ request.form.get('years', '10') }}"
+                       placeholder="Example: 10"
+                       required
+                       min="0.5"
+                       max="60"
+                       step="0.5">
+
+            </div>
+
+
+            <button type="submit">
+                💰 Calculate Future Value
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- =========================================================
+         BACK TO HOME
+    ========================================================== -->
+
     <div style="text-align: center;">
-        <a href="{{ url_for('index') }}" class="back-btn">
+
+        <a href="{{ url_for('index') }}"
+           class="back-btn">
             ← Back to Home
         </a>
+
     </div>
 
-    <!-- Disclaimer -->
-    <div class="disclaimer-box">
-        <strong>Disclaimer:</strong> The Lumpsum Investment Calculator on SmartPlan Finance provides estimated future values based on the investment amount, expected rate of return, and investment period you enter. Actual returns are not guaranteed and may vary based on market performance, investment selection, taxes, expenses, and other factors. SmartPlan Finance does not recommend any investment product or provide financial advice. Please consult a qualified financial advisor before making investment decisions.
-    </div>
 
-    <!-- How to Use Calculator -->
-    <div style="margin-top: 45px;">
-        <h2>📋 How to Use This Calculator</h2>
-        <div class="education-card">
-            <ol style="color: #555; line-height: 2; padding-left: 20px;">
-                <li>Enter the <strong>lumpsum investment amount</strong> (your one-time investment in rupees).</li>
-                <li>Enter the <strong>expected annual return</strong> based on your investment type (stocks, funds, bonds).</li>
-                <li>Enter the <strong>investment period</strong> in years (how long you plan to invest).</li>
-                <li>Click the <strong>Calculate Future Value</strong> button.</li>
-                <li>Review your projected future value and wealth gained.</li>
-                <li>Adjust amounts to compare different scenarios and find your optimal investment strategy.</li>
-            </ol>
-        </div>
-    </div>
+    <!-- =========================================================
+         RESULTS
+    ========================================================== -->
 
-    <!-- Types of Lumpsum Investments -->
-    <div style="margin-top: 45px;">
-        <h2>💼 Types of Lumpsum Investments</h2>
-        <div class="education-card">
-            <h3>🏦 Fixed Deposits</h3>
-            <p>Safe, guaranteed returns (4-6% annually). No market risk but returns may not beat inflation. Best for risk-averse investors.</p>
-
-            <h3 style="margin-top: 20px;">📱 Mutual Funds</h3>
-            <p>Diversified investment across multiple stocks/bonds. Returns depend on fund type: conservative (7-10%), balanced (9-12%), aggressive (12-15%+).</p>
-
-            <h3 style="margin-top: 20px;">📈 Direct Stock Investment</h3>
-            <p>Higher volatility but higher growth potential. Requires market knowledge. Average historical returns 12-16% but highly variable year-to-year.</p>
-
-            <h3 style="margin-top: 20px;">🏠 Real Estate</h3>
-            <p>Property investment with 7-10% annual appreciation. Lower liquidity but tangible asset with leverage benefits.</p>
-
-            <h3 style="margin-top: 20px;">💰 Government Securities</h3>
-            <p>Safe government bonds returning 5-7%. Very low risk, tax-efficient in some cases, but modest returns.</p>
-        </div>
-    </div>
-
-    <!-- Expected Returns by Asset Class -->
-    <div style="margin-top: 45px;">
-        <h2>📊 Expected Returns by Asset Class</h2>
-        <div class="education-card">
-            <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
-                <tr style="border-bottom: 1px solid rgba(0,0,0,.1);">
-                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">Fixed Deposits</td>
-                    <td style="padding: 12px; color: #555;">4-6% annually (Very safe, low returns)</td>
-                </tr>
-                <tr style="border-bottom: 1px solid rgba(0,0,0,.1);">
-                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">Government Bonds/G-Secs</td>
-                    <td style="padding: 12px; color: #555;">5-7% annually (Safe, stable income)</td>
-                </tr>
-                <tr style="border-bottom: 1px solid rgba(0,0,0,.1);">
-                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">Balanced Mutual Funds</td>
-                    <td style="padding: 12px; color: #555;">9-12% annually (Moderate risk, balanced)</td>
-                </tr>
-                <tr style="border-bottom: 1px solid rgba(0,0,0,.1);">
-                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">Equity Mutual Funds</td>
-                    <td style="padding: 12px; color: #555;">10-15% annually (Higher volatility)</td>
-                </tr>
-                <tr>
-                    <td style="padding: 12px; font-weight: 600; color: #B8860B;">Direct Stock Investment</td>
-                    <td style="padding: 12px; color: #555;">12-16%+ annually (High volatility, requires skill)</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <!-- Key Factors Affecting Returns -->
-    <div style="margin-top: 45px;">
-        <h2>🔑 Key Factors Affecting Lumpsum Returns</h2>
-        <div class="education-card">
-            <ul>
-                <li><strong>Investment Amount:</strong> Larger initial investments compound more aggressively over time.</li>
-                <li><strong>Rate of Return:</strong> Higher returns create exponential growth. Even 1-2% difference matters over 15+ years.</li>
-                <li><strong>Time Period:</strong> Longer investment horizons allow compounding to work its magic. 10+ years is ideal.</li>
-                <li><strong>Asset Allocation:</strong> Mix of stocks (growth) and bonds (stability) affects overall returns and volatility.</li>
-                <li><strong>Market Timing:</strong> When you invest affects initial returns, though long-term investors benefit from dollar-cost averaging through market cycles.</li>
-                <li><strong>Expense Ratio:</strong> Lower fund management fees mean higher net returns reaching your pocket.</li>
-                <li><strong>Tax Efficiency:</strong> Tax-efficient investments (ELSS, long-term capital gains) preserve more wealth.</li>
-                <li><strong>Inflation:</strong> Ensure your returns exceed inflation to maintain real purchasing power growth.</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Smart Lumpsum Investment Tips -->
-    <div style="margin-top: 45px;">
-        <h2>💡 Smart Lumpsum Investment Tips</h2>
-        <div class="education-card">
-            <ul>
-                <li><strong>Diversify Across Asset Classes:</strong> Don't put all money in one investment. Mix stocks, bonds, and real estate.</li>
-                <li><strong>Choose Based on Time Horizon:</strong> Longer horizons allow aggressive (equity) allocation; shorter horizons need conservative (debt) focus.</li>
-                <li><strong>Set Clear Goals:</strong> Align investment with specific goals (retirement, education, home purchase) to maintain discipline.</li>
-                <li><strong>Avoid Panic Selling:</strong> Market downturns are opportunities, not reasons to sell. Stay invested through cycles.</li>
-                <li><strong>Rebalance Annually:</strong> Review and rebalance portfolio yearly to maintain target asset allocation.</li>
-                <li><strong>Use Dollar-Cost Averaging:</strong> If investing large amounts, consider investing in tranches over 3-6 months to reduce timing risk.</li>
-                <li><strong>Keep Fees Low:</strong> Choose low-cost index funds over expensive actively managed funds when possible.</li>
-                <li><strong>Monitor Tax Implications:</strong> Optimize investments for tax efficiency (long-term capital gains, ELSS under Section 80C).</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Lumpsum vs SIP Comparison -->
-    <div style="margin-top: 45px;">
-        <h2>⚖️ Lumpsum vs SIP: Which is Better?</h2>
-        <div class="education-card">
-            <h3 style="margin-top: 0;">📊 Lumpsum Advantages</h3>
-            <p>Deploy all capital immediately. Benefit from full compounding from day one. Better when you have large amounts available. Less emotional decision-making.</p>
-
-            <h3 style="margin-top: 20px;">💰 SIP Advantages</h3>
-            <p>Invest gradually (monthly). Reduces timing risk through rupee cost averaging. Builds discipline. Smaller commitment amounts. Better for wage earners without large savings.</p>
-
-            <h3 style="margin-top: 20px;">🎯 The Verdict</h3>
-            <p>Choose lumpsum if you have large corpus ready and strong risk tolerance. Choose SIP if building wealth gradually or nervous about market timing. Consider hybrid: lumpsum for existing savings + SIP for ongoing income.</p>
-        </div>
-    </div>
-
-    <!-- Calculation Results - Only Visible After Calculation -->
     {% if result %}
-    <div id="results-section">
 
-    {% if result.error %}
+    <section id="results-section"
+             class="results-section">
 
-    <div class="error-message">
-        <strong>⚠️ Error:</strong> {{ result.error }}
-    </div>
+        {% if result.error %}
 
-    {% else %}
+        <div class="error-message">
 
-    <div class="success-banner">
-        <h2>✓ Your Lumpsum Investment Projection</h2>
-        <p>Here's how your investment could grow over time</p>
-    </div>
-
-    <h3 style="text-align: center; color: #B8860B; margin-top: 35px;">
-        📊 Investment Summary
-    </h3>
-
-    <div class="result-grid">
-        <div class="card">
-            <h4>💰 Initial Investment</h4>
-            <p>₹ {{ "{:,.0f}".format(result.investment) }}</p>
-        </div>
-
-        <div class="card">
-            <h4>📈 Future Value</h4>
-            <p>
-                ₹ {{ "{:,.0f}".format(result.future_value) }}
-            </p>
-        </div>
-
-        <div class="card">
-            <h4>💎 Wealth Gained</h4>
-            <p style="color: #4CAF50;">
-                ₹ {{ "{:,.0f}".format(result.wealth_gained) }}
-            </p>
-        </div>
-
-        <div class="card">
-            <h4>📊 Total Return %</h4>
-            <p>
-                {{ "%.1f"|format((result.wealth_gained / result.investment * 100)) }}%
-            </p>
-        </div>
-    </div>
-
-    <!-- Year-wise Growth Table -->
-    <h3 style="text-align: center; color: #B8860B; margin-top: 35px;">
-        📋 Year-wise Growth
-    </h3>
-
-    <div style="overflow-x: auto;">
-        <table class="result-table">
-            <tr>
-                <th>Year</th>
-                <th>Investment Value (₹)</th>
-            </tr>
-            {% for row in result.yearly_growth %}
-            <tr>
-                <td>Year {{ row.year }}</td>
-                <td>₹ {{ "{:,.0f}".format(row.value) }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-
-    <!-- SmartPlan Insight -->
-    <div class="insight-box">
-        <h3>🤖 SmartPlan Insight</h3>
-        <p>
-            Your one-time investment of <strong>₹ {{ "{:,.0f}".format(result.investment) }}</strong> 
-            growing at <strong>{{ result.return_rate }}%</strong> 
-            for <strong>{{ result.years }}</strong> years 
-            could become <strong>₹ {{ "{:,.0f}".format(result.future_value) }}</strong>. 
-            This represents a wealth gain of <strong>₹ {{ "{:,.0f}".format(result.wealth_gained) }}</strong>. 
-            Long-term investing allows the power of compounding to significantly increase your wealth over time. Stay invested through market cycles to maximize returns.
-        </p>
-    </div>
-
-    {% endif %}
-
-    {% endif %}
-
-    <!-- Related Calculators -->
-    <div style="margin-top: 50px;">
-        <h2>🧮 Related Financial Calculators</h2>
-        <p style="color: #555; line-height: 1.8; margin-bottom: 25px;">
-            Explore other investment calculators for comprehensive financial planning.
-        </p>
-
-        <div class="related-articles">
-
-            <a href="{{ url_for('sip_calculator') }}" style="text-decoration: none; display: block;">
-                <div class="article-card">
-                    <h3>📊 SIP Calculator</h3>
-                    <p>Calculate the future value of your monthly systematic investments. Perfect for building wealth through disciplined, regular investments.</p>
-                    <strong>Try Calculator →</strong>
-                </div>
-            </a>
-
-            <a href="{{ url_for('fd_calculator') }}" style="text-decoration: none; display: block;">
-                <div class="article-card">
-                    <h3>🏦 FD Calculator</h3>
-                    <p>Estimate returns on your Fixed Deposit investments. Get accurate calculations including compound interest for various tenures and rates.</p>
-                    <strong>Try Calculator →</strong>
-                </div>
-            </a>
-
-            <a href="{{ url_for('cagr_calculator') }}" style="text-decoration: none; display: block;">
-                <div class="article-card">
-                    <h3>📈 CAGR Calculator</h3>
-                    <p>Measure your investment performance with CAGR calculations. Compare returns across different investment periods and asset classes.</p>
-                    <strong>Try Calculator →</strong>
-                </div>
-            </a>
+            <strong>⚠️ Error:</strong>
+            {{ result.error }}
 
         </div>
-    </div>
 
-    <!-- Learn More Articles -->
-    <div style="margin-top: 50px;">
-        <h2>📚 Learn More About Lumpsum Investing</h2>
-        <p style="color: #555; line-height: 1.8; margin-bottom: 25px;">
-            Deepen your investment knowledge with our comprehensive guides on lumpsum investing strategies.
-        </p>
+        {% else %}
 
-        <div class="related-articles">
-
-            <a href="https://smartplanfinance.com/blog/sip-vs-lumpsum-which-is-preferable-for-your-wealth" style="text-decoration: none; display: block;" target="_blank">
-                <div class="article-card">
-                    <h3>⚖️ SIP vs Lumpsum: Which is Preferable?</h3>
-                    <p>Understand the key differences between Systematic Investment Plans and lumpsum investments. Learn which strategy suits your financial situation better.</p>
-                    <strong>Read Article →</strong>
-                </div>
-            </a>
-
-        </div>
-    </div>
-
-    <!-- Final CTA -->
-    <div style="margin-top: 45px; text-align: center;">
         <div class="success-banner">
-            <h2 style="margin-top: 0; margin-bottom: 15px;">Start Your Lumpsum Investment Journey</h2>
-            <p style="margin-bottom: 20px; font-size: 15px;">
-                Use our calculator to project your returns, then explore related tools to compare lumpsum vs SIP strategies for optimal wealth building.
+
+            <h2>✓ Your Lumpsum Investment Projection</h2>
+
+            <p>
+                This projection is based on the assumptions entered above.
             </p>
+
+        </div>
+
+
+        <h3 style="text-align: center; margin-top: 35px;">
+            📊 Investment Summary
+        </h3>
+
+
+        <div class="result-grid">
+
+            <div class="card">
+
+                <h4>💰 Initial Investment</h4>
+
+                <p>
+                    ₹ {{ "{:,.0f}".format(result.investment) }}
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h4>📈 Estimated Future Value</h4>
+
+                <p>
+                    ₹ {{ "{:,.0f}".format(result.future_value) }}
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h4>💎 Estimated Wealth Gain</h4>
+
+                <p>
+                    ₹ {{ "{:,.0f}".format(result.wealth_gained) }}
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h4>📊 Total Estimated Return</h4>
+
+                <p>
+                    {{ "%.1f"|format((result.wealth_gained / result.investment * 100)) }}%
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             YEAR-WISE GROWTH
+        ====================================================== -->
+
+        <h3 style="text-align: center; margin-top: 35px;">
+            📋 Year-wise Estimated Growth
+        </h3>
+
+        <p class="section-note">
+            The values below illustrate how the investment could grow if the assumed annual return remained constant throughout the period.
+        </p>
+
+        <div style="overflow-x: auto;">
+
+            <table class="result-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Year</th>
+                        <th>Estimated Investment Value (₹)</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for row in result.yearly_growth %}
+
+                    <tr>
+
+                        <td>
+                            Year {{ row.year }}
+                        </td>
+
+                        <td>
+                            ₹ {{ "{:,.0f}".format(row.value) }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- =====================================================
+             SMARTPLAN INSIGHT
+        ====================================================== -->
+
+        <div class="insight-box">
+
+            <h3>💡 SmartPlan Insight</h3>
+
+            <p>
+
+                Your one-time investment of
+                <strong>
+                    ₹ {{ "{:,.0f}".format(result.investment) }}
+                </strong>
+
+                is projected to grow to approximately
+
+                <strong>
+                    ₹ {{ "{:,.0f}".format(result.future_value) }}
+                </strong>
+
+                over
+
+                <strong>
+                    {{ result.years }} years
+                </strong>
+
+                using an assumed annual return of
+
+                <strong>
+                    {{ result.return_rate }}%
+                </strong>.
+
+            </p>
+
+            <p style="margin-top: 12px;">
+
+                The estimated wealth gain is
+                <strong>
+                    ₹ {{ "{:,.0f}".format(result.wealth_gained) }}
+                </strong>.
+
+                This is a mathematical projection. Actual returns can differ substantially because investment returns are not necessarily constant from year to year.
+
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- =========================================================
+         DISCLAIMER
+    ========================================================== -->
+
+    <div class="disclaimer-box">
+
+        <strong>Important Disclaimer:</strong>
+
+        The SmartPlan Finance Lumpsum Investment Calculator provides mathematical estimates based on the amount, assumed annual return and investment period entered by the user. The assumed return is not a prediction or guarantee of actual investment performance.
+
+        Market-linked investments can rise or fall, and actual returns may vary because of market conditions, investment selection, taxes, fees, expenses and other factors. Any examples shown on this page are for educational purposes only.
+
+        SmartPlan Finance does not guarantee investment returns, recommend any particular investment product or provide personalised financial advice. Please consider your financial circumstances and consult a qualified financial professional where appropriate.
+
+    </div>
+
+
+    <!-- =========================================================
+         HOW TO USE
+    ========================================================== -->
+
+    <section>
+
+        <h2>📋 How to Use This Calculator</h2>
+
+        <div class="education-card">
+
+            <ol style="color: #555; line-height: 2; padding-left: 22px;">
+
+                <li>
+                    Enter your <strong>one-time investment amount</strong>.
+                </li>
+
+                <li>
+                    Enter an <strong>assumed annual return</strong> for your scenario.
+                </li>
+
+                <li>
+                    Enter the <strong>investment period</strong> in years.
+                </li>
+
+                <li>
+                    Click <strong>Calculate Future Value</strong>.
+                </li>
+
+                <li>
+                    Review the estimated future value and estimated wealth gain.
+                </li>
+
+                <li>
+                    Try different assumptions to compare potential outcomes.
+                </li>
+
+            </ol>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         EXAMPLE
+    ========================================================== -->
+
+    <section>
+
+        <h2>📌 Lumpsum Calculation Example</h2>
+
+        <div class="education-card">
+
+            <p>
+                Suppose you invest <strong>₹5,00,000</strong> as a one-time investment and use an assumed annual return of <strong>10%</strong> for <strong>15 years</strong>.
+            </p>
+
+            <p>
+                The estimated future value can be calculated using:
+            </p>
+
+            <div class="formula-box">
+
+                <div class="formula">
+                    ₹5,00,000 × (1 + 0.10)<sup>15</sup>
+                </div>
+
+            </div>
+
+            <p>
+                The resulting figure represents what the investment could be worth under the mathematical assumption of a constant 10% annual compound return.
+            </p>
+
+            <p>
+                In real life, market returns generally do not arrive at a perfectly constant rate every year. Therefore, the actual ending value may be considerably different.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         TYPES OF INVESTMENTS
+    ========================================================== -->
+
+    <section>
+
+        <h2>💼 Where Can a Lumpsum Be Invested?</h2>
+
+        <div class="education-card">
+
+            <h3>🏦 Fixed Deposits</h3>
+
+            <p>
+                Fixed deposits generally specify an interest rate and tenure at the time of booking, subject to the product's terms and conditions. The applicable rate should be checked with the bank before investing.
+            </p>
+
+
+            <h3 style="margin-top: 20px;">
+                📱 Mutual Funds
+            </h3>
+
+            <p>
+                Mutual funds can provide exposure to equity, debt or other assets. Market-linked mutual fund returns are not fixed or guaranteed unless specifically stated otherwise under applicable product terms.
+            </p>
+
+
+            <h3 style="margin-top: 20px;">
+                📈 Direct Stocks
+            </h3>
+
+            <p>
+                Stocks are market-linked investments whose prices can fluctuate significantly. Past performance does not guarantee future returns.
+            </p>
+
+
+            <h3 style="margin-top: 20px;">
+                🏠 Real Estate
+            </h3>
+
+            <p>
+                Property can generate returns through price appreciation and, in some cases, rental income. Actual returns depend on location, property quality, transaction costs, taxes, financing and market conditions.
+            </p>
+
+
+            <h3 style="margin-top: 20px;">
+                💰 Government Securities
+            </h3>
+
+            <p>
+                Government securities have specific interest and maturity characteristics. Their returns and risks depend on the security, purchase price, holding period and applicable terms.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         RETURN ASSUMPTIONS
+    ========================================================== -->
+
+    <section>
+
+        <h2>📊 How Should You Choose an Assumed Return?</h2>
+
+        <div class="education-card">
+
+            <p>
+                The return percentage in a lumpsum calculator should be treated as a <strong>scenario assumption</strong>, not as a guaranteed outcome.
+            </p>
+
+            <ul>
+
+                <li>
+                    <strong>Conservative scenario:</strong>
+                    Use a lower assumed rate to understand what happens if returns are modest.
+                </li>
+
+                <li>
+                    <strong>Base scenario:</strong>
+                    Use a reasonable long-term assumption for comparison purposes.
+                </li>
+
+                <li>
+                    <strong>Optimistic scenario:</strong>
+                    Use a higher rate only to understand the potential upside, not as an expected guarantee.
+                </li>
+
+                <li>
+                    <strong>Compare scenarios:</strong>
+                    Testing several rates can provide a more realistic range of possible outcomes.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         KEY FACTORS
+    ========================================================== -->
+
+    <section>
+
+        <h2>🔑 Factors That Affect Your Actual Investment Returns</h2>
+
+        <div class="education-card">
+
+            <ul>
+
+                <li>
+                    <strong>Investment amount:</strong>
+                    A larger starting amount can result in greater absolute gains when returns are positive.
+                </li>
+
+                <li>
+                    <strong>Time period:</strong>
+                    A longer period gives compounding more time to operate.
+                </li>
+
+                <li>
+                    <strong>Actual return:</strong>
+                    The rate achieved in reality may differ from the assumption entered into the calculator.
+                </li>
+
+                <li>
+                    <strong>Market volatility:</strong>
+                    Market-linked investments can experience significant short-term fluctuations.
+                </li>
+
+                <li>
+                    <strong>Taxes:</strong>
+                    Applicable taxes can reduce the amount ultimately retained by an investor.
+                </li>
+
+                <li>
+                    <strong>Fees and expenses:</strong>
+                    Investment-related costs can reduce net returns.
+                </li>
+
+                <li>
+                    <strong>Inflation:</strong>
+                    A larger nominal amount does not necessarily mean an equivalent increase in purchasing power.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         LUMPSUM VS SIP
+    ========================================================== -->
+
+    <section>
+
+        <h2>⚖️ Lumpsum vs SIP: What's the Difference?</h2>
+
+        <div class="education-card">
+
+            <h3>📊 Lumpsum</h3>
+
+            <p>
+                A lumpsum involves investing an available amount at one time. It can be useful when you already have a sizeable amount available for investment.
+            </p>
+
+
+            <h3 style="margin-top: 20px;">
+                💰 SIP
+            </h3>
+
+            <p>
+                A SIP involves investing a predetermined amount periodically, commonly every month. It can help investors invest gradually from regular income.
+            </p>
+
+
+            <h3 style="margin-top: 20px;">
+                🎯 Which Is Better?
+            </h3>
+
+            <p>
+                Neither strategy is universally better. The appropriate approach depends on the amount available, investment horizon, risk tolerance, financial goals and the characteristics of the chosen investment.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         RELATED CALCULATORS
+    ========================================================== -->
+
+    <section>
+
+        <h2>🧮 Related Financial Calculators</h2>
+
+        <p style="color: #555; line-height: 1.8; margin-bottom: 25px;">
+            Explore other SmartPlan Finance calculators to compare different investment and savings scenarios.
+        </p>
+
+        <div class="related-articles">
+
             <a href="{{ url_for('sip_calculator') }}"
-               style="display: inline-block; background: white; color: #B8860B; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: 0.3s;">
+               style="text-decoration: none; display: block;">
+
+                <div class="article-card">
+
+                    <h3>📊 SIP Calculator</h3>
+
+                    <p>
+                        Estimate the future value of regular monthly investments and understand how periodic investing can build wealth over time.
+                    </p>
+
+                    <strong>
+                        Try Calculator →
+                    </strong>
+
+                </div>
+
+            </a>
+
+
+            <a href="{{ url_for('fd_calculator') }}"
+               style="text-decoration: none; display: block;">
+
+                <div class="article-card">
+
+                    <h3>🏦 FD Calculator</h3>
+
+                    <p>
+                        Calculate the maturity value of a fixed deposit based on the deposit amount, interest rate and investment tenure.
+                    </p>
+
+                    <strong>
+                        Try Calculator →
+                    </strong>
+
+                </div>
+
+            </a>
+
+
+            <a href="{{ url_for('cagr_calculator') }}"
+               style="text-decoration: none; display: block;">
+
+                <div class="article-card">
+
+                    <h3>📈 CAGR Calculator</h3>
+
+                    <p>
+                        Calculate the compound annual growth rate between an initial investment value and a final value over a specified period.
+                    </p>
+
+                    <strong>
+                        Try Calculator →
+                    </strong>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         RELATED ARTICLE
+    ========================================================== -->
+
+    <section>
+
+        <h2>📚 Learn More About Lumpsum Investing</h2>
+
+        <p style="color: #555; line-height: 1.8; margin-bottom: 25px;">
+            Explore our educational guide to understand how lumpsum and SIP investing compare.
+        </p>
+
+        <div class="related-articles">
+
+            <a href="https://smartplanfinance.com/blog/sip-vs-lumpsum-which-is-preferable-for-your-wealth"
+               style="text-decoration: none; display: block;"
+               target="_blank"
+               rel="noopener">
+
+                <div class="article-card">
+
+                    <h3>
+                        ⚖️ SIP vs Lumpsum: Which is Preferable?
+                    </h3>
+
+                    <p>
+                        Understand the differences between SIP and lumpsum investing and the factors that can influence which approach may suit different financial situations.
+                    </p>
+
+                    <strong>
+                        Read Article →
+                    </strong>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         FINAL CTA
+    ========================================================== -->
+
+    <section style="margin-top: 45px; text-align: center;">
+
+        <div class="success-banner">
+
+            <h2 style="margin-top: 0; margin-bottom: 15px;">
+                Plan Your Investment Strategy
+            </h2>
+
+            <p style="margin-bottom: 20px; font-size: 15px;">
+                Use different assumptions to understand potential outcomes, then compare your strategy with regular SIP investing.
+            </p>
+
+            <a href="{{ url_for('sip_calculator') }}"
+               style="display: inline-block;
+                      background: #ffffff;
+                      color: #B8860B;
+                      padding: 12px 28px;
+                      border-radius: 10px;
+                      text-decoration: none;
+                      font-weight: 600;">
                 Compare with SIP →
             </a>
-        </div>
-    </div>
 
-    <!-- Partner CTA -->
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         PARTNER CTA
+    ========================================================== -->
+
     {% include "partials/_partner_cta.html" %}
 
-</div>
-<footer class="site-footer">
-    <div class="footer-links">
-        <a href="/about">About Us</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms &amp; Conditions</a>
-        <a href="/disclaimer">Disclaimer</a>
-    </div>
-    <div class="copyright">&copy; 2026 SmartPlanFinance. All rights reserved.</div>
-</footer>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Scroll to results section after POST submission when results exist
-    const resultsSection = document.getElementById('results-section');
 
-    if (resultsSection && window.location.search === '') {
-        // Small delay ensures layout is fully rendered
-        setTimeout(() => {
+</div>
+
+
+<!-- =============================================================
+     FOOTER
+============================================================== -->
+
+<footer class="site-footer">
+
+    <div class="footer-links">
+
+        <a href="/about">
+            About Us
+        </a>
+
+<a href="{{ url_for('about_author') }}">
+
+👨‍💼 About the Author &amp; Founder
+
+</a>
+
+        <a href="/privacy">
+            Privacy Policy
+        </a>
+
+<a href="/affiliate-policy">
+                Affiliate Policy
+            </a>
+        <a href="/terms">
+            Terms &amp; Conditions
+        </a>
+
+        <a href="/disclaimer">
+            Disclaimer
+        </a>
+
+    </div>
+
+    <div class="copyright">
+        &copy; 2026 SmartPlanFinance. All rights reserved.
+    </div>
+
+</footer>
+
+
+<!-- =============================================================
+     RESULTS SCROLL
+============================================================== -->
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const resultsSection =
+        document.getElementById('results-section');
+
+    if (resultsSection) {
+
+        setTimeout(function () {
+
             resultsSection.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
-        }, 100);
+
+        }, 150);
+
     }
+
 });
+
 </script>
 
-</body>
 
+</body>
 </html>
