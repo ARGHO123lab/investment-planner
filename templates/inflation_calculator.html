@@ -1062,42 +1062,24 @@
         </p>
 
         <table class="result-table">
+    <thead>
+        <tr>
+            <th>Year</th>
+            <th>Equivalent Amount (₹)</th>
+            <th>Purchasing Power Lost</th>
+        </tr>
+    </thead>
 
-            <thead>
-
-                <tr>
-                    <th>Year</th>
-                    <th>Equivalent Amount (₹)</th>
-                    <th>Increase From Today's Amount</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                {% for row in result.yearly_data %}
-
-                <tr>
-
-                    <td>
-                        Year {{ row.year }}
-                    </td>
-
-                    <td>
-                        ₹{{ "{:,.2f}".format(row.value) }}
-                    </td>
-
-                    <td>
-                        {{ row.loss_percentage }}%
-                    </td>
-
-                </tr>
-
-                {% endfor %}
-
-            </tbody>
-
-        </table>
+    <tbody>
+        {% for row in result.yearly_data %}
+        <tr>
+            <td>Year {{ row.year }}</td>
+            <td>₹ {{ "{:,.2f}".format(row.value) }}</td>
+            <td>{{ "%.2f"|format(row.loss_percentage|float) }}%</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
         {% endif %}
 
