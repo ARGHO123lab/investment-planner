@@ -2,104 +2,1023 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="canonical" href="https://smartplanfinance.com/wellness">
-    <meta name="description" content="View your financial wellness results and receive personalised recommendations to improve your financial health with SmartPlan Finance.">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Your Financial Wellness Results | SmartPlan Finance</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description"
+          content="Review your SmartPlan Finance financial wellness assessment, including your Financial Health Score, Money IQ Score and educational recommendations for improving your financial habits.">
+
+    <meta name="robots"
+          content="index, follow">
+
+    <link rel="canonical"
+          href="https://smartplanfinance.com/wellness">
+
+    <!-- Favicon -->
+    <link rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+
+    <link rel="manifest"
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+
+
+    <!-- Open Graph -->
+
+    <meta property="og:title"
+          content="Your Financial Wellness Results | SmartPlan Finance">
+
+    <meta property="og:description"
+          content="Review your financial wellness assessment, Financial Health Score and Money IQ Score with SmartPlan Finance.">
+
+    <meta property="og:type"
+          content="website">
+
+    <meta property="og:url"
+          content="https://smartplanfinance.com/wellness">
+
+    <meta property="og:image"
+          content="https://smartplanfinance.com/static/images/logo.png">
+
+
+    <!-- Twitter -->
+
+    <meta name="twitter:card"
+          content="summary_large_image">
+
+    <meta name="twitter:title"
+          content="Your Financial Wellness Results | SmartPlan Finance">
+
+    <meta name="twitter:description"
+          content="Review your financial wellness assessment and educational recommendations with SmartPlan Finance.">
+
+    <meta name="twitter:image"
+          content="https://smartplanfinance.com/static/images/logo.png">
+
+
+    <!-- =====================================================
+         GOOGLE ADSENSE GLOBAL SCRIPT
+         
+         IMPORTANT:
+         If this script already exists in your global/base
+         template, DO NOT add a second copy here.
+
+         Replace XXXXXXXXXXXXXXXX with your real publisher ID.
+    ====================================================== -->
+
+   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
+     crossorigin="anonymous"></script>
+
+
+    <!-- Google Font -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <!-- Main Site CSS -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
 
     <style>
-        body{
-            margin:0; font-family:'Poppins',sans-serif;
-            background:linear-gradient(135deg,#FFFDF7,#FFF6DD);
-            padding:40px 20px;
+
+        * {
+            box-sizing: border-box;
         }
-        .wrap{ max-width:700px; margin:0 auto; }
-        .score-card{
-            background:white; border-radius:24px; padding:40px;
-            box-shadow:0 18px 45px rgba(0,0,0,.08); text-align:center; margin-bottom:25px;
+
+        html {
+            scroll-behavior: smooth;
         }
-        .scores{
-            display:flex; gap:20px; justify-content:center; margin:25px 0; flex-wrap:wrap;
+
+        body {
+
+            margin: 0;
+
+            font-family: 'Poppins', sans-serif;
+
+            background: linear-gradient(
+                135deg,
+                #FFFDF7,
+                #FFF6DD
+            );
+
+            color: #444;
+
+            line-height: 1.7;
+
+            padding: 40px 20px;
+
         }
-        .score-box{
-            background:#FFF8E1; border-radius:16px; padding:25px 35px; min-width:160px;
+
+
+        .wrap {
+
+            max-width: 760px;
+
+            margin: 0 auto;
+
         }
-        .score-box .num{ font-size:42px; font-weight:700; color:#B8860B; }
-        .score-box .label{ font-size:14px; color:#666; margin-top:6px; }
-        .summary-card{
-            background:white; border-radius:20px; padding:35px;
-            box-shadow:0 10px 30px rgba(0,0,0,.06); margin-bottom:25px; line-height:28px;
+
+
+        /* =====================================================
+           ADSENSE SPACE
+        ====================================================== */
+
+        .ad-space {
+
+            width: 100%;
+
+            min-height: 100px;
+
+            margin: 25px 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            overflow: hidden;
+
         }
-        .summary-card h3{ color:#B8860B; margin-bottom:15px; }
-        .summary-card ul{ padding-left:22px; }
-        .disclaimer{
-            background:#FFF8E1; border-left:5px solid #B8860B; border-radius:12px;
-            padding:18px; font-size:14px; color:#666; line-height:24px; margin-bottom:25px;
+
+
+        .ad-space.top {
+
+            min-height: 120px;
+
+            margin-top: 0;
+
+            margin-bottom: 30px;
+
         }
-        .cta{
-            text-align:center; margin-top:20px;
+
+
+        .ad-space.middle {
+
+            min-height: 180px;
+
+            margin: 35px 0;
+
         }
-        .cta a{
-            display:inline-block; background:linear-gradient(135deg,#D4A017,#B8860B);
-            color:white; padding:16px 34px; border-radius:12px; text-decoration:none;
-            font-weight:600; margin:6px;
+
+
+        .ad-space.bottom {
+
+            min-height: 120px;
+
+            margin-top: 35px;
+
+            margin-bottom: 25px;
+
         }
-        .cta a.secondary{
-            background:white; color:#B8860B; border:2px solid #B8860B;
+
+
+        /* =====================================================
+           SCORE HEADER
+        ====================================================== */
+
+        .score-card {
+
+            background: #ffffff;
+
+            border-radius: 24px;
+
+            padding: 40px;
+
+            box-shadow:
+                0 18px 45px rgba(0,0,0,.08);
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
         }
-        .share-hint{
-            text-align:center; color:#999; font-size:13px; margin-top:20px;
+
+
+        .score-card h1 {
+
+            margin: 0 0 10px;
+
+            color: #B8860B;
+
+            font-size: 32px;
+
         }
-        
+
+
+        .score-card .intro {
+
+            max-width: 620px;
+
+            margin: 0 auto;
+
+            color: #666;
+
+            font-size: 15px;
+
+        }
+
+
+        /* =====================================================
+           SCORES
+        ====================================================== */
+
+        .scores {
+
+            display: flex;
+
+            gap: 20px;
+
+            justify-content: center;
+
+            margin: 30px 0 10px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .score-box {
+
+            background: #FFF8E1;
+
+            border-radius: 16px;
+
+            padding: 25px 35px;
+
+            min-width: 180px;
+
+            flex: 1;
+
+            max-width: 260px;
+
+            border: 1px solid #F4E4B2;
+
+        }
+
+
+        .score-box .num {
+
+            font-size: 42px;
+
+            font-weight: 700;
+
+            color: #B8860B;
+
+            line-height: 1.2;
+
+        }
+
+
+        .score-box .label {
+
+            font-size: 14px;
+
+            color: #666;
+
+            margin-top: 8px;
+
+        }
+
+
+        /* =====================================================
+           SUMMARY
+        ====================================================== */
+
+        .summary-card {
+
+            background: #ffffff;
+
+            border-radius: 20px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,.06);
+
+            margin-bottom: 25px;
+
+            line-height: 1.8;
+
+        }
+
+
+        .summary-card h2 {
+
+            color: #B8860B;
+
+            margin-top: 0;
+
+            margin-bottom: 18px;
+
+            font-size: 24px;
+
+        }
+
+
+        .summary-card p {
+
+            color: #555;
+
+        }
+
+
+        .summary-card ul {
+
+            padding-left: 22px;
+
+        }
+
+
+        .summary-card li {
+
+            margin-bottom: 8px;
+
+        }
+
+
+        /* =====================================================
+           EDUCATIONAL BOX
+        ====================================================== */
+
+        .education-box {
+
+            background: #FFF8E1;
+
+            border-left: 5px solid #B8860B;
+
+            border-radius: 12px;
+
+            padding: 22px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .education-box h2 {
+
+            margin-top: 0;
+
+            color: #B8860B;
+
+            font-size: 20px;
+
+        }
+
+
+        .education-box p {
+
+            margin-bottom: 10px;
+
+            color: #555;
+
+        }
+
+
+        /* =====================================================
+           DISCLAIMER
+        ====================================================== */
+
+        .disclaimer {
+
+            background: #FAFAFA;
+
+            border: 1px solid #E5E5E5;
+
+            border-left: 5px solid #B8860B;
+
+            border-radius: 12px;
+
+            padding: 22px;
+
+            font-size: 14px;
+
+            color: #666;
+
+            line-height: 1.8;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .disclaimer strong {
+
+            color: #444;
+
+        }
+
+
+        .disclaimer a {
+
+            color: #B8860B;
+
+            font-weight: 600;
+
+        }
+
+
+        /* =====================================================
+           CTA
+        ====================================================== */
+
+        .cta {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+        }
+
+
+        .cta a {
+
+            display: inline-block;
+
+            background: linear-gradient(
+                135deg,
+                #D4A017,
+                #B8860B
+            );
+
+            color: #ffffff;
+
+            padding: 15px 28px;
+
+            border-radius: 12px;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            margin: 6px;
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease;
+
+        }
+
+
+        .cta a:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 7px 18px rgba(0,0,0,.12);
+
+        }
+
+
+        .cta a.secondary {
+
+            background: #ffffff;
+
+            color: #B8860B;
+
+            border: 2px solid #B8860B;
+
+        }
+
+
+        /* =====================================================
+           SHARE HINT
+        ====================================================== */
+
+        .share-hint {
+
+            text-align: center;
+
+            color: #888;
+
+            font-size: 13px;
+
+            margin-top: 20px;
+
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        .site-footer {
+
+            margin-top: 50px;
+
+            padding-top: 25px;
+
+            border-top: 1px solid #E5E5E5;
+
+            text-align: center;
+
+        }
+
+
+        .footer-links {
+
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 16px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .footer-links a {
+
+            color: #666;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+        }
+
+
+        .footer-links a:hover {
+
+            color: #B8860B;
+
+        }
+
+
+        .copyright {
+
+            color: #999;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 768px) {
+
+            body {
+
+                padding: 18px 12px;
+
+            }
+
+
+            .score-card {
+
+                padding: 28px 20px;
+
+            }
+
+
+            .score-card h1 {
+
+                font-size: 27px;
+
+            }
+
+
+            .summary-card {
+
+                padding: 25px 20px;
+
+            }
+
+
+            .scores {
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+            }
+
+
+            .score-box {
+
+                max-width: none;
+
+                width: 100%;
+
+            }
+
+
+            .cta a {
+
+                display: block;
+
+                margin: 10px 0;
+
+                width: 100%;
+
+            }
+
+
+            .ad-space {
+
+                min-height: 80px;
+
+            }
+
+
+            .ad-space.middle {
+
+                min-height: 120px;
+
+            }
+
+
+        }
+
     </style>
+
+
+    <!-- =====================================================
+         WEB PAGE SCHEMA
+    ====================================================== -->
+
+    <script type="application/ld+json">
+
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Your Financial Wellness Results | SmartPlan Finance",
+      "url": "https://smartplanfinance.com/wellness",
+      "description": "Financial wellness assessment results and educational recommendations from SmartPlan Finance.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "SmartPlan Finance",
+        "url": "https://smartplanfinance.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "SmartPlan Finance",
+        "url": "https://smartplanfinance.com"
+      }
+    }
+
+    </script>
+
+
+    <!-- =====================================================
+         BREADCRUMB SCHEMA
+    ====================================================== -->
+
+    <script type="application/ld+json">
+
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://smartplanfinance.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Financial Wellness",
+          "item": "https://smartplanfinance.com/wellness"
+        }
+      ]
+    }
+
+    </script>
+
 </head>
+
 
 <body>
 
 <div class="wrap">
 
-    <div class="score-card">
-        <h2>Your Financial Wellness Report</h2>
+
+    <!-- =====================================================
+         TOP ADSENSE SPACE
+         
+         Paste your actual AdSense AD UNIT code inside this
+         container if you want a manually placed ad here.
+    ====================================================== -->
+
+    <div class="ad-space top">
+
+        <!-- ADSENSE AD UNIT GOES HERE -->
+
+        <!--
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        -->
+
+    </div>
+
+
+    <!-- =====================================================
+         SCORE SUMMARY
+    ====================================================== -->
+
+    <section class="score-card"
+             aria-labelledby="wellness-title">
+
+        <h1 id="wellness-title">
+            Your Financial Wellness Report
+        </h1>
+
+        <p class="intro">
+
+            Your results provide an educational snapshot of selected
+            financial habits and money knowledge based on the information
+            you provided during the assessment.
+
+        </p>
+
+
         <div class="scores">
+
             <div class="score-box">
-                <div class="num">{{ health_score }}/100</div>
-                <div class="label">Financial Health Score</div>
+
+                <div class="num">
+                    {{ health_score }}/100
+                </div>
+
+                <div class="label">
+                    Financial Health Score
+                </div>
+
             </div>
+
+
             <div class="score-box">
-                <div class="num">{{ literacy_score }}/{{ literacy_total }}</div>
-                <div class="label">Money IQ Score</div>
+
+                <div class="num">
+                    {{ literacy_score }}/{{ literacy_total }}
+                </div>
+
+                <div class="label">
+                    Money IQ Score
+                </div>
+
             </div>
+
         </div>
-    </div>
 
-    <div class="summary-card">
-        <h3>📋 Your Personalized Summary</h3>
+    </section>
+
+
+    <!-- =====================================================
+         PERSONALIZED SUMMARY
+    ====================================================== -->
+
+    <section class="summary-card">
+
+        <h2>
+            📋 Your Personalized Summary
+        </h2>
+
         {{ ai_summary | safe }}
+
+    </section>
+
+
+    <!-- =====================================================
+         MIDDLE ADSENSE SPACE
+    ====================================================== -->
+
+    <div class="ad-space middle">
+
+        <!-- ADSENSE AD UNIT GOES HERE -->
+
+        <!--
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        -->
+
     </div>
 
-    <div class="disclaimer">
-        <strong>Note:</strong> This tool is for financial education purposes only and does not constitute
-        financial, investment, or tax advice. Please consult a certified financial advisor for personalized
-        guidance. Read our full <a href="{{ url_for('disclaimer') }}" style="color:#B8860B;">Disclaimer</a>.
-    </div>
+
+    <!-- =====================================================
+         UNDERSTANDING RESULTS
+    ====================================================== -->
+
+    <section class="education-box">
+
+        <h2>
+            Understanding Your Results
+        </h2>
+
+        <p>
+            Your scores are intended to help you identify areas of your
+            financial habits or money knowledge that may deserve more
+            attention.
+        </p>
+
+        <p>
+            A financial wellness score is not a measure of your personal
+            worth or a guarantee of future financial outcomes. Financial
+            circumstances can change over time as income, expenses, debt,
+            savings, investments and financial goals change.
+        </p>
+
+        <p>
+            Use this report as a starting point for learning and planning,
+            rather than as a professional financial assessment.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         FINANCIAL DISCLAIMER
+    ====================================================== -->
+
+    <section class="disclaimer">
+
+        <strong>
+            Financial Education Disclaimer:
+        </strong>
+
+        <p>
+            This financial wellness assessment is provided for general
+            educational and informational purposes only. It does not
+            constitute investment advice, financial advice, tax advice,
+            credit advice or a recommendation to buy, sell or hold any
+            financial product.
+        </p>
+
+        <p>
+            The scores and recommendations are based on the information
+            entered by the user and the methodology used by this tool.
+            They may not reflect your complete financial circumstances and
+            should not be treated as a professional financial diagnosis.
+        </p>
+
+        <p>
+            For personalised financial decisions, consider your own
+            circumstances, objectives, financial obligations and risk
+            tolerance and seek advice from an appropriately qualified
+            professional where necessary.
+        </p>
+
+        <p>
+            Read our full
+            <a href="{{ url_for('disclaimer') }}">
+                Disclaimer
+            </a>.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         ACTION BUTTONS
+    ====================================================== -->
 
     <div class="cta">
-        <a href="{{ url_for('wellness_health') }}" class="secondary">Retake Check</a>
-        <a href="{{ url_for('articles') }}">Explore Articles →</a>
+
+        <a href="{{ url_for('wellness_health') }}"
+           class="secondary">
+
+            Retake Financial Wellness Check
+
+        </a>
+
+
+        <a href="{{ url_for('articles') }}">
+
+            Explore Financial Education →
+
+        </a>
+
     </div>
 
-    <p class="share-hint">Share your score with friends and see how you compare!</p>
+
+    <p class="share-hint">
+
+        You can use your results as a starting point for improving your
+        financial knowledge and habits.
+
+    </p>
+
+
+    <!-- =====================================================
+         BOTTOM ADSENSE SPACE
+    ====================================================== -->
+
+    <div class="ad-space bottom">
+
+        <!-- ADSENSE AD UNIT GOES HERE -->
+
+        <!--
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        -->
+
+    </div>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="site-footer">
+
+        <div class="footer-links">
+
+            <a href="/about">
+                About Us
+            </a>
+
+            <a href="/about-author">
+                About the Author &amp; Founder
+            </a>
+
+            <a href="/privacy">
+                Privacy Policy
+            </a>
+
+            <a href="/terms">
+                Terms &amp; Conditions
+            </a>
+
+            <a href="{{ url_for('disclaimer') }}">
+                Disclaimer
+            </a>
+
+            <a href="/affiliate-policy">
+                Affiliate Disclosure
+            </a>
+
+        </div>
+
+
+        <div class="copyright">
+
+            &copy; 2026 SmartPlan Finance. All rights reserved.
+
+        </div>
+
+    </footer>
 
 </div>
 
 </body>
+
 </html>
