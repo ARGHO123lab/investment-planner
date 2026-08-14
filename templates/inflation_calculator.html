@@ -4,910 +4,765 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
 
     <link rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+          type="image/png"
+          sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
 
     <link rel="apple-touch-icon"
-      href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
 
     <link rel="manifest"
-      href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
 
-    <title>Inflation Calculator | SmartPlan Finance</title>
-    <meta name="description" content="Free Inflation Calculator by SmartPlan Finance. Calculate how inflation reduces purchasing power over time. Plan for retirement and long-term financial goals with inflation adjustment.">
+    <title>Inflation Calculator: Calculate Future Value of Money | SmartPlanFinance</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description"
+          content="Use the free SmartPlanFinance Inflation Calculator to estimate how inflation can affect the future cost and purchasing power of money. Learn the inflation formula, compare scenarios, and plan for retirement, education and long-term goals.">
 
-    <link rel="canonical" href="https://smartplanfinance.com/inflation_calculator">
-    <meta name="author" content="Argho Sanyal, Founder, SmartPlanFinance">
+    <meta name="author"
+          content="Argho Sanyal, Founder, SmartPlanFinance">
+
+    <meta name="robots"
+          content="index, follow, max-image-preview:large">
+
+    <link rel="canonical"
+          href="https://smartplanfinance.com/inflation_calculator">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Inflation Calculator | SmartPlan Finance">
-    <meta property="og:description" content="Free Inflation Calculator by SmartPlan Finance. Calculate how inflation reduces purchasing power over time. Plan for retirement and long-term financial goals with inflation adjustment.">
-    <meta property="og:url" content="https://smartplanfinance.com/inflation_calculator">
-    <meta property="og:site_name" content="SmartPlanFinance">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:title"
+          content="Inflation Calculator | SmartPlanFinance">
+    <meta property="og:description"
+          content="Calculate how inflation can affect the future value and purchasing power of money. Free inflation calculator with explanations, examples and financial planning guidance.">
+    <meta property="og:url"
+          content="https://smartplanfinance.com/inflation_calculator">
+    <meta property="og:site_name"
+          content="SmartPlanFinance">
+
+    <meta name="twitter:card"
+          content="summary_large_image">
+    <meta name="twitter:title"
+          content="Inflation Calculator | SmartPlanFinance">
+    <meta name="twitter:description"
+          content="Estimate future costs and understand purchasing power using the SmartPlanFinance Inflation Calculator.">
+ <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
+            crossorigin="anonymous"></script>
 
     <style>
-/* ================================
-   SMARTPLAN FINANCE PREMIUM THEME
-   Green + Premium Gold
-================================ */
 
-:root{
-
-    /* SmartPlan Finance Premium */
-
-    --primary:#D4AF37;
-    --primary-dark:#B99120;
-    --primary-light:#FFF7D6;
-
-    --accent:#0B7A3D;
-    --accent-dark:#086633;
-    --accent-light:#F0FFF5;
-
-    --background:#FFFDF5;
-    --background-soft:#FCFAF2;
-
-    --surface:#FFFFFF;
-
-    --text:#222222;
-    --text-light:#666666;
-
-    --border:#EFE7CC;
-
-    --shadow:0 12px 35px rgba(0,0,0,.08);
-    --shadow-hover:0 18px 45px rgba(0,0,0,.12);
-
-    /* Aliases for legacy variable names used below */
-    --gold: var(--primary);
-    --gold-bg: var(--primary-light);
-    --hover-shadow: var(--shadow-hover);
-
-}
-
-/* ============================= */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-
-    background:
-    linear-gradient(
-    180deg,
-    #FFFDF5 0%,
-    #FAFCFB 100%);
-
-    font-family:'Poppins',sans-serif;
-    color:var(--text);
-    line-height:1.7;
-    padding:40px 20px;
-
-}
-
-/* ============================= */
-
-.container{
-
-    max-width:850px;
-    margin:auto;
-
-    background:white;
-
-    border-radius:22px;
-
-    padding:45px;
-
-    box-shadow:var(--shadow);
-
-}
-
-/* ============================= */
-/* Heading */
-/* ============================= */
-
-h1{
-
-    text-align:center;
-
-    font-size:42px;
-
-    font-weight:700;
-
-    background:linear-gradient(
-    90deg,
-    #f1a520,
-    #D4AF37);
-
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-
-    margin-bottom:15px;
-
-}
-
-h2{
-
-    font-size:28px;
-
-    color:var(--primary);
-
-    margin-top:45px;
-    margin-bottom:20px;
-
-    position:relative;
-
-}
-
-h2:after{
-
-    content:"";
-
-    width:65px;
-    height:4px;
-
-    display:block;
-
-    margin-top:8px;
-
-    border-radius:30px;
-
-    background:linear-gradient(
-    90deg,
-    var(--primary),
-    var(--gold));
-
-}
-
-h3{
-
-    color:var(--primary);
-
-    font-size:21px;
-
-    margin-bottom:12px;
-
-}
-
-/* ============================= */
-
-.subtitle{
-
-    text-align:center;
-
-    color:var(--text-light);
-
-    max-width:700px;
-
-    margin:0 auto 35px;
-
-    font-size:17px;
-
-}
-
-/* ============================= */
-/* Cards */
-/* ============================= */
-
-.form-card,
-.education-card,
-.grid-card,
-.card,
-.ai-box,
-.disclaimer-box,
-.article-card{
-
-    background:white;
-
-    border:1px solid rgba(212,175,55,.20);
-
-    border-top:4px solid var(--gold);
-
-    border-radius:18px;
-
-    box-shadow:0 6px 20px rgba(0,0,0,.05);
-
-}
-
-/* ============================= */
-
-.form-card{
-
-    padding:30px;
-
-    margin:30px 0;
-
-}
-
-/* ============================= */
-
-.form-group{
-
-    margin-bottom:20px;
-
-}
-
-label{
-
-    display:block;
-
-    margin-bottom:8px;
-
-    font-weight:600;
-
-    color:var(--primary);
-
-}
-
-/* ============================= */
-
-input{
-
-    width:100%;
-
-    padding:15px;
-
-    border:1px solid #DDD;
-
-    border-radius:12px;
-
-    font-size:16px;
-
-    transition:.3s;
-
-}
-
-input:focus{
-
-    outline:none;
-
-    border-color:var(--gold);
-
-    box-shadow:
-    0 0 0 4px
-    rgba(212,175,55,.18);
-
-}
-
-/* ============================= */
-/* Button */
-/* ============================= */
-
-button{
-
-    width:100%;
-
-    padding:15px;
-
-    border:none;
-
-    border-radius:14px;
-
-    background:
-    linear-gradient(
-    135deg,
-    #e37e04,
-    #f3e706);
-
-    color:white;
-
-    font-size:17px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.3s;
-
-    box-shadow:
-    0 8px 18px
-    rgba(11,122,61,.25);
-
-}
-
-button:hover{
-
-    transform:translateY(-3px);
-
-    box-shadow:
-    0 14px 28px
-    rgba(11,122,61,.35);
-
-}
-
-/* ============================= */
-
-.back-btn{
-
-    display:inline-block;
-
-    padding:14px 28px;
-
-    border-radius:14px;
-
-    text-decoration:none;
-
-    font-weight:600;
-
-    color:var(--primary);
-
-    border:2px solid var(--gold);
-
-    background:white;
-
-    transition:.3s;
-
-    margin:20px 0;
-
-}
-
-.back-btn:hover{
-
-    background:var(--gold-bg);
-
-}
-
-/* ============================= */
-/* Education */
-/* ============================= */
-
-.education-card{
-
-    background:
-    linear-gradient(
-    180deg,
-    #FFFDF5,
-    #F9FFF9);
-
-    padding:25px;
-
-}
-
-.education-card p{
-
-    color:#555;
-
-    margin-bottom:12px;
-
-}
-
-.education-card ul{
-
-    list-style:none;
-
-    margin-top:15px;
-
-}
-
-.education-card li{
-
-    position:relative;
-
-    padding-left:28px;
-
-    margin-bottom:10px;
-
-}
-
-.education-card li:before{
-
-    content:"✓";
-
-    position:absolute;
-
-    left:0;
-
-    color:var(--gold);
-
-    font-weight:bold;
-
-}
-
-/* ============================= */
-
-.calculator-grid{
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(220px,1fr));
-
-    gap:20px;
-
-    margin-top:20px;
-
-}
-
-.grid-card{
-
-    padding:22px;
-
-    transition:.3s;
-
-}
-
-.grid-card:hover{
-
-    transform:translateY(-5px);
-
-    box-shadow:var(--hover-shadow);
-
-}
-
-/* ============================= */
-
-.cards{
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(180px,1fr));
-
-    gap:20px;
-
-    margin-top:25px;
-
-}
-
-.card{
-
-    text-align:center;
-
-    padding:25px;
-
-    transition:.3s;
-
-}
-
-.card:hover{
-
-    transform:translateY(-5px);
-
-    box-shadow:var(--hover-shadow);
-
-}
-
-.card h2{
-
-    color:var(--gold);
-
-    font-size:34px;
-
-    margin:0;
-
-}
-
-.card p{
-
-    color:#666;
-
-}
-
-/* ============================= */
-
-.result-table{
-
-    width:100%;
-
-    border-collapse:collapse;
-
-    margin-top:25px;
-
-    overflow:hidden;
-
-    border-radius:15px;
-
-}
-
-.result-table th{
-
-    background:
-    linear-gradient(
-    90deg,
-    var(--primary),
-    #0F9D58);
-
-    color:white;
-
-    padding:14px;
-
-}
-
-.result-table td{
-
-    padding:14px;
-
-    border:1px solid #EEE;
-
-}
-
-.result-table tr:nth-child(even){
-
-    background:#FFFDF7;
-
-}
-
-.result-table tr:hover{
-
-    background:#F5FFF6;
-
-}
-
-/* ============================= */
-
-.ai-box{
-
-    margin-top:30px;
-
-    padding:22px;
-
-    background:
-    linear-gradient(
-    180deg,
-    #FFFDF5,
-    #F0FFF5);
-
-}
-
-.disclaimer-box{
-
-    margin-top:30px;
-
-    padding:20px;
-
-    background:#FFFDF5;
-
-    border-left:5px solid var(--gold);
-
-    color:#666;
-
-}
-
-/* ============================= */
-
-.related-articles{
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(260px,1fr));
-
-    gap:20px;
-
-    margin-top:20px;
-
-}
-
-.article-card{
-
-    padding:25px;
-
-    text-decoration:none;
-
-    text-align:center;
-
-    color:inherit;
-
-    transition:.3s;
-
-}
-
-.article-card:hover{
-
-    transform:translateY(-5px);
-
-    box-shadow:var(--hover-shadow);
-
-}
-
-.article-card h3{
-
-    color:var(--primary);
-
-}
-
-.article-card strong{
-
-    color:var(--gold);
-
-}
-
-/* ============================= */
-
-.success-banner{
-
-    margin-top:35px;
-
-    padding:30px;
-
-    border-radius:18px;
-
-    text-align:center;
-
-    background:
-    linear-gradient(
-    135deg,
-    #0B7A3D,
-    #0F9D58);
-
-    color:white;
-
-}
-
-.success-banner h2{
-
-    color:white;
-
-}
-
-.success-banner h2:after{
-
-    display:none;
-
-}
-
-/* ============================= */
-
-.error-message{
-
-    background:#FEECEC;
-
-    border-left:5px solid #DC2626;
-
-    padding:18px;
-
-    border-radius:10px;
-
-    color:#B91C1C;
-
-    margin-top:20px;
-
-}
-
-/* ============================= */
-
-.benchmark-table{
-
-    width:100%;
-
-    border-collapse:collapse;
-
-    margin-top:15px;
-
-}
-
-.benchmark-table td{
-
-    padding:12px;
-
-    border-bottom:1px solid #EEE;
-
-}
-
-.benchmark-table td:first-child{
-
-    color:var(--primary);
-
-    font-weight:600;
-
-}
-
-/* ============================= */
-
-button,
-.card,
-.grid-card,
-.article-card,
-.back-btn{
-
-    transition:all .30s ease;
-
-}
-
-/* ============================= */
-
-@media(max-width:768px){
-
-body{
-
-padding:15px;
-
-}
-
-.container{
-
-padding:25px;
-
-}
-
-h1{
-
-font-size:32px;
-
-}
-
-h2{
-
-font-size:24px;
-
-}
-
-.subtitle{
-
-font-size:15px;
-
-}
-
-.cards,
-.related-articles,
-.calculator-grid{
-
-grid-template-columns:1fr;
-
-}
-
-.back-btn{
-
-width:100%;
-text-align:center;
-
-}
-
-.result-table{
-
-font-size:14px;
-
-}
-
-.result-table th,
-.result-table td{
-
-padding:10px;
-
-}
-
-.site-nav{
-
-    justify-content:center;
-    text-align:center;
-
-}
-
-}
-
-/* Site Nav */
-.site-nav{
-
-    max-width:850px;
-    margin:0 auto 20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:10px;
-
-}
-
-.site-nav .brand{
-
-    font-weight:800;
-    color:var(--primary);
-    text-decoration:none;
-    font-size:18px;
-
-}
-
-.site-nav .nav-links{
-
-    display:flex;
-    gap:18px;
-    flex-wrap:wrap;
-
-}
-
-.site-nav .nav-links a{
-
-    color:#555;
-    text-decoration:none;
-    font-size:14px;
-    font-weight:600;
-
-}
-
-.site-nav .nav-links a:hover{
-
-    color:var(--primary);
-
-}
-
-/* Byline */
-.byline{
-
-    text-align:center;
-    font-size:13px;
-    color:#888;
-    margin-top:-10px;
-    margin-bottom:30px;
-
-}
-
-.byline strong{
-
-    color:#666;
-
-}
-
-/* Site Footer */
-.site-footer{
-
-    max-width:850px;
-    margin:30px auto 0;
-    padding-top:24px;
-    border-top:1px solid #eee;
-    text-align:center;
-
-}
-
-.site-footer .footer-links{
-
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:18px;
-    margin-bottom:14px;
-
-}
-
-.site-footer .footer-links a{
-
-    color:#666;
-    text-decoration:none;
-    font-size:13px;
-    font-weight:600;
-
-}
-
-.site-footer .footer-links a:hover{
-
-    color:var(--primary);
-
-}
-
-.site-footer .copyright{
-
-    font-size:12px;
-    color:#999;
-
-}
-</style>
+        :root {
+            --gold: #D4AF37;
+            --gold-dark: #B8860B;
+            --gold-light: #FFF8DC;
+            --gold-soft: #FCF7E8;
+
+            --green: #0B7A3D;
+            --green-dark: #075B2D;
+            --green-soft: #F1FAF4;
+
+            --cream: #FFFDF6;
+            --white: #FFFFFF;
+
+            --text: #222222;
+            --text-soft: #555555;
+            --muted: #777777;
+
+            --border: #E9E2CC;
+
+            --shadow: 0 10px 35px rgba(0,0,0,0.07);
+            --shadow-hover: 0 16px 40px rgba(0,0,0,0.11);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background:
+                linear-gradient(
+                    180deg,
+                    #FFFDF6 0%,
+                    #FAFCFB 45%,
+                    #FFFFFF 100%
+                );
+            color: var(--text);
+            line-height: 1.75;
+            padding: 25px 16px 50px;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .site-nav {
+            max-width: 950px;
+            margin: 0 auto 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--green);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--text-soft);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 42px;
+            line-height: 1.2;
+            margin-bottom: 18px;
+            font-weight: 800;
+
+            background: linear-gradient(
+                90deg,
+                #B8860B,
+                #D4AF37,
+                #E5B94E
+            );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            max-width: 780px;
+            margin: 0 auto;
+            color: var(--text-soft);
+            font-size: 17px;
+        }
+
+        .byline {
+            margin-top: 15px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .byline strong {
+            color: var(--text-soft);
+        }
+
+        .section {
+            margin-top: 48px;
+        }
+
+        h2 {
+            color: var(--green);
+            font-size: 28px;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            color: var(--green);
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: var(--text-soft);
+            margin-bottom: 14px;
+        }
+
+        .intro-card,
+        .education-card,
+        .formula-card,
+        .example-card,
+        .faq-item,
+        .methodology-card,
+        .disclaimer-box,
+        .author-card {
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 26px;
+            background: #FFFFFF;
+        }
+
+        .intro-card {
+            border-top: 4px solid var(--gold);
+            background: linear-gradient(
+                180deg,
+                #FFFDF6,
+                #FFFFFF
+            );
+        }
+
+        .intro-card p:last-child,
+        .education-card p:last-child,
+        .methodology-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .calculator-card {
+            margin-top: 38px;
+            padding: 32px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            border-top: 5px solid var(--gold);
+            background: linear-gradient(
+                180deg,
+                #FFFDF7,
+                #FFFFFF
+            );
+            box-shadow: 0 8px 28px rgba(0,0,0,0.05);
+        }
+
+        .calculator-intro {
+            margin-bottom: 25px;
+        }
+
+        .calculator-intro h2 {
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 16px;
+            border: 1px solid #D8D8D8;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 16px;
+            background: #FFFFFF;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(212,175,55,0.15);
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 13px;
+            background: linear-gradient(
+                135deg,
+                #B8860B,
+                #D4AF37
+            );
+            color: #FFFFFF;
+            font-family: inherit;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(184,134,11,0.25);
+            transition: 0.25s ease;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(184,134,11,0.35);
+        }
+
+        .sample-note {
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 10px;
+            background: var(--green-soft);
+            border-left: 4px solid var(--green);
+            font-size: 13px;
+            color: var(--text-soft);
+        }
+
+        .formula-card {
+            background: var(--gold-soft);
+            border-left: 5px solid var(--gold);
+        }
+
+        .formula {
+            margin: 15px 0;
+            padding: 18px;
+            border-radius: 12px;
+            background: #FFFFFF;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--green);
+            overflow-x: auto;
+        }
+
+        .formula-explanation {
+            font-size: 14px;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .example-card {
+            transition: 0.25s ease;
+        }
+
+        .example-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .example-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--gold-dark);
+            margin-bottom: 8px;
+        }
+
+        .info-list {
+            padding-left: 22px;
+            color: var(--text-soft);
+        }
+
+        .info-list li {
+            margin-bottom: 11px;
+        }
+
+        .info-list strong {
+            color: var(--text);
+        }
+
+        .scenario-table,
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 18px;
+        }
+
+        .scenario-table th,
+        .result-table th {
+            background: linear-gradient(
+                90deg,
+                var(--green),
+                #16844A
+            );
+            color: #FFFFFF;
+            padding: 13px;
+            text-align: left;
+        }
+
+        .scenario-table td,
+        .result-table td {
+            padding: 13px;
+            border: 1px solid #ECECEC;
+            color: var(--text-soft);
+        }
+
+        .scenario-table tr:nth-child(even),
+        .result-table tr:nth-child(even) {
+            background: #FFFDF7;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 25px;
+        }
+
+        .result-card {
+            text-align: center;
+            padding: 22px 15px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: #FFFFFF;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.05);
+        }
+
+        .result-card strong {
+            display: block;
+            font-size: 25px;
+            color: var(--green);
+            margin-bottom: 7px;
+        }
+
+        .result-card span {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .success-banner {
+            margin-top: 35px;
+            padding: 28px;
+            border-radius: 18px;
+            background: linear-gradient(
+                135deg,
+                #0B7A3D,
+                #16844A
+            );
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        .success-banner h2,
+        .success-banner p {
+            color: #FFFFFF;
+        }
+
+        .smartplan-insight {
+            margin-top: 28px;
+            padding: 25px;
+            border-radius: 16px;
+            background: var(--gold-soft);
+            border-left: 5px solid var(--gold);
+        }
+
+        .error-message {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 12px;
+            background: #FFF0F0;
+            border-left: 5px solid #C62828;
+            color: #A51D1D;
+        }
+
+        .faq-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .faq-item h3 {
+            margin-bottom: 8px;
+        }
+
+        .author-card {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            background: linear-gradient(
+                180deg,
+                #FFFDF7,
+                #FFFFFF
+            );
+        }
+
+        .author-name {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--green);
+        }
+
+        .author-role {
+            color: var(--gold-dark);
+            font-weight: 600;
+        }
+
+        .disclaimer-box {
+            margin-top: 35px;
+            background: #FFFDF7;
+            border-left: 5px solid var(--gold);
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .related-card {
+            display: block;
+            text-decoration: none;
+            padding: 24px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: #FFFFFF;
+            transition: 0.25s ease;
+        }
+
+        .related-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--gold);
+        }
+
+        .related-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .related-card strong {
+            display: inline-block;
+            margin-top: 8px;
+            color: var(--gold-dark);
+        }
+
+        .final-cta {
+            margin-top: 45px;
+            padding: 35px 25px;
+            border-radius: 20px;
+            background: linear-gradient(
+                135deg,
+                #0B7A3D,
+                #16844A
+            );
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+        .final-cta h2,
+        .final-cta p {
+            color: #FFFFFF;
+        }
+
+        .cta-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 13px 25px;
+            border-radius: 10px;
+            background: #FFFFFF;
+            color: var(--green);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .site-footer {
+            max-width: 950px;
+            margin: 30px auto 0;
+            padding: 28px 15px;
+            border-top: 1px solid #E5E5E5;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 14px;
+        }
+
+        .footer-links a {
+            color: var(--text-soft);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .footer-links a:hover {
+            color: var(--green);
+        }
+
+        .copyright {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .last-updated {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        @media (max-width: 850px) {
+
+            .container {
+                padding: 30px 22px;
+            }
+
+            .cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .three-column {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            body {
+                padding: 12px;
+            }
+
+            .container {
+                padding: 24px 17px;
+                border-radius: 18px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .two-column,
+            .related-grid,
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .scenario-table,
+            .result-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .site-nav {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+        }
+
+    </style>
 
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Inflation Calculator",
-      "applicationCategory": "FinanceApplication",
-      "operatingSystem": "Any",
-      "url": "https://smartplanfinance.com/inflation_calculator",
-      "description": "Free Inflation Calculator by SmartPlan Finance. Calculate how inflation reduces purchasing power over time and plan for long-term financial goals.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "SmartPlan Finance"
-      },
-      "author": {
-        "@type": "Person",
-        "name": "Argho Sanyal"
-      }
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "SmartPlanFinance Inflation Calculator",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "url": "https://smartplanfinance.com/inflation_calculator",
+        "description": "Free inflation calculator that estimates the future amount required to maintain the purchasing power of money after accounting for an assumed inflation rate.",
+        "author": {
+            "@type": "Person",
+            "name": "Argho Sanyal",
+            "jobTitle": "Founder",
+            "url": "https://smartplanfinance.com/about"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "SmartPlanFinance",
+            "url": "https://smartplanfinance.com"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR"
+        }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is inflation?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Inflation is the general increase in prices of goods and services over time. As prices rise, the purchasing power of a fixed amount of money decreases."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does an inflation calculator work?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "An inflation calculator applies an assumed annual inflation rate to a current amount over a selected number of years. The calculation estimates the future amount required to purchase goods or services equivalent to what the current amount can purchase today."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What inflation rate should I use?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "There is no single inflation rate that will accurately predict future prices. Users should choose an assumption appropriate to their planning objective and consider testing multiple scenarios."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does inflation affect retirement planning?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Retirement expenses may rise over time because the cost of food, housing, healthcare, transportation and other services can increase. Inflation should therefore be considered when estimating future retirement expenses."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does the calculator predict actual future inflation?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. The calculator is a planning tool. It applies the inflation assumption entered by the user and does not forecast actual future inflation."
+                }
+            }
+        ]
     }
     </script>
 
@@ -916,440 +771,1068 @@ padding:10px;
 <body>
 
 <nav class="site-nav">
-    <a href="{{ url_for('index') }}" class="brand">SmartPlanFinance</a>
-   
-</nav>
 
-<div class="container">
+    <a href="{{ url_for('index') }}" class="brand">
+        SmartPlanFinance
+    </a>
 
-    <!-- Header Section -->
-    <div style="margin-bottom: 35px;">
-        <h1>📉 Inflation Calculator</h1>
-        <p class="subtitle">
-            Understand how inflation erodes purchasing power over time. Calculate the real value of money and plan your financial goals by accounting for inflation. This helps you determine how much money you'll need in the future to maintain today's lifestyle.
-        </p>
-        <p class="byline">By <strong>Argho Sanyal</strong>, Founder, SmartPlanFinance &middot; Last updated: <time datetime="2026-08-01">August 2026</time></p>
-    </div>
-
-    <!-- What is Inflation Section -->
-    <div class="education-card">
-        <h3>💡 What is Inflation?</h3>
-        <p>
-            Inflation is the rate at which the general level of prices for goods and services rises, reducing the purchasing power of money over time. When inflation is 5%, it means the same goods that cost ₹100 today will cost ₹105 next year.
-        </p>
-        <p>
-            <strong>Example:</strong> If you have ₹1 lakh today and inflation averages 6% per year, after 10 years you would need approximately ₹1.79 lakh to buy the same things that ₹1 lakh can buy today.
-        </p>
-    </div>
-
-    <!-- Why Use Inflation Calculator -->
-    <div style="margin-top: 45px;">
-        <h2>🎯 Why Use an Inflation Calculator?</h2>
-        <div class="calculator-grid">
-            <div class="grid-card">
-                <h3>🏠 Retirement Planning</h3>
-                <p>Calculate how much savings you need for retirement by adjusting for inflation over decades.</p>
-            </div>
-
-            <div class="grid-card">
-                <h3>🎓 Education Goals</h3>
-                <p>Estimate the future cost of education and plan accordingly for your child's future.</p>
-            </div>
-
-            <div class="grid-card">
-                <h3>💰 Real Savings</h3>
-                <p>Understand if your investment returns are beating inflation or losing purchasing power.</p>
-            </div>
-
-            <div class="grid-card">
-                <h3>📊 Financial Planning</h3>
-                <p>Make informed decisions about long-term financial goals with inflation-adjusted figures.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Inflation Calculator Form -->
-    <form method="POST" class="form-card">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-        <div class="form-group">
-            <label>Current Amount (₹)</label>
-            <input
-                type="number"
-                name="current_amount"
-                placeholder="Example: 500000"
-                required>
-        </div>
-
-        <div class="form-group">
-            <label>Expected Inflation Rate (% per year)</label>
-            <input
-                type="number"
-                step="0.01"
-                name="inflation_rate"
-                placeholder="Example: 6"
-                required>
-        </div>
-
-        <div class="form-group">
-            <label>Time Period (Years)</label>
-            <input
-                type="number"
-                name="years"
-                placeholder="Example: 10"
-                required>
-        </div>
-
-        <button type="submit">
-            📊 Calculate Inflation Impact
-        </button>
-    </form>
-
-    <!-- Back to Home Button -->
-    <div style="text-align: center;">
-        <a href="{{ url_for('index') }}" class="back-btn">
-            ← Back to Home
-        </a>
-    </div>
-
-    <!-- Disclaimer -->
-    <div class="disclaimer-box">
-        <strong>Disclaimer:</strong> The Inflation Calculator on SmartPlan Finance provides estimated calculations based on the inflation rate and values entered by the user. Actual inflation and purchasing power may vary due to changes in economic conditions, government policies, and future inflation trends. SmartPlan Finance does not guarantee future inflation rates or provide financial or investment advice. Please consult a qualified financial advisor before making important financial decisions.
-    </div>
-
-    <!-- Understanding Inflation -->
-    <div style="margin-top: 45px;">
-        <h2>📖 Understanding Inflation Better</h2>
-        <div class="education-card">
-            <h3 style="margin-top: 0;">How Inflation Works</h3>
-            <p>
-                <strong>Nominal Value:</strong> The face value of money (₹100 is ₹100).
-            </p>
-            <p>
-                <strong>Real Value:</strong> The actual purchasing power of money adjusted for inflation.
-            </p>
-            <p>
-                <strong>Example:</strong> ₹100 today has higher real value than ₹100 in 5 years because it can buy more goods and services today.
-            </p>
-            <p>
-                This is why saving money without investing it in growth-oriented assets can be risky. Your money loses real value over time due to inflation.
-            </p>
-        </div>
-    </div>
-
-    <!-- Inflation Benchmarks -->
-    <div style="margin-top: 45px;">
-        <h2>📊 Historical Inflation Rates in India</h2>
-        <div class="education-card">
-            <table class="benchmark-table">
-                <tr>
-                    <td>Long-term Average Inflation (10-year)</td>
-                    <td><strong>5.5-6.5%</strong></td>
-                </tr>
-                <tr>
-                    <td>Recent Inflation (2023-2024)</td>
-                    <td><strong>5.5-6.8%</strong></td>
-                </tr>
-                <tr>
-                    <td>RBI Target Inflation Rate</td>
-                    <td><strong>4% (±2%)</strong></td>
-                </tr>
-                <tr>
-                    <td>Headline Inflation (includes fuel & food)</td>
-                    <td><strong>Variable (5-8%)</strong></td>
-                </tr>
-                <tr>
-                    <td>Core Inflation (excludes volatile items)</td>
-                    <td><strong>4-5%</strong></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <!-- How to Use Calculator -->
-    <div style="margin-top: 45px;">
-        <h2>📋 How to Use This Inflation Calculator</h2>
-        <div class="education-card">
-            <ol style="color: #555; line-height: 2; padding-left: 20px;">
-                <li>Enter the <strong>current amount</strong> of money you want to analyze (today's rupees).</li>
-                <li>Enter the <strong>expected inflation rate</strong> (you can use historical average of 6% or your own estimate).</li>
-                <li>Enter the <strong>time period in years</strong> for which you want to calculate inflation impact.</li>
-                <li>Click the <strong>Calculate Inflation Impact</strong> button.</li>
-                <li>Review the purchasing power loss and future value required.</li>
-                <li>Use this to plan your investments and savings accordingly.</li>
-            </ol>
-        </div>
-    </div>
-
-    <!-- Inflation Impact on Different Goals -->
-    <div style="margin-top: 45px;">
-        <h2>🏆 How Inflation Affects Common Financial Goals</h2>
-        <div class="education-card">
-            <h3>🏠 Housing</h3>
-            <p>A home costing ₹50 lakhs today might cost ₹90+ lakhs in 10 years at 6% inflation. Start saving and investing early for down payments.</p>
-
-            <h3 style="margin-top: 20px;">🎓 Education</h3>
-            <p>Educational costs inflate faster (7-8% annually). A course costing ₹10 lakhs today might cost ₹24+ lakhs in 12 years.</p>
-
-            <h3 style="margin-top: 20px;">🏥 Healthcare</h3>
-            <p>Medical inflation (8-10% annually) is higher than general inflation. Plan for higher healthcare costs in retirement.</p>
-
-            <h3 style="margin-top: 20px;">🎯 Retirement</h3>
-            <p>Monthly expenses of ₹50,000 today might require ₹1+ lakh after 20 years. Invest in assets that outpace inflation.</p>
-        </div>
-    </div>
-
-    <!-- Inflation Calculation Results -->
-    {% if result %}
-    <div id="results-section">
-
-    {% if result.error %}
-
-    <div class="error-message">
-        <strong>⚠️ Error:</strong> {{ result.error }}
-    </div>
-
-    {% else %}
-
-    <div class="success-banner">
-        <h2>✓ Your Inflation Impact Analysis</h2>
-        <p>Here's how inflation affects your purchasing power</p>
-    </div>
-
-    <h3 style="text-align: center; color: #0B7A3D; margin-top: 35px;">
-        💰 Purchasing Power Summary
-    </h3>
-
-    <div class="cards">
-        <div class="card">
-            <h2>₹ {{ "{:,.0f}".format(result.current_amount) }}</h2>
-            <p>Today's Value</p>
-        </div>
-
-        <div class="card">
-            <h2>₹ {{ "{:,.0f}".format(result.future_value) }}</h2>
-            <p>Future Value Needed</p>
-        </div>
-
-        <div class="card">
-            <h2>₹ {{ "{:,.0f}".format(result.loss) }}</h2>
-            <p>Purchasing Power Lost</p>
-        </div>
-
-        <div class="card">
-            <h2>{{ result.inflation_rate }}%</h2>
-            <p>Annual Inflation Rate</p>
-        </div>
-    </div>
-
-    <!-- Results Table -->
-    <h3 style="text-align: center; color: #0B7A3D; margin-top: 35px;">
-        📊 Year-wise Purchasing Power
-    </h3>
-
-    <table class="result-table">
-        <tr>
-            <th>Year</th>
-            <th>Equivalent Amount (₹)</th>
-            <th>Purchasing Power Loss</th>
-        </tr>
-        {% for row in result.yearly_data %}
-        <tr>
-            <td>Year {{ row.year }}</td>
-            <td>₹ {{ "{:,.2f}".format(row.value) }}</td>
-            <td>{{ row.loss_percentage }}%</td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <!-- SmartPlan Insight -->
-    <div class="ai-box">
-        <h3>🤖 SmartPlan Insight</h3>
-        <p>
-            At an inflation rate of <strong>{{ result.inflation_rate }}%</strong> per year, your <strong>₹{{ "{:,.0f}".format(result.current_amount) }}</strong> will need to grow to <strong>₹{{ "{:,.0f}".format(result.future_value) }}</strong> after <strong>{{ result.years }}</strong> years just to maintain the same purchasing power.
-        </p>
-        <p>
-            This means you would lose approximately <strong>₹{{ "{:,.0f}".format(result.loss) }}</strong> in purchasing power. To build real wealth and achieve your financial goals, your investments must generate returns that exceed the inflation rate. Consider diversifying your portfolio with growth-oriented assets like equities and mutual funds that historically deliver returns of 10-15% annually, significantly beating inflation.
-        </p>
-    </div>
-    </div>
-
-    {% endif %}
-
-    {% endif %}
-
-    <!-- Beat Inflation Strategy -->
-    <div style="margin-top: 45px;">
-        <h2>📈 How to Beat Inflation</h2>
-        <div class="education-card">
-            <ul>
-                <li><strong>Invest in Equities:</strong> Stocks and equity mutual funds historically deliver 12-15% returns, well above inflation.</li>
-                <li><strong>Real Estate:</strong> Property prices typically grow faster than inflation over long periods.</li>
-                <li><strong>Gold:</strong> A traditional inflation hedge that maintains value over time (5-8% annual growth).</li>
-                <li><strong>Bonds & Fixed Income:</strong> Provide stable returns but may not always beat inflation; better for capital preservation.</li>
-                <li><strong>Systematic Investment:</strong> Regular SIP investments help average out inflation and market volatility.</li>
-                <li><strong>Increase Income:</strong> Growing your income faster than inflation is the most reliable way to build wealth.</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Inflation vs Investment Returns -->
-    <div style="margin-top: 45px;">
-        <h2>⚖️ Comparing Investments Against Inflation</h2>
-        <div class="education-card">
-            <p style="margin-bottom: 15px;">
-                <strong>Real Return = Investment Return - Inflation Rate</strong>
-            </p>
-            <p>
-                If an investment generates 8% returns and inflation is 6%, your real return is only 2%. This is why comparing your investment performance against inflation is crucial.
-            </p>
-            <p style="margin-top: 15px;">
-                Use our <a href="{{ url_for('cagr_calculator') }}" style="color: #0B7A3D; font-weight: 600;">CAGR Calculator</a> to measure your investment returns, then compare against inflation to see your real growth.
-            </p>
-        </div>
-    </div>
-
-    <!-- Key Factors Affecting Inflation -->
-    <div style="margin-top: 45px;">
-        <h2>🔍 Key Factors Affecting Inflation</h2>
-        <div class="education-card">
-            <ul>
-                <li><strong>Money Supply:</strong> More money in circulation tends to increase inflation.</li>
-                <li><strong>Oil & Fuel Prices:</strong> Global fuel prices directly impact transportation and production costs.</li>
-                <li><strong>Food Prices:</strong> Agricultural output and monsoon patterns affect food inflation significantly in India.</li>
-                <li><strong>Government Policies:</strong> Fiscal and monetary policies set by the RBI influence inflation rates.</li>
-                <li><strong>Global Events:</strong> International crises and supply chain disruptions can trigger inflation.</li>
-                <li><strong>Exchange Rates:</strong> Rupee depreciation increases import costs and inflation.</li>
-                <li><strong>Demand-Supply Gap:</strong> When demand exceeds supply, prices rise, causing inflation.</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Related Calculators -->
-    <div style="margin-top: 50px;">
-        <h2>🧮 Related Financial Calculators</h2>
-        <p style="color: #555; line-height: 1.8; margin-bottom: 25px;">
-            Explore other tools to measure investment performance and plan inflation-adjusted financial goals.
-        </p>
-
-        <div class="related-articles">
-
-            <a href="{{ url_for('cagr_calculator') }}" style="text-decoration: none; display: block;">
-                <div class="article-card">
-                    <h3>📊 CAGR Calculator</h3>
-                    <p>Measure your investment returns and compare them against inflation benchmarks. Calculate Compound Annual Growth Rate.</p>
-                    <strong>Try Calculator →</strong>
-                </div>
-            </a>
-
-            <a href="{{ url_for('sip_calculator') }}" style="text-decoration: none; display: block;">
-                <div class="article-card">
-                    <h3>💰 SIP Calculator</h3>
-                    <p>Plan systematic investments to beat inflation. See how regular investing builds wealth over time with compound growth.</p>
-                    <strong>Try Calculator →</strong>
-                </div>
-            </a>
-
-            <a href="{{ url_for('lumpsum_calculator') }}" style="text-decoration: none; display: block;">
-                <div class="article-card">
-                    <h3>📈 Lumpsum Investment Calculator</h3>
-                    <p>Calculate returns on one-time investments and compare with inflation impact on purchasing power.</p>
-                    <strong>Try Calculator →</strong>
-                </div>
-            </a>
-
-            <a href="{{ url_for('fd_calculator') }}" style="text-decoration: none; display: block;">
-                <div class="article-card">
-                    <h3>🏦 Fixed Deposit Calculator</h3>
-                    <p>Calculate FD returns and check if they're beating inflation. Plan fixed income investments wisely.</p>
-                    <strong>Try Calculator →</strong>
-                </div>
-            </a>
-
-        </div>
-    </div>
-
-    <!-- Learn More Section -->
-    <div style="margin-top: 50px;">
-        <h2>📚 Learn More About Inflation & Wealth Building</h2>
-        <p style="color: #555; line-height: 1.8; margin-bottom: 25px;">
-            Explore our comprehensive collection of articles on inflation, investment strategies, and building long-term wealth.
-        </p>
-
-        <div class="related-articles">
-
-            <a href="{{ url_for('articles') }}" style="text-decoration: none; display: block;">
-                <div class="article-card">
-                    <h3>📖 All Articles & Guides</h3>
-                    <p>Browse our complete collection of articles covering inflation impact, investment strategies, retirement planning, tax optimization, and wealth-building techniques.</p>
-                    <strong>Explore Articles →</strong>
-                </div>
-            </a>
-
-        </div>
-    </div>
-
-    <!-- Smart Inflation Planning Tips -->
-    <div style="margin-top: 45px;">
-        <h2>💡 Smart Inflation Planning Tips</h2>
-        <div class="education-card">
-            <ul>
-                <li><strong>Start Early:</strong> Time in the market beats timing the market. Start investing early to benefit from compound growth.</li>
-                <li><strong>Diversify Portfolio:</strong> Mix of equities, debt, and real assets provides inflation protection with risk management.</li>
-                <li><strong>Regular Investments:</strong> SIPs help you invest consistently regardless of market conditions and inflation cycles.</li>
-                <li><strong>Review Annually:</strong> Check if your investment returns are beating inflation and adjust allocation if needed.</li>
-                <li><strong>Plan for Goals:</strong> Always account for inflation when calculating future value of goals like education and retirement.</li>
-                <li><strong>Increase Savings:</strong> As your income grows, increase savings and investment to stay ahead of inflation.</li>
-                <li><strong>Tax-Efficient Investing:</strong> Use tax-advantaged investments like ELSS and PPF to maximize real returns after inflation.</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Final CTA -->
-    <div style="margin-top: 45px; text-align: center;">
-        <div class="success-banner">
-            <h2 style="margin-top: 0; margin-bottom: 15px;">Start Planning for Inflation Today</h2>
-            <p style="margin-bottom: 20px; font-size: 15px;">
-                Use our Inflation Calculator to understand purchasing power loss, then explore our CAGR and SIP calculators to plan inflation-beating investments.
-            </p>
-            <a href="{{ url_for('sip_calculator') }}"
-               style="display: inline-block; background: white; color: #0B7A3D; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: 0.3s;">
-                Start SIP Investing →
-            </a>
-        </div>
-    </div>
-
-    <!-- Partner CTA -->
-    {% include "partials/_partner_cta.html" %}
-
-</div>
-
-<footer class="site-footer">
-    <div class="footer-links">
-        <a href="/about">About Us</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms &amp; Conditions</a>
+    <div class="nav-links">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('articles') }}">Articles</a>
+        <a href="/about">About</a>
         <a href="/disclaimer">Disclaimer</a>
     </div>
-    <div class="copyright">&copy; 2026 SmartPlanFinance. All rights reserved.</div>
+
+</nav>
+
+<main class="container">
+
+    <section class="hero">
+
+        <h1>Inflation Calculator</h1>
+
+        <p class="hero-description">
+            Estimate how inflation can change the future cost of your money.
+            Use this free calculator to understand purchasing power, estimate
+            future expenses and incorporate inflation into long-term financial
+            planning such as retirement, education, healthcare and major purchases.
+        </p>
+
+        <p class="byline">
+            By <strong>Argho Sanyal</strong>, Founder, SmartPlanFinance
+            · Last reviewed:
+            <time datetime="2026-08-14">August 14, 2026</time>
+        </p>
+
+    </section>
+
+
+    <!-- INTRODUCTION -->
+
+    <section class="intro-card">
+
+        <h2>What Is Inflation?</h2>
+
+        <p>
+            Inflation describes a sustained increase in the prices of goods
+            and services over time. When prices rise, the same amount of money
+            generally buys fewer goods and services than it did previously.
+            This reduction in purchasing power is one of the most important
+            factors to consider when planning long-term financial goals.
+        </p>
+
+        <p>
+            For example, if a household spends ₹50,000 per month today and
+            prices rise by an assumed 6% every year, the household may need
+            substantially more than ₹50,000 per month in the future to maintain
+            a similar level of spending. The actual increase in any particular
+            expense will depend on the goods or services involved.
+        </p>
+
+        <p>
+            An inflation calculator does not predict the future. Instead,
+            it allows you to test a specific inflation assumption and see
+            how that assumption changes the amount of money required in the
+            future.
+        </p>
+
+    </section>
+
+
+    <!-- CALCULATOR -->
+
+    <section class="calculator-card" id="calculator">
+
+        <div class="calculator-intro">
+
+            <h2>Calculate the Impact of Inflation</h2>
+
+            <p>
+                Enter a current amount, an assumed annual inflation rate and
+                the number of years. The calculator estimates the future
+                amount required to maintain the purchasing power of today's
+                money.
+            </p>
+
+        </div>
+
+        <form method="POST">
+
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+
+            <div class="form-group">
+
+                <label for="current_amount">
+                    Current Amount (₹)
+                </label>
+
+                <input
+                    id="current_amount"
+                    type="number"
+                    name="current_amount"
+                    min="1"
+                    step="1"
+                    value="{{ request.form.get('current_amount', '500000') }}"
+                    required>
+
+                <div class="help-text">
+                    Example: ₹5,00,000 as the current value of a financial goal.
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="inflation_rate">
+                    Assumed Inflation Rate (% per year)
+                </label>
+
+                <input
+                    id="inflation_rate"
+                    type="number"
+                    name="inflation_rate"
+                    min="0"
+                    step="0.01"
+                    value="{{ request.form.get('inflation_rate', '6') }}"
+                    required>
+
+                <div class="help-text">
+                    Use your own planning assumption. Different expenses can
+                    experience different rates of price increase.
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="years">
+                    Time Period (Years)
+                </label>
+
+                <input
+                    id="years"
+                    type="number"
+                    name="years"
+                    min="1"
+                    max="100"
+                    step="1"
+                    value="{{ request.form.get('years', '10') }}"
+                    required>
+
+                <div class="help-text">
+                    Enter the number of years until the future expense or goal.
+                </div>
+
+            </div>
+
+
+            <button class="calculate-btn" type="submit">
+                Calculate Inflation Impact
+            </button>
+
+        </form>
+
+
+        <div class="sample-note">
+
+            <strong>Example already loaded:</strong>
+            ₹5,00,000 today, 6% assumed annual inflation and a 10-year period.
+            Change any input to model your own financial goal.
+
+        </div>
+
+    </section>
+
+
+    <!-- RESULTS -->
+
+    {% if result %}
+
+    <section id="results-section" class="section">
+
+        {% if result.error %}
+
+        <div class="error-message">
+
+            <strong>Calculation error:</strong>
+            {{ result.error }}
+
+        </div>
+
+        {% else %}
+
+        <div class="success-banner">
+
+            <h2>Your Inflation Impact Analysis</h2>
+
+            <p>
+                The figures below show what your selected inflation assumption
+                means for the purchasing power of the amount entered.
+            </p>
+
+        </div>
+
+
+        <div class="cards">
+
+            <div class="result-card">
+
+                <strong>
+                    ₹{{ "{:,.0f}".format(result.current_amount) }}
+                </strong>
+
+                <span>Current Amount</span>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <strong>
+                    ₹{{ "{:,.0f}".format(result.future_value) }}
+                </strong>
+
+                <span>Future Amount Required</span>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <strong>
+                    ₹{{ "{:,.0f}".format(result.loss) }}
+                </strong>
+
+                <span>Difference in Amount</span>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <strong>
+                    {{ result.inflation_rate }}%
+                </strong>
+
+                <span>Assumed Inflation</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="smartplan-insight">
+
+            <h3>SmartPlan Insight</h3>
+
+            <p>
+                Under an assumed inflation rate of
+                <strong>{{ result.inflation_rate }}%</strong> per year,
+                an amount of
+                <strong>₹{{ "{:,.0f}".format(result.current_amount) }}</strong>
+                today would require approximately
+                <strong>₹{{ "{:,.0f}".format(result.future_value) }}</strong>
+                after
+                <strong>{{ result.years }} years</strong>
+                to represent the same inflation-adjusted spending requirement.
+            </p>
+
+            <p>
+                This result is an illustration based entirely on the
+                assumptions entered into the calculator. Actual prices may
+                increase faster or slower than the assumed rate.
+            </p>
+
+        </div>
+
+
+        {% if result.yearly_data %}
+
+        <h2 class="section">
+            Year-by-Year Inflation Illustration
+        </h2>
+
+        <p>
+            The following table illustrates how the assumed inflation rate
+            compounds over time. It is not a forecast of actual prices.
+        </p>
+
+        <table class="result-table">
+
+            <thead>
+
+                <tr>
+                    <th>Year</th>
+                    <th>Equivalent Amount (₹)</th>
+                    <th>Increase From Today's Amount</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for row in result.yearly_data %}
+
+                <tr>
+
+                    <td>
+                        Year {{ row.year }}
+                    </td>
+
+                    <td>
+                        ₹{{ "{:,.2f}".format(row.value) }}
+                    </td>
+
+                    <td>
+                        {{ row.loss_percentage }}%
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% endif %}
+
+        {% endif %}
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- FORMULA -->
+
+    <section class="section">
+
+        <h2>How the Inflation Calculation Works</h2>
+
+        <div class="formula-card">
+
+            <p>
+                The calculator uses the standard future-value approach for
+                estimating the amount required after applying an assumed
+                annual inflation rate.
+            </p>
+
+            <div class="formula">
+                Future Amount = Current Amount × (1 + Inflation Rate)<sup>Years</sup>
+            </div>
+
+            <p class="formula-explanation">
+                For example, if ₹5,00,000 is exposed to an assumed 6% annual
+                inflation rate for 10 years, the calculation compounds the
+                6% rate for each year. The resulting figure represents an
+                estimated future spending requirement, not a guaranteed price.
+            </p>
+
+            <p class="formula-explanation">
+                Because inflation compounds, small differences in the assumed
+                rate can produce significant differences over long periods.
+                This is why retirement and education planning should ideally
+                consider multiple inflation scenarios rather than relying on
+                one number.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- WHY IT MATTERS -->
+
+    <section class="section">
+
+        <h2>Why Inflation Matters in Financial Planning</h2>
+
+        <div class="three-column">
+
+            <div class="example-card">
+
+                <div class="example-number">01</div>
+
+                <h3>Retirement</h3>
+
+                <p>
+                    Retirement planning often spans several decades. Today's
+                    monthly household expenses may not remain unchanged over
+                    that period, so future expenses should be considered using
+                    an appropriate inflation assumption.
+                </p>
+
+            </div>
+
+
+            <div class="example-card">
+
+                <div class="example-number">02</div>
+
+                <h3>Education</h3>
+
+                <p>
+                    Education is a long-term financial goal for many families.
+                    Estimating only today's tuition cost can underestimate the
+                    amount that may be required when the expense actually occurs.
+                </p>
+
+            </div>
+
+
+            <div class="example-card">
+
+                <div class="example-number">03</div>
+
+                <h3>Healthcare</h3>
+
+                <p>
+                    Medical expenses can change differently from the overall
+                    inflation rate. Healthcare planning therefore deserves
+                    particular attention when estimating future retirement
+                    expenses.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WORKED EXAMPLES -->
+
+    <section class="section">
+
+        <h2>Inflation Examples</h2>
+
+        <div class="two-column">
+
+            <div class="example-card">
+
+                <h3>Example 1: ₹1 Lakh Over 10 Years</h3>
+
+                <p>
+                    Suppose you have a financial goal costing ₹1,00,000 today
+                    and use a 6% annual inflation assumption.
+                </p>
+
+                <p>
+                    Applying the compound inflation formula gives an estimated
+                    future requirement of approximately ₹1.79 lakh after ten
+                    years.
+                </p>
+
+                <p>
+                    The actual cost could be different because real-world
+                    prices do not rise at a constant rate.
+                </p>
+
+            </div>
+
+
+            <div class="example-card">
+
+                <h3>Example 2: Monthly Expenses</h3>
+
+                <p>
+                    Imagine that a household spends ₹50,000 per month today.
+                    If the planning assumption is 6% annual inflation, the
+                    household should not automatically assume that ₹50,000
+                    will provide the same purchasing power decades later.
+                </p>
+
+                <p>
+                    Inflation-adjusted expenses can help create a more realistic
+                    retirement target.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SCENARIO TABLE -->
+
+    <section class="section">
+
+        <h2>Why Your Inflation Assumption Matters</h2>
+
+        <p>
+            There is no universal inflation rate that can accurately describe
+            every future expense. A useful planning technique is to test
+            multiple scenarios.
+        </p>
+
+        <table class="scenario-table">
+
+            <thead>
+
+                <tr>
+                    <th>Planning Scenario</th>
+                    <th>Illustrative Rate</th>
+                    <th>Purpose</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Lower assumption</td>
+                    <td>4%</td>
+                    <td>Stress-test a relatively moderate inflation environment.</td>
+                </tr>
+
+                <tr>
+                    <td>Base assumption</td>
+                    <td>6%</td>
+                    <td>Useful as an illustrative long-term planning scenario.</td>
+                </tr>
+
+                <tr>
+                    <td>Higher assumption</td>
+                    <td>8%</td>
+                    <td>Test whether a financial goal remains achievable under higher inflation.</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <p style="margin-top:15px;font-size:13px;">
+            These percentages are illustrative planning scenarios, not forecasts
+            or guarantees of future inflation.
+        </p>
+
+    </section>
+
+
+    <!-- PURCHASING POWER -->
+
+    <section class="section">
+
+        <h2>Inflation and Purchasing Power</h2>
+
+        <div class="education-card">
+
+            <p>
+                Purchasing power refers to the quantity of goods and services
+                that a particular amount of money can buy.
+            </p>
+
+            <p>
+                If prices increase while the amount of money remains unchanged,
+                purchasing power decreases. For example, ₹1,000 can purchase a
+                different basket of goods in the future if prices have increased.
+            </p>
+
+            <p>
+                This is why financial planning should distinguish between
+                <strong>nominal money values</strong> and
+                <strong>real purchasing power</strong>.
+            </p>
+
+            <ul class="info-list">
+
+                <li>
+                    <strong>Nominal value:</strong>
+                    The rupee amount shown on your account or statement.
+                </li>
+
+                <li>
+                    <strong>Real value:</strong>
+                    The purchasing power of that amount after considering
+                    changes in prices.
+                </li>
+
+                <li>
+                    <strong>Inflation-adjusted goal:</strong>
+                    A future financial target that accounts for an assumed
+                    increase in prices.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- HOW TO USE -->
+
+    <section class="section">
+
+        <h2>How to Use the Inflation Calculator</h2>
+
+        <div class="education-card">
+
+            <ol class="info-list">
+
+                <li>
+                    Enter the amount that your financial goal or expense costs
+                    today.
+                </li>
+
+                <li>
+                    Enter an assumed annual inflation rate.
+                </li>
+
+                <li>
+                    Enter the number of years until the goal occurs.
+                </li>
+
+                <li>
+                    Select <strong>Calculate Inflation Impact</strong>.
+                </li>
+
+                <li>
+                    Review the estimated future amount.
+                </li>
+
+                <li>
+                    Repeat the calculation using different inflation rates
+                    to understand the sensitivity of your financial plan.
+                </li>
+
+            </ol>
+
+        </div>
+
+    </section>
+
+
+    <!-- LIMITATIONS -->
+
+    <section class="section">
+
+        <h2>Important Limitations of Inflation Calculations</h2>
+
+        <div class="methodology-card">
+
+            <p>
+                Inflation calculations are useful for financial planning, but
+                they are based on assumptions. The calculator does not know what
+                the prices of individual goods and services will be in the future.
+            </p>
+
+            <p>
+                Different categories can experience different rates of price
+                increases. Housing, education, healthcare, food, transportation
+                and technology may not move together.
+            </p>
+
+            <p>
+                The calculation also assumes a constant annual rate. Actual
+                inflation can fluctuate from year to year because of economic
+                conditions, supply and demand, commodity prices, monetary policy,
+                exchange rates and other factors.
+            </p>
+
+            <p>
+                For these reasons, the calculator should be treated as a
+                planning and educational tool rather than a prediction engine.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- STRATEGIES -->
+
+    <section class="section">
+
+        <h2>How to Plan for Inflation</h2>
+
+        <div class="education-card">
+
+            <ul class="info-list">
+
+                <li>
+                    <strong>Include inflation in long-term goals:</strong>
+                    Estimate future expenses rather than using only today's
+                    prices.
+                </li>
+
+                <li>
+                    <strong>Use multiple scenarios:</strong>
+                    Test lower, base and higher assumptions.
+                </li>
+
+                <li>
+                    <strong>Review your investments:</strong>
+                    Consider whether your expected portfolio return is
+                    comfortably above your inflation assumption.
+                </li>
+
+                <li>
+                    <strong>Increase investments over time:</strong>
+                    Increasing contributions as income grows can help keep
+                    long-term goals aligned with rising expenses.
+                </li>
+
+                <li>
+                    <strong>Maintain diversification:</strong>
+                    Different asset classes behave differently across economic
+                    environments.
+                </li>
+
+                <li>
+                    <strong>Review your plan periodically:</strong>
+                    Inflation assumptions, income, expenses and financial goals
+                    can change over time.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- RELATED CALCULATORS -->
+
+    <section class="section">
+
+        <h2>Related Financial Calculators</h2>
+
+        <p>
+            Inflation is only one part of long-term financial planning.
+            These calculators can help you evaluate investment growth and
+            savings decisions alongside inflation assumptions.
+        </p>
+
+        <div class="related-grid">
+
+            <a class="related-card"
+               href="{{ url_for('cagr_calculator') }}">
+
+                <h3>CAGR Calculator</h3>
+
+                <p>
+                    Calculate the compound annual growth rate of an investment
+                    and understand how its historical or expected growth compares
+                    with an inflation assumption.
+                </p>
+
+                <strong>Use CAGR Calculator →</strong>
+
+            </a>
+
+
+            <a class="related-card"
+               href="{{ url_for('sip_calculator') }}">
+
+                <h3>SIP Calculator</h3>
+
+                <p>
+                    Estimate how regular investments may grow over time and
+                    explore how increasing contributions can support long-term
+                    financial goals.
+                </p>
+
+                <strong>Use SIP Calculator →</strong>
+
+            </a>
+
+
+            <a class="related-card"
+               href="{{ url_for('lumpsum_calculator') }}">
+
+                <h3>Lumpsum Calculator</h3>
+
+                <p>
+                    Estimate the potential future value of a one-time investment
+                    using an assumed rate of return and investment period.
+                </p>
+
+                <strong>Use Lumpsum Calculator →</strong>
+
+            </a>
+
+
+            <a class="related-card"
+               href="{{ url_for('fd_calculator') }}">
+
+                <h3>FD Calculator</h3>
+
+                <p>
+                    Estimate fixed deposit maturity values and compare the
+                    nominal return with the inflation assumptions used in your
+                    financial plan.
+                </p>
+
+                <strong>Use FD Calculator →</strong>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- FAQ -->
+
+    <section class="section">
+
+        <h2>Frequently Asked Questions About Inflation</h2>
+
+        <div class="faq-list">
+
+            <div class="faq-item">
+
+                <h3>What is inflation?</h3>
+
+                <p>
+                    Inflation is the general increase in prices of goods and
+                    services over time. As prices increase, a fixed amount of
+                    money generally has less purchasing power.
+                </p>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <h3>How does an inflation calculator work?</h3>
+
+                <p>
+                    The calculator applies an assumed annual inflation rate
+                    to a current amount over a selected number of years.
+                    It estimates how much money may be required in the future
+                    to represent the same spending requirement.
+                </p>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <h3>What inflation rate should I use?</h3>
+
+                <p>
+                    There is no single rate that will accurately predict all
+                    future prices. Consider the purpose of your calculation,
+                    examine historical information and test multiple scenarios
+                    rather than relying on one assumption.
+                </p>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <h3>Does inflation affect retirement planning?</h3>
+
+                <p>
+                    Yes. Retirement can last for several decades, meaning
+                    inflation can materially affect future living expenses.
+                    Retirement planning should therefore account for changing
+                    costs rather than assuming today's expenses will remain fixed.
+                </p>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <h3>Does this calculator predict future inflation?</h3>
+
+                <p>
+                    No. It does not forecast future inflation. It simply applies
+                    the rate entered by the user to illustrate a potential
+                    future financial requirement.
+                </p>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <h3>Why does a small inflation difference matter?</h3>
+
+                <p>
+                    Inflation compounds over time. Over a long period, a
+                    difference of even one or two percentage points in the
+                    assumed rate can create a substantial difference in the
+                    estimated future requirement.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- AUTHOR -->
+
+    <section class="section">
+
+        <h2>About the Author</h2>
+
+        <div class="author-card">
+
+            <div class="author-name">
+                Argho Sanyal
+            </div>
+
+            <div class="author-role">
+                Founder, SmartPlanFinance
+            </div>
+
+            <p>
+                Argho Sanyal is the founder of SmartPlanFinance, a personal
+                finance education platform focused on making financial concepts,
+                calculators and long-term planning tools easier to understand
+                for Indian users.
+            </p>
+
+            <p>
+                SmartPlanFinance publishes educational resources covering
+                investing, savings, retirement planning, taxes, loans,
+                financial independence and personal financial decision-making.
+            </p>
+
+            <p>
+                The information presented on this page is intended for
+                educational and informational purposes and should not be
+                interpreted as individualized financial advice.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- DISCLAIMER -->
+
+    <section class="disclaimer-box">
+
+        <strong>Important Disclaimer:</strong>
+
+        <p>
+            SmartPlanFinance provides this inflation calculator for educational
+            and financial-planning purposes. The calculations are based on the
+            assumptions entered by the user and are not forecasts or guarantees
+            of future inflation, prices, investment returns or purchasing power.
+        </p>
+
+        <p>
+            Actual inflation may differ materially from the assumed rate.
+            Financial decisions should consider your personal circumstances,
+            risk tolerance, time horizon, taxes, costs and other relevant
+            factors. SmartPlanFinance does not provide individualized investment,
+            tax, legal or financial advice through this calculator.
+        </p>
+
+    </section>
+
+
+    <!-- FINAL CTA -->
+
+    <section class="final-cta">
+
+        <h2>Plan Your Financial Future With Better Assumptions</h2>
+
+        <p>
+            Inflation is one of the most important assumptions in long-term
+            financial planning. Start with an inflation-adjusted goal and then
+            evaluate how much you may need to save or invest to reach it.
+        </p>
+
+        <a class="cta-link"
+           href="{{ url_for('sip_calculator') }}">
+            Explore SIP Calculator →
+        </a>
+
+    </section>
+
+
+    {% include "partials/_partner_cta.html" %}
+
+
+    <p class="last-updated">
+        SmartPlanFinance · Inflation Calculator · Information reviewed August 2026
+    </p>
+
+</main>
+
+
+<footer class="site-footer">
+
+    <div class="footer-links">
+
+        <a href="/about">
+            About Us
+        </a>
+
+<a href="{{ url_for('about_author') }}">
+
+👨‍💼 About the Author &amp; Founder
+
+</a>
+
+
+        <a href="/privacy">
+            Privacy Policy
+        </a>
+
+        <a href="/terms">
+            Terms &amp; Conditions
+        </a>
+
+        <a href="/disclaimer">
+            Disclaimer
+        </a>
+
+        <a href="{{ url_for('articles') }}">
+            Articles
+        </a>
+
+<a href="/affiliate-policy">
+                Affiliate Policy
+            </a>
+    </div>
+
+    <div class="copyright">
+        © 2026 SmartPlanFinance. All rights reserved.
+    </div>
+
 </footer>
 
+
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Scroll only after a POST submission when results exist
-    const resultsSection = document.getElementById('results-section');
 
-    if (resultsSection && window.location.search === '') {
-        // Small delay ensures layout is fully rendered
-        setTimeout(() => {
+document.addEventListener("DOMContentLoaded", function () {
+
+    const resultsSection =
+        document.getElementById("results-section");
+
+    if (resultsSection) {
+
+        setTimeout(function () {
+
             resultsSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+                behavior: "smooth",
+                block: "start"
             });
-        }, 100);
-    }
-});
-</script>
-</body>
 
+        }, 150);
+
+    }
+
+});
+
+</script>
+
+</body>
 </html>
