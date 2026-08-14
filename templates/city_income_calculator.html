@@ -78,6 +78,10 @@ body{
     line-height:1.7;
 }
 
+.hidden{
+    display:none !important;
+}
+
 .wrap{
     max-width:1080px;
     margin:auto;
@@ -917,7 +921,7 @@ button{
 <h2>4. Children & education</h2><p class="intro">Education is a household choice, not a universal city cost. This step lets you model the school tier that actually matches your plans.</p>
 <div id="noKids" class="city-note">No education cost is included because this household profile has no children.</div>
 <div id="kids" class="hidden">
-<label>School type</label><select id="school"><option value="government">Government / very low-cost</option><option value="budget">Budget private</option><option value="NA">NA</option><option value="mid" selected>Mid-range private</option><option value="premium">Premium private</option><option value="actual">Enter actual cost</option></select>
+<label>School type</label><select id="school"><option value="government">Government / very low-cost</option><option value="budget">Budget private</option><option value="mid" selected>Mid-range private</option><option value="premium">Premium private</option><option value="actual">Enter actual cost</option></select>
 <div id="schoolBox" class="hidden"><label>Total monthly school cost for all children</label><div class="money"><b>₹</b><input id="schoolActual" type="number" min="0"></div></div>
 <div class="help">Use total monthly education cost for all children if you select the actual-cost option.</div>
 </div>
@@ -959,7 +963,7 @@ button{
 <div id="results" class="hidden">
 <div class="result">
 <div class="label">Estimated monthly take-home income required</div>
-<div class="number" id="main">₹0</div>
+<div class="number" id="main">—</div>
 <div class="result-sub" id="desc"></div>
 <div class="result-actions">
 <button class="darkbtn" id="printBtn">🖨 Print Report</button>
@@ -968,9 +972,9 @@ button{
 </div>
 
 <div class="scenarios">
-<div class="scenario" id="sDisc"><strong>Disciplined</strong><div class="v" id="disc">₹0</div><small>Essentials + modest lifestyle + basic savings</small></div>
-<div class="scenario active" id="sComp"><strong>Comfortable ⭐</strong><div class="v" id="comp">₹0</div><small>Balanced lifestyle + meaningful savings</small></div>
-<div class="scenario" id="sWealth"><strong>Comfortable + Wealth Building</strong><div class="v" id="wealth">₹0</div><small>Higher resilience + stronger investing</small></div>
+<div class="scenario" id="sDisc"><strong>Disciplined</strong><div class="v" id="disc">—</div><small>Essentials + modest lifestyle + basic savings</small></div>
+<div class="scenario active" id="sComp"><strong>Comfortable ⭐</strong><div class="v" id="comp">—</div><small>Balanced lifestyle + meaningful savings</small></div>
+<div class="scenario" id="sWealth"><strong>Comfortable + Wealth Building</strong><div class="v" id="wealth">—</div><small>Higher resilience + stronger investing</small></div>
 </div>
 
 <div class="breakdown">
@@ -998,7 +1002,7 @@ button{
 </a>
 </div>
 
-<p class="disclaimer">This calculator estimates monthly take-home income for educational and planning purposes. Actual expenses vary by neighbourhood, household, lifestyle, school, housing arrangement, market prices and individual circumstances. It is not financial advice. Planning assumptions are not official government statistics.</p>
+<p class="disclaimer">This calculator estimates monthly take-home income for educational and planning purposes. Actual expenses vary by neighbourhood, household, lifestyle, school, housing arrangement, market prices and individual circumstances. It is not financial advice. Planning assumptions are not official government statistics, market quotations or a guarantee of actual living costs.</p>
 </div>
 </div>
 </section>
@@ -1007,6 +1011,7 @@ button{
 <h2>What Does This Calculator Actually Measure?</h2>
 <p>A generic cost-of-living number answers the question, <strong>"What might an average person spend?"</strong> This calculator asks a more useful planning question: <strong>"What monthly take-home income may be required for the life I want in my city while still saving and investing?"</strong></p>
 <p>It combines housing, food, transport, utilities, healthcare, education where applicable, personal spending, lifestyle, irregular expenses, family responsibilities and a savings or investing target. The result is therefore a planning estimate rather than a single universal salary threshold.</p>
+<p><strong>How the city assumptions are built:</strong> SmartPlanFinance uses an internal scenario dataset with separate planning values for housing, food, utilities, healthcare, transport, education, personal spending and irregular expenses. These values are not official statistics or a claim about the average household. They are deliberately presented as assumptions that you can replace with your own actual costs.</p>
 
 <h2>Why take-home income matters</h2>
 <p>Your budget is paid from the money that actually reaches your bank account. CTC, gross salary and annual package figures can include employer contributions, benefits, taxes and other components that do not arrive as spendable monthly cash. For household planning, monthly take-home income is the more useful starting point.</p>
@@ -1027,6 +1032,17 @@ button{
 <li><strong>Check the income gap:</strong> If you entered current income, the calculator shows whether your present take-home is above or below the selected planning estimate.</li>
 <li><strong>Turn the estimate into a plan:</strong> Income is only one part of financial health. Emergency funds, insurance, investing, debt management and long-term goals matter too.</li>
 </ul>
+
+<h2>Understanding the planning assumptions</h2>
+<p>The calculator is designed for scenario planning, not for measuring an official cost-of-living index. City values are starting assumptions and can differ substantially by neighbourhood, housing type, school, commute and household choices.</p>
+<ul>
+<li><strong>Housing:</strong> city-specific planning ranges by home type and housing level.</li>
+<li><strong>Household costs:</strong> separate assumptions for single, couple and family profiles.</li>
+<li><strong>Education:</strong> included only when children are selected, with multiple school-cost levels.</li>
+<li><strong>Transport:</strong> varies by commuting pattern and number of regular commuters.</li>
+<li><strong>Savings:</strong> the required income rises when a larger share of take-home pay is reserved for saving or investing.</li>
+</ul>
+<p>For important decisions, replace estimates with your actual monthly figures and review the result periodically as prices and circumstances change.</p>
 
 <h2>Comfortable vs. Comfortable + Wealth Building</h2>
 <p>Living comfortably and building wealth are related but different objectives. A household may be able to cover its normal expenses while still having too little surplus for an emergency fund, retirement investing or children's future goals. The wealth-building scenario therefore assumes a higher savings rate and gives you a way to see the income level needed to support that stronger position.</p>
@@ -1100,7 +1116,6 @@ updateCityCopy();
 
 function updateCityCopy(){
 if(!city)return;
-document.title=`${data().name} Monthly Income Calculator | SmartPlanFinance`;
 $("selectedCity").innerHTML=`Selected city: <strong>${data().name}</strong> — ${data().tag}`;
 }
 
@@ -1145,7 +1160,16 @@ $("againBtn").onclick=()=>location.reload();
 function calculate(){
 if(!city){alert("Please select a city first.");show(1);return;}
 let d=data(),h=$("home").value,a=$("area").value,status=$("status").value;
-let housing=status==="rent"?(+$("rent").value||d.rent[h][a]):status==="emi"?(+$("emi").value||Math.round((d.rent[h][a]||20000)*.9))+(d.maintenance[h]||2000):(d.maintenance[h]||1500);
+let housing;
+if(status==="rent"){
+  housing=(+$("rent").value||d.rent[h][a]);
+}else if(status==="emi"){
+  const emi=+$("emi").value||0;
+  if(!emi){alert("Please enter your monthly home-loan EMI, or choose Renting / Own home — no EMI.");return;}
+  housing=emi+(d.maintenance[h]||0);
+}else{
+  housing=(d.maintenance[h]||1500);
+}
 let food=d.food[house],util=d.utilities[house],health=d.health[house];
 let trans=(+$("transportActual").value||0)||d.transport[transport]*(+$("commuters").value||1);
 let edu=kids()?($("school").value==="actual"?+$("schoolActual").value:d.school[$("school").value]*kids()):0;
@@ -1155,7 +1179,7 @@ let rates={disciplined:.10,comfortable:.25,wealth:.35};
 let selectedRate=($("save").value==="recommended"?rates[life]:+$("save").value/100);
 let calc=r=>Math.ceil(base/(1-r)/500)*500;
 let disc=calc(rates.disciplined),comp=calc(rates.comfortable),wealth=calc(rates.wealth);
-let selected=life==="disciplined"?disc:life==="wealth"?wealth:comp;
+let selected=calc(selectedRate);
 let selectedSavings=selected*selectedRate;
 
 $("main").textContent=money(selected);
@@ -1207,7 +1231,6 @@ renderCities();
 homeOptions();
 show(1);
 </script>
-</body>
 <!-- =====================================================
      ABOUT / CREDIBILITY FOOTER
 ===================================================== -->
@@ -1427,4 +1450,6 @@ show(1);
 
 </style>
 
+
+</body>
 </html>

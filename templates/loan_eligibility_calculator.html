@@ -6,13 +6,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Loan Eligibility Calculator India | Check Your Eligibility | SmartPlanFinance</title>
+    <title>Loan Eligibility Calculator India | Estimate Borrowing Capacity | SmartPlanFinance</title>
 
     <meta name="description"
-          content="Use the free SmartPlanFinance Loan Eligibility Calculator to estimate your borrowing capacity using income, existing EMI obligations, credit score, loan amount and tenure. Learn how lenders assess loan applications in India.">
+          content="Use the free SmartPlanFinance Loan Eligibility Calculator to estimate borrowing capacity using income, existing EMIs, credit score, loan amount and tenure. Learn how lenders may assess repayment capacity in India.">
+
+    <meta name="robots"
+          content="index, follow, max-image-preview:large">
 
     <link rel="canonical"
           href="https://smartplanfinance.com/loan-eligibility-calculator">
+
+    <!-- FAVICON -->
 
     <link rel="icon"
           type="image/png"
@@ -30,11 +35,13 @@
     <link rel="manifest"
           href="{{ url_for('static', filename='icons/site.webmanifest') }}">
 
+    <!-- OPEN GRAPH -->
+
     <meta property="og:title"
           content="Loan Eligibility Calculator India | SmartPlanFinance">
 
     <meta property="og:description"
-          content="Estimate your loan borrowing capacity using income, existing obligations, credit score, loan amount and tenure.">
+          content="Estimate borrowing capacity using income, existing obligations, credit profile, loan amount and repayment period.">
 
     <meta property="og:type"
           content="website">
@@ -45,15 +52,20 @@
     <meta property="og:image"
           content="https://smartplanfinance.com/static/images/logo.png">
 
+    <!-- FONT -->
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet">
 
 
-    <!-- WebApplication Schema -->
+    <!-- WEB APPLICATION SCHEMA -->
 
     <script type="application/ld+json">
     {
@@ -63,7 +75,7 @@
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Any",
       "url": "https://smartplanfinance.com/loan-eligibility-calculator",
-      "description": "A free educational loan eligibility calculator that estimates borrowing capacity using income, existing obligations, credit score, loan amount and tenure.",
+      "description": "An educational loan planning calculator that estimates borrowing capacity using income, existing obligations, credit profile, loan amount and repayment period.",
       "provider": {
         "@type": "Organization",
         "name": "SmartPlanFinance",
@@ -78,7 +90,7 @@
     </script>
 
 
-    <!-- Breadcrumb Schema -->
+    <!-- BREADCRUMB SCHEMA -->
 
     <script type="application/ld+json">
     {
@@ -102,7 +114,7 @@
     </script>
 
 
-    <!-- FAQ Schema -->
+    <!-- FAQ SCHEMA -->
 
     <script type="application/ld+json">
     {
@@ -115,7 +127,7 @@
           "name": "What is a loan eligibility calculator?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A loan eligibility calculator is an educational tool that estimates how much borrowing may be affordable based on factors such as income, existing obligations, credit profile, loan amount and repayment period. Actual eligibility is determined by the lender."
+            "text": "A loan eligibility calculator is an educational planning tool that estimates borrowing capacity using information such as income, existing obligations, loan amount and repayment period. Actual eligibility is determined by the relevant lender."
           }
         },
 
@@ -124,7 +136,7 @@
           "name": "Does a credit score affect loan eligibility?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Credit history and credit score can influence how lenders evaluate a loan application. A stronger credit profile may improve the likelihood of approval or access to competitive terms, but lenders consider several other factors as well."
+            "text": "Credit history and credit score may influence how lenders assess a loan application. However, lenders generally consider several factors rather than relying on one score alone."
           }
         },
 
@@ -133,25 +145,25 @@
           "name": "Does this calculator guarantee loan approval?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. The calculator provides an estimate for educational and planning purposes. Only the lender can determine actual eligibility and approve a loan after reviewing the applicant's complete financial information and documentation."
+            "text": "No. This calculator provides an educational estimate only. A lender makes the actual eligibility and approval decision after reviewing the applicant's financial information, documentation and applicable lending criteria."
           }
         },
 
         {
           "@type": "Question",
-          "name": "What is the debt-to-income ratio?",
+          "name": "What is debt-to-income ratio?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Debt-to-income ratio compares debt obligations with income. It is one of the measures lenders may consider when evaluating repayment capacity. Different lenders can use different definitions, thresholds and assessment methods."
+            "text": "Debt-to-income ratio compares debt obligations with income. It can help illustrate repayment pressure, although lenders may use different definitions, calculations and assessment methods."
           }
         },
 
         {
           "@type": "Question",
-          "name": "Can I improve my loan eligibility?",
+          "name": "Can loan eligibility be improved?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Potential ways to strengthen a loan application include maintaining a healthy credit history, reducing existing debt obligations, demonstrating stable income and borrowing an amount that is appropriate for your repayment capacity."
+            "text": "Applicants may strengthen their financial position by managing existing debt, maintaining timely repayments, keeping income records organised and choosing a loan amount that fits their repayment capacity."
           }
         }
 
@@ -168,11 +180,15 @@
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background: #FFFDF5;
             color: #333;
-            line-height: 1.7;
+            line-height: 1.75;
             padding: 20px;
         }
 
@@ -194,7 +210,7 @@
             border: 1px solid rgba(184,134,11,.15);
             border-radius: 22px;
             padding: 55px 30px;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
         .eyebrow {
@@ -221,26 +237,43 @@
         }
 
 
-        /* AUTHOR / TRUST */
+        /* TRUST */
 
         .trust-box {
             background: white;
             border: 1px solid #eee;
             border-left: 5px solid #B8860B;
             border-radius: 14px;
-            padding: 22px;
-            margin-bottom: 35px;
+            padding: 24px;
+            margin-bottom: 30px;
         }
 
         .trust-box h2 {
             color: #B8860B;
-            font-size: 19px;
+            font-size: 20px;
             margin-bottom: 10px;
         }
 
         .trust-box p {
             color: #555;
             font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .trust-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .author-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #B8860B;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .author-link:hover {
+            text-decoration: underline;
         }
 
 
@@ -251,7 +284,7 @@
             border-left: 5px solid #FFC107;
             padding: 28px;
             border-radius: 14px;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
         .education-card h2 {
@@ -265,8 +298,12 @@
             margin-bottom: 12px;
         }
 
+        .education-card p:last-child {
+            margin-bottom: 0;
+        }
 
-        /* FORM */
+
+        /* CALCULATOR */
 
         .form-card {
             background: white;
@@ -279,6 +316,7 @@
         .form-card h2 {
             color: #B8860B;
             margin-bottom: 8px;
+            font-size: 25px;
         }
 
         .form-intro {
@@ -328,6 +366,7 @@
             color: #888;
             font-size: 12px;
             margin-top: 6px;
+            line-height: 1.5;
         }
 
         .submit-btn {
@@ -341,11 +380,16 @@
             font-weight: 700;
             cursor: pointer;
             font-family: inherit;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .submit-btn:hover {
             background: #FFB300;
+        }
+
+        .submit-btn:focus {
+            outline: 3px solid rgba(184,134,11,.25);
+            outline-offset: 2px;
         }
 
         .back-home {
@@ -370,6 +414,11 @@
             padding: 42px 25px;
             border-radius: 18px;
             margin-bottom: 24px;
+            background: linear-gradient(
+                135deg,
+                #B8860B,
+                #8B6400
+            );
         }
 
         .eligibility-status-card h2 {
@@ -381,13 +430,19 @@
         }
 
         .status {
-            font-size: 42px;
+            font-size: 38px;
             font-weight: 800;
             margin-bottom: 8px;
         }
 
-        .approval {
-            font-size: 17px;
+        .assessment-label {
+            font-size: 16px;
+        }
+
+        .assessment-note {
+            margin-top: 15px;
+            font-size: 12px;
+            opacity: .9;
         }
 
 
@@ -437,17 +492,22 @@
             color: #B8860B;
             font-size: 23px;
             margin-bottom: 15px;
+            line-height: 1.35;
         }
 
         .card h3 {
             color: #444;
-            margin: 20px 0 8px;
+            margin: 22px 0 8px;
             font-size: 18px;
         }
 
         .card p {
             color: #555;
             margin-bottom: 14px;
+        }
+
+        .card p:last-child {
+            margin-bottom: 0;
         }
 
         .card ul,
@@ -458,6 +518,20 @@
 
         .card li {
             margin-bottom: 10px;
+        }
+
+
+        /* FORMULA */
+
+        .formula-box {
+            background: #FFF8E1;
+            border-left: 5px solid #B8860B;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: 600;
+            color: #444;
+            overflow-x: auto;
         }
 
 
@@ -491,18 +565,6 @@
         }
 
 
-        /* FORMULA */
-
-        .formula-box {
-            background: #FFF8E1;
-            border-left: 5px solid #B8860B;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            font-weight: 600;
-        }
-
-
         /* INSIGHTS */
 
         .insights-card {
@@ -516,6 +578,12 @@
         .insights-card h2 {
             color: #B8860B;
             font-size: 21px;
+            margin-bottom: 12px;
+        }
+
+        .insights-intro {
+            color: #777;
+            font-size: 13px;
             margin-bottom: 15px;
         }
 
@@ -556,6 +624,10 @@
             color: #555;
             font-size: 14px;
             margin: 0;
+        }
+
+        .related-card:hover {
+            transform: translateY(-1px);
         }
 
 
@@ -608,6 +680,10 @@
             font-size: 13px;
             line-height: 1.8;
             margin-bottom: 35px;
+        }
+
+        .disclaimer strong {
+            color: #444;
         }
 
 
@@ -706,7 +782,7 @@
             }
 
             .status {
-                font-size: 34px;
+                font-size: 32px;
             }
 
             .cta-links {
@@ -729,7 +805,9 @@
 <div class="container">
 
 
-    <!-- HEADER -->
+    <!-- =========================================================
+         HEADER
+    ========================================================== -->
 
     <section class="header-section">
 
@@ -744,14 +822,17 @@
         <p>
             Estimate how your income, existing financial obligations,
             credit profile, loan amount and repayment period may affect
-            your borrowing capacity. Use this calculator as a starting
-            point before discussing your requirements with a lender.
+            your borrowing capacity. Use this calculator as an
+            educational starting point before discussing your
+            requirements with a lender.
         </p>
 
     </section>
 
 
-    <!-- TRUST / ABOUT -->
+    <!-- =========================================================
+         TRUST / ABOUT
+    ========================================================== -->
 
     <section class="trust-box">
 
@@ -761,23 +842,39 @@
 
         <p>
             The SmartPlanFinance Loan Eligibility Calculator is an
-            educational financial planning tool. It is designed to help
-            users understand some of the factors commonly considered when
-            assessing borrowing capacity.
+            educational financial-planning tool. It combines several
+            commonly relevant borrowing variables to help users
+            understand the relationship between income, existing debt,
+            loan size and repayment capacity.
         </p>
 
         <p>
-            The calculator does not represent a lender's underwriting
-            decision. Banks and financial institutions may use different
-            policies, income definitions, credit assessment methods,
-            interest rates, documentation requirements and eligibility
-            criteria.
+            It does not reproduce or represent the underwriting model of
+            any particular bank, NBFC or financial institution.
+            Different lenders can use different income definitions,
+            credit assessment methods, interest rates, documentation
+            requirements, affordability rules and internal policies.
         </p>
+
+        <p>
+            The results should therefore be used for financial planning
+            and comparison purposes rather than as a prediction of
+            whether a lender will approve an application.
+        </p>
+
+        <a href="{{ url_for('about_author') }}"
+           class="author-link">
+
+            Learn about the SmartPlanFinance author and founder →
+
+        </a>
 
     </section>
 
 
-    <!-- EDUCATIONAL INTRODUCTION -->
+    <!-- =========================================================
+         EDUCATIONAL INTRODUCTION
+    ========================================================== -->
 
     <section class="education-card">
 
@@ -786,31 +883,33 @@
         </h2>
 
         <p>
-            Taking a loan is a long-term financial commitment. Before
-            submitting an application, it can be useful to understand
-            whether the proposed EMI appears reasonable relative to your
-            income and existing obligations.
+            Taking a loan creates a financial commitment that can
+            continue for several years. Before applying, it can be useful
+            to understand whether the proposed repayment appears
+            manageable alongside your existing household commitments.
         </p>
 
         <p>
-            A loan eligibility assessment generally considers more than
-            just salary. Depending on the lender and loan product, factors
-            may include income, employment or business stability, existing
-            debt obligations, credit history, requested loan amount,
-            repayment period and, for secured loans, the value and
-            characteristics of the underlying asset.
+            Loan assessment generally involves more than salary alone.
+            Depending on the lender and product, the assessment may
+            consider income, existing debt obligations, credit history,
+            employment or business profile, requested loan amount,
+            repayment period and other relevant information.
         </p>
 
         <p>
-            This calculator brings several of these variables together
-            into one simple planning exercise. The result should be treated
-            as an estimate rather than a promise of approval.
+            This calculator brings several of those variables into one
+            planning exercise. The result is an estimate based on the
+            information entered by the user and should not be interpreted
+            as a lender decision.
         </p>
 
     </section>
 
 
-    <!-- CALCULATOR -->
+    <!-- =========================================================
+         CALCULATOR
+    ========================================================== -->
 
     <section class="form-card">
 
@@ -819,17 +918,21 @@
         </h2>
 
         <p class="form-intro">
-            Enter realistic figures. The quality of the estimate depends
-            on the accuracy of the information you provide.
+            Enter realistic figures. The usefulness of the estimate
+            depends on the accuracy and completeness of the information
+            you provide.
         </p>
 
 
-        <form method="POST" id="loanEligibilityForm">
+        <form method="POST"
+              id="loanEligibilityForm">
 
             <input type="hidden"
                    name="csrf_token"
                    value="{{ csrf_token() }}">
 
+
+            <!-- INCOME / EXPENSES -->
 
             <div class="form-row">
 
@@ -844,11 +947,13 @@
                            name="annual_income"
                            placeholder="500000"
                            required
-                           min="1">
+                           min="1"
+                           step="1"
+                           inputmode="numeric">
 
                     <small>
-                        Enter your gross annual income or salary before
-                        applicable deductions.
+                        Enter your gross annual income before applicable
+                        deductions.
                     </small>
 
                 </div>
@@ -865,7 +970,9 @@
                            name="monthly_expenses"
                            placeholder="30000"
                            required
-                           min="0">
+                           min="0"
+                           step="1"
+                           inputmode="numeric">
 
                     <small>
                         Include regular household and living expenses.
@@ -875,6 +982,8 @@
 
             </div>
 
+
+            <!-- EXISTING EMI / CREDIT SCORE -->
 
             <div class="form-row">
 
@@ -888,11 +997,13 @@
                            id="existing_loan_emi"
                            name="existing_loan_emi"
                            placeholder="5000"
-                           min="0">
+                           min="0"
+                           step="1"
+                           inputmode="numeric">
 
                     <small>
-                        Combined monthly EMI obligations from existing
-                        loans.
+                        Enter the combined monthly EMI obligations from
+                        existing loans.
                     </small>
 
                 </div>
@@ -910,16 +1021,22 @@
                            placeholder="750"
                            required
                            min="300"
-                           max="900">
+                           max="900"
+                           step="1"
+                           inputmode="numeric">
 
                     <small>
-                        Enter the credit score you are using for planning.
+                        Enter the credit score you are using for
+                        planning. A score alone does not determine
+                        eligibility.
                     </small>
 
                 </div>
 
             </div>
 
+
+            <!-- EMPLOYMENT / TENURE -->
 
             <div class="form-row">
 
@@ -948,7 +1065,8 @@
                     </select>
 
                     <small>
-                        Employment profile can affect lender assessment.
+                        Employment or business profile can affect lender
+                        assessment and documentation requirements.
                     </small>
 
                 </div>
@@ -966,10 +1084,12 @@
                            value="20"
                            required
                            min="1"
-                           max="40">
+                           max="40"
+                           step="1"
+                           inputmode="numeric">
 
                     <small>
-                        Longer tenures can reduce EMI but may increase
+                        A longer tenure may reduce EMI but can increase
                         total interest paid.
                     </small>
 
@@ -977,6 +1097,8 @@
 
             </div>
 
+
+            <!-- LOAN AMOUNT -->
 
             <div class="form-group">
 
@@ -989,7 +1111,9 @@
                        name="desired_loan_amount"
                        placeholder="2000000"
                        required
-                       min="1">
+                       min="1"
+                       step="1"
+                       inputmode="numeric">
 
                 <small>
                     Enter the amount you are considering borrowing.
@@ -1018,48 +1142,48 @@
     </section>
 
 
-    <!-- RESULTS -->
+    <!-- =========================================================
+         RESULTS
+    ========================================================== -->
 
     {% if result and not result.error %}
 
     <section class="results-section"
-             id="results-section">
+             id="results-section"
+             aria-label="Loan eligibility calculation results">
 
 
-        <div class="eligibility-status-card"
-             style="
-             background:
-             {% if result.eligibility_color == '#4CAF50' %}
-             linear-gradient(135deg,#4CAF50,#45A049)
-             {% elif result.eligibility_color == '#FFC107' %}
-             linear-gradient(135deg,#FFC107,#E0A800)
-             {% else %}
-             linear-gradient(135deg,#B8860B,#8B6400)
-             {% endif %}
-             ">
+        <!-- RESULT STATUS -->
+
+        <div class="eligibility-status-card">
 
             <h2>
-                Estimated Eligibility Assessment
+                Estimated Planning Assessment
             </h2>
 
             <div class="status">
                 {{ result.eligibility_status }}
             </div>
 
-            <div class="approval">
+            <div class="assessment-label">
 
-                Estimated assessment indicator:
+                Planning indicator:
                 {{ result.approval_probability }}%
 
             </div>
 
-            <p style="margin-top:15px;font-size:12px;opacity:.85;">
-                This is a calculator-generated estimate and is not a
-                lender approval probability.
+            <p class="assessment-note">
+
+                This percentage is a calculator-generated planning
+                indicator. It is not a lender approval probability,
+                credit score or guarantee of loan approval.
+
             </p>
 
         </div>
 
+
+        <!-- RESULT METRICS -->
 
         <div class="metrics-grid">
 
@@ -1151,10 +1275,11 @@
                 SmartPlanFinance Insights
             </h2>
 
-            <p style="color:#777;font-size:13px;margin-bottom:15px;">
+            <p class="insights-intro">
                 These observations are generated from the information
                 entered into the calculator. They are educational
-                observations, not lender recommendations.
+                observations and are not lender recommendations or
+                personalised financial advice.
             </p>
 
             {% for insight in result.insights %}
@@ -1177,25 +1302,36 @@
             </h2>
 
             <p>
-                Your result is based on the assumptions and information
-                entered into the calculator. A lender may calculate
-                eligibility differently because lenders have their own
-                underwriting models and policies.
+                The calculation uses the assumptions and information
+                entered into this tool. The resulting figures are
+                intended to help you understand affordability and
+                borrowing capacity at a high level.
+            </p>
+
+            <p>
+                A lender may calculate eligibility differently because
+                each institution can apply its own underwriting model,
+                income rules, credit assessment, documentation
+                requirements and affordability criteria.
             </p>
 
             <p>
                 In particular, the estimated maximum loan amount should
-                not be interpreted as the amount a bank is required to
-                lend. Your actual borrowing capacity may change after
-                income verification, credit assessment, documentation,
-                property valuation and other lender-specific checks.
+                not be interpreted as the amount a bank or NBFC is
+                required to lend. Actual borrowing capacity may change
+                after income verification, credit assessment,
+                documentation, property valuation and other
+                lender-specific checks.
             </p>
 
         </section>
 
     </section>
 
+
     {% elif result and result.error %}
+
+    <!-- CALCULATION ERROR -->
 
     <section class="card">
 
@@ -1209,7 +1345,7 @@
 
         <p>
             Please review your inputs and make sure the annual income,
-            loan amount and credit score are valid.
+            loan amount, credit score and other values are valid.
         </p>
 
     </section>
@@ -1217,7 +1353,9 @@
     {% endif %}
 
 
-    <!-- WHAT IS LOAN ELIGIBILITY -->
+    <!-- =========================================================
+         WHAT IS LOAN ELIGIBILITY
+    ========================================================== -->
 
     <section class="card">
 
@@ -1228,27 +1366,93 @@
         <p>
             Loan eligibility refers to the assessment of whether an
             applicant appears capable of repaying a proposed loan under
-            the lender's rules.
+            the applicable lender's rules.
         </p>
 
         <p>
-            Eligibility is not determined by one number. A lender may
-            consider income, existing liabilities, credit history,
-            employment or business profile, requested loan amount,
-            repayment period and other information relevant to the
-            particular loan product.
+            Eligibility is not determined by one number. Depending on
+            the product, a lender may consider income, existing
+            liabilities, credit history, employment or business profile,
+            requested loan amount, repayment period and other relevant
+            information.
         </p>
 
         <p>
-            For secured borrowing such as a home loan, the property and
-            its valuation can also become important parts of the lending
-            assessment.
+            For secured borrowing such as a home loan, the property,
+            valuation, down payment and characteristics of the underlying
+            asset can also form part of the overall assessment.
         </p>
 
     </section>
 
 
-    <!-- FACTORS -->
+    <!-- =========================================================
+         HOW CALCULATOR WORKS
+    ========================================================== -->
+
+    <section class="card">
+
+        <h2>
+            How This Loan Eligibility Calculator Works
+        </h2>
+
+        <p>
+            This calculator is designed as a simplified financial
+            planning model rather than a lender underwriting system.
+            It considers the information entered by the user and
+            produces estimated figures for comparison and planning.
+        </p>
+
+        <h3>
+            Income
+        </h3>
+
+        <p>
+            Annual income is converted into a monthly income figure for
+            the calculation. Income is an important component of
+            repayment-capacity analysis, although lenders may define
+            eligible income differently.
+        </p>
+
+        <h3>
+            Existing Obligations
+        </h3>
+
+        <p>
+            Existing EMI commitments can reduce the amount of income
+            available for a new loan repayment. This is why two
+            applicants with similar incomes can have very different
+            borrowing capacities.
+        </p>
+
+        <h3>
+            Proposed Loan
+        </h3>
+
+        <p>
+            The requested loan amount and selected tenure influence the
+            estimated EMI. The longer the repayment period, the more
+            time there is to repay the principal, but the overall
+            interest cost can also increase.
+        </p>
+
+        <h3>
+            Credit Profile
+        </h3>
+
+        <p>
+            Credit score is included as one planning variable. It should
+            not be treated as a standalone approval rule because lenders
+            may consider the broader credit report, repayment history,
+            existing obligations and other information.
+        </p>
+
+    </section>
+
+
+    <!-- =========================================================
+         FACTORS
+    ========================================================== -->
 
     <section class="card">
 
@@ -1262,10 +1466,14 @@
 
         <p>
             Income is an important starting point because lenders need
-            to assess whether the proposed repayment is affordable.
+            to determine whether the proposed repayment is reasonably
+            supported by the applicant's financial position.
+        </p>
+
+        <p>
             Depending on the lender, income may be assessed using salary,
             business income, documented earnings and other eligible
-            sources.
+            sources. Verification requirements can also differ.
         </p>
 
 
@@ -1275,9 +1483,10 @@
 
         <p>
             Existing EMIs and other debt obligations reduce the amount
-            of income available for a new repayment. Someone with a high
-            income but substantial existing debt may therefore have less
-            borrowing capacity than their income alone suggests.
+            of income available for a new repayment. Someone with a
+            relatively high income but substantial existing debt may
+            therefore have less borrowing capacity than income alone
+            would suggest.
         </p>
 
 
@@ -1286,10 +1495,10 @@
         </h3>
 
         <p>
-            Credit history gives lenders information about previous
-            borrowing and repayment behaviour. Credit score is one
-            component of a broader credit assessment and does not by
-            itself guarantee approval or rejection.
+            Credit history provides information about previous borrowing
+            and repayment behaviour. Credit score is one component of
+            credit assessment and does not by itself guarantee approval
+            or rejection.
         </p>
 
 
@@ -1298,10 +1507,10 @@
         </h3>
 
         <p>
-            Salaried and self-employed applicants may have different
-            documentation and income-verification requirements. Stability
-            and consistency of income can also be relevant to a lender's
-            assessment.
+            Salaried and self-employed applicants can have different
+            income-verification and documentation requirements.
+            Stability and consistency of income may also be relevant to
+            the lender's assessment.
         </p>
 
 
@@ -1311,15 +1520,28 @@
 
         <p>
             The amount borrowed and repayment period directly influence
-            the EMI. A longer tenure can reduce the monthly repayment,
-            but it can also increase the total interest paid over the
-            life of the loan.
+            the EMI. A longer tenure can reduce the scheduled monthly
+            repayment but can increase the total interest paid.
+        </p>
+
+
+        <h3>
+            6. Loan Product and Security
+        </h3>
+
+        <p>
+            Eligibility can vary significantly depending on whether the
+            borrowing is secured or unsecured. A home loan, vehicle
+            loan, personal loan and education loan can have different
+            assessment requirements.
         </p>
 
     </section>
 
 
-    <!-- DTI -->
+    <!-- =========================================================
+         DTI
+    ========================================================== -->
 
     <section class="card">
 
@@ -1329,8 +1551,8 @@
 
         <p>
             Debt-to-income ratio, commonly abbreviated as DTI, compares
-            debt obligations with income. It can be used as one way of
-            understanding repayment pressure.
+            debt obligations with income. It can be used as a simple way
+            to understand repayment pressure.
         </p>
 
         <div class="formula-box">
@@ -1347,15 +1569,18 @@
         </p>
 
         <p>
-            There is no universal DTI threshold that applies to every
-            lender and every loan product. A lender may use its own
-            affordability rules and may consider additional factors.
+            The exact definition of debt obligations can vary. Some
+            lenders may assess additional commitments or use different
+            affordability measures. There is therefore no single DTI
+            percentage that guarantees approval across all lenders.
         </p>
 
     </section>
 
 
-    <!-- CREDIT SCORE -->
+    <!-- =========================================================
+         CREDIT SCORE
+    ========================================================== -->
 
     <section class="card">
 
@@ -1365,27 +1590,29 @@
 
         <p>
             Credit scores are designed to summarise aspects of a
-            borrower's credit history. In India, lenders may consider
-            credit bureau information as part of their assessment.
+            borrower's credit history. Lenders may use information from
+            credit bureaus as one part of their overall credit
+            assessment.
         </p>
 
         <p>
             A stronger credit profile can be helpful when applying for
-            credit, but a particular score should never be treated as a
-            guaranteed approval threshold.
+            credit, but a particular score should not be treated as a
+            universal approval threshold.
         </p>
 
         <p>
-            If you are preparing for a major loan application, reviewing
-            your credit report for errors, maintaining timely repayments
-            and avoiding unnecessary borrowing can help you maintain a
-            healthier credit profile.
+            Before a major borrowing decision, it can be useful to
+            review your credit report for inaccuracies, maintain timely
+            repayments and avoid unnecessary borrowing.
         </p>
 
     </section>
 
 
-    <!-- TENURE -->
+    <!-- =========================================================
+         TENURE
+    ========================================================== -->
 
     <section class="card">
 
@@ -1396,13 +1623,17 @@
         <p>
             Loan tenure creates an important trade-off. Increasing the
             repayment period can reduce the scheduled EMI because the
-            principal is spread over more periods. However, interest can
-            accumulate over a longer period.
+            principal is spread across more repayment periods.
         </p>
 
         <p>
-            Therefore, the lowest EMI is not necessarily the lowest-cost
-            loan. When comparing loan options, consider both the monthly
+            However, interest can accumulate for a longer period.
+            Therefore, the lowest monthly EMI is not necessarily the
+            lowest-cost borrowing option.
+        </p>
+
+        <p>
+            When comparing loan options, consider both the monthly
             repayment and the total amount payable over the complete
             tenure.
         </p>
@@ -1410,7 +1641,9 @@
     </section>
 
 
-    <!-- LOAN TYPES -->
+    <!-- =========================================================
+         LOAN TYPES
+    ========================================================== -->
 
     <section class="card">
 
@@ -1432,8 +1665,15 @@
                 <thead>
 
                     <tr>
-                        <th>Loan Type</th>
-                        <th>Common Assessment Considerations</th>
+
+                        <th>
+                            Loan Type
+                        </th>
+
+                        <th>
+                            Common Assessment Considerations
+                        </th>
+
                     </tr>
 
                 </thead>
@@ -1441,35 +1681,56 @@
                 <tbody>
 
                     <tr>
-                        <td>Home Loan</td>
+
+                        <td>
+                            Home Loan
+                        </td>
+
                         <td>
                             Income, existing obligations, credit profile,
                             property value, down payment and tenure.
                         </td>
+
                     </tr>
 
                     <tr>
-                        <td>Car Loan</td>
+
+                        <td>
+                            Car Loan
+                        </td>
+
                         <td>
                             Income, credit history, existing liabilities,
                             vehicle value and repayment period.
                         </td>
+
                     </tr>
 
                     <tr>
-                        <td>Personal Loan</td>
+
                         <td>
-                            Income, credit profile, employment/business
+                            Personal Loan
+                        </td>
+
+                        <td>
+                            Income, credit profile, employment or business
                             profile and existing obligations.
                         </td>
+
                     </tr>
 
                     <tr>
-                        <td>Education Loan</td>
+
                         <td>
-                            Course and institution, applicant/co-borrower
-                            profile, repayment structure and lender rules.
+                            Education Loan
                         </td>
+
+                        <td>
+                            Course and institution, applicant or
+                            co-borrower profile, repayment structure and
+                            lender rules.
+                        </td>
+
                     </tr>
 
                 </tbody>
@@ -1481,7 +1742,9 @@
     </section>
 
 
-    <!-- HOW TO IMPROVE -->
+    <!-- =========================================================
+         IMPROVING LOAN READINESS
+    ========================================================== -->
 
     <section class="card">
 
@@ -1501,7 +1764,7 @@
 
             <li>
                 Avoid borrowing more than your long-term budget can
-                comfortably support.
+                reasonably support.
             </li>
 
             <li>
@@ -1514,8 +1777,8 @@
             </li>
 
             <li>
-                Maintain an emergency reserve so that an unexpected
-                expense does not immediately disrupt loan repayments.
+                Maintain an emergency reserve so that unexpected
+                expenses do not immediately disrupt loan repayments.
             </li>
 
         </ol>
@@ -1523,7 +1786,9 @@
     </section>
 
 
-    <!-- APPLICATION CHECKLIST -->
+    <!-- =========================================================
+         APPLICATION CHECKLIST
+    ========================================================== -->
 
     <section class="card">
 
@@ -1534,8 +1799,8 @@
         <ul>
 
             <li>
-                Know your monthly income after considering regular
-                financial commitments.
+                Understand your monthly income and regular financial
+                commitments.
             </li>
 
             <li>
@@ -1548,7 +1813,7 @@
 
             <li>
                 Calculate whether the proposed EMI fits comfortably
-                within your budget.
+                within your household budget.
             </li>
 
             <li>
@@ -1566,7 +1831,9 @@
     </section>
 
 
-    <!-- COMMON MISTAKES -->
+    <!-- =========================================================
+         COMMON MISTAKES
+    ========================================================== -->
 
     <section class="card">
 
@@ -1579,8 +1846,8 @@
         </h3>
 
         <p>
-            A low EMI can look attractive when the tenure is long.
-            However, the total interest payable may be considerably
+            A low EMI can appear attractive when the repayment period is
+            long. However, the total interest payable may be considerably
             higher.
         </p>
 
@@ -1601,7 +1868,7 @@
         </h3>
 
         <p>
-            Existing EMIs and other recurring financial commitments can
+            Existing EMIs and recurring financial commitments can
             materially change affordability.
         </p>
 
@@ -1612,13 +1879,26 @@
 
         <p>
             Eligibility policies, rates, documentation and underwriting
-            methods differ between lenders and products.
+            methods can differ between lenders and loan products.
+        </p>
+
+
+        <h3>
+            Treating a Calculator Result as a Loan Offer
+        </h3>
+
+        <p>
+            A calculator can illustrate financial relationships, but it
+            cannot verify income, review documents, inspect a property
+            or apply a lender's internal underwriting model.
         </p>
 
     </section>
 
 
-    <!-- RELATED CALCULATORS -->
+    <!-- =========================================================
+         RELATED CALCULATORS
+    ========================================================== -->
 
     <section class="card">
 
@@ -1662,16 +1942,17 @@
     </section>
 
 
-    <!-- RELATED ARTICLES -->
+    <!-- =========================================================
+         RELATED ARTICLE
+    ========================================================== -->
 
     <section class="card">
 
         <h2>
-            Learn More About Loans and Credit
+            Learn More About Loans
         </h2>
 
         <div class="related-grid">
-
 
             <a href="https://smartplanfinance.com/blog/home-loan-emi-calculator-2026-the-complete-guide-to-calculating-emi-saving-lakhs-on-interest-choosing-the-right-home-loan-in-india"
                class="related-card">
@@ -1682,21 +1963,20 @@
 
                 <p>
                     Understand home loan EMI calculations, repayment
-                    planning and the factors to consider before choosing
-                    a home loan.
+                    planning and important factors to consider before
+                    choosing a home loan.
                 </p>
 
             </a>
-
-
-            
 
         </div>
 
     </section>
 
 
-    <!-- CTA -->
+    <!-- =========================================================
+         INTERNAL CTA
+    ========================================================== -->
 
     <section class="cta-section">
 
@@ -1726,7 +2006,9 @@
     </section>
 
 
-    <!-- DISCLAIMER -->
+    <!-- =========================================================
+         DISCLAIMER
+    ========================================================== -->
 
     <div class="disclaimer">
 
@@ -1743,24 +2025,17 @@
 
         Lenders may consider additional information including income
         verification, employment or business stability, credit history,
-        existing liabilities, property or asset valuation, documentation,
-        internal policies and other underwriting factors.
+        existing liabilities, property or asset valuation,
+        documentation, internal policies and other underwriting
+        factors.
 
         SmartPlanFinance does not guarantee loan approval, eligibility,
         interest rates or borrowing capacity and does not provide
         personalised financial, investment, tax or legal advice.
 
-        Please review the terms provided by the relevant lender and
-        consider obtaining professional advice where appropriate.
-
-    </div>
-
-
-    <!-- PARTNER CTA -->
-
-    <div style="margin-top:40px;">
-
-        {% include "partials/_partner_cta.html" %}
+        Please review the terms provided by the relevant lender before
+        making a borrowing decision and consider obtaining professional
+        advice where appropriate.
 
     </div>
 
@@ -1768,7 +2043,9 @@
 </div>
 
 
-<!-- CORRECT SMARTPLANFINANCE FOOTER -->
+<!-- =============================================================
+     FOOTER
+============================================================== -->
 
 <footer class="about-footer">
 
@@ -1779,12 +2056,15 @@
         </div>
 
         <p class="about-footer-text">
+
             SmartPlanFinance is a personal finance education and
             financial planning platform designed to help users
-            understand their income, expenses, savings, investments
-            and long-term financial goals through practical digital
-            tools and educational resources.
+            understand income, expenses, savings, investments and
+            long-term financial goals through practical digital tools
+            and educational resources.
+
         </p>
+
 
         <div class="about-footer-links">
 
@@ -1818,16 +2098,18 @@
 
         </div>
 
+
         <div class="about-footer-disclaimer">
 
             SmartPlanFinance provides general educational and
-            informational content. Financial calculators,
-            projections, dashboards and planning tools are not
-            personalised financial, investment, tax or legal advice.
-            Actual results may vary based on individual circumstances,
-            market conditions, taxes, inflation, fees and other factors.
+            informational content. Financial calculators, projections,
+            dashboards and planning tools are not personalised financial,
+            investment, tax or legal advice. Actual results may vary
+            based on individual circumstances, lender policies, market
+            conditions, taxes, inflation, fees and other factors.
 
         </div>
+
 
         <div class="about-footer-bottom">
 
@@ -1840,9 +2122,17 @@
 </footer>
 
 
+<!-- =============================================================
+     JAVASCRIPT
+============================================================== -->
+
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
+
+    /*
+     * Scroll to results after a successful calculation.
+     */
 
     const resultsSection =
         document.getElementById('results-section');
@@ -1861,74 +2151,132 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+    /*
+     * Client-side input validation.
+     */
+
     const form =
         document.getElementById('loanEligibilityForm');
 
-    if (form) {
-
-        form.addEventListener('submit', function (e) {
-
-            const income =
-                parseFloat(
-                    document.getElementById('annual_income').value
-                );
-
-            const creditScore =
-                parseInt(
-                    document.getElementById('credit_score').value
-                );
-
-            const desiredLoan =
-                parseFloat(
-                    document.getElementById('desired_loan_amount').value
-                );
-
-
-            if (!income || income <= 0) {
-
-                e.preventDefault();
-
-                alert(
-                    'Please enter a valid annual income.'
-                );
-
-                return;
-
-            }
-
-
-            if (
-                isNaN(creditScore) ||
-                creditScore < 300 ||
-                creditScore > 900
-            ) {
-
-                e.preventDefault();
-
-                alert(
-                    'Please enter a credit score between 300 and 900.'
-                );
-
-                return;
-
-            }
-
-
-            if (!desiredLoan || desiredLoan <= 0) {
-
-                e.preventDefault();
-
-                alert(
-                    'Please enter a valid desired loan amount.'
-                );
-
-                return;
-
-            }
-
-        });
-
+    if (!form) {
+        return;
     }
+
+
+    form.addEventListener('submit', function (e) {
+
+        const annualIncome =
+            parseFloat(
+                document.getElementById('annual_income').value
+            );
+
+        const monthlyExpenses =
+            parseFloat(
+                document.getElementById('monthly_expenses').value
+            );
+
+        const existingEMI =
+            parseFloat(
+                document.getElementById('existing_loan_emi').value || '0'
+            );
+
+        const creditScore =
+            parseInt(
+                document.getElementById('credit_score').value,
+                10
+            );
+
+        const tenure =
+            parseInt(
+                document.getElementById('loan_tenure_years').value,
+                10
+            );
+
+        const desiredLoan =
+            parseFloat(
+                document.getElementById('desired_loan_amount').value
+            );
+
+
+        if (!Number.isFinite(annualIncome) || annualIncome <= 0) {
+
+            e.preventDefault();
+
+            alert(
+                'Please enter a valid annual income.'
+            );
+
+            return;
+        }
+
+
+        if (!Number.isFinite(monthlyExpenses) ||
+            monthlyExpenses < 0) {
+
+            e.preventDefault();
+
+            alert(
+                'Please enter valid monthly expenses.'
+            );
+
+            return;
+        }
+
+
+        if (!Number.isFinite(existingEMI) ||
+            existingEMI < 0) {
+
+            e.preventDefault();
+
+            alert(
+                'Please enter a valid existing EMI amount.'
+            );
+
+            return;
+        }
+
+
+        if (!Number.isInteger(creditScore) ||
+            creditScore < 300 ||
+            creditScore > 900) {
+
+            e.preventDefault();
+
+            alert(
+                'Please enter a credit score between 300 and 900.'
+            );
+
+            return;
+        }
+
+
+        if (!Number.isInteger(tenure) ||
+            tenure < 1 ||
+            tenure > 40) {
+
+            e.preventDefault();
+
+            alert(
+                'Please enter a loan tenure between 1 and 40 years.'
+            );
+
+            return;
+        }
+
+
+        if (!Number.isFinite(desiredLoan) ||
+            desiredLoan <= 0) {
+
+            e.preventDefault();
+
+            alert(
+                'Please enter a valid desired loan amount.'
+            );
+
+            return;
+        }
+
+    });
 
 });
 

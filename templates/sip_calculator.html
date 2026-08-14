@@ -52,8 +52,21 @@
     <meta property="og:image"
           content="https://smartplanfinance.com/static/images/logo.png">
 
+    <meta name="twitter:card"
+          content="summary_large_image">
+
+    <meta name="twitter:title"
+          content="SIP Calculator | SmartPlan Finance">
+
+    <meta name="twitter:description"
+          content="Estimate potential SIP future value using monthly investment, assumed return and investment duration.">
+
+    <meta name="twitter:image"
+          content="https://smartplanfinance.com/static/images/logo.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
+
 
     <style>
 
@@ -576,7 +589,9 @@
     </style>
 
 
-    <!-- WebApplication Schema -->
+    <!-- =====================================================
+         WEB APPLICATION SCHEMA
+    ====================================================== -->
 
     <script type="application/ld+json">
 
@@ -603,7 +618,9 @@
     </script>
 
 
-    <!-- FAQ Schema -->
+    <!-- =====================================================
+         FAQ SCHEMA
+    ====================================================== -->
 
     <script type="application/ld+json">
 
@@ -654,7 +671,9 @@
     </script>
 
 
-    <!-- Breadcrumb Schema -->
+    <!-- =====================================================
+         BREADCRUMB SCHEMA
+    ====================================================== -->
 
     <script type="application/ld+json">
 
@@ -1383,9 +1402,6 @@
         </a>
 
 
-        
-
-
         <a href="/blog/how-to-start-investing-with-just-500-complete-beginner-s-guide"
            class="article-card">
 
@@ -1537,7 +1553,7 @@
 
 
 <!-- =====================================================
-     DISCLAIMER
+     FINANCIAL DISCLAIMER
 ===================================================== -->
 
 <div class="disclaimer">
@@ -1566,11 +1582,6 @@
     </p>
 
 </div>
-
-
-<!-- Partner CTA -->
-
-{% include "partials/_partner_cta.html" %}
 
 
 <!-- =====================================================
@@ -1630,7 +1641,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const resultsSection =
         document.getElementById('results-section');
 
-    if (resultsSection && window.location.search === '') {
+    if (resultsSection) {
 
         setTimeout(function () {
 
