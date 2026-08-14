@@ -1057,7 +1057,7 @@ button{
 
 </div>
 
-<p class="disclaimer">SmartPlanFinance content is for educational purposes only and does not constitute financial advice. Readers should evaluate their own circumstances and consult qualified professionals where appropriate.</p>
+
 </section>
 </main>
 
@@ -1208,11 +1208,223 @@ homeOptions();
 show(1);
 </script>
 </body>
-<div class="disclaimer" style="margin-top: 30px; padding: 12px 15px; 
-     font-size: 12px; line-height: 1.5; color: #666; 
-     border-top: 1px solid #ddd; text-align: center;">
-    <strong>Disclaimer:</strong> This content is provided for educational and informational purposes only
-    and does not constitute financial, investment, tax, or legal advice. Please consider your individual
-    financial circumstances and consult a qualified financial professional before making any financial decisions.
-</div>
+<!-- =====================================================
+     ABOUT / CREDIBILITY FOOTER
+===================================================== -->
+
+<footer class="about-footer">
+
+    <div class="about-footer-container">
+
+        <div class="about-footer-title">
+            SmartPlanFinance
+        </div>
+
+        <p class="about-footer-text">
+            SmartPlanFinance is a personal finance education and
+            financial planning platform designed to help users
+            understand their income, expenses, savings, investments
+            and long-term financial goals through practical digital
+            tools and educational resources.
+        </p>
+
+        <div class="about-footer-links">
+
+            <a href="/about">
+                ℹ About Us
+            </a>
+
+            <a href="{{ url_for('about_author') }}">
+                👨‍💼 About the Author & Founder
+            </a>
+
+            <a href="{{ url_for('articles') }}">
+                📰 Financial Articles
+            </a>
+
+            <a href="/privacy">
+                🔒 Privacy Policy
+            </a>
+
+            <a href="/terms">
+                📄 Terms & Conditions
+            </a>
+
+            <a href="/disclaimer">
+                ⚠ Financial Disclaimer
+            </a>
+
+            <a href="/affiliate-policy">
+                💰 Affiliate Disclosure
+            </a>
+
+        </div>
+
+        <div class="about-footer-disclaimer">
+
+            SmartPlanFinance provides general educational and
+            informational content. Financial calculators,
+            projections, dashboards and planning tools are not
+            personalised financial, investment, tax or legal advice.
+            Actual results may vary based on individual circumstances,
+            market conditions, taxes, inflation, fees and other factors.
+
+        </div>
+
+        <div class="about-footer-bottom">
+
+            © 2026 SmartPlanFinance. All rights reserved.
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<style>
+
+.about-footer{
+
+    background:#333;
+
+    color:white;
+
+    padding:45px 25px 25px;
+
+    margin-top:60px;
+
+}
+
+
+.about-footer-container{
+
+    max-width:1000px;
+
+    margin:auto;
+
+    text-align:center;
+
+}
+
+
+.about-footer-title{
+
+    color:#D4AF37;
+
+    font-size:24px;
+
+    font-weight:600;
+
+    margin-bottom:15px;
+
+}
+
+
+.about-footer-text{
+
+    max-width:800px;
+
+    margin:0 auto 25px;
+
+    color:#ddd;
+
+    font-size:14px;
+
+    line-height:1.8;
+
+}
+
+
+.about-footer-links{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:10px 25px;
+
+    padding:20px 0;
+
+    border-top:1px solid rgba(255,255,255,.12);
+
+    border-bottom:1px solid rgba(255,255,255,.12);
+
+}
+
+
+.about-footer-links a{
+
+    color:white;
+
+    text-decoration:none;
+
+    font-size:14px;
+
+}
+
+
+.about-footer-links a:hover{
+
+    color:#D4AF37;
+
+}
+
+
+.about-footer-disclaimer{
+
+    max-width:850px;
+
+    margin:22px auto;
+
+    color:#aaa;
+
+    font-size:12px;
+
+    line-height:1.7;
+
+}
+
+
+.about-footer-bottom{
+
+    color:#888;
+
+    font-size:12px;
+
+    padding-top:15px;
+
+}
+
+
+@media(max-width:600px){
+
+    .about-footer{
+
+        padding:35px 18px 20px;
+
+    }
+
+
+    .about-footer-links{
+
+        flex-direction:column;
+
+        gap:14px;
+
+    }
+
+
+    .about-footer-text{
+
+        font-size:13px;
+
+    }
+
+}
+
+</style>
+
 </html>

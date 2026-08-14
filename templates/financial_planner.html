@@ -498,6 +498,18 @@ h1{
       "author": { "@type": "Person", "name": "Argho Sanyal" }
     }
     </script>
+
+<style>
+.credibility-section{max-width:900px;margin:35px auto 0;padding:0 0 10px;}
+.credibility-content{background:#fff;padding:40px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,.05);border:1px solid #EFE7CC;}
+.credibility-content h2{color:#D4AF37;text-align:left;font-size:28px;margin-bottom:18px;}
+.credibility-content h3{color:#444;font-size:20px;margin:28px 0 10px;}
+.credibility-content p{color:#555;font-size:15px;line-height:1.9;margin-bottom:14px;}
+.credibility-link{color:#B8860B;font-weight:700;text-decoration:none;}
+.credibility-link:hover{text-decoration:underline;}
+@media(max-width:768px){.credibility-section{margin-top:25px;}.credibility-content{padding:25px 20px;}.credibility-content h2{font-size:24px;}.credibility-content h3{font-size:18px;}}
+</style>
+
 </head>
 
 <body>
@@ -1040,12 +1052,42 @@ h1{
     </div>
 </div>
 
+
+<section class="credibility-section">
+<div class="credibility-content">
+<h2>About the SmartPlanFinance Financial Planner</h2>
+<p>The SmartPlanFinance Personal Financial Planner is an educational planning tool designed to help users bring different parts of their financial life into one structured view. Instead of looking at income, expenses, savings, investments, protection and future goals separately, the planner collects these inputs through an eight-step process and uses them to build a financial roadmap.</p>
+<p>The purpose of the planner is not to predict the future or promise a particular investment return. It is to help users understand their current position, identify priorities and explore how today's financial decisions may affect longer-term goals.</p>
+<h3>What Information Does the Planner Consider?</h3>
+<p>The planner asks about personal circumstances, income, monthly expenses, current assets and liabilities, insurance and protection, life goals and risk appetite. Users can enter items such as savings accounts, fixed deposits, mutual funds, stocks, EPF, PPF, NPS, loans and credit-card debt. This information helps create a broader picture of financial health rather than relying only on monthly salary.</p>
+<p>For goal planning, users can record objectives such as buying a home or vehicle, marriage, higher education, starting a business, supporting parents and retirement. The intention is to connect financial goals with time horizons so that users can think about priorities instead of treating every goal as equally urgent.</p>
+<h3>How the Financial Roadmap Is Built</h3>
+<p>The planner organises the information supplied by the user into a structured financial profile. Income and expenses help establish cash-flow capacity. Assets and liabilities help show the user's approximate financial position. Protection questions identify areas such as health insurance, life insurance, term insurance and nominee arrangements. Goals provide the time-based objectives, while the selected risk appetite provides context for educational investment planning.</p>
+<p>The resulting roadmap is therefore dependent on the quality and accuracy of the information entered. If a user enters incomplete or outdated figures, the resulting analysis may also be incomplete. Users should review their inputs before relying on any report or projection.</p>
+<h3>What You Can Expect From the Generated Plan</h3>
+<p>The final plan is designed to present a financial health assessment, strengths and weaknesses, potential risks, immediate priorities, short-, medium- and long-term actions, a life timeline and relevant SmartPlanFinance calculator recommendations. The planner also provides plain-English explanations intended to help users understand why particular priorities may appear in their roadmap.</p>
+<h3>Methodology, Assumptions and Limitations</h3>
+<p>Financial planning involves assumptions. Investment values can be affected by market volatility, inflation, taxes, fees, interest rates and changes in income or expenses. A projected future value is therefore an estimate, not a guaranteed outcome. Risk appetite is also a self-reported preference and should not be treated as a complete assessment of an individual's financial suitability.</p>
+<p>SmartPlanFinance aims to make the assumptions behind its tools understandable. Users should treat the planner as a starting point for financial organisation and education, and should independently verify important figures and decisions.</p>
+<h3>About SmartPlanFinance</h3>
+<p>SmartPlanFinance is a personal finance education and financial-planning tools platform founded by Argho Sanyal. The platform combines practical financial articles, calculators and planning tools with an emphasis on explaining financial concepts in plain language. The goal is to help users understand money decisions rather than simply receive unexplained numbers.</p>
+<p><a href="{{ url_for('about_author') }}" class="credibility-link">Learn more about the Author &amp; Founder →</a></p>
+<h3>Educational Financial Disclaimer</h3>
+<p>The SmartPlanFinance Financial Planner, its calculations, projections, scores, insights and reports are provided for general educational and informational purposes. They do not constitute personalised investment, financial, tax or legal advice, and they do not guarantee future returns or financial outcomes. Investment decisions should take into account an individual's circumstances, objectives, risk tolerance and applicable costs and taxes. Consider consulting a qualified financial professional before making significant financial decisions.</p>
+<h3>Privacy and Responsible Use</h3>
+<p>Users should provide only information necessary for the planning process and should not enter passwords, card PINs, bank-login credentials or other authentication secrets. The planner should be used as an educational tool for organising financial information and exploring possible planning priorities.</p>
+</div>
+</section>
+
 <footer class="site-footer">
     <div class="footer-links">
-        <a href="/about">About Us</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms &amp; Conditions</a>
-        <a href="/disclaimer">Disclaimer</a>
+        <a href="{{ url_for('articles') }}">📰 Articles</a>
+        <a href="/about">ℹ About Us</a>
+        <a href="{{ url_for('about_author') }}">👨‍💼 About the Author &amp; Founder</a>
+        <a href="/privacy">🔒 Privacy Policy</a>
+        <a href="/terms">📄 Terms &amp; Conditions</a>
+        <a href="/disclaimer">⚠ Disclaimer</a>
+        <a href="/affiliate-policy">💰 Affiliate Disclosure</a>
     </div>
     <div class="copyright">&copy; 2026 SmartPlanFinance. All rights reserved.</div>
 </footer>

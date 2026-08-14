@@ -3,8 +3,9 @@
 
 <head>
 
-    <meta charset="UTF-8">
-    <link rel="icon"
+<meta charset="UTF-8">
+
+<link rel="icon"
       type="image/png"
       sizes="32x32"
       href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
@@ -20,48 +21,74 @@
 <link rel="manifest"
       href="{{ url_for('static', filename='icons/site.webmanifest') }}">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login | SmartPlan Finance</title>
+<title>Financial Planner Login | SmartPlanFinance</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<meta name="description"
+      content="Create your SmartPlanFinance account to generate a personalised financial dashboard, investment roadmap, SPF Insights and downloadable financial report based on your income, expenses and goals.">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="canonical"
+      href="https://smartplanfinance.com/login">
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PFM7XZ5E3P"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-PFM7XZ5E3P');
-    </script>
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}">
 
-    <style>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet">
 
-        body{
+<!-- Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PFM7XZ5E3P"></script>
+
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-PFM7XZ5E3P');
+</script>
+
+
+<style>
+
+/* =====================================================
+   PAGE
+===================================================== */
+
+body{
 
     margin:0;
-    min-height:100vh;
 
     font-family:'Poppins',sans-serif;
 
-    background:linear-gradient(135deg,#FFFDF7,#FFF6DD);
+    background:#FFFDF7;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    padding:25px;
+    color:#333;
 
 }
 
+
+/* =====================================================
+   LOGIN SECTION
+===================================================== */
+
+.login-section{
+
+    background:linear-gradient(135deg,#FFFDF7,#FFF6DD);
+
+    padding:60px 25px;
+
+}
+
+
 .login-wrapper{
 
-    width:100%;
     max-width:1100px;
 
+    margin:auto;
+
     display:grid;
+
     grid-template-columns:1fr 470px;
 
     gap:60px;
@@ -70,73 +97,74 @@
 
 }
 
+
 .left-panel h1{
 
-    font-size:54px;
+    font-size:52px;
+
     color:#B8860B;
+
     line-height:1.2;
+
     margin-bottom:20px;
 
 }
 
+
 .left-panel p{
 
-    font-size:19px;
-    line-height:34px;
+    font-size:18px;
+
+    line-height:32px;
+
     color:#666;
 
 }
 
+
 .left-panel ul{
 
-    list-style:none;
-    padding:0;
-    margin-top:40px;
+    padding-left:20px;
+
+    color:#555;
+
+    line-height:30px;
 
 }
 
-.left-panel li{
 
-    margin-bottom:18px;
-    font-size:18px;
-
-}
+/* =====================================================
+   LOGIN CARD
+===================================================== */
 
 .card{
 
     background:white;
 
-    width:100%;
-
-    padding:45px;
+    padding:42px;
 
     border-radius:24px;
 
     box-shadow:0 18px 45px rgba(0,0,0,.08);
 
-    box-sizing:border-box;
-
 }
+
 
 .logo{
 
     text-align:center;
 
-    font-size:58px;
-
-    margin-bottom:12px;
+    font-size:56px;
 
 }
+
 
 h2{
 
     text-align:center;
 
-    margin-bottom:12px;
-
-    color:#333;
-
 }
+
 
 .subtitle{
 
@@ -144,11 +172,8 @@ h2{
 
     color:#666;
 
-    margin-bottom:30px;
-
-    line-height:28px;
-
 }
+
 
 label{
 
@@ -156,9 +181,10 @@ label{
 
     font-weight:600;
 
-    margin:20px 0 8px;
+    margin:18px 0 8px;
 
 }
+
 
 input,
 select{
@@ -167,15 +193,16 @@ select{
 
     padding:15px;
 
-    border-radius:12px;
-
     border:1px solid #ddd;
 
-    font-size:16px;
+    border-radius:12px;
 
     box-sizing:border-box;
 
+    font-size:16px;
+
 }
+
 
 input:focus,
 select:focus{
@@ -184,13 +211,14 @@ select:focus{
 
     border-color:#B8860B;
 
-    box-shadow:0 0 10px rgba(184,134,11,.15);
+    box-shadow:0 0 10px rgba(184,134,11,.12);
 
 }
 
+
 button{
 
-    margin-top:28px;
+    margin-top:25px;
 
     width:100%;
 
@@ -214,122 +242,382 @@ button{
 
 }
 
+
 button:hover{
 
     background:#9F7600;
 
 }
 
+
 .security{
 
-    margin-top:28px;
+    margin-top:25px;
 
     background:#FFF8E1;
 
     border-left:5px solid #B8860B;
 
-    border-radius:12px;
-
     padding:18px;
 
-    line-height:28px;
+    border-radius:12px;
 
     color:#555;
 
+    line-height:28px;
+
 }
+
+
+/* =====================================================
+   INFORMATION CONTENT
+===================================================== */
+
+.content{
+
+    max-width:950px;
+
+    margin:60px auto;
+
+    padding:0 25px;
+
+}
+
+
+.content-card{
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:20px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+
+    margin-bottom:28px;
+
+}
+
+
+.content-card h2{
+
+    text-align:left;
+
+    color:#B8860B;
+
+}
+
+
+.content-card h3{
+
+    color:#444;
+
+    margin-top:28px;
+
+}
+
+
+.content-card p{
+
+    color:#555;
+
+    line-height:1.9;
+
+}
+
+
+.steps{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:20px;
+
+}
+
+
+.step{
+
+    background:#FFFDF5;
+
+    border:1px solid #F0E6C8;
+
+    padding:25px;
+
+    border-radius:16px;
+
+}
+
+
+.step strong{
+
+    color:#444;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.site-footer{
+
+    background:#333;
+
+    color:white;
+
+    margin-top:60px;
+
+    padding:45px 25px 25px;
+
+}
+
+
+.footer-container{
+
+    max-width:1100px;
+
+    margin:auto;
+
+}
+
+
+.footer-links{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:8px 40px;
+
+    max-width:700px;
+
+    margin:auto;
+
+}
+
+
+.footer-links p{
+
+    margin:8px 0;
+
+}
+
+
+.footer-links a{
+
+    color:white;
+
+    text-decoration:none;
+
+    transition:.2s;
+
+}
+
+
+.footer-links a:hover{
+
+    color:#D4AF37;
+
+}
+
+
+.footer-bottom{
+
+    text-align:center;
+
+    border-top:1px solid rgba(255,255,255,.15);
+
+    margin-top:30px;
+
+    padding-top:20px;
+
+    color:#bbb;
+
+    font-size:13px;
+
+}
+
+
+.footer-brand{
+
+    text-align:center;
+
+    color:#D4AF37;
+
+    font-size:20px;
+
+    font-weight:600;
+
+    margin-bottom:20px;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media(max-width:900px){
 
-.login-wrapper{
+    .login-wrapper{
 
-grid-template-columns:1fr;
+        grid-template-columns:1fr;
 
-gap:30px;
+    }
 
-}
+    .left-panel{
 
-.left-panel{
+        text-align:center;
 
-text-align:center;
+    }
 
-}
+    .steps{
 
-.left-panel h1{
+        grid-template-columns:1fr;
 
-font-size:34px;
+    }
 
-}
+    .footer-links{
 
-.left-panel p{
+        grid-template-columns:1fr;
 
-font-size:17px;
+        text-align:center;
 
-line-height:30px;
-
-}
-
-.left-panel ul{
-
-text-align:left;
-
-max-width:330px;
-
-margin:30px auto 0;
+    }
 
 }
 
-.card{
 
-padding:30px;
+@media(max-width:600px){
+
+    .login-section{
+
+        padding:40px 15px;
+
+    }
+
+    .left-panel h1{
+
+        font-size:36px;
+
+    }
+
+    .left-panel p{
+
+        font-size:16px;
+
+        line-height:28px;
+
+    }
+
+    .card{
+
+        padding:28px 22px;
+
+    }
+
+    .content{
+
+        padding:0 15px;
+
+    }
+
+    .content-card{
+
+        padding:25px;
+
+    }
 
 }
 
-}
-    </style>
+</style>
 
 </head>
 
+
 <body>
 
+
+<!-- =====================================================
+     LOGIN SECTION
+===================================================== -->
+
+<section class="login-section">
+
 <div class="login-wrapper">
+
 
 <div class="left-panel">
 
 <h1>
 
 Plan Smart.<br>
+
 Invest Smarter.
 
 </h1>
 
+
 <p>
 
-Generate your personalised financial roadmap in less than two minutes using SmartPlan Finance.
+SmartPlanFinance helps you organise your income, expenses,
+savings and financial goals into a structured financial roadmap.
 
 </p>
 
 
+<ul>
+
+<li>Personalised financial dashboard</li>
+
+<li>SPF Insights based on your financial inputs</li>
+
+<li>Investment allocation suggestions for education</li>
+
+<li>Goal-based financial planning</li>
+
+<li>Downloadable financial report</li>
+
+</ul>
 
 </div>
+
+
 
 <div class="card">
 
 <div class="logo">🔐</div>
 
+
 <h2>Welcome Back</h2>
+
 
 <p class="subtitle">
 
-Enter your details to generate your personalised investment plan.
+Enter your details to access your personalised financial planner.
 
 </p>
 
+
 {% if error %}
-<p style="color:red; text-align:center; margin-bottom:10px;">{{ error }}</p>
+
+<p style="color:red;text-align:center;">
+
+{{ error }}
+
+</p>
+
 {% endif %}
 
+
 <form method="POST">
-<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+<input type="hidden"
+       name="csrf_token"
+       value="{{ csrf_token() }}">
+
 
 <label>Full Name</label>
 
@@ -338,6 +626,7 @@ type="text"
 name="name"
 placeholder="John Doe"
 required>
+
 
 <label>Mobile Number</label>
 
@@ -348,6 +637,7 @@ placeholder="+91 9876543210"
 maxlength="15"
 required>
 
+
 <label>Password</label>
 
 <input
@@ -357,11 +647,14 @@ placeholder="Enter your password"
 minlength="6"
 required>
 
+
 <label>Select Country</label>
 
 <select name="country" required>
 
-<option value="">Choose your country</option>
+<option value="">
+Choose your country
+</option>
 
 {% for country in countries %}
 
@@ -374,41 +667,463 @@ required>
 {% endfor %}
 
 </select>
+
+
 <label>Security Question</label>
+
 <select name="security_question" required>
-    <option value="">Choose a security question</option>
-    {% for q in security_questions %}
-    <option value="{{ q }}">{{ q }}</option>
-    {% endfor %}
+
+<option value="">
+Choose a security question
+</option>
+
+{% for q in security_questions %}
+
+<option value="{{ q }}">
+
+{{ q }}
+
+</option>
+
+{% endfor %}
+
 </select>
 
+
 <label>Your Answer</label>
+
 <input
-    type="text"
-    name="security_answer"
-    placeholder="Your answer"
-    required>
+type="text"
+name="security_answer"
+placeholder="Your answer"
+required>
+
+
 <button type="submit">
 
 Continue →
 
 </button>
-<p style="text-align:center; margin-top:15px;">
-    <a href="{{ url_for('forgot_password') }}" style="color:#B8860B;">Forgot your password?</a>
+
+
+<p style="text-align:center;margin-top:15px;">
+
+<a href="{{ url_for('forgot_password') }}"
+   style="color:#B8860B;">
+
+Forgot your password?
+
+</a>
+
 </p>
+
+
 </form>
+
 
 <div class="security">
 
-<strong>🔒 Privacy First</strong><br><br>
+<strong>🔒 Privacy First</strong>
 
-Your information is used only to generate your personalised financial report.
-We never sell or share your personal information.
+<br><br>
+
+Your information is used to generate your personalised
+financial dashboard and report. SmartPlanFinance does not
+sell personal information to third parties.
 
 </div>
 
+
 </div>
+
+
 </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FINANCIAL PLANNER INFORMATION
+===================================================== -->
+
+<main class="content">
+
+
+<div class="content-card">
+
+<h2>
+How the SmartPlanFinance Financial Planner Works
+</h2>
+
+
+<p>
+
+The SmartPlanFinance Financial Planner is designed to help users
+understand their current financial position and organise their
+money around clear goals. Rather than simply displaying a
+calculator result, the planner brings together information about
+income, regular expenses, savings and financial priorities to
+create a personalised financial dashboard.
+
+</p>
+
+
+<p>
+
+The purpose of the planner is educational. It helps users see how
+their current spending and saving habits influence their ability
+to invest and work toward future financial goals.
+
+</p>
+
+
+<h3>
+What Information Is Used?
+</h3>
+
+
+<p>
+
+To create a financial roadmap, SmartPlanFinance asks for basic
+information such as your income, regular expenses, available
+savings, country and selected financial preferences. These details
+allow the planner to estimate your monthly surplus and identify
+how much money may potentially be available for savings or
+investments after regular expenses.
+
+</p>
+
+
+<p>
+
+The planner does not require bank account passwords, card numbers
+or investment account credentials. It works with the financial
+information you provide.
+
+</p>
+
+</div>
+
+
+
+<div class="content-card">
+
+<h2>
+What Your Financial Dashboard Shows
+</h2>
+
+
+<p>
+
+After your information is processed, SmartPlanFinance generates
+a financial dashboard that brings together the main elements of
+your financial picture.
+
+</p>
+
+
+<div class="steps">
+
+
+<div class="step">
+
+<strong>
+Income & Expenses
+</strong>
+
+<p>
+
+Understand your estimated monthly cash flow and how your regular
+expenses compare with your income.
+
+</p>
+
+</div>
+
+
+<div class="step">
+
+<strong>
+Savings Capacity
+</strong>
+
+<p>
+
+Estimate the amount that may remain after expenses and could
+potentially be directed toward financial goals.
+
+</p>
+
+</div>
+
+
+<div class="step">
+
+<strong>
+Investment Planning
+</strong>
+
+<p>
+
+Explore an educational investment roadmap based on your stated
+goals, time horizon and financial situation.
+
+</p>
+
+</div>
+
+
+</div>
+
+
+<p style="margin-top:25px;">
+
+The dashboard is intended to help users identify patterns and
+make their finances easier to understand at a glance.
+
+</p>
+
+</div>
+
+
+
+<div class="content-card">
+
+<h2>
+What Are SPF Insights?
+</h2>
+
+
+<p>
+
+SPF Insights are SmartPlanFinance's educational observations
+generated from the information entered into the planner. They
+highlight areas that may deserve attention, such as the balance
+between expenses and savings, whether your current saving rate
+appears aligned with your stated goals, or whether building an
+emergency fund could be an important first step.
+
+</p>
+
+
+<p>
+
+These insights are intended to encourage informed financial
+thinking. They are not personalised financial advice and should
+not be treated as guarantees of future financial outcomes.
+
+</p>
+
+</div>
+
+
+
+<div class="content-card">
+
+<h2>
+How the Investment Plan Is Created
+</h2>
+
+
+<p>
+
+The investment section of the planner uses the information you
+provide, including your financial goals, estimated savings
+capacity and selected preferences, to create an educational
+roadmap. The objective is to show how different financial
+priorities can fit together over time.
+
+</p>
+
+
+<p>
+
+Any projections shown by the planner are based on assumptions.
+Actual investment returns depend on market performance, fees,
+taxes, inflation and many other factors that cannot be predicted
+with certainty.
+
+</p>
+
+
+<h3>
+Your Downloadable Financial Report
+</h3>
+
+
+<p>
+
+SmartPlanFinance also provides a financial report that summarises
+the information entered, the resulting dashboard and the
+educational insights generated by the planner. The report is
+designed to help users review their financial position and revisit
+their goals over time.
+
+</p>
+
+</div>
+
+
+
+<div class="content-card">
+
+<h2>
+Privacy, Transparency and Limitations
+</h2>
+
+
+<p>
+
+SmartPlanFinance aims to make financial planning understandable
+by explaining how its tools work and by clearly stating their
+assumptions and limitations. The platform is built as an
+educational resource for people who want to improve their
+understanding of budgeting, saving, investing and long-term
+financial planning.
+
+</p>
+
+
+<p>
+
+The information and reports generated by the planner are for
+general educational purposes only. They do not constitute
+personalised investment, tax, legal or financial advice. Before
+making significant financial decisions, users should consider
+their own circumstances and consult a qualified professional
+where appropriate.
+
+</p>
+
+
+<p>
+
+By combining a personalised dashboard, SPF Insights and practical
+financial planning tools, SmartPlanFinance aims to help users move
+from simply knowing their numbers to understanding what those
+numbers may mean for their financial future.
+
+</p>
+
+</div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="site-footer">
+
+<div class="footer-container">
+
+
+<div class="footer-brand">
+
+SmartPlanFinance
+
+</div>
+
+
+<div class="footer-links">
+
+
+<p>
+
+<a href="{{ url_for('articles') }}">
+
+📰 Articles
+
+</a>
+
+</p>
+
+
+<p>
+
+<a href="/about">
+
+ℹ About Us
+
+</a>
+
+</p>
+
+
+<p>
+
+<a href="{{ url_for('about_author') }}">
+
+👨‍💼 About the Author & Founder
+
+</a>
+
+</p>
+
+
+<p>
+
+<a href="/privacy">
+
+🔒 Privacy Policy
+
+</a>
+
+</p>
+
+
+<p>
+
+<a href="/terms">
+
+📄 Terms & Conditions
+
+</a>
+
+</p>
+
+
+<p>
+
+<a href="/disclaimer">
+
+⚠ Disclaimer
+
+</a>
+
+</p>
+
+
+<p>
+
+<a href="/affiliate-policy">
+
+💰 Affiliate Disclosure
+
+</a>
+
+</p>
+
+
+</div>
+
+
+<div class="footer-bottom">
+
+© 2026 SmartPlanFinance. All rights reserved.
+
+</div>
+
+
+</div>
+
+</footer>
+
+
 </body>
 
 </html>
