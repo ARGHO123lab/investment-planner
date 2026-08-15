@@ -1154,7 +1154,7 @@ def warm_up_article_cache():
                                 "Article warm-up failed "
                                 f"for slug: {slug}"
                             )
-
+                            
         except Exception:
 
             logging.exception(
@@ -1750,6 +1750,7 @@ def upload_featured_image(article_id):
         print("=" * 60)
         print("Saving image to:", filepath)
         print("=" * 60)
+        print("")
 
         image.save(filepath)
 
