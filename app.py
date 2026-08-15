@@ -17,6 +17,7 @@ from psycopg2.extras import RealDictCursor
 from io import BytesIO
 from pathlib import Path
 
+import threading
 SITE_URL = "https://smartplanfinance.com"
 DEFAULT_SEO_DESCRIPTION = (
     "SmartPlan Finance helps you build smarter investments, save tax, and plan your financial future "
@@ -590,8 +591,9 @@ ADVISOR_INSIGHTS = {
         "Keep a long-term investment horizon (5+ years) to ride out market cycles."
     ]
 }
-
 DB_POOL = None
+DB_POOL_LOCK = threading.Lock()
+
 _ARTICLES_CACHE = None
 _ARTICLES_CACHE_TIMESTAMP = None
 _ARTICLES_HTML_CACHE = None
@@ -614,28 +616,83 @@ def invalidate_article_cache():
 
 
 def get_db_connection():
+    """
+    Get a healthy PostgreSQL connection from the application pool.
+
+    The pool is protected by a lock so multiple threads cannot
+    simultaneously initialize or replace the pool.
+
+    Connections are validated before being returned.
+    """
     global DB_POOL
 
+    # ---------------------------------------------------------
+    # STEP 1: Safely initialize the connection pool
+    # ---------------------------------------------------------
     if DB_POOL is None:
-        DB_POOL = psycopg2.pool.ThreadedConnectionPool(
-            minconn=1,
-            maxconn=10,
-            dsn=os.environ["DATABASE_URL"],
-            cursor_factory=RealDictCursor,
-        )
+        with DB_POOL_LOCK:
+            if DB_POOL is None:
+                DB_POOL = psycopg2.pool.ThreadedConnectionPool(
+                    minconn=1,
+                    maxconn=10,
+                    dsn=os.environ["DATABASE_URL"],
+                    cursor_factory=RealDictCursor,
+                )
 
+    # ---------------------------------------------------------
+    # STEP 2: Get a connection from the pool
+    # ---------------------------------------------------------
     try:
         conn = DB_POOL.getconn()
-    except psycopg2.pool.PoolError:
-        logging.error("Database connection pool exhausted")
-        raise
 
+    except psycopg2.pool.PoolError:
+        logging.error(
+            "Database connection pool exhausted. "
+            "Attempting to recover the connection pool."
+        )
+
+        # -----------------------------------------------------
+        # IMPORTANT:
+        # Do not blindly create a second pool here.
+        # First try to recover under the pool lock.
+        # -----------------------------------------------------
+        with DB_POOL_LOCK:
+
+            try:
+                # Try one more time after waiting for any
+                # concurrent pool operation to finish.
+                conn = DB_POOL.getconn()
+
+            except psycopg2.pool.PoolError:
+
+                logging.error(
+                    "Database connection pool remains exhausted."
+                )
+
+                # At this point the application has genuinely
+                # checked out all available connections.
+                #
+                # Do NOT create another pool automatically because
+                # that could multiply PostgreSQL connections and
+                # make the database situation worse.
+                raise
+
+    # ---------------------------------------------------------
+    # STEP 3: Validate the connection
+    # ---------------------------------------------------------
     try:
-        # Neon/PostgreSQL may close an idle SSL connection while
-        # the connection is still present in the local pool.
-        # Validate the connection before returning it.
+
         if conn.closed:
-            DB_POOL.putconn(conn, close=True)
+            logging.warning(
+                "Closed PostgreSQL connection found in pool. "
+                "Replacing it."
+            )
+
+            try:
+                DB_POOL.putconn(conn, close=True)
+            except Exception:
+                pass
+
             conn = DB_POOL.getconn()
 
         else:
@@ -644,8 +701,19 @@ def get_db_connection():
 
         return conn
 
-    except (psycopg2.OperationalError, psycopg2.InterfaceError):
-        # The connection is unusable. Remove it from the pool.
+    # ---------------------------------------------------------
+    # STEP 4: Replace broken PostgreSQL connections
+    # ---------------------------------------------------------
+    except (
+        psycopg2.OperationalError,
+        psycopg2.InterfaceError,
+    ):
+
+        logging.warning(
+            "Unusable PostgreSQL connection detected. "
+            "Removing it from the pool."
+        )
+
         try:
             DB_POOL.putconn(conn, close=True)
         except Exception:
@@ -661,72 +729,148 @@ def get_db_connection():
             return conn
 
         except Exception:
-            # Do not leave the replacement connection checked out
-            # if validation also fails.
+
+            logging.exception(
+                "Fresh PostgreSQL connection also failed validation."
+            )
+
             try:
                 DB_POOL.putconn(conn, close=True)
             except Exception:
                 pass
+
             raise
 
-def release_db_connection(conn):
-    if DB_POOL is not None and conn is not None:
-        try:
-            # Clear any unfinished transaction before returning
-            # the connection to the pool.
-            if conn.status != psycopg2.extensions.STATUS_READY:
-                conn.rollback()
 
-            DB_POOL.putconn(conn)
+def release_db_connection(conn):
+    """
+    Safely return a PostgreSQL connection to the pool.
+
+    Any unfinished transaction is rolled back before the
+    connection is returned.
+    """
+    if DB_POOL is None or conn is None:
+        return
+
+    try:
+
+        # -----------------------------------------------------
+        # Roll back any unfinished transaction.
+        # -----------------------------------------------------
+        if conn.status != psycopg2.extensions.STATUS_READY:
+            conn.rollback()
+
+        # -----------------------------------------------------
+        # Return the connection to the pool.
+        # -----------------------------------------------------
+        DB_POOL.putconn(conn)
+
+    except Exception:
+
+        logging.exception(
+            "Failed to return PostgreSQL connection to pool. "
+            "Closing the connection instead."
+        )
+
+        try:
+            DB_POOL.putconn(conn, close=True)
         except Exception:
-            try:
-                DB_POOL.putconn(conn, close=True)
-            except Exception:
-                pass
+            pass
 
 
 def init_db_pool():
+    """Initialize and immediately release one healthy DB connection."""
     conn = get_db_connection()
-    release_db_connection(conn)
+
+    try:
+        pass
+    finally:
+        release_db_connection(conn)
 
 
 def get_cached_articles():
     global _ARTICLES_CACHE, _ARTICLES_CACHE_TIMESTAMP
+
     now = datetime.utcnow()
+
+    # ---------------------------------------------------------
+    # Return cached article list if still valid.
+    # ---------------------------------------------------------
     if _ARTICLES_CACHE and _ARTICLES_CACHE_TIMESTAMP:
-        if (now - _ARTICLES_CACHE_TIMESTAMP).total_seconds() < _ARTICLES_CACHE_TTL:
+
+        if (
+            now - _ARTICLES_CACHE_TIMESTAMP
+        ).total_seconds() < _ARTICLES_CACHE_TTL:
+
             return _ARTICLES_CACHE
+
+    # ---------------------------------------------------------
+    # Load article list from PostgreSQL.
+    # ---------------------------------------------------------
     conn = get_db_connection()
+
     try:
+
         cur = conn.cursor()
+
         cur.execute(
             """
-            SELECT id, title, slug, created_at,
-                   LEFT(content, 500) AS excerpt
+            SELECT
+                id,
+                title,
+                slug,
+                created_at,
+                LEFT(content, 500) AS excerpt
             FROM articles
             ORDER BY created_at DESC
             LIMIT 30
             """
         )
+
         articles = cur.fetchall()
+
         _ARTICLES_CACHE = articles
         _ARTICLES_CACHE_TIMESTAMP = now
+
         return articles
+
     finally:
+
         release_db_connection(conn)
 
 
 def get_cached_articles_html():
-    global _ARTICLES_HTML_CACHE, _ARTICLES_HTML_CACHE_TIMESTAMP
+    global _ARTICLES_HTML_CACHE
+    global _ARTICLES_HTML_CACHE_TIMESTAMP
 
     now = datetime.utcnow()
 
-    if _ARTICLES_HTML_CACHE and _ARTICLES_HTML_CACHE_TIMESTAMP:
-        if (now - _ARTICLES_HTML_CACHE_TIMESTAMP).total_seconds() < _ARTICLES_CACHE_TTL:
+    # ---------------------------------------------------------
+    # Return cached HTML if still valid.
+    # ---------------------------------------------------------
+    if (
+        _ARTICLES_HTML_CACHE
+        and _ARTICLES_HTML_CACHE_TIMESTAMP
+    ):
+
+        if (
+            now - _ARTICLES_HTML_CACHE_TIMESTAMP
+        ).total_seconds() < _ARTICLES_CACHE_TTL:
+
             return _ARTICLES_HTML_CACHE
 
+    # ---------------------------------------------------------
+    # Get article data.
+    # ---------------------------------------------------------
     articles = get_cached_articles()
-    html = render_template('articles.html', articles=articles)
+
+    # ---------------------------------------------------------
+    # Render article listing.
+    # ---------------------------------------------------------
+    html = render_template(
+        "articles.html",
+        articles=articles
+    )
 
     _ARTICLES_HTML_CACHE = html
     _ARTICLES_HTML_CACHE_TIMESTAMP = now
@@ -737,68 +881,154 @@ def get_cached_articles_html():
 def get_cached_article_page(slug):
     global _ARTICLE_PAGE_CACHE
 
+    # ---------------------------------------------------------
+    # Determine whether this is an admin request.
+    # ---------------------------------------------------------
     is_admin = session.get("is_admin", False)
+
     auth = request.authorization
-    if auth and check_auth(auth.username, auth.password):
+
+    if auth and check_auth(
+        auth.username,
+        auth.password
+    ):
         is_admin = True
+
     print("ARTICLE ADMIN:", is_admin)
 
     now = datetime.utcnow()
 
-    template_path = os.path.join(app.template_folder, "view_article.html")
+    # ---------------------------------------------------------
+    # Check template modification time.
+    # ---------------------------------------------------------
+    template_path = os.path.join(
+        app.template_folder,
+        "view_article.html"
+    )
 
     try:
-        template_mtime = os.path.getmtime(template_path)
+        template_mtime = os.path.getmtime(
+            template_path
+        )
     except OSError:
         template_mtime = 0
 
+    # ---------------------------------------------------------
+    # Get database connection.
+    # ---------------------------------------------------------
     conn = get_db_connection()
 
     try:
-        cur = conn.cursor(cursor_factory=RealDictCursor)
 
-        cur.execute("""
+        cur = conn.cursor(
+            cursor_factory=RealDictCursor
+        )
+
+        # -----------------------------------------------------
+        # Load requested article.
+        # -----------------------------------------------------
+        cur.execute(
+            """
             SELECT *
             FROM articles
             WHERE slug = %s
-        """, (slug,))
+            """,
+            (slug,)
+        )
+
         article = cur.fetchone()
 
         if article is None:
             return None
 
-        cache_key = f"{slug}:{'admin' if is_admin else 'user'}"
-        cached = _ARTICLE_PAGE_CACHE.get(cache_key)
+        # -----------------------------------------------------
+        # Build cache key.
+        # Admin and normal users receive separate cached pages.
+        # -----------------------------------------------------
+        cache_key = (
+            f"{slug}:"
+            f"{'admin' if is_admin else 'user'}"
+        )
 
+        cached = _ARTICLE_PAGE_CACHE.get(
+            cache_key
+        )
+
+        # -----------------------------------------------------
+        # Check whether cached article HTML is still valid.
+        # -----------------------------------------------------
         if cached:
-            html, timestamp, cached_template_mtime, cached_updated_at = cached
+
+            (
+                html,
+                timestamp,
+                cached_template_mtime,
+                cached_updated_at,
+            ) = cached
 
             if (
-                (now - timestamp).total_seconds() < _ARTICLE_PAGE_CACHE_TTL
-                and cached_template_mtime == template_mtime
-                and cached_updated_at == article["updated_at"]
+                (
+                    now - timestamp
+                ).total_seconds()
+                < _ARTICLE_PAGE_CACHE_TTL
+
+                and cached_template_mtime
+                == template_mtime
+
+                and cached_updated_at
+                == article["updated_at"]
             ):
+
                 return html
 
-        cur.execute("""
-            SELECT id, title, url, source_type
+        # -----------------------------------------------------
+        # Load article sources.
+        # -----------------------------------------------------
+        cur.execute(
+            """
+            SELECT
+                id,
+                title,
+                url,
+                source_type
             FROM article_sources
             WHERE article_id = %s
             ORDER BY display_order ASC, id ASC
-        """, (article["id"],))
+            """,
+            (article["id"],)
+        )
+
         article_sources = cur.fetchall()
 
-        cur.execute("""
-            SELECT id, title, slug
+        # -----------------------------------------------------
+        # Load related articles.
+        # -----------------------------------------------------
+        cur.execute(
+            """
+            SELECT
+                id,
+                title,
+                slug
             FROM articles
             WHERE id != %s
             ORDER BY created_at DESC
             LIMIT 5
-        """, (article["id"],))
+            """,
+            (article["id"],)
+        )
+
         related_articles = cur.fetchall()
 
-        article["content"] = render_spf_charts(article["content"])
+        # -----------------------------------------------------
+        # Render SmartPlanFinance charts.
+        # -----------------------------------------------------
+        article["content"] = render_spf_charts(
+            article["content"]
+        )
 
+        # -----------------------------------------------------
+        # Render final article page.
+        # -----------------------------------------------------
         html = render_template(
             "view_article.html",
             article=article,
@@ -807,6 +1037,9 @@ def get_cached_article_page(slug):
             is_admin=is_admin,
         )
 
+        # -----------------------------------------------------
+        # Store rendered page in cache.
+        # -----------------------------------------------------
         _ARTICLE_PAGE_CACHE[cache_key] = (
             html,
             now,
@@ -817,24 +1050,60 @@ def get_cached_article_page(slug):
         return html
 
     finally:
+
+        # -----------------------------------------------------
+        # VERY IMPORTANT:
+        # Every successful checkout must reach this block.
+        # -----------------------------------------------------
         release_db_connection(conn)
 
+
 def extract_currency_symbol(country_name):
-    country_data = COUNTRIES.get(country_name, '₹')
+    country_data = COUNTRIES.get(
+        country_name,
+        '₹'
+    )
+
     if isinstance(country_data, dict):
-        return country_data.get('currency_symbol', country_data.get('symbol', '₹'))
+
+        return country_data.get(
+            'currency_symbol',
+            country_data.get(
+                'symbol',
+                '₹'
+            )
+        )
+
     return country_data
 
-# NOTE: init_db logic is not needed as PostgreSQL schema is pre-managed in production
+
+# NOTE:
+# PostgreSQL schema is already managed in production.
+# No SQLite initialization is required here.
 def warm_up_article_cache():
+
     with app.app_context():
+
         try:
-            with app.test_request_context('/articles'):
+
+            # -------------------------------------------------
+            # Warm article listing cache.
+            # -------------------------------------------------
+            with app.test_request_context(
+                '/articles'
+            ):
+
                 get_cached_articles_html()
 
+            # -------------------------------------------------
+            # Get one DB connection to obtain article slugs.
+            # -------------------------------------------------
             conn = get_db_connection()
+
             try:
+
                 cur = conn.cursor()
+
                 cur.execute(
                     """
                     SELECT slug
@@ -842,22 +1111,67 @@ def warm_up_article_cache():
                     ORDER BY created_at DESC
                     """
                 )
+
                 rows = cur.fetchall()
-                logging.info(f"Article warm-up: preloading {len(rows)} article pages")
-                for row in rows:
-                    slug = row.get("slug")
-                    if slug:
-                        with app.test_request_context(f"/blog/{slug}"):
-                            get_cached_article_page(slug)
+
+                logging.info(
+                    f"Article warm-up: "
+                    f"preloading {len(rows)} article pages"
+                )
+
             finally:
+
                 release_db_connection(conn)
+
+            # -------------------------------------------------
+            # IMPORTANT:
+            #
+            # Release the database connection BEFORE warming
+            # individual article pages.
+            #
+            # This prevents the warm-up process from holding
+            # one connection while get_cached_article_page()
+            # attempts to obtain another one.
+            # -------------------------------------------------
+            for row in rows:
+
+                slug = row.get("slug")
+
+                if slug:
+
+                    with app.test_request_context(
+                        f"/blog/{slug}"
+                    ):
+
+                        try:
+                            get_cached_article_page(
+                                slug
+                            )
+
+                        except Exception:
+
+                            logging.exception(
+                                "Article warm-up failed "
+                                f"for slug: {slug}"
+                            )
+
         except Exception:
-            logging.exception("Articles warm-up failed")
+
+            logging.exception(
+                "Articles warm-up failed"
+            )
 
 
 def init_db():
     init_db_pool()
-    #warm_up_article_cache()
+
+    # ---------------------------------------------------------
+    # Keep article warm-up disabled.
+    #
+    # Warming every article at startup can create unnecessary
+    # database traffic and connection pressure.
+    # ---------------------------------------------------------
+    # warm_up_article_cache()
 
 @app.route('/')
 def index():
