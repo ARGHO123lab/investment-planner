@@ -624,32 +624,50 @@ def get_db_connection():
             cursor_factory=RealDictCursor,
         )
 
-    conn = DB_POOL.getconn()
-
-    # Neon/PostgreSQL may close an idle SSL connection while
-    # the connection is still present in the local pool.
-    # Validate the connection before returning it.
     try:
+        conn = DB_POOL.getconn()
+    except psycopg2.pool.PoolError:
+        logging.error("Database connection pool exhausted")
+        raise
+
+    try:
+        # Neon/PostgreSQL may close an idle SSL connection while
+        # the connection is still present in the local pool.
+        # Validate the connection before returning it.
         if conn.closed:
             DB_POOL.putconn(conn, close=True)
             conn = DB_POOL.getconn()
+
         else:
             with conn.cursor() as cur:
                 cur.execute("SELECT 1")
+
+        return conn
+
     except (psycopg2.OperationalError, psycopg2.InterfaceError):
+        # The connection is unusable. Remove it from the pool.
         try:
             DB_POOL.putconn(conn, close=True)
         except Exception:
             pass
 
+        # Get a fresh connection.
         conn = DB_POOL.getconn()
 
-        # Make sure the replacement connection is actually usable.
-        with conn.cursor() as cur:
-            cur.execute("SELECT 1")
+        try:
+            with conn.cursor() as cur:
+                cur.execute("SELECT 1")
 
-    return conn
+            return conn
 
+        except Exception:
+            # Do not leave the replacement connection checked out
+            # if validation also fails.
+            try:
+                DB_POOL.putconn(conn, close=True)
+            except Exception:
+                pass
+            raise
 
 def release_db_connection(conn):
     if DB_POOL is not None and conn is not None:
