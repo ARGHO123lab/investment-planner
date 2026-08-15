@@ -1194,6 +1194,11 @@ Disallow: /wellness/quiz
 Disallow: /wellness/results
 Disallow: /stock-analyzer
 Disallow: /ca-consultation
+Disallow: /loan-assistance
+Disallow: /admin-loan-leads
+Disallow: /publish
+Disallow: /admin-login
+
 
 Sitemap: https://smartplanfinance.com/sitemap.xml
 """
