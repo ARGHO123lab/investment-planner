@@ -1198,6 +1198,7 @@ Disallow: /loan-assistance
 Disallow: /admin-loan-leads
 Disallow: /publish
 Disallow: /admin-login
+Disallow: /admin/
 
 
 Sitemap: https://smartplanfinance.com/sitemap.xml
