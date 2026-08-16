@@ -151,13 +151,7 @@
       {{ article.reading_minutes }} min read
     </span>
 
-    {% if article.updated_at and article.created_at and article.updated_at.date() != article.created_at.date() %}
-      <span aria-hidden="true">·</span>
-
-      <span>
-        Updated {{ article.updated_at.strftime('%d %B %Y') }}
-      </span>
-    {% endif %}
+    
 
   </div>
 
