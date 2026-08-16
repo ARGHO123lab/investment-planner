@@ -823,7 +823,7 @@ def get_cached_articles():
                 LEFT(content, 500) AS excerpt
             FROM articles
             ORDER BY created_at DESC
-            LIMIT 30
+            LIMIT 100
             """
         )
 
@@ -4646,6 +4646,7 @@ def admin():
         total_ca_requests=total_ca_requests
 
     )
+
 @app.route('/articles')
 def articles():
     return get_cached_articles_html()
