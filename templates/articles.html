@@ -159,7 +159,14 @@
                 "@type": "ImageObject",
                 "url": "https://smartplanfinance.com/static/images/logo.png"
             }
+        },
+
+        "author": {
+            "@type": "Person",
+            "name": "Argho Sanyal",
+            "url": "https://smartplanfinance.com/about-author"
         }
+
     }
 
     </script>
@@ -238,6 +245,14 @@
 
         </p>
 
+        <p class="overview-text">
+
+            Content is written and reviewed for educational purposes
+            with a focus on practical explanations, transparent
+            assumptions, and responsible financial education.
+
+        </p>
+
     </section>
 
 
@@ -312,6 +327,32 @@
                     {% endif %}
 
 
+                    <!-- ==========================================
+                         AUTHOR
+                         ========================================== -->
+
+                    <div
+                        class="author"
+                        itemprop="author"
+                        itemscope
+                        itemtype="https://schema.org/Person"
+                    >
+
+                        <span>
+                            By
+                            <a
+                                href="https://smartplanfinance.com/about-author"
+                                itemprop="url"
+                            >
+                                <span itemprop="name">
+                                    Argho Sanyal
+                                </span>
+                            </a>
+                        </span>
+
+                    </div>
+
+
                     {% if article.created_at %}
 
                     <div
@@ -321,7 +362,7 @@
                     >
 
                         Published
-                        {{ article.created_at.strftime('%d %B %Y') }}
+                        {{ article.created_at.strftime('%B %Y') }}
 
                     </div>
 
@@ -364,6 +405,44 @@
         </div>
 
         {% endif %}
+
+    </section>
+
+
+
+    <!-- ==========================================
+         ABOUT THE AUTHOR
+         ========================================== -->
+
+    <section
+        class="education-notice"
+        aria-labelledby="author-title"
+    >
+
+        <h2 id="author-title">
+
+            About the Author
+
+        </h2>
+
+        <p>
+
+            SmartPlan Finance content is created by
+            <strong>Argho Sanyal</strong>, with a focus on practical
+            personal finance, investing, financial planning,
+            retirement planning, and long-term wealth building.
+
+        </p>
+
+        <p>
+
+            <a
+                href="https://smartplanfinance.com/about-author"
+            >
+                Read the full About the Author profile →
+            </a>
+
+        </p>
 
     </section>
 
@@ -419,6 +498,13 @@
             <a href="{{ url_for('about') }}">
 
                 About
+
+            </a>
+
+
+            <a href="https://smartplanfinance.com/about-author">
+
+                About the Author
 
             </a>
 
