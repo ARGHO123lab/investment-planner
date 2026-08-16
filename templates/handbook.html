@@ -1,153 +1,2068 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Tools & Calculators Handbook | SmartPlanFinance</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Financial Tools & Calculators Handbook | SmartPlanFinance
+    </title>
+
     <meta name="description"
-content="Download the free Financial Tools & Calculators Handbook by SmartPlanFinance. Learn SIP, EMI, Retirement Planning, Income Tax, CAGR, XIRR, Inflation, Net Worth and more through practical examples.">
+          content="Download the free SmartPlanFinance Financial Tools & Calculators Handbook. Learn SIP, EMI, retirement planning, tax, CAGR, XIRR, inflation, net worth and other practical financial calculations through simple explanations and examples.">
 
-    <link rel="icon" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}" sizes="32x32">
-    <link rel="icon" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}" sizes="16x16">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}">
-    <meta name="theme-color" content="#FFC107">
+    <meta name="author"
+          content="Argho Sanyal, Founder, SmartPlanFinance">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="robots"
+          content="index, follow, max-image-preview:large">
+
+    <link rel="canonical"
+          href="https://smartplanfinance.com/financial-tools-handbook">
+
+    <!-- Favicon -->
+
+    <link rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
+
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+
+    <link rel="manifest"
+          href="{{ url_for('static', filename='icons/site.webmanifest') }}">
+
+    <meta name="theme-color"
+          content="#D4AF37">
+
+
+    <!-- Open Graph -->
+
+    <meta property="og:type"
+          content="website">
+
+    <meta property="og:title"
+          content="Financial Tools & Calculators Handbook | SmartPlanFinance">
+
+    <meta property="og:description"
+          content="Download the free SmartPlanFinance Financial Tools & Calculators Handbook and learn practical financial calculations through simple explanations, formulas and examples.">
+
+    <meta property="og:url"
+          content="https://smartplanfinance.com/financial-tools-handbook">
+
+    <meta property="og:site_name"
+          content="SmartPlanFinance">
+
+
+    <!-- Twitter -->
+
+    <meta name="twitter:card"
+          content="summary_large_image">
+
+    <meta name="twitter:title"
+          content="Financial Tools & Calculators Handbook | SmartPlanFinance">
+
+    <meta name="twitter:description"
+          content="A practical financial education handbook covering SIP, EMI, retirement planning, CAGR, XIRR, inflation, net worth and more.">
+
+
+    <!-- Google Fonts -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+    <!-- AdSense -->
+
+    <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8618061837528063"
+            crossorigin="anonymous"></script>
+
 
     <style>
-        body { font-family: 'Poppins', sans-serif; background:#FFFDF7; }
+
+        :root {
+
+            --gold: #D4AF37;
+            --gold-dark: #B8860B;
+            --gold-light: #FFF8DC;
+            --gold-soft: #FCF7E8;
+
+            --green: #0B7A3D;
+            --green-dark: #075B2D;
+            --green-soft: #F1FAF4;
+
+            --cream: #FFFDF6;
+            --white: #FFFFFF;
+
+            --text: #222222;
+            --text-soft: #555555;
+            --muted: #777777;
+
+            --border: #E9E2CC;
+
+            --shadow:
+                0 10px 35px rgba(0,0,0,0.07);
+
+            --shadow-hover:
+                0 16px 40px rgba(0,0,0,0.11);
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            font-family: 'Poppins', sans-serif;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #FFFDF6 0%,
+                    #FAFCFB 45%,
+                    #FFFFFF 100%
+                );
+
+            color: var(--text);
+
+            line-height: 1.75;
+
+            padding: 25px 16px 50px;
+        }
+
+
+        a {
+            color: inherit;
+        }
+
+
+        /* =====================================================
+           NAVIGATION
+           ===================================================== */
+
+        .site-nav {
+
+            max-width: 950px;
+
+            margin: 0 auto 22px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .brand {
+
+            text-decoration: none;
+
+            font-size: 20px;
+
+            font-weight: 800;
+
+            color: var(--green);
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            gap: 18px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .nav-links a {
+
+            color: var(--text-soft);
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+
+        /* =====================================================
+           MAIN CONTAINER
+           ===================================================== */
+
+        .container {
+
+            max-width: 950px;
+
+            margin: 0 auto;
+
+            background: var(--white);
+
+            border-radius: 24px;
+
+            padding: 48px;
+
+            box-shadow: var(--shadow);
+        }
+
+
+        /* =====================================================
+           HERO
+           ===================================================== */
+
+        .hero {
+
+            text-align: center;
+
+            margin-bottom: 42px;
+        }
+
+
+        .badge {
+
+            display: inline-block;
+
+            padding: 8px 16px;
+
+            border-radius: 50px;
+
+            background: var(--gold-soft);
+
+            border: 1px solid rgba(212,175,55,0.45);
+
+            color: var(--gold-dark);
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.5px;
+
+            margin-bottom: 20px;
+        }
+
+
+        h1 {
+
+            font-size: 42px;
+
+            line-height: 1.2;
+
+            margin-bottom: 18px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #B8860B,
+                    #D4AF37,
+                    #E5B94E
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        .hero-description {
+
+            max-width: 780px;
+
+            margin: 0 auto;
+
+            color: var(--text-soft);
+
+            font-size: 17px;
+        }
+
+
+        .byline {
+
+            margin-top: 15px;
+
+            font-size: 13px;
+
+            color: var(--muted);
+        }
+
+
+        .byline strong {
+            color: var(--text-soft);
+        }
+
+
+        /* =====================================================
+           SECTIONS
+           ===================================================== */
+
+        .section {
+            margin-top: 48px;
+        }
+
+
+        h2 {
+
+            color: var(--green);
+
+            font-size: 28px;
+
+            line-height: 1.3;
+
+            margin-bottom: 20px;
+        }
+
+
+        h3 {
+
+            color: var(--green);
+
+            font-size: 20px;
+
+            margin-bottom: 10px;
+        }
+
+
+        p {
+
+            color: var(--text-soft);
+
+            margin-bottom: 14px;
+        }
+
+
+        /* =====================================================
+           CARDS
+           ===================================================== */
+
+        .intro-card,
+        .education-card,
+        .author-card,
+        .disclaimer-box,
+        .faq-item {
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 28px;
+
+            background: #FFFFFF;
+        }
+
+
+        .intro-card {
+
+            border-top: 4px solid var(--gold);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #FFFDF6,
+                    #FFFFFF
+                );
+        }
+
+
+        .education-card {
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #FFFFFF,
+                    #FFFDF7
+                );
+        }
+
+
+        /* =====================================================
+           HANDBOOK HIGHLIGHT
+           ===================================================== */
+
+        .handbook-card {
+
+            margin-top: 30px;
+
+            padding: 34px;
+
+            border-radius: 20px;
+
+            border: 1px solid var(--border);
+
+            border-top: 5px solid var(--gold);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #FFFDF7,
+                    #FFFFFF
+                );
+
+            box-shadow:
+                0 8px 28px rgba(0,0,0,0.05);
+        }
+
+
+        .download-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 9px;
+
+            padding: 15px 30px;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #B8860B,
+                    #D4AF37
+                );
+
+            color: #FFFFFF;
+
+            text-decoration: none;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 8px 20px rgba(184,134,11,0.25);
+
+            transition: 0.25s ease;
+        }
+
+
+        .download-button:hover {
+
+            transform: translateY(-2px);
+
+            color: #FFFFFF;
+
+            box-shadow:
+                0 12px 28px rgba(184,134,11,0.35);
+        }
+
+
+        .download-note {
+
+            margin-top: 15px;
+
+            font-size: 12px;
+
+            color: var(--muted);
+        }
+
+
+        /* =====================================================
+           THREE COLUMN
+           ===================================================== */
+
+        .three-column {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 20px;
+        }
+
+
+        .feature-card {
+
+            padding: 25px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            background: #FFFFFF;
+
+            transition: 0.25s ease;
+        }
+
+
+        .feature-card:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow: var(--shadow-hover);
+
+            border-color: var(--gold);
+        }
+
+
+        .feature-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            margin-bottom: 18px;
+
+            background: var(--gold-soft);
+
+            color: var(--gold-dark);
+
+            font-size: 21px;
+        }
+
+
+        /* =====================================================
+           HANDBOOK TOPICS
+           ===================================================== */
+
+        .topic-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 15px;
+        }
+
+
+        .topic-item {
+
+            padding: 17px 18px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 13px;
+
+            background: #FFFFFF;
+        }
+
+
+        .topic-item strong {
+
+            display: block;
+
+            color: var(--green);
+
+            margin-bottom: 4px;
+        }
+
+
+        .topic-item span {
+
+            font-size: 13px;
+
+            color: var(--muted);
+        }
+
+
+        /* =====================================================
+           LISTS
+           ===================================================== */
+
+        .info-list {
+
+            padding-left: 22px;
+
+            color: var(--text-soft);
+        }
+
+
+        .info-list li {
+
+            margin-bottom: 11px;
+        }
+
+
+        .info-list strong {
+            color: var(--text);
+        }
+
+
+        /* =====================================================
+           WHO IS IT FOR
+           ===================================================== */
+
+        .audience-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 18px;
+        }
+
+
+        .audience-card {
+
+            padding: 22px;
+
+            border-radius: 16px;
+
+            border: 1px solid var(--border);
+
+            background: #FFFFFF;
+        }
+
+
+        /* =====================================================
+           DOWNLOAD CTA
+           ===================================================== */
+
+        .download-section {
+
+            margin-top: 48px;
+
+            padding: 38px 28px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0B7A3D,
+                    #16844A
+                );
+
+            text-align: center;
+
+            color: #FFFFFF;
+        }
+
+
+        .download-section h2,
+        .download-section p {
+            color: #FFFFFF;
+        }
+
+
+        .download-section p {
+
+            max-width: 700px;
+
+            margin-left: auto;
+
+            margin-right: auto;
+        }
+
+
+        .download-section .download-button {
+
+            background: #FFFFFF;
+
+            color: var(--green);
+
+            box-shadow: none;
+
+            margin-top: 8px;
+        }
+
+
+        .download-section .download-button:hover {
+
+            color: var(--green-dark);
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =====================================================
+           RELATED RESOURCES
+           ===================================================== */
+
+        .related-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 18px;
+        }
+
+
+        .related-card {
+
+            display: block;
+
+            text-decoration: none;
+
+            padding: 24px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 16px;
+
+            background: #FFFFFF;
+
+            transition: 0.25s ease;
+        }
+
+
+        .related-card:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow: var(--shadow-hover);
+
+            border-color: var(--gold);
+        }
+
+
+        .related-card h3 {
+            margin-bottom: 8px;
+        }
+
+
+        .related-card strong {
+
+            display: inline-block;
+
+            margin-top: 8px;
+
+            color: var(--gold-dark);
+        }
+
+
+        /* =====================================================
+           AUTHOR
+           ===================================================== */
+
+        .author-card {
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #FFFDF7,
+                    #FFFFFF
+                );
+        }
+
+
+        .author-name {
+
+            font-size: 21px;
+
+            font-weight: 800;
+
+            color: var(--green);
+
+            margin-bottom: 3px;
+        }
+
+
+        .author-role {
+
+            color: var(--gold-dark);
+
+            font-weight: 600;
+
+            margin-bottom: 15px;
+        }
+
+
+        /* =====================================================
+           DISCLAIMER
+           ===================================================== */
+
+        .disclaimer-box {
+
+            margin-top: 35px;
+
+            background: #FFFDF7;
+
+            border-left: 5px solid var(--gold);
+        }
+
+
+        .disclaimer-box strong {
+            color: var(--green);
+        }
+
+
+        /* =====================================================
+           FINAL CTA
+           ===================================================== */
+
+        .final-cta {
+
+            margin-top: 45px;
+
+            padding: 35px 25px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0B7A3D,
+                    #16844A
+                );
+
+            text-align: center;
+
+            color: #FFFFFF;
+        }
+
+
+        .final-cta h2,
+        .final-cta p {
+            color: #FFFFFF;
+        }
+
+
+        .cta-link {
+
+            display: inline-block;
+
+            margin-top: 10px;
+
+            padding: 13px 25px;
+
+            border-radius: 10px;
+
+            background: #FFFFFF;
+
+            color: var(--green);
+
+            text-decoration: none;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           FOOTER
+           ===================================================== */
+
+        .site-footer {
+
+            max-width: 950px;
+
+            margin: 30px auto 0;
+
+            padding: 28px 15px;
+
+            border-top: 1px solid #E5E5E5;
+
+            text-align: center;
+        }
+
+
+        .footer-links {
+
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 18px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .footer-links a {
+
+            color: var(--text-soft);
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        .footer-links a:hover {
+            color: var(--green);
+        }
+
+
+        .copyright {
+
+            font-size: 12px;
+
+            color: #999;
+        }
+
+
+        .last-updated {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            font-size: 12px;
+
+            color: #999;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media (max-width: 850px) {
+
+            .container {
+                padding: 30px 22px;
+            }
+
+            .three-column {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            body {
+                padding: 12px;
+            }
+
+
+            .container {
+
+                padding: 24px 17px;
+
+                border-radius: 18px;
+            }
+
+
+            h1 {
+                font-size: 32px;
+            }
+
+
+            h2 {
+                font-size: 24px;
+            }
+
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+
+            .topic-grid,
+            .audience-grid,
+            .related-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .site-nav {
+
+                justify-content: center;
+
+                text-align: center;
+            }
+
+
+            .nav-links {
+
+                justify-content: center;
+            }
+
+        }
+
     </style>
+
+
+    <!-- =====================================================
+         STRUCTURED DATA
+         ===================================================== -->
+
+    <script type="application/ld+json">
+
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+
+        "name": "Financial Tools & Calculators Handbook | SmartPlanFinance",
+
+        "url": "https://smartplanfinance.com/financial-tools-handbook",
+
+        "description": "A free educational handbook explaining financial calculators, formulas and practical personal finance calculations.",
+
+        "author": {
+            "@type": "Person",
+            "name": "Argho Sanyal",
+            "jobTitle": "Founder",
+            "url": "https://smartplanfinance.com/about"
+        },
+
+        "publisher": {
+            "@type": "Organization",
+            "name": "SmartPlanFinance",
+            "url": "https://smartplanfinance.com"
+        }
+    }
+
+    </script>
+
+
+    <script type="application/ld+json">
+
+    {
+        "@context": "https://schema.org",
+        "@type": "Book",
+
+        "name": "Financial Tools & Calculators Handbook",
+
+        "author": {
+            "@type": "Person",
+            "name": "Argho Sanyal"
+        },
+
+        "publisher": {
+            "@type": "Organization",
+            "name": "SmartPlanFinance"
+        },
+
+        "description": "A practical educational handbook covering financial calculators, formulas, examples and personal finance planning concepts.",
+
+        "inLanguage": "en",
+
+        "isAccessibleForFree": true,
+
+        "url": "https://smartplanfinance.com/financial-tools-handbook"
+    }
+
+    </script>
+
 </head>
+
+
 <body>
 
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="card border-0 shadow-lg">
-                    <div class="card-body p-5">
 
-                        <div class="text-center">
-                            <span class="badge bg-warning text-dark px-3 py-2 mb-3 fs-6">
-                                FREE PDF HANDBOOK
-                            </span>
+<!-- =========================================================
+     NAVIGATION
+     ========================================================= -->
 
-                            <h1 class="display-4 fw-bold mb-3">
-                                Financial Tools & Calculators Handbook
-                            </h1>
+<nav class="site-nav">
 
-                            <p class="lead text-muted">
-                                A Practical Guide to Understanding Financial Planning Tools and Calculations
-                            </p>
+    <a href="{{ url_for('index') }}"
+       class="brand">
 
-                            <hr class="my-4">
-                        </div>
+        SmartPlanFinance
 
-                        <div class="row align-items-center">
-                            <div class="col-md-7">
-                                <h3 class="mb-3">📘 About This Handbook</h3>
-                                <p class="text-muted">
-                                    Learn the concepts behind financial planning using
-                                    easy-to-understand explanations, practical examples,
-                                    and mathematical formulas. Whether you're a beginner
-                                    or an experienced investor, this handbook helps you
-                                    understand how financial calculators work and how to
-                                    make smarter financial decisions.
-                                </p>
-                            </div>
+    </a>
 
-                            <div class="col-md-5 text-center">
-                                <div class="bg-light rounded p-4">
-                                    <h5 class="fw-bold mb-3">Includes</h5>
-                                    <div class="text-start">
-                                        ✅ SIP Calculator<br>
-                                        ✅ EMI Calculator<br>
-                                        ✅ Retirement Planning<br>
-                                        ✅ Fixed Deposit Calculator<br>
-                                        ✅ Tax Calculator<br>
-                                        ✅ Loan Eligibility<br>
-                                        ✅ XIRR Calculator<br>
-                                        ✅ CAGR Calculator<br>
-                                        ✅ Inflation Calculator<br>
-                                        ✅ Net Worth Calculator<br>
-                                        ✅ Financial Planning Best Practices
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <hr class="my-5">
+    <div class="nav-links">
 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="text-center p-4">
-                                    <div class="display-5 mb-3">📖</div>
-                                    <h5>Beginner Friendly</h5>
-                                    <p class="text-muted">Written in simple language that anyone can understand.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="text-center p-4">
-                                    <div class="display-5 mb-3">🧮</div>
-                                    <h5>Formula Based</h5>
-                                    <p class="text-muted">Learn the mathematics behind every financial calculator.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="text-center p-4">
-                                    <div class="display-5 mb-3">📈</div>
-                                    <h5>Practical Examples</h5>
-                                    <p class="text-muted">Real-life scenarios to understand financial planning.</p>
-                                </div>
-                            </div>
-                        </div>
+        <a href="{{ url_for('index') }}">
+            Home
+        </a>
 
-                        <hr class="my-5">
+        <a href="{{ url_for('articles') }}">
+            Articles
+        </a>
 
-                        <div class="text-center">
-                            <h3 class="mb-3">Download Your Free Copy</h3>
-                            <p class="text-muted mb-4">
-                                Click the button below to instantly download the complete handbook.
-                            </p>
+        <a href="/about">
+            About
+        </a>
 
-                            <a href="{{ url_for('static', filename='SmartPlan_Finance_Tools_Handbook.pdf') }}"
-                               download
-                               class="btn btn-warning btn-lg px-5 py-3">
-                                <i class="fas fa-download me-2"></i>
-                                Download Handbook (PDF)
-                            </a>
-                            <p class="mt-3 text-muted small">
-    <i class="fas fa-lock"></i>
-    100% Free • No Registration Required • Instant PDF Download
-</p>
-                        </div>
+        <a href="/disclaimer">
+            Disclaimer
+        </a>
 
-                        <hr class="my-5">
-
-                        <div class="text-center">
-                            <h4 class="mb-3">Continue Your Financial Learning Journey</h4>
-                            <p class="text-muted">
-                                Explore more financial calculators, educational articles,
-                                AI-powered planning tools, and practical personal finance
-                                resources at SmartPlanFinance.
-                            </p>
-
-                            <a href="{{ url_for('index') }}" class="btn btn-outline-warning">
-                                <i class="fas fa-home me-2"></i>
-                                Visit SmartPlanFinance
-                            </a>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-</section>
+
+</nav>
+
+
+
+<!-- =========================================================
+     MAIN CONTENT
+     ========================================================= -->
+
+<main class="container">
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="badge">
+            FREE FINANCIAL EDUCATION HANDBOOK
+        </div>
+
+
+        <h1>
+            Financial Tools &amp; Calculators Handbook
+        </h1>
+
+
+        <p class="hero-description">
+
+            A practical guide to understanding financial planning tools,
+            formulas and calculations used in everyday personal finance.
+
+            Learn how common calculators work, understand the mathematics
+            behind them and use the concepts to make better-informed
+            financial decisions.
+
+        </p>
+
+
+        <p class="byline">
+
+            By <strong>Argho Sanyal</strong>,
+            Founder, SmartPlanFinance
+            · Last reviewed:
+            <time datetime="2026-08-16">
+                August 16, 2026
+            </time>
+
+        </p>
+
+    </section>
+
+
+
+    <!-- INTRODUCTION -->
+
+    <section class="intro-card">
+
+        <h2>
+            Why We Created This Handbook
+        </h2>
+
+
+        <p>
+
+            Financial calculators can make complicated calculations easier,
+            but simply entering numbers into a calculator is not the same as
+            understanding what those numbers mean.
+
+        </p>
+
+
+        <p>
+
+            A SIP calculator, for example, can estimate the potential value
+            of regular investments. An EMI calculator can show the approximate
+            repayment associated with a loan. An inflation calculator can
+            demonstrate how purchasing power may change over time.
+
+        </p>
+
+
+        <p>
+
+            The purpose of this handbook is to go one step further. It explains
+            the concepts, formulas and assumptions behind commonly used
+            financial calculations so that you can understand the results
+            rather than simply accept a number generated by a tool.
+
+        </p>
+
+
+        <p>
+
+            The examples are designed primarily for Indian personal-finance
+            situations and use familiar Indian rupee amounts wherever
+            appropriate.
+
+        </p>
+
+    </section>
+
+
+
+    <!-- HANDBOOK DOWNLOAD CARD -->
+
+    <section class="handbook-card">
+
+        <div style="text-align:center;">
+
+            <h2>
+                Download the Free Handbook
+            </h2>
+
+
+            <p>
+
+                Get the complete Financial Tools &amp; Calculators Handbook
+                as a PDF and use it as a reference while exploring financial
+                calculators and planning your long-term goals.
+
+            </p>
+
+
+            <a href="{{ url_for(
+                    'static',
+                    filename='SmartPlan_Finance_Tools_Handbook.pdf'
+                ) }}"
+               download
+               class="download-button">
+
+                <i class="fas fa-download"></i>
+
+                Download Handbook (PDF)
+
+            </a>
+
+
+            <div class="download-note">
+
+                <i class="fas fa-lock"></i>
+
+                100% Free · No Registration Required · Instant PDF Download
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- WHAT YOU WILL LEARN -->
+
+    <section class="section">
+
+        <h2>
+            What You Will Learn
+        </h2>
+
+
+        <p>
+
+            The handbook introduces the purpose of different financial
+            calculations and explains how they can be used as part of a
+            broader financial-planning process.
+
+        </p>
+
+
+        <div class="topic-grid">
+
+
+            <div class="topic-item">
+
+                <strong>
+                    SIP Calculator
+                </strong>
+
+                <span>
+                    Understand regular investing, compounding and future-value calculations.
+                </span>
+
+            </div>
+
+
+            <div class="topic-item">
+
+                <strong>
+                    EMI Calculator
+                </strong>
+
+                <span>
+                    Understand loan repayments, interest and tenure.
+                </span>
+
+            </div>
+
+
+            <div class="topic-item">
+
+                <strong>
+                    Retirement Planning
+                </strong>
+
+                <span>
+                    Explore future expenses, inflation and retirement requirements.
+                </span>
+
+            </div>
+
+
+            <div class="topic-item">
+
+                <strong>
+                    Fixed Deposit Calculator
+                </strong>
+
+                <span>
+                    Understand deposit maturity and interest calculations.
+                </span>
+
+            </div>
+
+
+            <div class="topic-item">
+
+                <strong>
+                    Tax Calculator
+                </strong>
+
+                <span>
+                    Understand how tax calculations can be approached using assumptions.
+                </span>
+
+            </div>
+
+
+            <div class="topic-item">
+
+                <strong>
+                    Loan Eligibility
+                </strong>
+
+                <span>
+                    Learn the factors that can influence borrowing capacity.
+                </span>
+
+            </div>
+
+
+            <div class="topic-item">
+
+                <strong>
+                    CAGR Calculator
+                </strong>
+
+                <span>
+                    Understand compound annual growth and investment performance.
+                </span>
+
+            </div>
+
+
+            <div class="topic-item">
+
+                <strong>
+                    XIRR Calculator
+                </strong>
+
+                <span>
+                    Learn why irregular investment cash flows require a different return calculation.
+                </span>
+
+            </div>
+
+
+            <div class="topic-item">
+
+                <strong>
+                    Inflation Calculator
+                </strong>
+
+                <span>
+                    Understand purchasing power and future expense requirements.
+                </span>
+
+            </div>
+
+
+            <div class="topic-item">
+
+                <strong>
+                    Net Worth Calculator
+                </strong>
+
+                <span>
+                    Learn how assets and liabilities contribute to net worth.
+                </span>
+
+            </div>
+
+
+            <div class="topic-item">
+
+                <strong>
+                    Financial Planning
+                </strong>
+
+                <span>
+                    Connect individual calculations with broader financial goals.
+                </span>
+
+            </div>
+
+
+            <div class="topic-item">
+
+                <strong>
+                    Practical Examples
+                </strong>
+
+                <span>
+                    Apply concepts using straightforward real-world scenarios.
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- THREE BENEFITS -->
+
+    <section class="section">
+
+        <h2>
+            Designed to Make Financial Calculations Easier to Understand
+        </h2>
+
+
+        <div class="three-column">
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+
+
+                <h3>
+                    Beginner Friendly
+                </h3>
+
+
+                <p>
+
+                    Concepts are explained using straightforward language
+                    so that readers can understand the basics without needing
+                    advanced financial or mathematical knowledge.
+
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+
+
+                <h3>
+                    Formula Based
+                </h3>
+
+
+                <p>
+
+                    Learn the underlying formulas and understand why a
+                    calculator produces a particular result.
+
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+
+
+                <h3>
+                    Practical Examples
+                </h3>
+
+
+                <p>
+
+                    Realistic examples help connect mathematical calculations
+                    with everyday financial decisions.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- WHO IS IT FOR -->
+
+    <section class="section">
+
+        <h2>
+            Who Is This Handbook For?
+        </h2>
+
+
+        <div class="audience-grid">
+
+
+            <div class="audience-card">
+
+                <h3>
+                    Beginners
+                </h3>
+
+                <p>
+
+                    If you are new to personal finance, the handbook provides
+                    a starting point for understanding common financial
+                    calculations.
+
+                </p>
+
+            </div>
+
+
+            <div class="audience-card">
+
+                <h3>
+                    Young Professionals
+                </h3>
+
+                <p>
+
+                    Use the concepts to understand savings, investments,
+                    loans, retirement planning and other financial decisions
+                    that become important as income grows.
+
+                </p>
+
+            </div>
+
+
+            <div class="audience-card">
+
+                <h3>
+                    Existing Investors
+                </h3>
+
+                <p>
+
+                    The handbook can serve as a quick reference for understanding
+                    the calculations used when evaluating different financial
+                    scenarios.
+
+                </p>
+
+            </div>
+
+
+            <div class="audience-card">
+
+                <h3>
+                    Students &amp; Learners
+                </h3>
+
+                <p>
+
+                    The formula-based explanations can help learners connect
+                    mathematical concepts with practical personal-finance
+                    applications.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- HOW TO USE -->
+
+    <section class="section">
+
+        <h2>
+            How to Use the Handbook
+        </h2>
+
+
+        <div class="education-card">
+
+            <ol class="info-list">
+
+                <li>
+                    Start with the financial concept that is most relevant
+                    to your current goal.
+                </li>
+
+                <li>
+                    Read the explanation before using the corresponding
+                    calculator.
+                </li>
+
+                <li>
+                    Pay attention to the assumptions used in each calculation.
+                </li>
+
+                <li>
+                    Work through the examples to understand how the formula
+                    behaves when the inputs change.
+                </li>
+
+                <li>
+                    Use the relevant SmartPlanFinance calculator to test
+                    your own numbers.
+                </li>
+
+                <li>
+                    Compare different scenarios instead of relying on a
+                    single calculation.
+                </li>
+
+            </ol>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- IMPORTANT UNDERSTANDING -->
+
+    <section class="section">
+
+        <h2>
+            A Calculator Is a Planning Tool, Not a Prediction
+        </h2>
+
+
+        <div class="education-card">
+
+            <p>
+
+                Financial calculators are useful because they can quickly
+                perform calculations that would otherwise take considerable
+                manual effort. However, the output is only as meaningful as
+                the assumptions entered into the calculator.
+
+            </p>
+
+
+            <p>
+
+                For example, an investment calculator may use an assumed
+                rate of return. That assumption does not guarantee that an
+                investment will actually deliver the same return in the future.
+
+            </p>
+
+
+            <p>
+
+                Similarly, an inflation calculator does not predict future
+                inflation. An EMI calculator does not determine whether a
+                particular loan is suitable for you. A retirement calculator
+                cannot know exactly how your future expenses, income or
+                circumstances will change.
+
+            </p>
+
+
+            <p>
+
+                The most useful approach is therefore to treat calculators
+                as <strong>decision-support and educational tools</strong>.
+                Use them to compare scenarios, understand trade-offs and
+                build a more informed financial plan.
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- DOWNLOAD CTA -->
+
+    <section class="download-section">
+
+        <h2>
+            Get Your Free Copy
+        </h2>
+
+
+        <p>
+
+            Keep the handbook as a reference while using SmartPlanFinance
+            calculators and learning about personal finance.
+
+        </p>
+
+
+        <a href="{{ url_for(
+                'static',
+                filename='SmartPlan_Finance_Tools_Handbook.pdf'
+            ) }}"
+           download
+           class="download-button">
+
+            <i class="fas fa-file-pdf"></i>
+
+            Download Free PDF
+
+        </a>
+
+    </section>
+
+
+
+    <!-- RELATED RESOURCES -->
+
+    <section class="section">
+
+        <h2>
+            Continue Your Financial Learning
+        </h2>
+
+
+        <p>
+
+            The handbook is only one part of SmartPlanFinance. You can
+            continue learning through calculators, educational articles
+            and financial-planning resources available on the website.
+
+        </p>
+
+
+        <div class="related-grid">
+
+
+            <a class="related-card"
+               href="{{ url_for('sip_calculator') }}">
+
+                <h3>
+                    SIP Calculator
+                </h3>
+
+                <p>
+                    Explore how regular investments may grow over time
+                    using an assumed rate of return.
+                </p>
+
+                <strong>
+                    Use SIP Calculator →
+                </strong>
+
+            </a>
+
+
+            <a class="related-card"
+               href="{{ url_for('inflation_calculator') }}">
+
+                <h3>
+                    Inflation Calculator
+                </h3>
+
+                <p>
+                    Understand how inflation assumptions can affect future
+                    financial requirements.
+                </p>
+
+                <strong>
+                    Use Inflation Calculator →
+                </strong>
+
+            </a>
+
+
+            <a class="related-card"
+               href="{{ url_for('cagr_calculator') }}">
+
+                <h3>
+                    CAGR Calculator
+                </h3>
+
+                <p>
+                    Calculate compound annual growth and understand
+                    investment growth over a selected period.
+                </p>
+
+                <strong>
+                    Use CAGR Calculator →
+                </strong>
+
+            </a>
+
+
+            <a class="related-card"
+               href="{{ url_for('lumpsum_calculator') }}">
+
+                <h3>
+                    Lumpsum Calculator
+                </h3>
+
+                <p>
+                    Estimate the potential future value of a one-time
+                    investment using an assumed return.
+                </p>
+
+                <strong>
+                    Use Lumpsum Calculator →
+                </strong>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- AUTHOR -->
+
+    <section class="section">
+
+        <h2>
+            About the Author
+        </h2>
+
+
+        <div class="author-card">
+
+            <div class="author-name">
+                Argho Sanyal
+            </div>
+
+
+            <div class="author-role">
+                Founder, SmartPlanFinance
+            </div>
+
+
+            <p>
+
+                Argho Sanyal is the founder of SmartPlanFinance, a personal
+                finance education platform focused on making financial
+                concepts, calculations and long-term financial planning
+                easier to understand for Indian users.
+
+            </p>
+
+
+            <p>
+
+                SmartPlanFinance publishes educational resources covering
+                investing, savings, retirement planning, taxation, loans,
+                financial independence and practical personal-finance
+                decision-making.
+
+            </p>
+
+
+            <p>
+
+                The handbook is designed as an educational reference and
+                does not provide individualized investment, tax, legal or
+                financial advice.
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- DISCLAIMER -->
+
+    <section class="disclaimer-box">
+
+        <strong>
+            Important Disclaimer:
+        </strong>
+
+
+        <p>
+
+            The Financial Tools &amp; Calculators Handbook is provided for
+            educational and informational purposes. Financial calculations
+            may depend on assumptions, rates, taxes, fees, time periods and
+            other factors.
+
+        </p>
+
+
+        <p>
+
+            Examples in the handbook are illustrative and should not be
+            interpreted as guarantees of investment returns, future prices,
+            loan eligibility, tax outcomes or financial results.
+
+        </p>
+
+
+        <p>
+
+            Before making an important financial decision, consider your
+            individual circumstances and, where appropriate, consult a
+            qualified financial, tax or legal professional.
+
+        </p>
+
+    </section>
+
+
+
+    <!-- FINAL CTA -->
+
+    <section class="final-cta">
+
+        <h2>
+            Build Better Financial Decisions With Better Understanding
+        </h2>
+
+
+        <p>
+
+            Learn the calculation, understand the assumption and then use
+            the numbers to build a financial plan that fits your goals.
+
+        </p>
+
+
+        <a href="{{ url_for('index') }}"
+           class="cta-link">
+
+            Explore SmartPlanFinance →
+
+        </a>
+
+    </section>
+
+
+
+    {% include "partials/_partner_cta.html" %}
+
+
+
+    <p class="last-updated">
+
+        SmartPlanFinance · Financial Tools &amp; Calculators Handbook
+        · Information reviewed August 2026
+
+    </p>
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
+<footer class="site-footer">
+
+    <div class="footer-links">
+
+        <a href="/about">
+            About Us
+        </a>
+
+
+        <a href="{{ url_for('about_author') }}">
+            About the Author &amp; Founder
+        </a>
+
+
+        <a href="/privacy">
+            Privacy Policy
+        </a>
+
+
+        <a href="/terms">
+            Terms &amp; Conditions
+        </a>
+
+
+        <a href="/disclaimer">
+            Disclaimer
+        </a>
+
+
+        <a href="{{ url_for('articles') }}">
+            Articles
+        </a>
+
+
+        <a href="/affiliate-policy">
+            Affiliate Policy
+        </a>
+
+    </div>
+
+
+    <div class="copyright">
+
+        © 2026 SmartPlanFinance. All rights reserved.
+
+    </div>
+
+</footer>
+
 
 </body>
 </html>
+
