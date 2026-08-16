@@ -138,22 +138,7 @@
     {{ article.title }}
   </h1>
 
-  <div class="article-meta">
-
-    <span>
-      Published
-      {{ article.created_at.strftime('%d %B %Y') if article.created_at else 'recently' }}
-    </span>
-
-    <span aria-hidden="true">·</span>
-
-    <span>
-      {{ article.reading_minutes }} min read
-    </span>
-
-    
-
-  </div>
+  
 
 
   <!--
@@ -168,11 +153,6 @@
       This prevents incomplete/chopped sentences at the top.
   -->
 
-  {% if article.meta_description %}
-  <p class="article-intro">
-    {{ article.meta_description }}
-  </p>
-  {% endif %}
 
 
   <div class="affiliate-disclosure" role="note" aria-label="Affiliate disclosure">
