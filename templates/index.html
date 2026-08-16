@@ -1157,7 +1157,7 @@ width:220px;
 }
 /* =========================================================
    CITY-WISE MONTHLY INCOME CALCULATOR
-   SmartPlanFinance Green + Premium Gold
+   SmartPlanFinance – Premium Standard
    ========================================================= */
 
 .city-income-card {
@@ -1166,17 +1166,17 @@ width:220px;
 
     background: linear-gradient(
         135deg,
-        #f4f9e9 0%,
-        #fffdf3 55%,
-        #fff8d9 100%
+        #fffdf5 0%,
+        #fff9e6 55%,
+        #fffdf8 100%
     );
 
-    border: 1px solid rgba(212, 175, 55, 0.55);
-    border-left: 5px solid #2e7d32;
+    border: 1px solid rgba(212, 175, 55, 0.45);
+    border-left: 4px solid #d4af37;
 
     box-shadow:
-        0 6px 18px rgba(46, 125, 50, 0.10),
-        0 2px 8px rgba(212, 175, 55, 0.12);
+        0 6px 18px rgba(0, 0, 0, 0.06),
+        0 2px 8px rgba(212, 175, 55, 0.10);
 
     transition:
         transform 0.25s ease,
@@ -1196,65 +1196,77 @@ width:220px;
 
     background: linear-gradient(
         90deg,
-        #2e7d32,
-        #7fae3b,
+        #b8860b,
         #d4af37,
-        #f2c94c
+        #f2c94c,
+        #d4af37
     );
 }
 
 
-/* Subtle decorative glow */
+/* Subtle decorative gold glow */
 .city-income-card::after {
     content: "";
     position: absolute;
+
     width: 110px;
     height: 110px;
+
     right: -45px;
     top: -45px;
 
-    background: rgba(212, 175, 55, 0.13);
+    background: rgba(212, 175, 55, 0.10);
+
     border-radius: 50%;
 
     pointer-events: none;
 }
 
 
+/* Hover effect */
 .city-income-card:hover {
     transform: translateY(-2px);
 
     border-color: #d4af37;
 
     box-shadow:
-        0 10px 25px rgba(46, 125, 50, 0.15),
-        0 4px 12px rgba(212, 175, 55, 0.18);
+        0 10px 25px rgba(0, 0, 0, 0.08),
+        0 4px 12px rgba(212, 175, 55, 0.16);
 }
 
 
 /* Calculator text */
 .city-income-card .calculator-link {
-    color: #245b28;
+    color: #6f5708;
     font-weight: 700;
+
+    transition: color 0.2s ease;
 }
 
 
-/* Keep the link premium on hover */
+/* Premium hover */
 .city-income-card .calculator-link:hover {
-    color: #9a7610;
+    color: #b8860b;
 }
 
 
 /* Voice button */
 .city-income-card .voice-btn {
-    color: #2e7d32;
-    border-color: rgba(46, 125, 50, 0.30);
+    color: #7a610b;
+    border-color: rgba(212, 175, 55, 0.40);
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
 }
 
 
+/* Voice button hover */
 .city-income-card .voice-btn:hover {
     color: #ffffff;
-    background: #2e7d32;
-    border-color: #2e7d32;
+    background: #b8860b;
+    border-color: #b8860b;
 }
 /* =========================================================
    MISSION & VISION
@@ -1871,7 +1883,7 @@ SmartPlan Finance helps Indians make smarter financial decisions through persona
     <!-- City-Wise Monthly Income Calculator -->
     <li class="calculator-item city-income-card">
         <a href="/city-wise-income-calculator" class="calculator-link">
-            🏙️ City-Wise Monthly Income Calculator
+            🏡 City-Wise Monthly Income Calculator — cost of living
         </a>
 
         <button
@@ -1893,37 +1905,7 @@ SmartPlan Finance helps Indians make smarter financial decisions through persona
     </li>
 
 
-    <h3 class="section-title mt-5">
-        📚 Free Financial Resources
-    </h3>
-
-
-    <li class="calculator-item handbook-card">
-
-        <a href="/handbook" class="calculator-link">
-            📙 Financial Tools & Calculators Handbook
-        </a>
-
-        <button
-            class="voice-btn"
-            onclick="event.stopPropagation(); speakFinance('Download the free Financial Tools and Calculators Handbook. Learn the concepts, formulas, and practical applications behind SIP, EMI, Retirement Planning, Fixed Deposits, Tax Planning, XIRR, and many other financial tools.');"
-            title="Listen to explanation"
-            aria-label="Listen to Handbook explanation">
-
-            <svg viewBox="0 0 24 24">
-                <path d="M4 9v6h4l5 4V5L8 9H4z"/>
-                <path d="M16.5 8.5a5 5 0 0 1 0 7"/>
-                <path d="M19 6a8.5 8.5 0 0 1 0 12"/>
-            </svg>
-
-            <span class="voice-btn-label">
-                Listen
-            </span>
-        </button>
-
-    </li>
-
-</ul>
+    
 
 <h3 class="section-title mt-5">
     📚 Free Financial Resources
