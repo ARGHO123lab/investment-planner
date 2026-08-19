@@ -1750,7 +1750,7 @@ def upload_featured_image(article_id):
         print("=" * 60)
         print("Saving image to:", filepath)
         print("=" * 60)
-        print("")
+
        
 
         image.save(filepath)
