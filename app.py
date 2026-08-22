@@ -300,18 +300,23 @@ Only provide article HTML.
         <p>Please try again.</p>
         """
 def generate_metadata(title, content):
+    text = re.sub("<.*?>", "", content)
+    text = re.sub(r"\s+", " ", text).strip()
 
-    text = re.sub(
-        "<.*?>",
-        "",
-        content
-    )
+    def clean_cut(source, limit):
+        snippet = source[:limit]
+        if len(source) > limit:
+            last_space = snippet.rfind(" ")
+            if last_space > 0:
+                snippet = snippet[:last_space]
+            snippet = snippet.rstrip(".,;:") + "..."
+        return snippet
 
     return {
         "meta_title": title[:60],
-        "meta_description": text[:155],
+        "meta_description": clean_cut(text, 155),
         "keywords": "",
-        "excerpt": text[:250],
+        "excerpt": clean_cut(text, 250),
         "reading_time": max(1, len(text.split()) // 200)
     }
 def render_spf_charts(content):
@@ -793,24 +798,13 @@ def get_cached_articles():
 
     now = datetime.utcnow()
 
-    # ---------------------------------------------------------
-    # Return cached article list if still valid.
-    # ---------------------------------------------------------
     if _ARTICLES_CACHE and _ARTICLES_CACHE_TIMESTAMP:
-
-        if (
-            now - _ARTICLES_CACHE_TIMESTAMP
-        ).total_seconds() < _ARTICLES_CACHE_TTL:
-
+        if (now - _ARTICLES_CACHE_TIMESTAMP).total_seconds() < _ARTICLES_CACHE_TTL:
             return _ARTICLES_CACHE
 
-    # ---------------------------------------------------------
-    # Load article list from PostgreSQL.
-    # ---------------------------------------------------------
     conn = get_db_connection()
 
     try:
-
         cur = conn.cursor()
 
         cur.execute(
@@ -820,7 +814,7 @@ def get_cached_articles():
                 title,
                 slug,
                 created_at,
-                LEFT(content, 500) AS excerpt
+                LEFT(content, 2000) AS raw_snippet
             FROM articles
             ORDER BY created_at DESC
             LIMIT 100
@@ -829,13 +823,26 @@ def get_cached_articles():
 
         articles = cur.fetchall()
 
+        for article in articles:
+            raw = article.get("raw_snippet") or ""
+            plain_text = re.sub(r"<[^>]+>", "", raw)          # remove ALL html/code tags
+            plain_text = re.sub(r"\s+", " ", plain_text).strip()  # collapse extra spaces/newlines
+
+            excerpt = plain_text[:200]
+            if len(plain_text) > 200:
+                last_space = excerpt.rfind(" ")
+                if last_space > 0:
+                    excerpt = excerpt[:last_space]
+                excerpt += "…"
+
+            article["excerpt"] = excerpt
+
         _ARTICLES_CACHE = articles
         _ARTICLES_CACHE_TIMESTAMP = now
 
         return articles
 
     finally:
-
         release_db_connection(conn)
 
 
@@ -1671,7 +1678,13 @@ def edit_article(article_id):
         # Generate meta description if empty
         if not meta_description:
             plain_text = re.sub("<.*?>", "", content)
-            meta_description = plain_text[:155]
+    plain_text = re.sub(r"\s+", " ", plain_text).strip()
+    meta_description = plain_text[:155]
+    if len(plain_text) > 155:
+        last_space = meta_description.rfind(" ")
+        if last_space > 0:
+            meta_description = meta_description[:last_space]
+        meta_description = meta_description.rstrip(".,;:") + "..."
 
         # Generate SEO slug
         slug = re.sub(
