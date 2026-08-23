@@ -1678,13 +1678,13 @@ def edit_article(article_id):
         # Generate meta description if empty
         if not meta_description:
             plain_text = re.sub("<.*?>", "", content)
-    plain_text = re.sub(r"\s+", " ", plain_text).strip()
-    meta_description = plain_text[:155]
-    if len(plain_text) > 155:
-        last_space = meta_description.rfind(" ")
-        if last_space > 0:
-            meta_description = meta_description[:last_space]
-        meta_description = meta_description.rstrip(".,;:") + "..."
+            plain_text = re.sub(r"\s+", " ", plain_text).strip()
+            meta_description = plain_text[:155]
+            if len(plain_text) > 155:
+                last_space = meta_description.rfind(" ")
+                if last_space > 0:
+                    meta_description = meta_description[:last_space]
+                meta_description = meta_description.rstrip(".,;:") + "..."
 
         # Generate SEO slug
         slug = re.sub(
