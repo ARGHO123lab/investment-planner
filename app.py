@@ -224,6 +224,7 @@ Maximum 300 words.
         temperature=0.5
     )
     print("Groq response received")
+    print(" ")
     return completion.choices[0].message.content
 
 def generate_ai_article(topic):
