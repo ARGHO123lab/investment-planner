@@ -63,6 +63,7 @@ load_dotenv(dotenv_path=Path(__file__).resolve().parent / '.env')
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 print("Groq Key Found:", GROQ_API_KEY is not None)
+print("Groq Key Found:", GROQ_API_KEY is not None)
 client = OpenAI(
     api_key=GROQ_API_KEY,
     base_url="https://api.groq.com/openai/v1"
